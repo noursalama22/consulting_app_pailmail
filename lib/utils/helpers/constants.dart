@@ -14,3 +14,11 @@ const Color kMediumGreyColor = Color(0xFFB2B2B2);
 const Color kBackgroundColor = Color(0xFFF7F6FF);
 
 // ============= TEXT STYLES CONSTS ==============
+TextStyle buildAppBarTextStyle(
+        {Color color = kLightBlueColor,
+        double fontSizeController = 18,
+        double letterSpacing = 1.5}) =>
+    TextStyle(
+        color: color,
+        letterSpacing: letterSpacing,
+        fontSize: fontSizeController);
