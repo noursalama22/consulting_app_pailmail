@@ -16,25 +16,23 @@ class CustomAuthToggleWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-      child: SizedBox(
+      child: Container(
+        padding: const EdgeInsets.all(12),
         width: MediaQuery.of(context).size.width / 2 - 80,
         height: 40,
-        child: Padding(
-          padding: EdgeInsets.all(12.0),
-          child: Center(
-            child: Row(
-              children: [
-                Spacer(),
-                Text(
-                  text,
-                  style: TextStyle(
-                    color: fontColor,
-                    fontSize: 14,
-                  ),
+        child: Center(
+          child: Row(
+            children: [
+              Spacer(),
+              Text(
+                text,
+                style: TextStyle(
+                  color: fontColor,
+                  fontSize: 14,
                 ),
-                Spacer(),
-              ],
-            ),
+              ),
+              Spacer(),
+            ],
           ),
         ),
       ),

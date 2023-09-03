@@ -11,8 +11,6 @@ import '../../widgets/custom_text_forn_field_widget.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class LoginScreen extends StatefulWidget {
-  // final Function toggleView;
-
   const LoginScreen({
     Key? key,
   }) : super(key: key);
@@ -25,10 +23,10 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
-  Color activeColor = kPrimaryBlueColor;
-  Color passiveColor = kLightGreyColor;
-  bool showSignUp = true;
-  bool showLogin = false;
+
+  late bool showSignUp;
+  late bool showLogin;
+
   void ShowSignUpView() {
     setState(() {
       showSignUp = true;
@@ -45,6 +43,13 @@ class _LoginScreenState extends State<LoginScreen> {
       print('login $showLogin');
       print('sign $showSignUp');
     });
+  }
+
+  @override
+  void initState() {
+    showSignUp = true;
+    showLogin = false;
+    super.initState();
   }
 
   @override
@@ -149,7 +154,6 @@ class _LoginScreenState extends State<LoginScreen> {
                               if (value == null || value.isEmpty) {
                                 return 'please enter the password';
                               }
-
                               return null;
                             },
                           ),
