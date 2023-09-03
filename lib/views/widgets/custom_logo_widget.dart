@@ -18,7 +18,7 @@ class CustomLogoWidget extends StatelessWidget {
           width: 100,
         ),
         Text('ديوان رئيس الوزراء',
-            style: GoogleFonts.sansita(fontSize: 28, color: Colors.white)),
+            style: GoogleFonts.arefRuqaa(fontSize: 28, color: Colors.white)),
       ],
     );
   }

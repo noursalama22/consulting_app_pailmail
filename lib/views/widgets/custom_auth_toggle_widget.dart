@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 class CustomAuthToggleWidget extends StatelessWidget {
   final String text;
   final VoidCallback onTap;
+  final Color fontColor;
   const CustomAuthToggleWidget({
     super.key,
     required this.text,
     required this.onTap,
+    required this.fontColor,
   });
 
   @override
@@ -26,7 +28,7 @@ class CustomAuthToggleWidget extends StatelessWidget {
                 Text(
                   text,
                   style: TextStyle(
-                    color: kPrimaryBlueColor,
+                    color: fontColor,
                     fontSize: 14,
                   ),
                 ),

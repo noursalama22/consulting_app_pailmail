@@ -1,5 +1,4 @@
 import 'package:consulting_app_pailmail/utils/helpers/routers/routes.dart';
-import 'package:consulting_app_pailmail/views/screens/auth/auth_toggle.dart';
 import 'package:consulting_app_pailmail/views/screens/auth/login_screen.dart';
 import 'package:consulting_app_pailmail/views/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +13,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case Routes.login_screen:
       return _getPageRoute(
         routeName: settings.name!,
-        screen: Auth(),
+        screen: LoginScreen(),
       );
     // case Routes.first:
     //   return _getPageRoute(
