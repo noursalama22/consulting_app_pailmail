@@ -22,3 +22,10 @@ TextStyle buildAppBarTextStyle(
         color: color,
         letterSpacing: letterSpacing,
         fontSize: fontSizeController);
+
+// ============= TextFieldBorder ==============
+
+OutlineInputBorder buildOutlineInputBorderTextField() {
+  return OutlineInputBorder(
+      borderRadius: BorderRadius.circular(24), borderSide: BorderSide.none);
+}

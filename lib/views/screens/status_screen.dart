@@ -2,8 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../utils/helpers/constants.dart';
-import '../widgets/app_bar_custom.dart';
-import '../widgets/custom_stauts_row.dart';
+import '../widgets/custom_app_bar.dart';
 
 class StatusScreen extends StatefulWidget {
   const StatusScreen({Key? key}) : super(key: key);
@@ -19,14 +18,11 @@ class _StatusScreenState extends State<StatusScreen> {
       backgroundColor: kBackgroundColor,
       body: Padding(
         padding:
-            const EdgeInsets.only(top: 20.0, left: 20, right: 20, bottom: 62),
+            EdgeInsets.only(top: 20.0.h, left: 20.w, right: 20.w, bottom: 62.h),
         child: Column(children: [
           ///app Bar
-          Padding(
-            padding: EdgeInsets.only(top: 24.0.h, bottom: 54.h),
-            child: const AppBarCustom(
-              widgetName: 'Status',
-            ),
+          const AppBarCustom(
+            widgetName: 'Status',
           ),
 
           ///
@@ -94,55 +90,54 @@ class _StatusScreenState extends State<StatusScreen> {
 
   Widget _CustomStatusRowState(
       {required String statusText, required Color color, required int index}) {
-    return Padding(
-      padding: EdgeInsetsDirectional.only(end: 19.0.w),
-      child: Column(
-        children: [
-          InkWell(
-            onTap: () => setState(() {
-              isSelected = index;
-              // count++;
-            }),
-            child: Row(
-              children: [
-                Opacity(
-                  opacity: 1.0,
-                  child: Container(
-                    margin: const EdgeInsets.only(right: 16),
-                    width: 32.w,
-                    height: 32.w,
-                    decoration: BoxDecoration(
-                      color: color,
-                      borderRadius: BorderRadius.circular(10.r),
-                    ),
+    return Column(
+      children: [
+        InkWell(
+          onTap: () => setState(() {
+            isSelected = index;
+          }),
+          child: Row(
+            children: [
+              Opacity(
+                opacity: 1.0,
+                child: Container(
+                  margin: const EdgeInsets.only(right: 16),
+                  width: 32.w,
+                  height: 32.w,
+                  decoration: BoxDecoration(
+                    color: color,
+                    borderRadius: BorderRadius.circular(10.r),
                   ),
                 ),
-                Text(
-                  statusText,
-                  style: buildAppBarTextStyle(
-                      color: kBlackColor,
-                      fontSizeController: 16,
-                      letterSpacing: 0.15),
-                ),
-                const Spacer(),
-                isSelected == index
-                    ? const Icon(
+              ),
+              Text(
+                statusText,
+                style: buildAppBarTextStyle(
+                    color: kBlackColor,
+                    fontSizeController: 16,
+                    letterSpacing: 0.15),
+              ),
+              const Spacer(),
+              isSelected == index
+                  ? Padding(
+                      padding: EdgeInsetsDirectional.only(end: 19.0.w),
+                      child: const Icon(
                         Icons.check,
                         size: 35,
                         color: kLightBlueColor,
-                      )
-                    : const SizedBox.shrink(),
-              ],
-            ),
+                      ),
+                    )
+                  : const SizedBox.shrink(),
+            ],
           ),
-          index != 3
-              ? Divider(
-                  indent: 50.0.w,
-                  thickness: 1.2,
-                )
-              : const SizedBox.shrink()
-        ],
-      ),
+        ),
+        index != 3
+            ? Divider(
+                indent: 50.0.w,
+                thickness: 1.2,
+              )
+            : const SizedBox.shrink()
+      ],
     );
   }
 }
