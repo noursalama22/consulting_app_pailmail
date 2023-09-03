@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../utils/helpers/constants.dart';
 import '../../utils/helpers/routers/router.dart';
+import '../widgets/custom_logo_widget.dart';
 
 class SplashScreen extends StatefulWidget {
   final Duration duration;
@@ -40,20 +41,7 @@ class _SplashScreenState extends State<SplashScreen>
         animation: animationController,
         builder: (context, _) {
           return Center(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image(
-                  image: AssetImage('assets/logo.png'),
-                  height: 100,
-                  width: 100,
-                ),
-                Text('ديوان الموظفين',
-                    style:
-                        GoogleFonts.sansita(fontSize: 31, color: Colors.white)),
-              ],
-            ),
+            child: CustomLogoWidget(),
           );
         },
       ),

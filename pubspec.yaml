@@ -38,6 +38,7 @@ dependencies:
   easy_localization: ^3.0.3
   google_fonts: ^5.1.0
   flutter_native_splash: ^2.3.2
+  flutter_screenutil: ^5.9.0
   # flutter_native_splash-development
 flutter_native_splash:
   color: "#003AFC"
@@ -74,6 +75,7 @@ flutter:
   assets:
     - assets/
     - assets/translations/
+    - assets/images/
 
 
   # To add assets to your application, add an assets section, like this:

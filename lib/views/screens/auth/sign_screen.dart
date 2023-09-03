@@ -1,27 +1,27 @@
-import 'package:consulting_app_pailmail/views/widgets/custom_rounded_rectangle_widget.dart';
+import 'package:consulting_app_pailmail/views/widgets/custom_auth_toggle_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../utils/helpers/constants.dart';
-import '../../widgets/custom_auth_toggle_widget.dart';
 import '../../widgets/custom_logo_widget.dart';
 import '../../widgets/custom_outlined_button_widget.dart';
+import '../../widgets/custom_rounded_rectangle_widget.dart';
 import '../../widgets/custom_text_forn_field_widget.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class LoginScreen extends StatefulWidget {
+class SignScreen extends StatefulWidget {
   final Function toggleView;
 
-  const LoginScreen({Key? key, required this.toggleView}) : super(key: key);
+  const SignScreen({Key? key, required this.toggleView}) : super(key: key);
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<SignScreen> createState() => _SignScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _SignScreenState extends State<SignScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  // TextEditingController confirmPasswordController = TextEditingController();
+  TextEditingController confirmPasswordController = TextEditingController();
 
   toggle() {
     widget.toggleView();
@@ -84,9 +84,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           child: Row(
                             children: [
                               CustomAuthToggleWidget(
-                                  text: 'Log In', onTap: () {}),
+                                  text: 'Log In', onTap: toggle),
                               CustomAuthToggleWidget(
-                                  text: 'Sign Up', onTap: toggle),
+                                  text: 'Sign Up', onTap: () {}),
                             ],
                           ),
                         ),
@@ -127,18 +127,18 @@ class _LoginScreenState extends State<LoginScreen> {
                         SizedBox(
                           height: 10.h,
                         ),
-                        // CustomTextFormFieldWidget(
-                        //   controller: confirmPasswordController,
-                        //   hint: 'Confirm password',
-                        //   keyboardType: TextInputType.emailAddress,
-                        //   autofillHints: const [AutofillHints.email],
-                        //   validator: (value) {
-                        //     if (value == null || value.isEmpty) {
-                        //       return 'please enter the password again';
-                        //     }
-                        //     return null;
-                        //   },
-                        // ),
+                        CustomTextFormFieldWidget(
+                          controller: confirmPasswordController,
+                          hint: 'Confirm password',
+                          keyboardType: TextInputType.emailAddress,
+                          autofillHints: const [AutofillHints.email],
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'please enter the password again';
+                            }
+                            return null;
+                          },
+                        ),
                         SizedBox(
                           height: 40.h,
                         ),
