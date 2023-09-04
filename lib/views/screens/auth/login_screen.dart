@@ -151,8 +151,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                     customIconBuilder:
                                         (context, local, global) {
                                       final text = const [
-                                        'Log In',
                                         'Sign Up',
+                                        'Log In',
                                       ][local.index];
                                       return Center(
                                         child: Text(
@@ -171,7 +171,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     borderWidth: 1.0,
                                     onChanged: (i) => setState(() {
                                       value = i;
-                                      if (value == 0) {
+                                      if (value == 1) {
                                         ShowLoginView();
                                       } else {
                                         ();

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
 
 class CustomLogoWidget extends StatelessWidget {
   const CustomLogoWidget({
@@ -17,8 +18,17 @@ class CustomLogoWidget extends StatelessWidget {
           height: 100,
           width: 100,
         ),
-        Text('ديوان رئيس الوزراء',
-            style: GoogleFonts.arefRuqaa(fontSize: 28, color: Colors.white)),
+        DefaultTextStyle(
+          style: GoogleFonts.arefRuqaa(fontSize: 28, color: Colors.white),
+          child: AnimatedTextKit(
+            animatedTexts: [
+              TypewriterAnimatedText('ديوان رئيس الوزراء'),
+            ],
+            isRepeatingAnimation: false,
+          ),
+        ),
+        // Text('ديوان رئيس الوزراء',
+        //     style: GoogleFonts.arefRuqaa(fontSize: 28, color: Colors.white)),
       ],
     );
   }
