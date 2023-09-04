@@ -1,10 +1,11 @@
-import 'package:consulting_app_pailmail/views/widgets/custom_rounded_rectangle_widget.dart';
+import 'dart:math';
+
+import 'package:animated_toggle_switch/animated_toggle_switch.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../utils/helpers/constants.dart';
 import '../../widgets/custom_auth_button_widget.dart';
-import '../../widgets/custom_auth_toggle_widget.dart';
 import '../../widgets/custom_logo_widget.dart';
 import '../../widgets/custom_outlined_button_widget.dart';
 import '../../widgets/custom_text_forn_field_widget.dart';
@@ -26,6 +27,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   late bool showSignUp;
   late bool showLogin;
+
+  int value = 0; //for the AnimatedToggleSwitch
 
   void ShowSignUpView() {
     setState(() {
@@ -54,6 +57,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    ThemeData theme = Theme.of(context);
+
     return Scaffold(
         backgroundColor: kBackgroundColor,
         body: SingleChildScrollView(
@@ -106,24 +111,79 @@ class _LoginScreenState extends State<LoginScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          CustomRoundedRectangleWidget(
-                            child: Row(
-                              children: [
-                                CustomAuthToggleWidget(
-                                    fontColor: showLogin == true
-                                        ? kPrimaryBlueColor
-                                        : kDarkGreyColor,
-                                    text: 'Log In',
-                                    onTap: ShowLoginView),
-                                CustomAuthToggleWidget(
-                                    fontColor: showLogin == true
-                                        ? kDarkGreyColor
-                                        : kPrimaryBlueColor,
-                                    text: 'Sign Up',
-                                    onTap: ShowSignUpView),
-                              ],
-                            ),
+                          DefaultTextStyle(
+                            style: theme.textTheme.titleLarge!,
+                            textAlign: TextAlign.center,
+                            child: SingleChildScrollView(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  AnimatedToggleSwitch<int>.size(
+                                    current: min(value, 1),
+                                    style: ToggleStyle(
+                                      backgroundColor: Colors.transparent,
+                                      indicatorColor: kPrimaryBlueColor,
+                                      borderColor: kLightGreyColor,
+                                      borderRadius: BorderRadius.circular(25.0),
+                                      indicatorBorderRadius:
+                                          BorderRadius.circular(50.0),
+                                    ),
+                                    values: const [0, 1],
+                                    iconOpacity: 1.0,
+                                    selectedIconScale: 1.0,
+                                    indicatorSize: const Size.fromWidth(100),
+                                    iconAnimationType: AnimationType.onHover,
+                                    styleAnimationType: AnimationType.onHover,
+                                    spacing: 2.0,
+                                    customSeparatorBuilder:
+                                        (context, local, global) {
+                                      final opacity =
+                                          ((global.position - local.position)
+                                                      .abs() -
+                                                  0.5)
+                                              .clamp(0.0, 1.0);
+                                      return VerticalDivider(
+                                          indent: 10.0,
+                                          endIndent: 10.0,
+                                          color: Colors.white38
+                                              .withOpacity(opacity));
+                                    },
+                                    customIconBuilder:
+                                        (context, local, global) {
+                                      final text = const [
+                                        'Log In',
+                                        'Sign Up',
+                                      ][local.index];
+                                      return Center(
+                                        child: Text(
+                                          text,
+                                          style: GoogleFonts.poppins(
+                                            fontSize: 14,
+                                            letterSpacing: 0.25,
+                                            color: Color.lerp(
+                                                kPrimaryBlueColor,
+                                                Colors.white,
+                                                local.animationValue),
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                    borderWidth: 1.0,
+                                    onChanged: (i) => setState(() {
+                                      value = i;
+                                      if (value == 0) {
+                                        ShowLoginView();
+                                      } else {
+                                        ();
+                                        ShowSignUpView();
+                                      }
+                                    }),
+                                  ),
+                                ],
+                              ),
+                            ), // This trailing comma makes auto-formatting nicer for build methods.
                           ),
+
                           SizedBox(
                             height: 10.h,
                           ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../../utils/helpers/constants.dart';
 
@@ -24,8 +25,8 @@ class CustomAuthButtonWidget extends StatelessWidget {
         child: Center(
           child: Text(
             title,
-            style: const TextStyle(
-                color: kWhiteColor, fontSize: 14, fontWeight: FontWeight.w500),
+            style: GoogleFonts.poppins(
+                color: kWhiteColor, fontSize: 14, letterSpacing: 0.25),
           ),
         ),
       ),

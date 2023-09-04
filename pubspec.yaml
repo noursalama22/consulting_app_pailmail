@@ -39,6 +39,7 @@ dependencies:
   google_fonts: ^5.1.0
   flutter_native_splash: ^2.3.2
   flutter_screenutil: ^5.9.0
+  animated_toggle_switch: ^0.8.0
   # flutter_native_splash-development
 flutter_native_splash:
   color: "#003AFC"
