@@ -24,6 +24,7 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
 
   late bool showSignUp;
   late bool showLogin;
@@ -81,14 +82,17 @@ class _LoginScreenState extends State<LoginScreen> {
               Center(
                 child: Column(
                   children: [
-                    SizedBox(
-                      height: 200.h,
-                    ),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 48, vertical: 66),
-                      margin: const EdgeInsets.symmetric(
-                          horizontal: 31, vertical: 10),
+                    // SizedBox(
+                    //   height: 100.h,
+                    // ),
+                    AnimatedContainer(
+                      duration: Duration(seconds: 1),
+                      height: showSignUp ? 580.0.h : 563.0.h,
+
+                      curve: Curves.easeInOut, // Animation curve
+                      padding: const EdgeInsets.all(48),
+                      margin:
+                          const EdgeInsets.only(left: 31, right: 31, top: 200),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(59),
                         color: kWhiteColor,
@@ -185,75 +189,82 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
 
                           SizedBox(
-                            height: 10.h,
+                            height: 8.h,
                           ),
-                          CustomTextFormFieldWidget(
-                            controller: emailController,
-                            hint: 'Enter email or username',
-                            keyboardType: TextInputType.emailAddress,
-                            autofillHints: const [AutofillHints.email],
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'please enter the email';
-                              }
-                              // else if (!EmailValidator.validate(value)) {
-                              //   return 'please enter a valid email';
-                              // }
-                              return null;
-                            },
-                          ),
-                          SizedBox(
-                            height: 10.h,
-                          ),
-                          CustomTextFormFieldWidget(
-                            controller: passwordController,
-                            hint: 'Enter password',
-                            keyboardType: TextInputType.emailAddress,
-                            autofillHints: const [AutofillHints.email],
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'please enter the password';
-                              }
-                              return null;
-                            },
-                          ),
-                          SizedBox(
-                            height: 10.h,
-                          ),
-                          showSignUp == true
-                              ? CustomTextFormFieldWidget(
-                                  controller: confirmPasswordController,
-                                  hint: 'Confirm password',
-                                  keyboardType: TextInputType.emailAddress,
-                                  autofillHints: const [AutofillHints.email],
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return 'please enter the password again';
-                                    }
-                                    return null;
-                                  },
-                                )
-                              : SizedBox(),
-                          // Opacity(
-                          //   opacity: showSignUp == true ? 1 : 0,
-                          //   child: CustomTextFormFieldWidget(
-                          //     controller: confirmPasswordController,
-                          //     hint: 'Confirm password',
-                          //     keyboardType: TextInputType.emailAddress,
-                          //     autofillHints: const [AutofillHints.email],
-                          //     validator: (value) {
-                          //       if (value == null || value.isEmpty) {
-                          //         return 'please enter the password again';
-                          //       }
-                          //       return null;
-                          //     },
-                          //   ),
+                          // CustomTextFormFieldWidget(
+                          //   controller: emailController,
+                          //   hint: 'Enter email or username',
+                          //   keyboardType: TextInputType.emailAddress,
+                          //   autofillHints: const [AutofillHints.email],
+                          //   validator: (value) {
+                          //     if (value == null || value.isEmpty) {
+                          //       return 'please enter the email';
+                          //     }
+                          //     // else if (!EmailValidator.validate(value)) {
+                          //     //   return 'please enter a valid email';
+                          //     // }
+                          //     return null;
+                          //   },
                           // ),
-                          SizedBox(
-                            height: 40.h,
+                          // SizedBox(
+                          //   height: 10.h,
+                          // ),
+                          // CustomTextFormFieldWidget(
+                          //   controller: passwordController,
+                          //   hint: 'Enter password',
+                          //   keyboardType: TextInputType.emailAddress,
+                          //   autofillHints: const [AutofillHints.email],
+                          //   validator: (value) {
+                          //     if (value == null || value.isEmpty) {
+                          //       return 'please enter the password';
+                          //     }
+                          //     return null;
+                          //   },
+                          // ),
+                          // SizedBox(
+                          //   height: 10.h,
+                          // ),
+                          // showSignUp == true
+                          //     ? CustomTextFormFieldWidget(
+                          //         controller: confirmPasswordController,
+                          //         hint: 'Confirm password',
+                          //         keyboardType: TextInputType.emailAddress,
+                          //         autofillHints: const [AutofillHints.email],
+                          //         validator: (value) {
+                          //           if (value == null || value.isEmpty) {
+                          //             return 'please enter the password again';
+                          //           }
+                          //           return null;
+                          //         },
+                          //       )
+                          //     : SizedBox(),
+                          // // Opacity(
+                          // //   opacity: showSignUp == true ? 1 : 0,
+                          // //   child: CustomTextFormFieldWidget(
+                          // //     controller: confirmPasswordController,
+                          // //     hint: 'Confirm password',
+                          // //     keyboardType: TextInputType.emailAddress,
+                          // //     autofillHints: const [AutofillHints.email],
+                          // //     validator: (value) {
+                          // //       if (value == null || value.isEmpty) {
+                          // //         return 'please enter the password again';
+                          // //       }
+                          // //       return null;
+                          // //     },
+                          // //   ),
+                          // // ),
+                          // SizedBox(
+                          //   height: 40.h,
+                          // ),
+                          // CustomAuthButtonWidget(
+                          //     title: showSignUp == true ? 'SIGN UP' : 'LOG IN'),
+                          AnimatedSwitcher(
+                            duration: Duration(
+                                milliseconds: 500), // Set animation duration
+                            child: showSignUp
+                                ? buildSignUpView()
+                                : buildLoginView(),
                           ),
-                          CustomAuthButtonWidget(
-                              title: showSignUp == true ? 'SIGN UP' : 'LOG IN'),
                           const SizedBox(
                             height: 12,
                           ),
@@ -265,7 +276,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 letterSpacing: 0.25),
                           ),
                           const SizedBox(
-                            height: 12,
+                            height: 8,
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -291,5 +302,123 @@ class _LoginScreenState extends State<LoginScreen> {
             ],
           ),
         ));
+  }
+
+  Widget buildSignUpView() {
+    return Column(
+      children: [
+        CustomTextFormFieldWidget(
+          controller: nameController,
+          hint: 'Enter name',
+          keyboardType: TextInputType.emailAddress,
+          autofillHints: const [AutofillHints.email],
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'please enter the name';
+            }
+            // else if (!EmailValidator.validate(value)) {
+            //   return 'please enter a valid email';
+            // }
+            return null;
+          },
+        ),
+        SizedBox(
+          height: 8.h,
+        ),
+        CustomTextFormFieldWidget(
+          controller: emailController,
+          hint: 'Enter email or username',
+          keyboardType: TextInputType.emailAddress,
+          autofillHints: const [AutofillHints.email],
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'please enter the email';
+            }
+            // else if (!EmailValidator.validate(value)) {
+            //   return 'please enter a valid email';
+            // }
+            return null;
+          },
+        ),
+        SizedBox(
+          height: 8.h,
+        ),
+        CustomTextFormFieldWidget(
+          controller: passwordController,
+          hint: 'Enter password',
+          keyboardType: TextInputType.emailAddress,
+          autofillHints: const [AutofillHints.email],
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'please enter the password';
+            }
+            return null;
+          },
+        ),
+        SizedBox(
+          height: 8.h,
+        ),
+        CustomTextFormFieldWidget(
+          controller: confirmPasswordController,
+          hint: 'Confirm password',
+          keyboardType: TextInputType.emailAddress,
+          autofillHints: const [AutofillHints.email],
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'please enter the password again';
+            }
+            return null;
+          },
+        ),
+        SizedBox(
+          height: 40.h,
+        ),
+        CustomAuthButtonWidget(title: 'SIGN UP'),
+      ],
+    );
+  }
+
+  Widget buildLoginView() {
+    return Column(
+      children: [
+        CustomTextFormFieldWidget(
+          controller: emailController,
+          hint: 'Enter email or username',
+          keyboardType: TextInputType.emailAddress,
+          autofillHints: const [AutofillHints.email],
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'please enter the email';
+            }
+            // else if (!EmailValidator.validate(value)) {
+            //   return 'please enter a valid email';
+            // }
+            return null;
+          },
+        ),
+        SizedBox(
+          height: 8.h,
+        ),
+        CustomTextFormFieldWidget(
+          controller: passwordController,
+          hint: 'Enter password',
+          keyboardType: TextInputType.emailAddress,
+          autofillHints: const [AutofillHints.email],
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'please enter the password';
+            }
+            return null;
+          },
+        ),
+        SizedBox(
+          height: 8.h,
+        ),
+        SizedBox(
+          height: 40.h,
+        ),
+        CustomAuthButtonWidget(title: 'LOG IN'),
+      ],
+    );
   }
 }
