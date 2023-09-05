@@ -86,7 +86,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     //   height: 100.h,
                     // ),
                     AnimatedContainer(
-                      duration: Duration(seconds: 1),
+                      duration: Duration(milliseconds: 500),
                       height: showSignUp ? 580.0.h : 563.0.h,
 
                       curve: Curves.easeInOut, // Animation curve
