@@ -10,10 +10,7 @@ class NavigationRoutes {
     Navigator.pushNamed(context, routeName, arguments: arguments);
   }
 
-  // void pushNamedAndRemoveUntil(context, String routeName, {Object? arguments}) {  //   Navigator.pushNamedAndRemoveUntil(
-  //     context,  //     routeName,
-  //     (Route<dynamic> route) => false,  //     arguments: arguments,
-  //   );  // }
+
   void pop(context) {
     Navigator.pop(context);
   }

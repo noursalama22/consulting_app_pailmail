@@ -1,7 +1,10 @@
 import 'package:consulting_app_pailmail/utils/helpers/routers/routes.dart';
 import 'package:consulting_app_pailmail/views/screens/auth/login_screen.dart';
 import 'package:consulting_app_pailmail/views/screens/splash_screen.dart';
+import 'package:consulting_app_pailmail/views/screens/status_screen.dart';
 import 'package:flutter/material.dart';
+
+import '../../../views/screens/sender_screen.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
   switch (settings.name) {
@@ -17,16 +20,16 @@ Route<dynamic> generateRoute(RouteSettings settings) {
         routeName: settings.name!,
         screen: LoginScreen(),
       );
-    // case Routes.first:
-    //   return _getPageRoute(
-    //     routeName: settings.name!,
-    //     screen: const FirstScreen(),
-    //   );
-    // case Routes.second:
-    //   return _getPageRoute(
-    //     routeName: settings.name!,
-    //     screen: const SecondScreen(),
-    //   );
+    case Routes.status_screen:
+      return _getPageRoute(
+        routeName: settings.name!,
+        screen: const StatusScreen(),
+      );
+    case Routes.sender_screen:
+      return _getPageRoute(
+        routeName: settings.name!,
+        screen: const SenderScreen(),
+      );
     // case Routes.third:
     //   return _getPageRoute(
     //     routeName: settings.name!,

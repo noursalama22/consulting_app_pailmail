@@ -23,7 +23,25 @@ const kGradient = LinearGradient(
     end: Alignment.bottomRight);
 
 // ============= TEXT STYLES CONSTS ==============
+
+TextStyle buildAppBarTextStyle(
+        {Color color = kLightBlueColor,
+        double fontSizeController = 18,
+        double letterSpacing = 1.5}) =>
+    TextStyle(
+        color: color,
+        letterSpacing: letterSpacing,
+        fontSize: fontSizeController);
+
+// ============= TextFieldBorder ==============
+
+OutlineInputBorder buildOutlineInputBorderTextField() {
+  return OutlineInputBorder(
+      borderRadius: BorderRadius.circular(24), borderSide: BorderSide.none);
+}
+
 TextStyle kTextFieldTextStyle = GoogleFonts.poppins(
     fontSize: 12.sp,
     letterSpacing: 0.4000000059604645,
     color: kMediumGreyColor);
+
