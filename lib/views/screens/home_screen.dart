@@ -8,6 +8,7 @@ import 'package:consulting_app_pailmail/views/widgets/custom_status_container.da
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -84,13 +85,14 @@ class _HomeScreenState extends State<HomeScreen> {
       //  TODO : use .h .w fr sizes
       //  TODO : Modify image
       //   TODO :Animation
+      //TODO :add widget comment for work of widget
 
       bottomNavigationBar: Material(
         color: Colors.white,
         shape: Border(
             top: BorderSide(
           color: kLightGreyColor,
-          width: 1,
+          width: 1.w,
         )),
         child: InkWell(
           onTap: () {
@@ -100,7 +102,7 @@ class _HomeScreenState extends State<HomeScreen> {
             height: kToolbarHeight,
             width: double.infinity,
             child: Padding(
-              padding: const EdgeInsetsDirectional.only(start: 20),
+              padding: EdgeInsetsDirectional.only(start: 20.w),
               child: Row(
                 children: [
                   const CustomStatusContainer(
@@ -112,7 +114,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   SizedBox(
-                    width: 8,
+                    width: 8.w,
                   ),
                   Text(
                     "new_inbox".tr(),
@@ -132,8 +134,8 @@ class _HomeScreenState extends State<HomeScreen> {
             AnimatedContainer(
               decoration: BoxDecoration(
                 border: _showTextAppbar
-                    ? const Border(
-                        bottom: BorderSide(color: kLightGreyColor, width: 2))
+                    ? Border(
+                        bottom: BorderSide(color: kLightGreyColor, width: 2.w))
                     : const Border(),
               ),
               // height: _showAppbar ? 56.0 : 0.0,
@@ -173,25 +175,25 @@ class _HomeScreenState extends State<HomeScreen> {
                     itemBuilder: (context) => [
                       PopupMenuItem(
                         child: Padding(
-                          padding: const EdgeInsetsDirectional.symmetric(
-                              horizontal: 24, vertical: 16),
+                          padding: EdgeInsetsDirectional.symmetric(
+                              horizontal: 24.w, vertical: 16.h),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
-                              const CustomProfilePhotoContainer(
+                              CustomProfilePhotoContainer(
                                 image: 'assets/images/user_photo.png',
-                                raduis: 90,
+                                raduis: 90.r,
                               ),
                               Text(
                                 "User name",
                                 style: GoogleFonts.poppins(
-                                    color: Colors.black, fontSize: 16),
+                                    color: Colors.black, fontSize: 16.sp),
                                 textAlign: TextAlign.center,
                               ),
                               Text(
                                 "admin",
                                 style: GoogleFonts.poppins(
-                                    color: kMediumGreyColor, fontSize: 12),
+                                    color: kMediumGreyColor, fontSize: 12.sp),
                                 textAlign: TextAlign.center,
                               ),
                             ],
@@ -206,10 +208,10 @@ class _HomeScreenState extends State<HomeScreen> {
                             Icon(
                               Icons.language,
                               color: Colors.grey.shade600,
-                              size: 30,
+                              size: 30.sp,
                             ),
-                            const SizedBox(
-                              width: 12,
+                            SizedBox(
+                              width: 12.w,
                             ),
                             Text(
                               'English',
@@ -226,10 +228,10 @@ class _HomeScreenState extends State<HomeScreen> {
                             Icon(
                               Icons.logout,
                               color: Colors.grey.shade600,
-                              size: 30,
+                              size: 30.sp,
                             ),
-                            const SizedBox(
-                              width: 12,
+                            SizedBox(
+                              width: 12.w,
                             ),
                             Text(
                               'Logout',
@@ -248,8 +250,8 @@ class _HomeScreenState extends State<HomeScreen> {
               child: SingleChildScrollView(
                 controller: _scrollViewController,
                 child: Padding(
-                  padding: const EdgeInsetsDirectional.symmetric(
-                      horizontal: 20.0, vertical: 24),
+                  padding: EdgeInsetsDirectional.symmetric(
+                      horizontal: 20.0.w, vertical: 24.h),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -257,7 +259,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         children: [
                           Expanded(
                             child: CustomMailCategoryContainer(
-                              endMargin: 16,
+                              endMargin: 16.w,
                               number: 9,
                               onTap: () {
 //TODO : Add fn
@@ -277,15 +279,15 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ],
                       ),
-                      const SizedBox(
-                        height: 16,
+                      SizedBox(
+                        height: 16.h,
                       ),
                       Row(
                         children: [
                           Expanded(
                             child: CustomMailCategoryContainer(
                                 color: kLightBlueColor,
-                                endMargin: 16,
+                                endMargin: 16.w,
                                 number: 9,
                                 onTap: () {
 //TODO : Add fn
@@ -303,11 +305,11 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ],
                       ),
-                      const SizedBox(
-                        height: 24,
+                      SizedBox(
+                        height: 24.h,
                       ),
                       CustomExpansionTile(
-                        orgName: "official_organizations".tr(),
+                        widgetOfTile: Text("official_organizations".tr()),
                         mailNumber: "6",
                         children: const [
                           CustomMailContainer(
@@ -338,7 +340,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ],
                       ),
                       CustomExpansionTile(
-                        orgName: "ngos".tr(),
+                        widgetOfTile: Text("ngos".tr()),
                         mailNumber: "12",
                         children: const [
                           CustomMailContainer(
@@ -354,7 +356,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ],
                       ),
                       CustomExpansionTile(
-                        orgName: "foreign".tr(),
+                        widgetOfTile: Text("foreign".tr()),
                         mailNumber: "6",
                         children: const [
                           CustomMailContainer(
@@ -370,7 +372,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ],
                       ),
                       CustomExpansionTile(
-                        orgName: "other".tr(),
+                        widgetOfTile: Text("other".tr()),
                         mailNumber: "3",
                         children: const [
                           CustomMailContainer(
@@ -386,18 +388,18 @@ class _HomeScreenState extends State<HomeScreen> {
                         ],
                       ),
                       SizedBox(
-                        height: 15,
+                        height: 15.h,
                       ),
                       Padding(
-                        padding: const EdgeInsetsDirectional.symmetric(
-                            horizontal: 20.0),
+                        padding:
+                            EdgeInsetsDirectional.symmetric(horizontal: 20.w),
                         child: Text(
                           "tags".tr(),
                           style: tileTextTitleStyle,
                         ),
                       ),
-                      const SizedBox(
-                        height: 14,
+                      SizedBox(
+                        height: 14.h,
                       ),
 //TODO
                       Container(

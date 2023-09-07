@@ -1,7 +1,7 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:animated_text_kit/animated_text_kit.dart';
 
 class CustomLogoWidget extends StatelessWidget {
   const CustomLogoWidget({
@@ -15,7 +15,7 @@ class CustomLogoWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Image(
-          image: AssetImage('assets/logo.png'),
+          image: const AssetImage('assets/images/logo.png'),
           height: 100.h,
           width: 100.w,
         ),

@@ -53,7 +53,7 @@ dependencies:
   # flutter_native_splash-development
 flutter_native_splash:
   color: "#003AFC"
-  image: assets/logo.png
+  image: assets/images/logo.png
   android: true
   ios: true
 
@@ -86,7 +86,7 @@ flutter:
   assets:
     - assets/images/
     - assets/translations/
-    - assets/images/
+
 
 
   # To add assets to your application, add an assets section, like this:

@@ -16,7 +16,6 @@ class CustomExpansionTile extends StatefulWidget {
   final bool? isIndexWidet;
   final String? mailNumber;
 
-
   @override
   State<CustomExpansionTile> createState() => _CustomExpansionTileState();
 }
@@ -48,18 +47,17 @@ class _CustomExpansionTileState extends State<CustomExpansionTile> {
         padding: widget.isIndexWidet == false
             ? EdgeInsetsDirectional.only(end: 14.h)
             : EdgeInsetsDirectional.only(end: 0.h),
-
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             Visibility(
-              visible: !_customTileExpanded,
-              child: Text(
-                      widget.mailNumber ?? '',
-                      style: buildAppBarTextStyle(),
-                    )
-            ),
-            SizedBox(
+                visible: !_customTileExpanded,
+                child: Text(
+                  widget.mailNumber ?? '',
+                  //TODO : Style
+                  style: buildAppBarTextStyle(),
+                )),
+            const SizedBox(
               width: 6,
             ),
             Icon(

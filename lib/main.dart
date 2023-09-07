@@ -22,22 +22,19 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
   // This widget is the root of your application.  @override
   Widget build(BuildContext context) {
-
     return ScreenUtilInit(
         designSize: const Size(428, 812),
         builder: (context, child) {
-          return const MaterialApp(
-                  theme: ThemeData(scaffoldBackgroundColor: kBackgroundColor),
-      debugShowCheckedModeBanner: false,
-      onGenerateRoute: generateRoute,
-      localizationsDelegates: context.localizationDelegates,
-             locale: context.locale,
-      supportedLocales: context.supportedLocales,
+          return MaterialApp(
+            theme: ThemeData(scaffoldBackgroundColor: kBackgroundColor),
+            localizationsDelegates: context.localizationDelegates,
+            locale: context.locale,
+            supportedLocales: context.supportedLocales,
             debugShowCheckedModeBanner: false,
             onGenerateRoute: generateRoute,
-            home: SplashScreen(duration: Duration(seconds: 3)),
+            home: const HomeScreen(),
+            // home: SplashScreen(duration: Duration(seconds: 3)),
           );
         });
-
   }
 }
