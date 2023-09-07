@@ -13,7 +13,8 @@ class CustomSearchBar extends StatelessWidget {
       padding: EdgeInsetsDirectional.only(
           top: 4.h, bottom: 4.h, start: 20.w, end: 13.w),
       decoration: BoxDecoration(
-          color: const Color(0xffE6E6E6),
+          // color: const Color(0xffE6E6E6),
+          color: Colors.white,
           borderRadius: BorderRadius.circular(24)),
       child: TextField(
         decoration: InputDecoration(

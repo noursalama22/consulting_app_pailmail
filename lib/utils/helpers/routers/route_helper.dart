@@ -4,6 +4,8 @@ import 'package:consulting_app_pailmail/views/screens/splash_screen.dart';
 import 'package:consulting_app_pailmail/views/screens/status_screen.dart';
 import 'package:flutter/material.dart';
 
+import '../../../views/screens/category_screen.dart';
+import '../../../views/screens/index_screen.dart';
 import '../../../views/screens/sender_screen.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
@@ -28,17 +30,16 @@ Route<dynamic> generateRoute(RouteSettings settings) {
         routeName: settings.name!,
         screen: const SenderScreen(),
       );
-    // case Routes.third:
-    //   return _getPageRoute(
-    //     routeName: settings.name!,
-    //     screen: const ThirdScreen(),
-    //   );
-    // case Routes.fourth:
-    //   final args = settings.arguments! as String;
-    //   return _getPageRoute(
-    //     routeName: settings.name!,
-    //     screen: FouthScreen(params: args),
-    //   );
+    case Routes.index_screen:
+      return _getPageRoute(
+        routeName: settings.name!,
+        screen: const IndexScreen(),
+      );
+    case Routes.category_screen:
+      return _getPageRoute(
+        routeName: settings.name!,
+        screen: const CategoryScreen(),
+      );
     default:
       return MaterialPageRoute(
         builder: (_) => Scaffold(

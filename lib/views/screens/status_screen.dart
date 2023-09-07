@@ -21,7 +21,7 @@ class _StatusScreenState extends State<StatusScreen> {
             EdgeInsets.only(top: 20.0.h, left: 20.w, right: 20.w, bottom: 62.h),
         child: Column(children: [
           ///app Bar
-          const AppBarCustom(
+          const CustomAppBar(
             widgetName: 'Status',
           ),
 

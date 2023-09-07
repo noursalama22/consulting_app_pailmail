@@ -26,7 +26,7 @@ class _SplashScreenState extends State<SplashScreen>
             if (status == AnimationStatus.completed) {
               NavigationRoutes().jump(
                 context,
-                Routes.sender_screen,
+                Routes.category_screen,
               );
             }
           });
