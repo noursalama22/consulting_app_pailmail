@@ -37,10 +37,7 @@ class CustomTextFormFieldWidget extends StatelessWidget {
             contentPadding:
                 const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
             hintText: hint,
-            hintStyle: GoogleFonts.poppins(
-                fontSize: 12.sp,
-                letterSpacing: 0.4000000059604645,
-                color: kMediumGreyColor),
+            hintStyle: kTextFieldTextStyle,
             border: UnderlineInputBorder(
               borderSide: BorderSide(color: kMediumGreyColor),
             ),

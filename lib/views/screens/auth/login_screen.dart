@@ -146,6 +146,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     child: Text(
                                       text,
                                       style: GoogleFonts.poppins(
+                                        //TODO:ADJUST FONTWEIGHT ON TOGGLE
                                         fontSize: 14,
                                         letterSpacing: 0.25,
                                         color: Color.lerp(kPrimaryBlueColor,
