@@ -15,8 +15,7 @@ const Color kMediumGreyColor = Color(0xFFB2B2B2);
 const Color kBackgroundColor = Color(0xFFF7F6FF);
 
 const kGradient = LinearGradient(
-  colors: <Color>[kLightBlueColor, kPrimaryBlueColor],
-  begin: Alignment.topLeft,
-  end: Alignment(0.8, 1),
-);
+    colors: <Color>[kLightBlueColor, kPrimaryBlueColor],
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight);
 // ============= TEXT STYLES CONSTS ==============

@@ -44,10 +44,6 @@ class CustomTextFormFieldWidget extends StatelessWidget {
             border: UnderlineInputBorder(
               borderSide: BorderSide(color: kMediumGreyColor),
             ),
-            // focusedBorder: Styles.primaryRoundedOutlineInputBorder,
-            // errorBorder: Styles.primaryRoundedOutlineInputBorder,
-            // enabledBorder: Styles.primaryRoundedOutlineInputBorder,
-            // disabledBorder: Styles.primaryRoundedOutlineInputBorder,
           ),
         ),
       ],
