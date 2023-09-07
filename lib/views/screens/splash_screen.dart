@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../utils/helpers/constants.dart';
 import '../../utils/helpers/routers/router.dart';
+import '../widgets/custom_logo_widget.dart';
 
 class SplashScreen extends StatefulWidget {
   final Duration duration;
@@ -19,17 +20,23 @@ class _SplashScreenState extends State<SplashScreen>
 
   @override
   void initState() {
-    animationController =
-        AnimationController(duration: widget.duration, vsync: this)
-          ..forward()
-          ..addStatusListener((status) {
-            if (status == AnimationStatus.completed) {
-              NavigationRoutes().jump(
-                context,
-                Routes.category_screen,
-              );
-            }
-          });
+
+
+
+    animationController = AnimationController(
+        duration: widget.duration, vsync: this)
+      ..forward()
+      ..addStatusListener((status) {
+        if (status == AnimationStatus.completed) {
+          NavigationRoutes().jump(context, Routes.login_screen, replace: true);
+          // NavigationRoutes().pushNamedAndRemoveUntil(
+          //   context,
+          //   Routes.login_screen,
+          // );
+        }
+      });
+
+
     super.initState();
   }
 
@@ -41,20 +48,10 @@ class _SplashScreenState extends State<SplashScreen>
         animation: animationController,
         builder: (context, _) {
           return Center(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image(
-                  image: const AssetImage('assets/logo.png'),
-                  height: 100.h,
-                  width: 100.w,
-                ),
-                Text('ديوان الموظفين',
-                    style: GoogleFonts.sansita(
-                        fontSize: 31.sp, color: Colors.white)),
-              ],
-            ),
+
+
+            child: CustomLogoWidget(),
+
           );
         },
       ),
