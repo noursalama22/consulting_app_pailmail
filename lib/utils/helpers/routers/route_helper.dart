@@ -8,12 +8,14 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case Routes.splash_screen:
       return _getPageRoute(
         routeName: settings.name!,
-        screen: const SplashScreen(duration: Duration(seconds: 3)),
+        screen: const SplashScreen(
+          duration: Duration(seconds: 3),
+        ),
       );
     case Routes.login_screen:
       return _getPageRoute(
         routeName: settings.name!,
-        screen: const LoginScreen(),
+        screen: LoginScreen(),
       );
     // case Routes.first:
     //   return _getPageRoute(
