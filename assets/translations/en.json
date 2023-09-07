@@ -1,0 +1,17 @@
+{
+  "inbox" : "Inbox",
+  "pal_mail" : "Pal Mail",
+  "pending":"Pending",
+  "in_progress":  "In progress",
+  "completed": "Completed",
+  "official_organizations": "Official Organization",
+  "ngos": "NGOs",
+  "other": "Others",
+  "foreign": "Foreign",
+  "search" : "Search",
+  "new_inbox" : "New Inbox",
+  "logout": "Logout",
+  "language": "English",
+  "tags": "Tags",
+  "all_tags": "All Tags"
+}
