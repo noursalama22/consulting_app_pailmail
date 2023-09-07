@@ -3,6 +3,7 @@ import 'package:consulting_app_pailmail/utils/helpers/routers/route_helper.dart'
 import 'package:consulting_app_pailmail/views/screens/home_screen.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,20 +20,24 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
-  // This widget is the root of your application.
-  @override
+  // This widget is the root of your application.  @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(scaffoldBackgroundColor: kBackgroundColor),
+
+    return ScreenUtilInit(
+        designSize: const Size(428, 812),
+        builder: (context, child) {
+          return const MaterialApp(
+                  theme: ThemeData(scaffoldBackgroundColor: kBackgroundColor),
       debugShowCheckedModeBanner: false,
       onGenerateRoute: generateRoute,
       localizationsDelegates: context.localizationDelegates,
+             locale: context.locale,
       supportedLocales: context.supportedLocales,
-      // locale: Locale('en'),
-      locale: context.locale,
-      home: const HomeScreen(),
-      // home: SplashScreen(duration: Duration(seconds: 3)),
-    );
+            debugShowCheckedModeBanner: false,
+            onGenerateRoute: generateRoute,
+            home: SplashScreen(duration: Duration(seconds: 3)),
+          );
+        });
+
   }
 }
