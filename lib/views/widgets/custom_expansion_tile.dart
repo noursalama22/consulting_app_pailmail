@@ -1,17 +1,22 @@
 import 'package:consulting_app_pailmail/utils/helpers/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomExpansionTile extends StatefulWidget {
-  CustomExpansionTile({
+  const CustomExpansionTile({
     super.key,
-    required this.orgName,
-    required this.mailNumber,
     required this.children,
+    required this.widgetOfTile,
+    this.isIndexWidet = false,
+    this.mailNumber,
   });
 
-  final String orgName;
-  final String mailNumber;
   final List<Widget> children;
+  final Widget widgetOfTile;
+  final bool? isIndexWidet;
+  final String? mailNumber;
+
+
   @override
   State<CustomExpansionTile> createState() => _CustomExpansionTileState();
 }
@@ -28,28 +33,31 @@ class _CustomExpansionTileState extends State<CustomExpansionTile> {
   @override
   Widget build(BuildContext context) {
     return ExpansionTile(
-      shape: Border(),
-      tilePadding: const EdgeInsetsDirectional.only(
-        start: 16.0,
-      ),
-      onExpansionChanged: (bool expanded) {
+      childrenPadding: EdgeInsetsDirectional.zero,
+      shape: const Border(),
+      tilePadding: widget.isIndexWidet == false
+          ? EdgeInsetsDirectional.only(
+              start: 16.0.h,
+            )
+          : const EdgeInsetsDirectional.only(start: 0),
+      onExpansionChanged: (bool expanded) async {
         expandCollapse();
       },
-      title: Text(
-        widget.orgName,
-        style: tileTextTitleStyle,
-      ),
+      title: widget.widgetOfTile,
       trailing: Padding(
-        padding: const EdgeInsetsDirectional.only(end: 14),
+        padding: widget.isIndexWidet == false
+            ? EdgeInsetsDirectional.only(end: 14.h)
+            : EdgeInsetsDirectional.only(end: 0.h),
+
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             Visibility(
               visible: !_customTileExpanded,
               child: Text(
-                widget.mailNumber,
-                style: tileTextNumberStyle,
-              ),
+                      widget.mailNumber ?? '',
+                      style: buildAppBarTextStyle(),
+                    )
             ),
             SizedBox(
               width: 6,

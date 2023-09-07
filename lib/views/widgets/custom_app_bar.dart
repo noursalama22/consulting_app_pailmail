@@ -3,8 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../utils/helpers/constants.dart';
 
-class AppBarCustom extends StatelessWidget {
-  const AppBarCustom(
+class CustomAppBar extends StatelessWidget {
+  const CustomAppBar(
       {Key? key,
       required this.widgetName,
       this.bottomPadding = 55,

@@ -22,6 +22,7 @@ class _SplashScreenState extends State<SplashScreen>
   void initState() {
 
 
+
     animationController = AnimationController(
         duration: widget.duration, vsync: this)
       ..forward()
@@ -34,6 +35,7 @@ class _SplashScreenState extends State<SplashScreen>
           // );
         }
       });
+
 
     super.initState();
   }

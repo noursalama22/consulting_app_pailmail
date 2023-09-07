@@ -1,84 +1,75 @@
-// import 'package:betweener_project/core/utils/styles.dart';
-// import 'package:flutter/material.dart';
-//
-// class CustomTextField extends StatefulWidget {
-//   final String label;
-//   final String? hint;
-//   final TextEditingController? controller;
-//   final bool password;
-//   final TextInputType? keyboardType;
-//   final String? Function(String?)? validator;
-//   final Iterable<String>? autofillHints;
-//
-//   CustomTextField(
-//       {super.key,
-//       required this.label,
-//       this.controller,
-//       this.hint,
-//       this.password = false,
-//       this.keyboardType,
-//       this.validator,
-//       this.autofillHints});
-//
-//   @override
-//   State<CustomTextField> createState() => _CustomTextFieldState();
-// }
-//
-// class _CustomTextFieldState extends State<CustomTextField> {
-//   bool _obscureText = true;
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Column(
-//       crossAxisAlignment: CrossAxisAlignment.start,
-//       children: [
-//         Text(
-//           widget.label,
-//           style: Styles.textStyle14,
-//         ),
-//         const SizedBox(
-//           height: 12,
-//         ),
-//         TextFormField(
-//           keyboardType: widget.keyboardType,
-//           controller: widget.controller,
-//           validator: widget.validator,
-//           autofillHints: widget.autofillHints,
-//           obscureText: widget.password ? _obscureText : false,
-//           enableSuggestions: widget.password == true ? false : true,
-//           autocorrect: widget.password == true ? false : true,
-//           decoration: InputDecoration(
-//               contentPadding:
-//                   const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-//               hintText: widget.hint,
-//               border: Styles.primaryRoundedOutlineInputBorder,
-//               focusedBorder: Styles.primaryRoundedOutlineInputBorder,
-//               errorBorder: Styles.primaryRoundedOutlineInputBorder,
-//               enabledBorder: Styles.primaryRoundedOutlineInputBorder,
-//               disabledBorder: Styles.primaryRoundedOutlineInputBorder,
-//               suffixIcon: widget.password
-//                   ? _obscureText
-//                       ? IconButton(
-//                           icon: const Icon(
-//                             (Icons.visibility),
-//                           ),
-//                           onPressed: () {
-//                             _obscureText = !_obscureText;
-//                             setState(() {});
-//                           },
-//                         )
-//                       : IconButton(
-//                           icon: Icon(
-//                             (Icons.visibility_off),
-//                           ),
-//                           onPressed: () {
-//                             _obscureText = !_obscureText;
-//                             setState(() {});
-//                           },
-//                         )
-//                   : null),
-//         ),
-//       ],
-//     );
-//   }
-// }
+
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../utils/helpers/constants.dart';
+
+class CustomTextField extends StatelessWidget {
+  const CustomTextField({
+    super.key,
+    required this.hintText,
+    required this.customFontSize,
+    this.withoutPrefix = true,
+    this.withoutSuffix = true,
+    required this.controller,
+    this.icon,
+    this.textInputType = TextInputType.text,
+    this.maxLine = 1,
+    this.iconColor = const Color(0xff707070),
+    this.paddingHor = 16,
+    this.suffixIcon = Icons.info_outline,
+    this.suffixFunction,
+  });
+
+  final TextInputType? textInputType;
+  final Color? iconColor;
+  final int? maxLine;
+  final String hintText;
+  final double customFontSize;
+  final int? paddingHor;
+  final bool? withoutPrefix;
+  final bool? withoutSuffix;
+  final TextEditingController? controller;
+  final IconData? icon;
+  final IconData? suffixIcon;
+  final Function()? suffixFunction;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      controller: controller,
+      maxLines: maxLine, //add more one line
+      keyboardType: textInputType,
+      style: const TextStyle(color: Color(0xff707070)),
+      cursorColor: const Color(0xff707070),
+      decoration: InputDecoration(
+        contentPadding: withoutPrefix == true
+            ? EdgeInsets.symmetric(horizontal: paddingHor!.w)
+            : const EdgeInsets.symmetric(vertical: 0, horizontal: 0),
+        focusedBorder: buildOutlineInputBorderTextField(),
+        enabledBorder: buildOutlineInputBorderTextField(),
+        prefixIcon: withoutPrefix == true
+            ? null
+            : Icon(
+                icon,
+                color: iconColor,
+              ),
+        hintText: hintText,
+        hintStyle: buildAppBarTextStyle(
+            fontSizeController: customFontSize,
+            color: const Color(0xffafafaf),
+            letterSpacing: 0.15),
+        suffixIcon: withoutSuffix == true
+            ? null
+            : InkWell(
+                onTap: suffixFunction,
+                child: Icon(
+                  suffixIcon,
+                  color: kLightBlueColor,
+                ),
+              ),
+      ),
+    );
+  }
+}

@@ -21,7 +21,7 @@ class SenderScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            AppBarCustom(
+            CustomAppBar(
               widgetName: 'Sender',
               endPadding: 27.w,
               bottomPadding: 15.h,
@@ -110,11 +110,5 @@ class SenderScreen extends StatelessWidget {
       },
       itemCount: 2,
     );
-  }
-
-  BoxDecoration buildBoxDecoration() {
-    return const BoxDecoration(
-        border:
-            Border.symmetric(horizontal: BorderSide(color: Colors.black12)));
   }
 }
