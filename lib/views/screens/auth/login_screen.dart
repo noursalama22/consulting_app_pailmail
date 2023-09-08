@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../utils/helpers/constants.dart';
+import '../../../utils/helpers/routers/router.dart';
 import '../../widgets/animated_auth_widget.dart';
 import '../../widgets/custom_auth_button_widget.dart';
 import '../../widgets/custom_logo_widget.dart';
@@ -32,10 +33,10 @@ class _LoginScreenState extends State<LoginScreen> {
 
   int value = 0; //for the AnimatedToggleSwitch
   void clearTextField() {
+    nameController.clear();
     emailController.clear();
     passwordController.clear();
     confirmPasswordController.clear();
-    nameController.clear();
   }
 
   void ShowSignUpView() {
@@ -43,8 +44,6 @@ class _LoginScreenState extends State<LoginScreen> {
       clearTextField();
       showSignUp = true;
       showLogin = false;
-      print('login $showLogin');
-      print('sign $showSignUp');
     });
   }
 
@@ -53,8 +52,6 @@ class _LoginScreenState extends State<LoginScreen> {
       clearTextField();
       showSignUp = false;
       showLogin = true;
-      print('login $showLogin');
-      print('sign $showSignUp');
     });
   }
 
@@ -65,9 +62,16 @@ class _LoginScreenState extends State<LoginScreen> {
     super.initState();
   }
 
+  void dispose() {
+    nameController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+    confirmPasswordController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-
     ThemeData theme = Theme.of(context);
 
     return Scaffold(
@@ -78,7 +82,6 @@ class _LoginScreenState extends State<LoginScreen> {
             children: [
               Positioned(
                 top: -170.h,
-                // left: -72.w,
                 child: Container(
                   height: 571.h,
                   width: 571.w,
@@ -147,11 +150,19 @@ class _LoginScreenState extends State<LoginScreen> {
                                     child: Text(
                                       text,
                                       style: GoogleFonts.poppins(
-                                        //TODO:ADJUST FONTWEIGHT ON TOGGLE
+                                        fontWeight: FontWeight.lerp(
+                                          FontWeight.normal,
+                                          FontWeight.bold,
+                                          local.animationValue,
+                                        ), //adjust fontweight on toggle
                                         fontSize: 14,
+
                                         letterSpacing: 0.25,
-                                        color: Color.lerp(kPrimaryBlueColor,
-                                            Colors.white, local.animationValue),
+                                        color: Color.lerp(
+                                          kPrimaryBlueColor,
+                                          Colors.white,
+                                          local.animationValue,
+                                        ),
                                       ),
                                     ),
                                   );
@@ -240,7 +251,14 @@ class _LoginScreenState extends State<LoginScreen> {
                             height: 40.h,
                           ),
                           CustomAuthButtonWidget(
-                              title: showSignUp == true ? 'SIGN UP' : 'LOG IN'),
+                            title: showSignUp == true ? 'SIGN UP' : 'LOG IN',
+                            onTap: () {
+                              NavigationRoutes().jump(
+                                context,
+                                Routes.home_screen,
+                              );
+                            },
+                          ),
                           const SizedBox(
                             height: 22,
                           ),
@@ -278,6 +296,5 @@ class _LoginScreenState extends State<LoginScreen> {
             ],
           ),
         ));
-
   }
 }

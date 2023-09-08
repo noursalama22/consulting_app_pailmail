@@ -5,16 +5,16 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../utils/helpers/constants.dart';
 
 class CustomAuthButtonWidget extends StatelessWidget {
-  final String title;
+  final String title;final Function() onTap;
   const CustomAuthButtonWidget({
     super.key,
-    required this.title,
+    required this.title, required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap:onTap,
       child: Container(
         height: 48.h,
         width: 264.w,

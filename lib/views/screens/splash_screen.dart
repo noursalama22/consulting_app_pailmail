@@ -20,22 +20,14 @@ class _SplashScreenState extends State<SplashScreen>
 
   @override
   void initState() {
-
-
-
     animationController = AnimationController(
         duration: widget.duration, vsync: this)
       ..forward()
       ..addStatusListener((status) {
         if (status == AnimationStatus.completed) {
           NavigationRoutes().jump(context, Routes.login_screen, replace: true);
-          // NavigationRoutes().pushNamedAndRemoveUntil(
-          //   context,
-          //   Routes.login_screen,
-          // );
         }
       });
-
 
     super.initState();
   }
@@ -48,10 +40,7 @@ class _SplashScreenState extends State<SplashScreen>
         animation: animationController,
         builder: (context, _) {
           return Center(
-
-
             child: CustomLogoWidget(),
-
           );
         },
       ),
