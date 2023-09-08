@@ -17,7 +17,8 @@ class CustomAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsetsDirectional.only(
-          top: 24.0.h, bottom: bottomPadding, end: endPadding),
+          top: 16.0.h, bottom: bottomPadding, end: endPadding),
+      //    padding: EdgeInsetsDirectional.only(top: 24.0.h, bottom: bottomPadding, end: endPadding),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

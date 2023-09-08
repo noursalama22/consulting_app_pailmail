@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import 'package:google_fonts/google_fonts.dart';
 
 // ============= COLORS CONSTS ==============
@@ -19,7 +17,6 @@ const Color kMediumGreyColor = Color(0xFFB2B2B2);
 const Color kBackgroundColor = Color(0xFFF7F6FF);
 
 const Color kDarkGreyColor = Color(0xFF7C7C7C);
-
 TextStyle statusTextStyle = GoogleFonts.poppins(
   color: kMediumGreyColor,
   fontSize: 16,
@@ -42,7 +39,6 @@ const kGradient = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight);
 
-
 // ============= TEXT STYLES CONSTS ==============
 
 TextStyle buildAppBarTextStyle(
@@ -60,7 +56,6 @@ OutlineInputBorder buildOutlineInputBorderTextField() {
   return OutlineInputBorder(
       borderRadius: BorderRadius.circular(24), borderSide: BorderSide.none);
 }
-
 
 BoxDecoration buildBoxDecoration() {
   return const BoxDecoration(
