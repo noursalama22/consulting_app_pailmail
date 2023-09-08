@@ -1,4 +1,5 @@
 import 'package:consulting_app_pailmail/utils/helpers/constants.dart';
+import 'package:consulting_app_pailmail/views/widgets/custom_expansion_tile.dart';
 import 'package:consulting_app_pailmail/views/widgets/custom_mail_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -121,8 +122,10 @@ class _SearchScreenState extends State<SearchScreen> {
                 SizedBox(
                   width: 12,
                 ),
-                Image.asset(
-                  'assets/images/filter.png',
+                GestureDetector(
+                  child: Image.asset(
+                    'assets/images/filter.png',
+                  ),
                 ),
               ],
             ),
@@ -154,6 +157,7 @@ class _SearchScreenState extends State<SearchScreen> {
               thickness: 0.5,
             ),
 
+            ///Result of Search
             Expanded(
               child: ListView.builder(
                 //    physics: NeverScrollableScrollPhysics(),
@@ -162,107 +166,19 @@ class _SearchScreenState extends State<SearchScreen> {
                 //        physics: NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
-                  return Column(
+                  return CustomExpansionTile(
+                    isExpanded: false,
+                    mailNumber: "3 Founds",
+                    isIndexWidet: true,
+                    widgetOfTile: Text(
+                      "Official Organization",
+                      style: GoogleFonts.poppins(
+                          fontSize: 18.sp, color: kDarkGreyColor),
+                    ),
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "Official Organization",
-                            style: GoogleFonts.poppins(
-                                fontSize: 18.sp, color: kDarkGreyColor),
-                          ),
-                          Text(
-                            "2 Found",
-                            //TODO : Style
-                            style: buildAppBarTextStyle(
-                                color: kMediumGreyColor,
-                                fontSizeController: 14,
-                                letterSpacing: 0.15),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      // CustomExpansionTile(
-                      //     widgetOfTile: Text(
-                      //       "Official Organization",
-                      //       style: GoogleFonts.poppins(
-                      //           fontSize: 18.sp, color: kDarkGreyColor),
-                      //     ),
-                      //     isExpanded: false,
-                      //     isIndexWidet: true,
-                      //     mailNumber: "2 Found",
-                      //     children: []
-                      //     //   ListView.builder(
-                      //     //     itemBuilder: (context, index) {
-                      //     //       return CustomMailContainer(
-                      //     //         organizationName: 'Organization Name',
-                      //     //         color: kYellowColor,
-                      //     //         date: "Today, 11:00 AM",
-                      //     //         description:
-                      //     //             "And here excerpt of the mail, can added to this location. And we can do more to this like And we can do more to this like ",
-                      //     //         images: [],
-                      //     //         tags: [
-                      //     //           "urgent",
-                      //     //           "new",
-                      //     //           "water",
-                      //     //         ],
-                      //     //         subject: "Here we add the subject",
-                      //     //         endMargin: 16,
-                      //     //       );
-                      //     //     },
-                      //     //     shrinkWrap: true,
-                      //     //     // physics: NeverScrollableScrollPhysics(),
-                      //     //     //      physics: NeverScrollableScrollPhysics(),
-                      //     //   ),
-                      //     //       ],
-                      //     // children: [
-                      //     //   ListView.builder(
-                      //     //     itemBuilder: (context, index) {
-                      //     //       return CustomMailContainer(
-                      //     //         organizationName: 'Organization Name',
-                      //     //         color: kYellowColor,
-                      //     //         date: "Today, 11:00 AM",
-                      //     //         description:
-                      //     //             "And here excerpt of the mail, can added to this location. And we can do more to this like And we can do more to this like ",
-                      //     //         images: [],
-                      //     //         tags: [
-                      //     //           "urgent",
-                      //     //           "new",
-                      //     //           "water",
-                      //     //         ],
-                      //     //         subject: "Here we add the subject",
-                      //     //         endMargin: 16,
-                      //     //       );
-                      //     //     },
-                      //     //     shrinkWrap: true,
-                      //     //     // physics: NeverScrollableScrollPhysics(),
-                      //     //     //      physics: NeverScrollableScrollPhysics(),
-                      //     //   ),
-                      //     // ],
-                      //     ),
-                      //  Row(
-                      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //   children: [
-                      //     Text(
-                      //       "25 Completed",
-                      //       style: GoogleFonts.poppins(
-                      //           fontSize: 14.sp, color: kDarkGreyColor),
-                      //     ),
-                      //     TextButton(
-                      //       onPressed: () {},
-                      //       child: Text(
-                      //         "Show",
-                      //         style: tagsTextStyle,
-                      //       ),
-                      //     ),
-                      //   ],
-                      // ),
                       ListView.builder(
                         itemBuilder: (context, index) {
-                          return CustomMailContainer(
+                          return const CustomMailContainer(
                             organizationName: 'Organization Name',
                             color: kYellowColor,
                             date: "Today, 11:00 AM",
@@ -279,30 +195,11 @@ class _SearchScreenState extends State<SearchScreen> {
                           );
                         },
                         shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
-                        itemCount: 2,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: 3,
                         // physics: NeverScrollableScrollPhysics(),
                         //      physics: NeverScrollableScrollPhysics(),
                       ),
-                      // Row(
-                      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //   children: [
-                      //     Text(
-                      //       "Official Organization",
-                      //       style: GoogleFonts.poppins(
-                      //           fontSize: 18.sp, color: kDarkGreyColor),
-                      //     ),
-                      //     Text(
-                      //       "2 Found",
-                      //       style: GoogleFonts.poppins(
-                      //           fontSize: 14.sp, color: kDarkGreyColor),
-                      //     ),
-                      //   ],
-                      // ),
-                      // SizedBox(
-                      //   height: 12,
-                      // ),
-                      //
                     ],
                   );
                 },
@@ -314,3 +211,289 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   }
 }
+// }  Column(
+// children: [
+// Row(
+// mainAxisAlignment: MainAxisAlignment.spaceBetween,
+// children: [
+// Text(
+// "Official Organization",
+// style: GoogleFonts.poppins(
+// fontSize: 18.sp, color: kDarkGreyColor),
+// ),
+// Text(
+// "2 Found",
+// //TODO : Style
+// style: buildAppBarTextStyle(
+// color: kMediumGreyColor,
+// fontSizeController: 14,
+// letterSpacing: 0.15),
+// ),
+// ],
+// ),
+// SizedBox(
+// height: 10,
+// ),
+// // CustomExpansionTile(
+// //     widgetOfTile: Text(
+// //       "Official Organization",
+// //       style: GoogleFonts.poppins(
+// //           fontSize: 18.sp, color: kDarkGreyColor),
+// //     ),
+// //     isExpanded: false,
+// //     isIndexWidet: true,
+// //     mailNumber: "2 Found",
+// //     children: []
+// //     //   ListView.builder(
+// //     //     itemBuilder: (context, index) {
+// //     //       return CustomMailContainer(
+// //     //         organizationName: 'Organization Name',
+// //     //         color: kYellowColor,
+// //     //         date: "Today, 11:00 AM",
+// //     //         description:
+// //     //             "And here excerpt of the mail, can added to this location. And we can do more to this like And we can do more to this like ",
+// //     //         images: [],
+// //     //         tags: [
+// //     //           "urgent",
+// //     //           "new",
+// //     //           "water",
+// //     //         ],
+// //     //         subject: "Here we add the subject",
+// //     //         endMargin: 16,
+// //     //       );
+// //     //     },
+// //     //     shrinkWrap: true,
+// //     //     // physics: NeverScrollableScrollPhysics(),
+// //     //     //      physics: NeverScrollableScrollPhysics(),
+// //     //   ),
+// //     //       ],
+// //     // children: [
+// //     //   ListView.builder(
+// //     //     itemBuilder: (context, index) {
+// //     //       return CustomMailContainer(
+// //     //         organizationName: 'Organization Name',
+// //     //         color: kYellowColor,
+// //     //         date: "Today, 11:00 AM",
+// //     //         description:
+// //     //             "And here excerpt of the mail, can added to this location. And we can do more to this like And we can do more to this like ",
+// //     //         images: [],
+// //     //         tags: [
+// //     //           "urgent",
+// //     //           "new",
+// //     //           "water",
+// //     //         ],
+// //     //         subject: "Here we add the subject",
+// //     //         endMargin: 16,
+// //     //       );
+// //     //     },
+// //     //     shrinkWrap: true,
+// //     //     // physics: NeverScrollableScrollPhysics(),
+// //     //     //      physics: NeverScrollableScrollPhysics(),
+// //     //   ),
+// //     // ],
+// //     ),
+// //  Row(
+// //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+// //   children: [
+// //     Text(
+// //       "25 Completed",
+// //       style: GoogleFonts.poppins(
+// //           fontSize: 14.sp, color: kDarkGreyColor),
+// //     ),
+// //     TextButton(
+// //       onPressed: () {},
+// //       child: Text(
+// //         "Show",
+// //         style: tagsTextStyle,
+// //       ),
+// //     ),
+// //   ],
+// // ),
+// ListView.builder(
+// itemBuilder: (context, index) {
+// return CustomMailContainer(
+// organizationName: 'Organization Name',
+// color: kYellowColor,
+// date: "Today, 11:00 AM",
+// description:
+// "And here excerpt of the mail, can added to this location. And we can do more to this like And we can do more to this like ",
+// images: [],
+// tags: [
+// "urgent",
+// "new",
+// "water",
+// ],
+// subject: "Here we add the subject",
+// endMargin: 16,
+// );
+// },
+// shrinkWrap: true,
+// physics: NeverScrollableScrollPhysics(),
+// itemCount: 2,
+// // physics: NeverScrollableScrollPhysics(),
+// //      physics: NeverScrollableScrollPhysics(),
+// ),
+// // Row(
+// //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+// //   children: [
+// //     Text(
+// //       "Official Organization",
+// //       style: GoogleFonts.poppins(
+// //           fontSize: 18.sp, color: kDarkGreyColor),
+// //     ),
+// //     Text(
+// //       "2 Found",
+// //       style: GoogleFonts.poppins(
+// //           fontSize: 14.sp, color: kDarkGreyColor),
+// //     ),
+// //   ],
+// // ),
+// // SizedBox(
+// //   height: 12,
+// // ),
+// //
+// ],
+// );
+//return Column(
+//                     children: [
+//                       Row(
+//                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                         children: [
+//                           Text(
+//                             "Official Organization",
+//                             style: GoogleFonts.poppins(
+//                                 fontSize: 18.sp, color: kDarkGreyColor),
+//                           ),
+//                           Text(
+//                             "2 Found",
+//                             //TODO : Style
+//                             style: buildAppBarTextStyle(
+//                                 color: kMediumGreyColor,
+//                                 fontSizeController: 14,
+//                                 letterSpacing: 0.15),
+//                           ),
+//                         ],
+//                       ),
+//                       SizedBox(
+//                         height: 10,
+//                       ),
+//                       // CustomExpansionTile(
+//                       //     widgetOfTile: Text(
+//                       //       "Official Organization",
+//                       //       style: GoogleFonts.poppins(
+//                       //           fontSize: 18.sp, color: kDarkGreyColor),
+//                       //     ),
+//                       //     isExpanded: false,
+//                       //     isIndexWidet: true,
+//                       //     mailNumber: "2 Found",
+//                       //     children: []
+//                       //     //   ListView.builder(
+//                       //     //     itemBuilder: (context, index) {
+//                       //     //       return CustomMailContainer(
+//                       //     //         organizationName: 'Organization Name',
+//                       //     //         color: kYellowColor,
+//                       //     //         date: "Today, 11:00 AM",
+//                       //     //         description:
+//                       //     //             "And here excerpt of the mail, can added to this location. And we can do more to this like And we can do more to this like ",
+//                       //     //         images: [],
+//                       //     //         tags: [
+//                       //     //           "urgent",
+//                       //     //           "new",
+//                       //     //           "water",
+//                       //     //         ],
+//                       //     //         subject: "Here we add the subject",
+//                       //     //         endMargin: 16,
+//                       //     //       );
+//                       //     //     },
+//                       //     //     shrinkWrap: true,
+//                       //     //     // physics: NeverScrollableScrollPhysics(),
+//                       //     //     //      physics: NeverScrollableScrollPhysics(),
+//                       //     //   ),
+//                       //     //       ],
+//                       //     // children: [
+//                       //     //   ListView.builder(
+//                       //     //     itemBuilder: (context, index) {
+//                       //     //       return CustomMailContainer(
+//                       //     //         organizationName: 'Organization Name',
+//                       //     //         color: kYellowColor,
+//                       //     //         date: "Today, 11:00 AM",
+//                       //     //         description:
+//                       //     //             "And here excerpt of the mail, can added to this location. And we can do more to this like And we can do more to this like ",
+//                       //     //         images: [],
+//                       //     //         tags: [
+//                       //     //           "urgent",
+//                       //     //           "new",
+//                       //     //           "water",
+//                       //     //         ],
+//                       //     //         subject: "Here we add the subject",
+//                       //     //         endMargin: 16,
+//                       //     //       );
+//                       //     //     },
+//                       //     //     shrinkWrap: true,
+//                       //     //     // physics: NeverScrollableScrollPhysics(),
+//                       //     //     //      physics: NeverScrollableScrollPhysics(),
+//                       //     //   ),
+//                       //     // ],
+//                       //     ),
+//                       //  Row(
+//                       //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                       //   children: [
+//                       //     Text(
+//                       //       "25 Completed",
+//                       //       style: GoogleFonts.poppins(
+//                       //           fontSize: 14.sp, color: kDarkGreyColor),
+//                       //     ),
+//                       //     TextButton(
+//                       //       onPressed: () {},
+//                       //       child: Text(
+//                       //         "Show",
+//                       //         style: tagsTextStyle,
+//                       //       ),
+//                       //     ),
+//                       //   ],
+//                       // ),
+//                       ListView.builder(
+//                         itemBuilder: (context, index) {
+//                           return CustomMailContainer(
+//                             organizationName: 'Organization Name',
+//                             color: kYellowColor,
+//                             date: "Today, 11:00 AM",
+//                             description:
+//                                 "And here excerpt of the mail, can added to this location. And we can do more to this like And we can do more to this like ",
+//                             images: [],
+//                             tags: [
+//                               "urgent",
+//                               "new",
+//                               "water",
+//                             ],
+//                             subject: "Here we add the subject",
+//                             endMargin: 16,
+//                           );
+//                         },
+//                         shrinkWrap: true,
+//                         physics: NeverScrollableScrollPhysics(),
+//                         itemCount: 2,
+//                         // physics: NeverScrollableScrollPhysics(),
+//                         //      physics: NeverScrollableScrollPhysics(),
+//                       ),
+//                       // Row(
+//                       //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                       //   children: [
+//                       //     Text(
+//                       //       "Official Organization",
+//                       //       style: GoogleFonts.poppins(
+//                       //           fontSize: 18.sp, color: kDarkGreyColor),
+//                       //     ),
+//                       //     Text(
+//                       //       "2 Found",
+//                       //       style: GoogleFonts.poppins(
+//                       //           fontSize: 14.sp, color: kDarkGreyColor),
+//                       //     ),
+//                       //   ],
+//                       // ),
+//                       // SizedBox(
+//                       //   height: 12,
+//                       // ),
+//                       //
+//                     ],
+//                   );

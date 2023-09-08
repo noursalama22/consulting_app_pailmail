@@ -54,7 +54,7 @@ class _CustomExpansionTileState extends State<CustomExpansionTile> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Visibility(
-              visible: !_customTileExpanded,
+              visible: !widget.isExpanded || !_customTileExpanded,
               child: Text(
                 widget.mailNumber ?? '',
                 //TODO : Style
