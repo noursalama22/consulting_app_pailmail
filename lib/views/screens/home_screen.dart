@@ -466,20 +466,23 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                           child: Wrap(
 //    runSpacing: 8,
-                            spacing: 6,
-                            children: [
-                              CustomChip(
-                                text: "all_tags".tr(),
-                              ),
-                              CustomChip(
-                                text: '#Urgent',
-                              ),
-                              CustomChip(
-                                text: '#Egyptian Military',
-                              ),
-                              CustomChip(
-                                text: '#New',
-                              ),
+
+                          spacing: 6,
+                          children: [
+                            CustomChip(
+
+                              text: "all_tags".tr(), onPressed: () {  },
+                            ),
+                            CustomChip(
+                              text: '#Urgent',onPressed: () {  }
+                            ),
+                            CustomChip(
+                              text: '#Egyptian Military',onPressed: () {  }
+                            ),
+                            CustomChip(
+                              text: '#New',onPressed: () {  }
+                            ),
+
 // onSelected: (sel) {},
 // selected: true,
 // selectedColor: kLightBlueColor,
