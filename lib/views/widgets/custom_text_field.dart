@@ -51,6 +51,7 @@ class CustomTextField extends StatelessWidget {
       decoration: InputDecoration(
         //filled: true, //<-- SEE HERE
         //fillColor: backgrundColor,
+
         contentPadding: withoutPrefix == true
             ? EdgeInsets.symmetric(horizontal: paddingHor!.w)
             : const EdgeInsets.symmetric(vertical: 0, horizontal: 0),

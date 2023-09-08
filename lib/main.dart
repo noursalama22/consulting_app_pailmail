@@ -1,10 +1,6 @@
 import 'package:consulting_app_pailmail/utils/helpers/constants.dart';
 import 'package:consulting_app_pailmail/utils/helpers/routers/route_helper.dart';
-
 import 'package:consulting_app_pailmail/views/screens/home_screen.dart';
-import 'package:consulting_app_pailmail/views/screens/splash_screen.dart';
-
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -36,10 +32,9 @@ class MyApp extends StatelessWidget {
             supportedLocales: context.supportedLocales,
             debugShowCheckedModeBanner: false,
             onGenerateRoute: generateRoute,
-
-            // home: const HomeScreen(),
-            home: SplashScreen(duration: Duration(seconds: 3)),
-
+            home: const HomeScreen(),
+            //      home: const SearchScreen(),
+            // home: const SplashScreen(duration: Duration(seconds: 3)),
           );
         });
   }
