@@ -1,4 +1,5 @@
 import 'package:consulting_app_pailmail/utils/helpers/constants.dart';
+import 'package:consulting_app_pailmail/views/screens/search_screen.dart';
 import 'package:consulting_app_pailmail/views/widgets/custom_category_container.dart';
 import 'package:consulting_app_pailmail/views/widgets/custom_chip.dart';
 import 'package:consulting_app_pailmail/views/widgets/custom_expansion_tile.dart';
@@ -8,9 +9,9 @@ import 'package:consulting_app_pailmail/views/widgets/custom_status_container.da
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 
 import '../widgets/custom_drawer_content.dart';
 
@@ -209,7 +210,15 @@ class _HomeScreenState extends State<HomeScreen> {
                   // ),
                   actions: [
                     IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            //TODO : Modify the routing way
+                            builder: (context) => const SearchScreen(),
+                          ),
+                        );
+                      },
                       icon: const Icon(
                         Icons.search,
                         color: Colors.black,
@@ -361,7 +370,10 @@ class _HomeScreenState extends State<HomeScreen> {
                           height: 24.h,
                         ),
                         CustomExpansionTile(
-                          widgetOfTile: Text("official_organizations".tr()),
+                          widgetOfTile: Text(
+                            "official_organizations".tr(),
+                            style: tileTextTitleStyle,
+                          ),
                           mailNumber: "6",
                           children: const [
                             CustomMailContainer(
@@ -392,7 +404,10 @@ class _HomeScreenState extends State<HomeScreen> {
                           ],
                         ),
                         CustomExpansionTile(
-                          widgetOfTile: Text("ngos".tr()),
+                          widgetOfTile: Text(
+                            "ngos".tr(),
+                            style: tileTextTitleStyle,
+                          ),
                           mailNumber: "12",
                           children: const [
                             CustomMailContainer(
@@ -408,7 +423,10 @@ class _HomeScreenState extends State<HomeScreen> {
                           ],
                         ),
                         CustomExpansionTile(
-                          widgetOfTile: Text("foreign".tr()),
+                          widgetOfTile: Text(
+                            "foreign".tr(),
+                            style: tileTextTitleStyle,
+                          ),
                           mailNumber: "6",
                           children: const [
                             CustomMailContainer(
@@ -424,7 +442,10 @@ class _HomeScreenState extends State<HomeScreen> {
                           ],
                         ),
                         CustomExpansionTile(
-                          widgetOfTile: Text("other".tr()),
+                          widgetOfTile: Text(
+                            "other".tr(),
+                            style: tileTextTitleStyle,
+                          ),
                           mailNumber: "3",
                           children: const [
                             CustomMailContainer(
@@ -467,21 +488,16 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: Wrap(
 //    runSpacing: 8,
 
-                          spacing: 6,
-                          children: [
-                            CustomChip(
-
-                              text: "all_tags".tr(), onPressed: () {  },
-                            ),
-                            CustomChip(
-                              text: '#Urgent',onPressed: () {  }
-                            ),
-                            CustomChip(
-                              text: '#Egyptian Military',onPressed: () {  }
-                            ),
-                            CustomChip(
-                              text: '#New',onPressed: () {  }
-                            ),
+                            spacing: 6,
+                            children: [
+                              CustomChip(
+                                text: "all_tags".tr(),
+                                onPressed: () {},
+                              ),
+                              CustomChip(text: '#Urgent', onPressed: () {}),
+                              CustomChip(
+                                  text: '#Egyptian Military', onPressed: () {}),
+                              CustomChip(text: '#New', onPressed: () {}),
 
 // onSelected: (sel) {},
 // selected: true,

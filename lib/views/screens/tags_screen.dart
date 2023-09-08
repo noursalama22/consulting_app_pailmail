@@ -24,7 +24,15 @@ class _TagsScreenState extends State<TagsScreen> {
   }
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    _tagTextEditingController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    //TODO: Add red content "The unselected will searched And deleted if there is no mail Has the tag"
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -37,12 +45,12 @@ class _TagsScreenState extends State<TagsScreen> {
               ),
               Container(
                 width: double.infinity,
-                padding: const EdgeInsetsDirectional.symmetric(
-                    horizontal: 12, vertical: 12),
+                padding: EdgeInsetsDirectional.symmetric(
+                    horizontal: 12.w, vertical: 12.h),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(
-                    30,
+                    30.r,
                   ),
                 ),
                 child: Wrap(

@@ -9,12 +9,14 @@ class CustomExpansionTile extends StatefulWidget {
     required this.widgetOfTile,
     this.isIndexWidet = false,
     this.mailNumber,
+    this.isExpanded = true,
   });
 
   final List<Widget> children;
   final Widget widgetOfTile;
-  final bool? isIndexWidet;
+  final bool isIndexWidet;
   final String? mailNumber;
+  final bool isExpanded;
 
   @override
   State<CustomExpansionTile> createState() => _CustomExpansionTileState();
@@ -32,6 +34,7 @@ class _CustomExpansionTileState extends State<CustomExpansionTile> {
   @override
   Widget build(BuildContext context) {
     return ExpansionTile(
+      initiallyExpanded: !widget.isExpanded,
       childrenPadding: EdgeInsetsDirectional.zero,
       shape: const Border(),
       tilePadding: widget.isIndexWidet == false
@@ -44,29 +47,37 @@ class _CustomExpansionTileState extends State<CustomExpansionTile> {
       },
       title: widget.widgetOfTile,
       trailing: Padding(
-        padding: widget.isIndexWidet == false
+        padding: !widget.isIndexWidet
             ? EdgeInsetsDirectional.only(end: 14.h)
             : EdgeInsetsDirectional.only(end: 0.h),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             Visibility(
-                visible: !_customTileExpanded,
-                child: Text(
-                  widget.mailNumber ?? '',
-                  //TODO : Style
-                  style: buildAppBarTextStyle(),
-                )),
+              visible: !_customTileExpanded,
+              child: Text(
+                widget.mailNumber ?? '',
+                //TODO : Style
+                style: buildAppBarTextStyle(
+                    color: kMediumGreyColor,
+                    fontSizeController: 14,
+                    letterSpacing: 0.15),
+              ),
+            ),
             const SizedBox(
               width: 6,
             ),
-            Icon(
-              _customTileExpanded
-                  ? Icons.keyboard_arrow_down_rounded
-                  : Icons.arrow_forward_ios_rounded,
-              size: _customTileExpanded ? 32 : 18,
-              // weight: 12,
-            ),
+            widget.isExpanded
+                ? Icon(
+                    _customTileExpanded
+                        ? Icons.keyboard_arrow_down_rounded
+                        : Icons.arrow_forward_ios_rounded,
+                    size: _customTileExpanded ? 32 : 18,
+                    color:
+                        _customTileExpanded ? kLightBlueColor : kDarkGreyColor,
+                    // weight: 12,
+                  )
+                : SizedBox.shrink(),
           ],
         ),
       ),
