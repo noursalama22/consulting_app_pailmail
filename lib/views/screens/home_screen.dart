@@ -1,6 +1,6 @@
 import 'package:consulting_app_pailmail/utils/helpers/constants.dart';
+import 'package:consulting_app_pailmail/utils/helpers/routers/router.dart';
 import 'package:consulting_app_pailmail/views/screens/inbox_screen.dart';
-import 'package:consulting_app_pailmail/views/screens/search_screen.dart';
 import 'package:consulting_app_pailmail/views/widgets/custom_category_container.dart';
 import 'package:consulting_app_pailmail/views/widgets/custom_chip.dart';
 import 'package:consulting_app_pailmail/views/widgets/custom_expansion_tile.dart';
@@ -15,7 +15,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../utils/helpers/show_bottom_sheet.dart';
-
 import '../widgets/custom_drawer_content.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -40,6 +39,7 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
           ? context.setLocale(const Locale('en'))
           : context.setLocale(const Locale('ar'));
     });
+    Navigator.pop(context);
   }
 
   void _handleMenuButtonPressed() {
@@ -119,7 +119,7 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
       animationCurve: Curves.easeInOut,
       animationDuration: const Duration(milliseconds: 300),
       animateChildDecoration: true,
-      rtlOpening: false,
+      rtlOpening: isEn ? false : true,
       // openScale: 1.0,
       disabledGestures: false,
       childDecoration: const BoxDecoration(
@@ -223,13 +223,8 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                   actions: [
                     IconButton(
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            //TODO : Modify the routing way
-                            builder: (context) => const SearchScreen(),
-                          ),
-                        );
+                        NavigationRoutes().jump(context, Routes.search_screen,
+                            replace: false);
                       },
                       icon: const Icon(
                         Icons.search,
@@ -289,7 +284,9 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                                   width: 12.w,
                                 ),
                                 Text(
-                                  'English',
+                                  "language".tr()
+                                  // isEn ? "عربي" : 'English',
+                                  ,
                                   style: statusTextStyle.copyWith(
                                       color: kDarkGreyColor),
                                 ),
@@ -298,6 +295,10 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                           ),
                         ),
                         PopupMenuItem(
+                          onTap: () {
+                            NavigationRoutes()
+                                .pushUntil(context, Routes.login_screen);
+                          },
                           //TODO : Custom Widget for rows
                           child: Row(
                             children: [
@@ -310,7 +311,7 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                                 width: 12.w,
                               ),
                               Text(
-                                'Logout',
+                                'logout'.tr(),
                                 style: statusTextStyle.copyWith(
                                     color: kDarkGreyColor),
                               ),
@@ -503,6 +504,7 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                           child: Wrap(
 //    runSpacing: 8,
 
+                            //TODO:Hnadle move to tag screen
                             spacing: 6,
                             children: [
                               CustomChip(

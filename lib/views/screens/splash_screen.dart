@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 import '../../utils/helpers/constants.dart';
 import '../../utils/helpers/routers/router.dart';
 import '../widgets/custom_logo_widget.dart';
@@ -20,15 +19,14 @@ class _SplashScreenState extends State<SplashScreen>
 
   @override
   void initState() {
-    animationController =
-        AnimationController(duration: widget.duration, vsync: this)
-          ..forward()
-          ..addStatusListener((status) {
-            if (status == AnimationStatus.completed) {
-              NavigationRoutes()
-                  .jump(context, Routes.search_filters_screen, replace: true);
-            }
-          });
+    animationController = AnimationController(
+        duration: widget.duration, vsync: this)
+      ..forward()
+      ..addStatusListener((status) {
+        if (status == AnimationStatus.completed) {
+          NavigationRoutes().jump(context, Routes.login_screen, replace: true);
+        }
+      });
 
     super.initState();
   }

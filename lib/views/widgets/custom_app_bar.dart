@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -16,7 +15,7 @@ class CustomAppBar extends StatelessWidget {
   final double bottomPadding;
   final double endPadding;
   final Function()? onTap;
-
+//TODO: ADD underline for app bar
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -41,6 +40,7 @@ class CustomAppBar extends StatelessWidget {
               Navigator.pop(context);
             },
             child: Text(
+              //TODO: Handle on tap navigation
               "Done",
               style: buildAppBarTextStyle(),
             ),

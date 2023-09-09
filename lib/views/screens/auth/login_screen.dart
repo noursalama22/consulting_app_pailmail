@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:animated_toggle_switch/animated_toggle_switch.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../utils/helpers/constants.dart';
@@ -11,7 +12,6 @@ import '../../widgets/custom_auth_button_widget.dart';
 import '../../widgets/custom_logo_widget.dart';
 import '../../widgets/custom_outlined_button_widget.dart';
 import '../../widgets/custom_text_forn_field_widget.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({
@@ -254,9 +254,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             title: showSignUp == true ? 'SIGN UP' : 'LOG IN',
                             onTap: () {
                               NavigationRoutes().jump(
-                                context,
-                                Routes.home_screen,
-                              );
+                                  context, Routes.home_screen,
+                                  replace: true);
                             },
                           ),
                           const SizedBox(

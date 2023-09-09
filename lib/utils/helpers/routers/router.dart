@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 export 'routes.dart';
 
 class NavigationRoutes {
@@ -6,10 +7,10 @@ class NavigationRoutes {
       {bool replace = false, Object? arguments}) {
     if (replace) {
       Navigator.pushReplacementNamed(context, routeName, arguments: arguments);
+    } else {
+      Navigator.pushNamed(context, routeName, arguments: arguments);
     }
-    Navigator.pushNamed(context, routeName, arguments: arguments);
   }
-
 
   void pop(context) {
     Navigator.pop(context);
@@ -25,14 +26,14 @@ class NavigationRoutes {
 //     Navigator.pushReplacementNamed(context, routeName, arguments: arguments);
 //   }
 //
-//   void pushNamedAndRemoveUntil(context, String routeName, {Object? arguments}) {
-//     Navigator.pushNamedAndRemoveUntil(
-//       context,
-//       routeName,
-//       (Route<dynamic> route) => false,
-//       arguments: arguments,
-//     );
-//   }
+  void pushUntil(context, String routeName, {Object? arguments}) {
+    Navigator.pushNamedAndRemoveUntil(
+      context,
+      routeName,
+      (Route<dynamic> route) => false,
+      arguments: arguments,
+    );
+  }
 //
 //   void pop(context) {
 //     Navigator.pop(context);

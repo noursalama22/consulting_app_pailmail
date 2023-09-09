@@ -34,10 +34,11 @@ class _TagsScreenState extends State<TagsScreen> {
   Widget build(BuildContext context) {
     //TODO: Add red content "The unselected will searched And deleted if there is no mail Has the tag"
     return Scaffold(
+      //TODO: Remove safe area
       body: SafeArea(
         child: Padding(
           padding: EdgeInsetsDirectional.only(
-              start: 20.0.w, end: 20.0.w, bottom: 55.h),
+              start: 20.0.w, end: 20.0.w, bottom: 55.h, top: 24),
           child: Column(
             children: [
               const CustomAppBar(

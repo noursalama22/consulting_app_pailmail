@@ -1,4 +1,5 @@
 import 'package:consulting_app_pailmail/utils/helpers/constants.dart';
+import 'package:consulting_app_pailmail/utils/helpers/routers/router.dart';
 import 'package:consulting_app_pailmail/views/widgets/custom_expansion_tile.dart';
 import 'package:consulting_app_pailmail/views/widgets/custom_mail_container.dart';
 import 'package:flutter/material.dart';
@@ -47,7 +48,7 @@ class _SearchScreenState extends State<SearchScreen> {
         ),
         leading: IconButton(
           onPressed: () {
-            Navigator.pop(context);
+            NavigationRoutes().pop(context);
           },
           icon: const Icon(Icons.arrow_back_ios),
         ),
@@ -61,6 +62,7 @@ class _SearchScreenState extends State<SearchScreen> {
         child: Column(
           children: [
             /// Search Bar
+            /// //TODO : Handle button splash raduis
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -123,6 +125,10 @@ class _SearchScreenState extends State<SearchScreen> {
                   width: 12,
                 ),
                 GestureDetector(
+                  onTap: () {
+                    NavigationRoutes()
+                        .jump(context, Routes.search_filters_screen);
+                  },
                   child: Image.asset(
                     'assets/images/filter.png',
                   ),

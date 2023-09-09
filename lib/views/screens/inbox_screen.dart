@@ -5,7 +5,6 @@ import 'package:consulting_app_pailmail/views/screens/category_screen.dart';
 import 'package:consulting_app_pailmail/views/screens/status_screen.dart';
 import 'package:consulting_app_pailmail/views/screens/tags_screen.dart';
 import 'package:consulting_app_pailmail/views/widgets/custom_app_bar.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
@@ -57,6 +56,8 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
 
   @override
   Widget build(BuildContext context) {
+    //TODO: Modify icons
+    //TODO: Handle add image padding /margin
     return Scaffold(
         body: Padding(
       padding:

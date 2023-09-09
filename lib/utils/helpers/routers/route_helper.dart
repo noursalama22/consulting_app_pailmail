@@ -1,9 +1,8 @@
-import 'dart:ui';
-
 import 'package:consulting_app_pailmail/utils/helpers/routers/routes.dart';
 import 'package:consulting_app_pailmail/views/screens/auth/login_screen.dart';
 import 'package:consulting_app_pailmail/views/screens/home_screen.dart';
 import 'package:consulting_app_pailmail/views/screens/search_filters_screen.dart';
+import 'package:consulting_app_pailmail/views/screens/search_screen.dart';
 import 'package:consulting_app_pailmail/views/screens/splash_screen.dart';
 import 'package:consulting_app_pailmail/views/screens/status_screen.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +20,11 @@ Route<dynamic> generateRoute(RouteSettings settings) {
           duration: Duration(seconds: 3),
         ),
       );
-
+    case Routes.search_screen:
+      return _getPageRoute(
+        routeName: settings.name!,
+        screen: const SearchScreen(),
+      );
     case Routes.login_screen:
       return _getPageRoute(
         routeName: settings.name!,
