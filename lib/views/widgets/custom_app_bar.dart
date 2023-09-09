@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../utils/helpers/constants.dart';
@@ -8,11 +9,14 @@ class CustomAppBar extends StatelessWidget {
       {Key? key,
       required this.widgetName,
       this.bottomPadding = 55,
-      this.endPadding = 0})
+      this.endPadding = 0,
+      this.onTap})
       : super(key: key);
   final String widgetName;
   final double bottomPadding;
   final double endPadding;
+  final Function()? onTap;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -22,14 +26,24 @@ class CustomAppBar extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text("Cancel", style: buildAppBarTextStyle()),
+          InkWell(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: Text("Cancel",
+                  style: buildAppBarTextStyle(letterSpacing: 1.2))),
           Text(
             widgetName,
             style: buildAppBarTextStyle(color: kBlackColor),
           ),
-          Text(
-            "Done",
-            style: buildAppBarTextStyle(),
+          InkWell(
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: Text(
+              "Done",
+              style: buildAppBarTextStyle(),
+            ),
           ),
         ],
       ),

@@ -9,7 +9,7 @@ import 'package:consulting_app_pailmail/views/screens/status_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../../views/screens/category_screen.dart';
-import '../../../views/screens/index_screen.dart';
+import '../../../views/screens/inbox_screen.dart';
 import '../../../views/screens/sender_screen.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
@@ -25,13 +25,13 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case Routes.login_screen:
       return _getPageRoute(
         routeName: settings.name!,
-        screen: LoginScreen(),
+        screen: const LoginScreen(),
       );
 
     case Routes.home_screen:
       return _getPageRoute(
         routeName: settings.name!,
-        screen: HomeScreen(),
+        screen: const HomeScreen(),
       );
 
     case Routes.status_screen:
@@ -47,7 +47,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case Routes.index_screen:
       return _getPageRoute(
         routeName: settings.name!,
-        screen: const IndexScreen(),
+        screen: const InboxScreen(),
       );
     case Routes.category_screen:
       return _getPageRoute(

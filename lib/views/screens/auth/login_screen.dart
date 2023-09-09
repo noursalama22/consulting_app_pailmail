@@ -265,7 +265,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           Text(
                             'OR',
                             style: GoogleFonts.poppins(
-                                color: Color(0xFFA8A7A7),
+                                color: const Color(0xFFA8A7A7),
                                 fontSize: 14,
                                 letterSpacing: 0.25),
                           ),

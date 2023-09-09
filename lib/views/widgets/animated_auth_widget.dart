@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'custom_text_forn_field_widget.dart';
 
 class AnimatedAuthWidget extends StatelessWidget {
@@ -15,11 +14,11 @@ class AnimatedAuthWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AnimatedSwitcher(
-      duration: Duration(milliseconds: 500), // Set animation duration
+      duration: const Duration(milliseconds: 500), // Set animation duration
       child: AnimatedCrossFade(
-        duration: Duration(milliseconds: 500),
+        duration: const Duration(milliseconds: 500),
         firstChild: textEditingController,
-        secondChild: SizedBox(),
+        secondChild: const SizedBox(),
         crossFadeState:
             condition ? CrossFadeState.showFirst : CrossFadeState.showSecond,
       ),

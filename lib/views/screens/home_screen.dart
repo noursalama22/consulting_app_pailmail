@@ -1,4 +1,5 @@
 import 'package:consulting_app_pailmail/utils/helpers/constants.dart';
+import 'package:consulting_app_pailmail/views/screens/inbox_screen.dart';
 import 'package:consulting_app_pailmail/views/screens/search_screen.dart';
 import 'package:consulting_app_pailmail/views/widgets/custom_category_container.dart';
 import 'package:consulting_app_pailmail/views/widgets/custom_chip.dart';
@@ -13,6 +14,8 @@ import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../utils/helpers/show_bottom_sheet.dart';
+
 import '../widgets/custom_drawer_content.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -22,12 +25,22 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
   final _advancedDrawerController = AdvancedDrawerController();
 
   late ScrollController _scrollViewController;
   bool _showTextAppbar = false;
   bool isScrollingDown = true;
+
+  bool isEn = true;
+  void changeLanguage() {
+    setState(() {
+      isEn = !isEn;
+      isEn
+          ? context.setLocale(const Locale('en'))
+          : context.setLocale(const Locale('ar'));
+    });
+  }
 
   void _handleMenuButtonPressed() {
     // Manage Advanced Drawer state through the Controller.
@@ -37,7 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    _scrollViewController = new ScrollController();
+    _scrollViewController = ScrollController();
     _scrollViewController.addListener(() {
       if (_scrollViewController.position.userScrollDirection ==
           ScrollDirection.reverse) {
@@ -95,14 +108,12 @@ class _HomeScreenState extends State<HomeScreen> {
       backdrop: Container(
         width: double.infinity,
         height: double.infinity,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: kGradient,
         ),
       ),
-      drawer: SafeArea(
-        child: Container(
-          child: CustomDrawerContent(),
-        ),
+      drawer: const SafeArea(
+        child: CustomDrawerContent(),
       ),
       controller: _advancedDrawerController,
       animationCurve: Curves.easeInOut,
@@ -112,7 +123,7 @@ class _HomeScreenState extends State<HomeScreen> {
       // openScale: 1.0,
       disabledGestures: false,
       childDecoration: const BoxDecoration(
-        borderRadius: const BorderRadius.all(Radius.circular(22)),
+        borderRadius: BorderRadius.all(Radius.circular(22)),
       ),
       child: Scaffold(
         //   TODO :SLIVER APP BAR WITH TITLE
@@ -132,6 +143,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: InkWell(
             onTap: () {
               //print('called on tap');
+              showSheet(context, InboxScreen());
             },
             child: SizedBox(
               height: kToolbarHeight,
@@ -152,7 +164,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       width: 8.w,
                     ),
                     Text(
-                      "new_inbox".tr(),
+                      "newInbox".tr(),
                       style: tileTextTitleStyle.copyWith(
                         color: kLightBlueColor,
                       ),
@@ -180,7 +192,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   centerTitle: true,
                   title: _showTextAppbar
                       ? Text(
-                          "pal_mail".tr(),
+                          "palMail".tr(),
                           style: const TextStyle(color: Colors.black),
                         )
                       : const SizedBox(),
@@ -264,22 +276,25 @@ class _HomeScreenState extends State<HomeScreen> {
                         PopupMenuDivider(),
                         PopupMenuItem(
                           //TODO : Custom Widget for rows
-                          child: Row(
-                            children: [
-                              Icon(
-                                Icons.language,
-                                color: Colors.grey.shade600,
-                                size: 30.sp,
-                              ),
-                              SizedBox(
-                                width: 12.w,
-                              ),
-                              Text(
-                                'English',
-                                style: statusTextStyle.copyWith(
-                                    color: kDarkGreyColor),
-                              ),
-                            ],
+                          child: InkWell(
+                            onTap: changeLanguage,
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.language,
+                                  color: Colors.grey.shade600,
+                                  size: 30.sp,
+                                ),
+                                SizedBox(
+                                  width: 12.w,
+                                ),
+                                Text(
+                                  'English',
+                                  style: statusTextStyle.copyWith(
+                                      color: kDarkGreyColor),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                         PopupMenuItem(
@@ -353,7 +368,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   onTap: () {
 //TODO : Add fn
                                   },
-                                  text: "in_progress".tr()),
+                                  text: "inProgress".tr()),
                             ),
                             Expanded(
                               child: CustomMailCategoryContainer(
@@ -371,7 +386,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         CustomExpansionTile(
                           widgetOfTile: Text(
-                            "official_organizations".tr(),
+                            "officialOrganizations".tr(),
                             style: tileTextTitleStyle,
                           ),
                           mailNumber: "6",
@@ -477,7 +492,7 @@ class _HomeScreenState extends State<HomeScreen> {
 //TODO
                         Container(
                           width: double.infinity,
-                          padding: EdgeInsetsDirectional.symmetric(
+                          padding: const EdgeInsetsDirectional.symmetric(
                               horizontal: 12, vertical: 12),
                           decoration: BoxDecoration(
                             color: Colors.white,
@@ -491,7 +506,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             spacing: 6,
                             children: [
                               CustomChip(
-                                text: "all_tags".tr(),
+                                text: "allTags".tr(),
                                 onPressed: () {},
                               ),
                               CustomChip(text: '#Urgent', onPressed: () {}),

@@ -1,18 +1,18 @@
 {
   "inbox" : "واردة",
   "pending":"معلقة",
-  "pal_mail":"بال ميل",
-  "in_progress": "جاري المعالجة",
+  "palMail":"بال ميل",
+  "inProgress": "جاري المعالجة",
   "completed": "مكتملة",
-  "official_organizations": "مؤسسات حكومية",
+  "officialOrganizations": "مؤسسات حكومية",
   "ngos": "مؤسسات مجتمع مدني",
   "other": "غيرها",
   "foreign": "مؤسسات أجنبية",
   "search" : "بحث",
-  "new_inbox" : "بريد جديد",
+  "newInbox" : "بريد جديد",
   "logout": "تسجيل خروج",
   "language": "عربي",
   "tags": "وسوم",
-  "all_tags": "كل الوسوم"
+  "allTags": "كل الوسوم"
 
 }
