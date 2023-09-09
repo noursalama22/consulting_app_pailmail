@@ -19,7 +19,8 @@ Route<dynamic> generateRoute(RouteSettings settings) {
         screen: const SplashScreen(
           duration: Duration(seconds: 3),
         ),
-      );
+      )
+          //
     case Routes.search_screen:
       return _getPageRoute(
         routeName: settings.name!,
