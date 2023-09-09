@@ -20,14 +20,15 @@ class _SplashScreenState extends State<SplashScreen>
 
   @override
   void initState() {
-    animationController = AnimationController(
-        duration: widget.duration, vsync: this)
-      ..forward()
-      ..addStatusListener((status) {
-        if (status == AnimationStatus.completed) {
-          NavigationRoutes().jump(context, Routes.login_screen, replace: true);
-        }
-      });
+    animationController =
+        AnimationController(duration: widget.duration, vsync: this)
+          ..forward()
+          ..addStatusListener((status) {
+            if (status == AnimationStatus.completed) {
+              NavigationRoutes()
+                  .jump(context, Routes.search_filters_screen, replace: true);
+            }
+          });
 
     super.initState();
   }
