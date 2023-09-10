@@ -1,6 +1,7 @@
-import 'package:consulting_app_pailmail/views/screens/search_filters_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../features/search/search_filters_screen.dart';
 
 class CustomListRowState extends StatefulWidget {
   CustomListRowState(

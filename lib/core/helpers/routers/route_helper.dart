@@ -1,15 +1,14 @@
-import 'package:consulting_app_pailmail/utils/helpers/routers/routes.dart';
-import 'package:consulting_app_pailmail/views/screens/auth/login_screen.dart';
-import 'package:consulting_app_pailmail/views/screens/home_screen.dart';
-import 'package:consulting_app_pailmail/views/screens/search_filters_screen.dart';
-import 'package:consulting_app_pailmail/views/screens/search_screen.dart';
-import 'package:consulting_app_pailmail/views/screens/splash_screen.dart';
-import 'package:consulting_app_pailmail/views/screens/status_screen.dart';
+import 'package:consulting_app_pailmail/core/helpers/routers/routes.dart';
+import 'package:consulting_app_pailmail/views/features/auth/splash_screen.dart';
+import 'package:consulting_app_pailmail/views/features/search/search_screen.dart';
 import 'package:flutter/material.dart';
-
-import '../../../views/screens/category_screen.dart';
-import '../../../views/screens/inbox_screen.dart';
-import '../../../views/screens/sender_screen.dart';
+import '../../../views/features/auth/auth_screen.dart';
+import '../../../views/features/category/category_screen.dart';
+import '../../../views/features/home/home_screen.dart';
+import '../../../views/features/inbox_mails/inbox_screen.dart';
+import '../../../views/features/search/search_filters_screen.dart';
+import '../../../views/features/senders/sender_screen.dart';
+import '../../../views/features/status/status_screen.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
   switch (settings.name) {

@@ -1,5 +1,6 @@
-import 'package:consulting_app_pailmail/utils/helpers/constants.dart';
 import 'package:flutter/material.dart';
+
+import '../../core/utils/constants.dart';
 
 class CustomChip extends StatefulWidget {
   CustomChip(

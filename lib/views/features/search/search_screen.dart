@@ -1,10 +1,11 @@
-import 'package:consulting_app_pailmail/utils/helpers/constants.dart';
-import 'package:consulting_app_pailmail/utils/helpers/routers/router.dart';
 import 'package:consulting_app_pailmail/views/widgets/custom_expansion_tile.dart';
 import 'package:consulting_app_pailmail/views/widgets/custom_mail_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import '../../../core/helpers/routers/router.dart';
+import '../../../core/utils/constants.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({Key? key}) : super(key: key);

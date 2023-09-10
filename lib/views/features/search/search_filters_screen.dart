@@ -2,10 +2,10 @@ import 'package:consulting_app_pailmail/views/widgets/custom_list_row_state.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../utils/helpers/constants.dart';
-import '../widgets/custom_app_bar.dart';
-import '../widgets/custom_container.dart';
-import '../widgets/custom_expansion_tile.dart';
+import '../../../core/utils/constants.dart';
+import '../../widgets/custom_app_bar.dart';
+import '../../widgets/custom_container.dart';
+import '../../widgets/custom_expansion_tile.dart';
 
 class SearchFiltersScreen extends StatefulWidget {
   const SearchFiltersScreen({Key? key}) : super(key: key);

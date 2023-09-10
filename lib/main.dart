@@ -1,9 +1,10 @@
-import 'package:consulting_app_pailmail/utils/helpers/constants.dart';
-import 'package:consulting_app_pailmail/utils/helpers/routers/route_helper.dart';
-import 'package:consulting_app_pailmail/views/screens/splash_screen.dart';
+import 'package:consulting_app_pailmail/views/features/auth/splash_screen.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import 'core/helpers/routers/route_helper.dart';
+import 'core/utils/constants.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

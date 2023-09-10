@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../utils/helpers/constants.dart';
+import '../../core/utils/constants.dart';
 
 class CustomOtlinedButton extends StatelessWidget {
   final Widget child;

@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../utils/helpers/constants.dart';
-import '../widgets/custom_app_bar.dart';
+import '../../../core/utils/constants.dart';
+import '../../widgets/custom_app_bar.dart';
 
 class StatusScreen extends StatefulWidget {
   const StatusScreen({Key? key}) : super(key: key);

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../utils/helpers/constants.dart';
-import '../../utils/helpers/routers/router.dart';
-import '../widgets/custom_logo_widget.dart';
+import '../../../core/helpers/routers/router.dart';
+import '../../../core/utils/constants.dart';
+
+import '../../widgets/custom_logo_widget.dart';
 
 class SplashScreen extends StatefulWidget {
   final Duration duration;

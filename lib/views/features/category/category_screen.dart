@@ -2,8 +2,8 @@ import 'package:consulting_app_pailmail/views/widgets/custom_container.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../utils/helpers/constants.dart';
-import '../widgets/custom_app_bar.dart';
+import '../../../core/utils/constants.dart';
+import '../../widgets/custom_app_bar.dart';
 
 class CategoryScreen extends StatefulWidget {
   const CategoryScreen({Key? key}) : super(key: key);

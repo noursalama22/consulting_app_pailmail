@@ -1,21 +1,22 @@
 import 'dart:io';
 
-import 'package:consulting_app_pailmail/utils/helpers/routers/router.dart';
-import 'package:consulting_app_pailmail/views/screens/category_screen.dart';
-import 'package:consulting_app_pailmail/views/screens/status_screen.dart';
-import 'package:consulting_app_pailmail/views/screens/tags_screen.dart';
+import 'package:consulting_app_pailmail/views/features/status/status_screen.dart';
+import 'package:consulting_app_pailmail/views/features/tags/tags_screen.dart';
+
 import 'package:consulting_app_pailmail/views/widgets/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../models/add_activity.dart';
-import '../../utils/helpers/constants.dart';
-import '../../utils/helpers/show_bottom_sheet.dart';
-import '../widgets/custom_container.dart';
-import '../widgets/custom_date_picker.dart';
-import '../widgets/custom_expansion_tile.dart';
-import '../widgets/custom_text_field.dart';
+import '../../../core/helpers/routers/router.dart';
+import '../../../core/utils/constants.dart';
+import '../../../core/utils/show_bottom_sheet.dart';
+import '../../../models/add_activity.dart';
+import '../../widgets/custom_container.dart';
+import '../../widgets/custom_date_picker.dart';
+import '../../widgets/custom_expansion_tile.dart';
+import '../../widgets/custom_text_field.dart';
+import '../category/category_screen.dart';
 
 class InboxScreen extends StatefulWidget {
   const InboxScreen({

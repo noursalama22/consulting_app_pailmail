@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../utils/helpers/constants.dart';
-import '../../../utils/helpers/routers/router.dart';
+import '../../../core/helpers/routers/router.dart';
+import '../../../core/utils/constants.dart';
 import '../../widgets/animated_auth_widget.dart';
 import '../../widgets/custom_auth_button_widget.dart';
 import '../../widgets/custom_logo_widget.dart';

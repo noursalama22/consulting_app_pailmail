@@ -1,6 +1,7 @@
-import 'package:consulting_app_pailmail/utils/helpers/constants.dart';
 import 'package:consulting_app_pailmail/views/widgets/custom_status_container.dart';
 import 'package:flutter/cupertino.dart';
+
+import '../../core/utils/constants.dart';
 
 class CustomMailCategoryContainer extends StatelessWidget {
   const CustomMailCategoryContainer(

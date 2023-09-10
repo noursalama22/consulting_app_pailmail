@@ -1,6 +1,3 @@
-import 'package:consulting_app_pailmail/utils/helpers/constants.dart';
-import 'package:consulting_app_pailmail/utils/helpers/routers/router.dart';
-import 'package:consulting_app_pailmail/views/screens/inbox_screen.dart';
 import 'package:consulting_app_pailmail/views/widgets/custom_category_container.dart';
 import 'package:consulting_app_pailmail/views/widgets/custom_chip.dart';
 import 'package:consulting_app_pailmail/views/widgets/custom_expansion_tile.dart';
@@ -14,8 +11,11 @@ import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../utils/helpers/show_bottom_sheet.dart';
-import '../widgets/custom_drawer_content.dart';
+import '../../../core/helpers/routers/router.dart';
+import '../../../core/utils/constants.dart';
+import '../../../core/utils/show_bottom_sheet.dart';
+import '../../widgets/custom_drawer_content.dart';
+import '../inbox_mails/inbox_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -306,7 +306,7 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                                 onTap: () {
 //TODO : Add fn
                                 },
-                                text: "inbox".tr(),
+                                text: "inbox_mails".tr(),
                                 color: kRedColor,
                               ),
                             ),
@@ -664,7 +664,7 @@ Scaffold(
                       onTap: () {
 //TODO : Add fn
                       },
-                      text: "inbox".tr(),
+                      text: "inbox_mails".tr(),
                       color: kRedColor,
                     ),
                   ),

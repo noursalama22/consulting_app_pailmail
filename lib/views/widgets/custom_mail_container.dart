@@ -1,7 +1,8 @@
-import 'package:consulting_app_pailmail/utils/helpers/constants.dart';
 import 'package:consulting_app_pailmail/views/widgets/custom_photo_container.dart';
 import 'package:consulting_app_pailmail/views/widgets/custom_status_container.dart';
 import 'package:flutter/material.dart';
+
+import '../../core/utils/constants.dart';
 
 class CustomMailContainer extends StatefulWidget {
   const CustomMailContainer(

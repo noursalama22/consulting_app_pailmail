@@ -1,6 +1,7 @@
-import 'package:consulting_app_pailmail/utils/helpers/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../core/utils/constants.dart';
 
 class CustomExpansionTile extends StatefulWidget {
   const CustomExpansionTile({

@@ -1,9 +1,10 @@
-import 'package:consulting_app_pailmail/utils/helpers/constants.dart';
 import 'package:consulting_app_pailmail/views/widgets/custom_app_bar.dart';
 import 'package:consulting_app_pailmail/views/widgets/custom_chip.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../../core/utils/constants.dart';
 
 class TagsScreen extends StatefulWidget {
   const TagsScreen({Key? key}) : super(key: key);
