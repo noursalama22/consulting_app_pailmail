@@ -44,7 +44,7 @@ class CustomDrawerContent extends StatelessWidget {
               margin: const EdgeInsets.symmetric(
                 vertical: 16.0,
               ),
-              child: const Text('terms_of_service_privacy_policy').tr(),
+              child: Text('terms_of_service_privacy_policy'.tr()),
             ),
           ),
         ],
@@ -57,8 +57,8 @@ class CustomDrawerContent extends StatelessWidget {
       onTap: onTap,
       leading: Icon(icon),
       title: Text(
-        title,
-      ).tr(),
+        title.tr(),
+      ),
     );
   }
 }
