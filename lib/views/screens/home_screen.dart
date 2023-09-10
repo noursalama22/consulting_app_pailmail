@@ -54,43 +54,19 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
     _scrollViewController.addListener(() {
       if (_scrollViewController.position.userScrollDirection ==
           ScrollDirection.reverse) {
-        print("r");
-        // print(
-        //     "pos: ${_scrollViewController.position.minScrollExtent} :${_scrollViewController.offset}");
-        // if (_scrollViewController.position.atEdge) {
-        //   _showTextAppbar = false;
-        // } else {
-        //   _showTextAppbar = true;
-        // }
         _showTextAppbar = true;
-        // _showTextAppbar = _scrollViewController.position.minScrollExtent ? false : true;
-        //   if (!isScrollingDown) {
-        //     isScrollingDown = true;
-        //    _showTextAppbar = true;
+
         setState(() {});
-        // }
       }
 
       if (_scrollViewController.position.userScrollDirection ==
           ScrollDirection.forward) {
-        print("f");
-
-        //    if(_scrollViewController.position.)
-        //  if (_scrollViewController.position.atEdge  ) {
-        // _showTextAppbar = false;
-        //       } else {
         if (_scrollViewController.position.atEdge) {
           _showTextAppbar = false;
         } else {
           _showTextAppbar = true;
         }
         setState(() {});
-        //    }
-        // if (isScrollingDown) {
-        //   isScrollingDown = false;
-        //   _showTextAppbar = true;
-        //   setState(() {});
-        // }
       }
     });
   }
@@ -127,9 +103,6 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
       ),
       child: Scaffold(
         //   TODO :SLIVER APP BAR WITH TITLE
-        //  TODO : add more icon
-        //  TODO : use .h .w fr sizes
-        //  TODO : Modify image
         //   TODO :Animation
         //TODO :add widget comment for work of widget
 
@@ -214,12 +187,6 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                       },
                     ),
                   ),
-
-                  // Image.asset(
-                  //   'assets/images/menu.png',
-                  //   // width: 32,
-                  //   // height: 32,
-                  // ),
                   actions: [
                     IconButton(
                       onPressed: () {
@@ -284,9 +251,7 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                                   width: 12.w,
                                 ),
                                 Text(
-                                  "language".tr()
-                                  // isEn ? "عربي" : 'English',
-                                  ,
+                                  "language".tr(),
                                   style: statusTextStyle.copyWith(
                                       color: kDarkGreyColor),
                                 ),
@@ -502,8 +467,6 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                             ),
                           ),
                           child: Wrap(
-//    runSpacing: 8,
-
                             //TODO:Hnadle move to tag screen
                             spacing: 6,
                             children: [
@@ -515,16 +478,6 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                               CustomChip(
                                   text: '#Egyptian Military', onPressed: () {}),
                               CustomChip(text: '#New', onPressed: () {}),
-
-// onSelected: (sel) {},
-// selected: true,
-// selectedColor: kLightBlueColor,
-//   color: MaterialStateColor.resolveWith((states) {
-//     if (states.contains(MaterialState.selected)) {
-//       return kLightBlueColor;
-//     }
-//     return kLightGreyColor;
-//
                             ],
                           ),
                         )
