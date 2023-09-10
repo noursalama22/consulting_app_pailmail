@@ -243,15 +243,63 @@ class _SearchFiltersScreenState extends State<SearchFiltersScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "Date",
+                              "From Date",
                               style: buildAppBarTextStyle(
                                   color: kBlackColor,
                                   letterSpacing: 0.15,
                                   fontSizeController: 16),
                             ),
                             Text(
-                              "From:$_selectedDate,To:$_selectedDate "
-                                  .split(" ")[0],
+                              "$_selectedDate".split(" ")[0],
+                              style: buildAppBarTextStyle(
+                                  letterSpacing: 0.15, fontSizeController: 12),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    children: [
+                      buildDivider(),
+                      Column(
+                        children: [buildCalendarDatePicker()],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 20.h,
+              ),
+              CustomContainer(
+                childContainer: Padding(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+                  child: CustomExpansionTile(
+                    isIndexWidet: true,
+                    widgetOfTile: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const Icon(
+                          Icons.calendar_month,
+                          color: kRedColor,
+                          size: 25,
+                        ),
+                        SizedBox(
+                          width: 9.w,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "To Date",
+                              style: buildAppBarTextStyle(
+                                  color: kBlackColor,
+                                  letterSpacing: 0.15,
+                                  fontSizeController: 16),
+                            ),
+                            Text(
+                              "$_selectedDate".split(" ")[0],
                               style: buildAppBarTextStyle(
                                   letterSpacing: 0.15, fontSizeController: 12),
                             ),
