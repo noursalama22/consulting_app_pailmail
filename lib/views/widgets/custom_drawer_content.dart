@@ -30,10 +30,10 @@ class CustomDrawerContent extends StatelessWidget {
               width: 100.w,
             ),
           ),
-          menuListTile(Icons.home, 'Home', () {}),
-          menuListTile(Icons.account_circle_rounded, 'Profile', () {}),
-          menuListTile(Icons.contact_page, 'Senders', () {}),
-          menuListTile(Icons.settings, 'Settings', () {}),
+          menuListTile(Icons.home, 'Home'.tr(), () {}),
+          menuListTile(Icons.account_circle_rounded, 'Profile'.tr(), () {}),
+          menuListTile(Icons.contact_page, 'Senders'.tr(), () {}),
+          menuListTile(Icons.settings, 'Settings'.tr(), () {}),
           const Spacer(),
           DefaultTextStyle(
             style: const TextStyle(
@@ -57,7 +57,7 @@ class CustomDrawerContent extends StatelessWidget {
       onTap: onTap,
       leading: Icon(icon),
       title: Text(
-        title.tr(),
+        title,
       ),
     );
   }

@@ -31,7 +31,7 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
   bool _showTextAppbar = false;
   bool isScrollingDown = true;
 
-  bool isEn = true;
+  bool isEn = false;
   void changeLanguage() {
     setState(() {
       isEn = !isEn;

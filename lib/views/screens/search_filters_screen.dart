@@ -1,3 +1,4 @@
+import 'package:consulting_app_pailmail/views/widgets/custom_list_row_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -15,21 +16,6 @@ class SearchFiltersScreen extends StatefulWidget {
 
 class _SearchFiltersScreenState extends State<SearchFiltersScreen> {
   DateTime? _selectedDate = DateTime.now();
-  int selectedCategoryIndex = 0;
-  int selectedStatusIndex = 0;
-  bool checkCategory = false;
-  bool checkStatus = false;
-  toggleSelection(int index, bool isCategory) {
-    setState(() {
-      if (isCategory == true) {
-        selectedCategoryIndex = index;
-        checkCategory = true;
-      } else {
-        selectedStatusIndex = index;
-        checkStatus = true;
-      }
-    });
-  }
 
   List<String> categories = [
     "Official organization",
@@ -37,10 +23,10 @@ class _SearchFiltersScreenState extends State<SearchFiltersScreen> {
     "UnBorder",
     "Others"
   ];
+  List<Color> colors = [kRedColor, kYellowColor, kLightBlueColor, kGreenColor];
+  List<String> status = ["Inbox", "Pending", "in Progress", "Completed"];
   @override
   void initState() {
-    toggleSelection(0, true);
-    toggleSelection(0, false);
     super.initState();
   }
 
@@ -57,135 +43,90 @@ class _SearchFiltersScreenState extends State<SearchFiltersScreen> {
               const CustomAppBar(
                 widgetName: 'Filters',
               ),
-              Container(
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(30),
-                    color: Colors.white),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: Column(
-                    children: [
-
-                      CustomRowStateWidget(
-                        index: 0,
-                        statusText: 'Official organization',
-                        onTap: () {
-                          setState(() {
-                            toggleSelection(0, true);
-                          });
-                        },
-                        selected: selectedCategoryIndex,
-                        checkTap: checkCategory,
-                        isStatus: false,
-                      ),
-                      CustomRowStateWidget(
-                        index: 1,
-                        statusText: 'NGOs',
-                        onTap: () {
-                          setState(() {
-                            toggleSelection(1, true);
-                          });
-                        },
-                        selected: selectedCategoryIndex,
-                        checkTap: checkCategory,
-                        isStatus: false,
-                      ),
-                      CustomRowStateWidget(
-                        index: 2,
-                        statusText: 'UnBorder',
-                        onTap: () {
-                          setState(() {
-                            toggleSelection(2, true);
-                          });
-                        },
-                        selected: selectedCategoryIndex,
-                        checkTap: checkCategory,
-                        isStatus: false,
-                      ),
-                      CustomRowStateWidget(
-                        index: 3,
-                        statusText: 'Others',
-                        onTap: () {
-                          setState(() {
-                            toggleSelection(3, true);
-                          });
-                        },
-                        selected: selectedCategoryIndex,
-                        checkTap: checkCategory,
-                        isStatus: false,
-                      ),
-
-                    ],
-                  ),
-                ),
-              ),
-              Container(
-                padding: EdgeInsetsDirectional.only(
-                    start: 19.w, top: 20.h, bottom: 20.h),
-                margin: EdgeInsetsDirectional.symmetric(
-                  vertical: 20.h,
-                ),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(30.sp),
-                    color: Colors.white),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: Column(
                   children: [
-                    ///view and select status
-                    CustomRowStateWidget(
-                      index: 0,
-                      statusText: 'Inbox',
-                      onTap: () {
-                        setState(() {
-                          toggleSelection(0, false);
-                        });
-                      },
-                      color: kRedColor,
-                      selected: selectedStatusIndex,
-                      checkTap: checkStatus,
-                      isStatus: true,
+                    CustomListRowState(
+                      list: categories,
+                      isStatus: false,
                     ),
-                    CustomRowStateWidget(
-                      index: 1,
-                      statusText: 'Pending',
-                      onTap: () {
-                        setState(() {
-                          toggleSelection(1, false);
-                        });
-                      },
-                      color: kYellowColor,
-                      selected: selectedStatusIndex,
-                      checkTap: checkStatus,
+                    CustomListRowState(
+                      list: status,
                       isStatus: true,
-                    ),
-                    CustomRowStateWidget(
-                      index: 2,
-                      statusText: 'in Progress',
-                      onTap: () {
-                        setState(() {
-                          toggleSelection(2, false);
-                        });
-                      },
-                      color: kLightBlueColor,
-                      selected: selectedStatusIndex,
-                      checkTap: checkStatus,
-                      isStatus: true,
-                    ),
-                    CustomRowStateWidget(
-                      index: 3,
-                      statusText: 'Completed',
-                      onTap: () {
-                        setState(() {
-                          toggleSelection(3, false);
-                        });
-                      },
-                      color: kGreenColor,
-                      selected: selectedStatusIndex,
-                      checkTap: checkStatus,
-                      isStatus: true,
+                      color: colors,
                     ),
                   ],
                 ),
               ),
+
+              // Container(
+              //   padding: EdgeInsetsDirectional.only(
+              //       start: 19.w, top: 20.h, bottom: 20.h),
+              //   margin: EdgeInsetsDirectional.symmetric(
+              //     vertical: 20.h,
+              //   ),
+              //   decoration: BoxDecoration(
+              //       borderRadius: BorderRadius.circular(30.sp),
+              //       color: Colors.white),
+              //   child: Column(
+              //     children: [
+              //       ///view and select status
+              //       CustomRowStateWidget(
+              //         index: 0,
+              //         text: 'Inbox',
+              //         onTap: () {
+              //           setState(() {
+              //             toggleSelection(0, false);
+              //           });
+              //         },
+              //         color: kRedColor,
+              //         selected: selectedStatusIndex,
+              //         checkTap: checkStatus,
+              //         isStatus: true,
+              //       ),
+              //       CustomRowStateWidget(
+              //         index: 1,
+              //         text: 'Pending',
+              //         onTap: () {
+              //           setState(() {
+              //             toggleSelection(1, false);
+              //           });
+              //         },
+              //         color: kYellowColor,
+              //         selected: selectedStatusIndex,
+              //         checkTap: checkStatus,
+              //         isStatus: true,
+              //       ),
+              //       CustomRowStateWidget(
+              //         index: 2,
+              //         text: 'in Progress',
+              //         onTap: () {
+              //           setState(() {
+              //             toggleSelection(2, false);
+              //           });
+              //         },
+              //         color: kLightBlueColor,
+              //         selected: selectedStatusIndex,
+              //         checkTap: checkStatus,
+              //         isStatus: true,
+              //       ),
+              //       CustomRowStateWidget(
+              //         index: 3,
+              //         text: 'Completed',
+              //         onTap: () {
+              //           setState(() {
+              //             toggleSelection(3, false);
+              //           });
+              //         },
+              //         color: kGreenColor,
+              //         selected: selectedStatusIndex,
+              //         checkTap: checkStatus,
+              //         isStatus: true,
+              //       ),
+              //     ],
+              //   ),
+              // ),
               CustomContainer(
                 childContainer: Padding(
                   padding:
@@ -312,12 +253,11 @@ class _SearchFiltersScreenState extends State<SearchFiltersScreen> {
       endIndent: 16.w,
     );
   }
-
 }
 
 class CustomRowStateWidget extends StatelessWidget {
   final int index;
-  final String statusText;
+  final String text;
   final Function() onTap;
   final int selected;
   final bool checkTap;
@@ -326,7 +266,7 @@ class CustomRowStateWidget extends StatelessWidget {
   const CustomRowStateWidget(
       {Key? key,
       required this.index,
-      required this.statusText,
+      required this.text,
       required this.onTap,
       required this.selected,
       required this.checkTap,
@@ -361,11 +301,11 @@ class CustomRowStateWidget extends StatelessWidget {
                         )
                       : SizedBox.shrink(),
                   Padding(
-                    padding: index == 2
+                    padding: index == 2 && !isStatus
                         ? EdgeInsetsDirectional.only(start: 18.0)
                         : EdgeInsets.zero,
                     child: Text(
-                      statusText,
+                      text,
                       style: buildAppBarTextStyle(
                           color: kBlackColor,
                           fontSizeController: 16,
@@ -387,13 +327,20 @@ class CustomRowStateWidget extends StatelessWidget {
               ),
             ),
           ),
-          index != 3 && index != 2
-              ? Divider(
-                  indent: 8.0.w,
-                  thickness: 1.2,
-                )
-              : const SizedBox.shrink(),
-          index == 2
+          isStatus
+              ? index != 3
+                  ? Divider(
+                      indent: 50.0.w,
+                      thickness: 1.2,
+                    )
+                  : const SizedBox.shrink()
+              : index != 3 && index != 2
+                  ? Divider(
+                      indent: 8.0.w,
+                      thickness: 1.2,
+                    )
+                  : const SizedBox.shrink(),
+          index == 2 && !isStatus
               ? const Divider(
                   thickness: 1.7,
                 )
