@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:animated_toggle_switch/animated_toggle_switch.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -39,19 +40,11 @@ class _LoginScreenState extends State<LoginScreen> {
     confirmPasswordController.clear();
   }
 
-  void ShowSignUpView() {
+  void toggleView() {
     setState(() {
       clearTextField();
-      showSignUp = true;
-      showLogin = false;
-    });
-  }
-
-  void ShowLoginView() {
-    setState(() {
-      clearTextField();
-      showSignUp = false;
-      showLogin = true;
+      showSignUp = !showSignUp;
+      showLogin = !showLogin;
     });
   }
 
@@ -62,6 +55,7 @@ class _LoginScreenState extends State<LoginScreen> {
     super.initState();
   }
 
+  @override
   void dispose() {
     nameController.dispose();
     emailController.dispose();
@@ -142,9 +136,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                 spacing: 2.0,
 
                                 customIconBuilder: (context, local, global) {
-                                  final text = const [
-                                    'Sign Up',
-                                    'Log In',
+                                  final text = [
+                                    'sign_up'.tr(),
+                                    'log_in'.tr(),
                                   ][local.index];
                                   return Center(
                                     child: Text(
@@ -170,12 +164,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 borderWidth: 1.0,
                                 onChanged: (i) => setState(() {
                                   value = i;
-                                  if (value == 1) {
-                                    ShowLoginView();
-                                  } else {
-                                    ();
-                                    ShowSignUpView();
-                                  }
+                                  toggleView();
                                 }),
                               ),
                             ),
@@ -186,12 +175,12 @@ class _LoginScreenState extends State<LoginScreen> {
                           AnimatedAuthWidget(
                               textEditingController: CustomTextFormFieldWidget(
                                 controller: nameController,
-                                hint: 'Enter name',
+                                hint: 'enter_name'.tr(),
                                 keyboardType: TextInputType.emailAddress,
                                 autofillHints: const [AutofillHints.email],
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
-                                    return 'please enter the name';
+                                    return 'please_enter_the_name'.tr();
                                   }
                                   return null;
                                 },
@@ -202,12 +191,12 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           CustomTextFormFieldWidget(
                             controller: emailController,
-                            hint: 'Enter email or username',
+                            hint: 'enter_email_or_username'.tr(),
                             keyboardType: TextInputType.emailAddress,
                             autofillHints: const [AutofillHints.email],
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'please enter the email';
+                                return 'please_enter_the_email'.tr();
                               }
                               // else if (!EmailValidator.validate(value)) {
                               //   return 'please enter a valid email';
@@ -220,12 +209,12 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           CustomTextFormFieldWidget(
                             controller: passwordController,
-                            hint: 'Enter password',
+                            hint: 'enter_password'.tr(),
                             keyboardType: TextInputType.emailAddress,
                             autofillHints: const [AutofillHints.email],
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'please enter the password';
+                                return 'please_enter_the_password'.tr();
                               }
                               return null;
                             },
@@ -236,12 +225,13 @@ class _LoginScreenState extends State<LoginScreen> {
                           AnimatedAuthWidget(
                               textEditingController: CustomTextFormFieldWidget(
                                 controller: confirmPasswordController,
-                                hint: 'Confirm password',
+                                hint: 'confirm_password'.tr(),
                                 keyboardType: TextInputType.emailAddress,
                                 autofillHints: const [AutofillHints.email],
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
-                                    return 'please enter the password again';
+                                    return 'please_enter_the_password_again'
+                                        .tr();
                                   }
                                   return null;
                                 },
@@ -251,7 +241,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             height: 40.h,
                           ),
                           CustomAuthButtonWidget(
-                            title: showSignUp == true ? 'SIGN UP' : 'LOG IN',
+                            title: showSignUp == true
+                                ? 'sign_up'.tr()
+                                : 'log_in'.tr(),
                             onTap: () {
                               NavigationRoutes().jump(
                                   context, Routes.home_screen,
@@ -262,7 +254,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             height: 22,
                           ),
                           Text(
-                            'OR',
+                            'OR'.tr(),
                             style: GoogleFonts.poppins(
                                 color: const Color(0xFFA8A7A7),
                                 fontSize: 14,

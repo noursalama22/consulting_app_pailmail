@@ -13,6 +13,21 @@
   "logout": "تسجيل خروج",
   "language": "English",
   "tags": "وسوم",
-  "allTags": "كل الوسوم"
-
+  "allTags": "كل الوسوم",
+  "log_in" : "تسجيل دخول",
+  "sign_up" : "انشاء حساب",
+  "enter_email_or_username" : "أدخل البريد الإلكتروني أو اسم المستخدم",
+  "enter_name" : "أدخل الاسم",
+  "enter_password" : "أدخل كلمة المرور",
+  "confirm_password" : "تأكيد كلمة المرور",
+  "please_enter_the_email" : "الرجاء إدخال البريد الإلكتروني",
+  "please_enter_the_name" : "الرجاء إدخال الاسم",
+  "please_enter_the_password" : "الرجاء إدخال كلمة المرور",
+  "please_enter_the_password_again" : "الرجاء إدخال كلمة المرور مرة اخرى",
+  "OR" : "او",
+  "Home" : "الرئيسية",
+  "Profile" : "الملف الشخصي",
+  "Senders" : "المرسلين",
+  "Settings" : "ادارة المستخدمين",
+  "terms_of_service_privacy_policy" : "شروط الخدمة | سياسة الخصوصية"
 }

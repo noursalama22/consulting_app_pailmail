@@ -13,15 +13,12 @@ class AnimatedAuthWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedSwitcher(
-      duration: const Duration(milliseconds: 500), // Set animation duration
-      child: AnimatedCrossFade(
-        duration: const Duration(milliseconds: 500),
-        firstChild: textEditingController,
-        secondChild: const SizedBox(),
-        crossFadeState:
-            condition ? CrossFadeState.showFirst : CrossFadeState.showSecond,
-      ),
+    return AnimatedCrossFade(
+      duration: const Duration(milliseconds: 500),
+      firstChild: textEditingController,
+      secondChild: const SizedBox(),
+      crossFadeState:
+          condition ? CrossFadeState.showFirst : CrossFadeState.showSecond,
     );
   }
 }

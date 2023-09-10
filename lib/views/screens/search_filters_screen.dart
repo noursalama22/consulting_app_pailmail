@@ -15,17 +15,17 @@ class SearchFiltersScreen extends StatefulWidget {
 
 class _SearchFiltersScreenState extends State<SearchFiltersScreen> {
   DateTime? _selectedDate = DateTime.now();
-  int isCategorySelected = 0;
-  int isStatusSelected = 0;
+  int selectedCategoryIndex = 0;
+  int selectedStatusIndex = 0;
   bool checkCategory = false;
   bool checkStatus = false;
   toggleSelection(int index, bool isCategory) {
     setState(() {
       if (isCategory == true) {
-        isCategorySelected = index;
+        selectedCategoryIndex = index;
         checkCategory = true;
       } else {
-        isStatusSelected = index;
+        selectedStatusIndex = index;
         checkStatus = true;
       }
     });
@@ -65,11 +65,7 @@ class _SearchFiltersScreenState extends State<SearchFiltersScreen> {
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: Column(
                     children: [
-                      ///  category
-                      // _CustomCategoryRowState(
-                      //   statusText: "Official organization",
-                      //   index: 0,
-                      // ),
+
                       CustomRowStateWidget(
                         index: 0,
                         statusText: 'Official organization',
@@ -78,8 +74,8 @@ class _SearchFiltersScreenState extends State<SearchFiltersScreen> {
                             toggleSelection(0, true);
                           });
                         },
-                        selected: isCategorySelected,
-                        condition: checkCategory,
+                        selected: selectedCategoryIndex,
+                        checkTap: checkCategory,
                         isStatus: false,
                       ),
                       CustomRowStateWidget(
@@ -90,8 +86,8 @@ class _SearchFiltersScreenState extends State<SearchFiltersScreen> {
                             toggleSelection(1, true);
                           });
                         },
-                        selected: isCategorySelected,
-                        condition: checkCategory,
+                        selected: selectedCategoryIndex,
+                        checkTap: checkCategory,
                         isStatus: false,
                       ),
                       CustomRowStateWidget(
@@ -102,8 +98,8 @@ class _SearchFiltersScreenState extends State<SearchFiltersScreen> {
                             toggleSelection(2, true);
                           });
                         },
-                        selected: isCategorySelected,
-                        condition: checkCategory,
+                        selected: selectedCategoryIndex,
+                        checkTap: checkCategory,
                         isStatus: false,
                       ),
                       CustomRowStateWidget(
@@ -114,22 +110,11 @@ class _SearchFiltersScreenState extends State<SearchFiltersScreen> {
                             toggleSelection(3, true);
                           });
                         },
-                        selected: isCategorySelected,
-                        condition: checkCategory,
+                        selected: selectedCategoryIndex,
+                        checkTap: checkCategory,
                         isStatus: false,
                       ),
-                      // _CustomCategoryRowState(
-                      //   statusText: "NGOs",
-                      //   index: 1,
-                      // ),
-                      // _CustomCategoryRowState(
-                      //   statusText: "UnBorder",
-                      //   index: 2,
-                      // ),
-                      // _CustomCategoryRowState(
-                      //   statusText: "Others",
-                      //   index: 3,
-                      // ),
+
                     ],
                   ),
                 ),
@@ -155,8 +140,8 @@ class _SearchFiltersScreenState extends State<SearchFiltersScreen> {
                         });
                       },
                       color: kRedColor,
-                      selected: isStatusSelected,
-                      condition: checkStatus,
+                      selected: selectedStatusIndex,
+                      checkTap: checkStatus,
                       isStatus: true,
                     ),
                     CustomRowStateWidget(
@@ -168,8 +153,8 @@ class _SearchFiltersScreenState extends State<SearchFiltersScreen> {
                         });
                       },
                       color: kYellowColor,
-                      selected: isStatusSelected,
-                      condition: checkStatus,
+                      selected: selectedStatusIndex,
+                      checkTap: checkStatus,
                       isStatus: true,
                     ),
                     CustomRowStateWidget(
@@ -181,8 +166,8 @@ class _SearchFiltersScreenState extends State<SearchFiltersScreen> {
                         });
                       },
                       color: kLightBlueColor,
-                      selected: isStatusSelected,
-                      condition: checkStatus,
+                      selected: selectedStatusIndex,
+                      checkTap: checkStatus,
                       isStatus: true,
                     ),
                     CustomRowStateWidget(
@@ -194,30 +179,10 @@ class _SearchFiltersScreenState extends State<SearchFiltersScreen> {
                         });
                       },
                       color: kGreenColor,
-                      selected: isStatusSelected,
-                      condition: checkStatus,
+                      selected: selectedStatusIndex,
+                      checkTap: checkStatus,
                       isStatus: true,
                     ),
-                    // _CustomStatusRowState(
-                    //   statusText: "Inbox",
-                    //   color: kRedColor,
-                    //   index: 0,
-                    // ),
-                    // _CustomStatusRowState(
-                    //   statusText: "Pending",
-                    //   color: kYellowColor,
-                    //   index: 1,
-                    // ),
-                    // _CustomStatusRowState(
-                    //   statusText: "in Progress",
-                    //   color: kLightBlueColor,
-                    //   index: 2,
-                    // ),
-                    // _CustomStatusRowState(
-                    //   statusText: "Completed",
-                    //   color: kGreenColor,
-                    //   index: 3,
-                    // ),
                   ],
                 ),
               ),
@@ -348,119 +313,6 @@ class _SearchFiltersScreenState extends State<SearchFiltersScreen> {
     );
   }
 
-  int count = 0;
-  // Widget _CustomStatusRowState(
-  //     {required String statusText, required Color color, required int index}) {
-  //   return Column(
-  //     children: [
-  //       InkWell(
-  //         onTap: () => setState(() {
-  //           isStatusSelected = index;
-  //         }),
-  //         child: Row(
-  //           children: [
-  //             Opacity(
-  //               opacity: 1.0,
-  //               child: Container(
-  //                 margin: const EdgeInsets.only(right: 16),
-  //                 width: 32.w,
-  //                 height: 32.w,
-  //                 decoration: BoxDecoration(
-  //                   color: color,
-  //                   borderRadius: BorderRadius.circular(10.r),
-  //                 ),
-  //               ),
-  //             ),
-  //             Text(
-  //               statusText,
-  //               style: buildAppBarTextStyle(
-  //                   color: kBlackColor,
-  //                   fontSizeController: 16,
-  //                   letterSpacing: 0.15),
-  //             ),
-  //             const Spacer(),
-  //             isStatusSelected == index
-  //                 ? Padding(
-  //                     padding: EdgeInsetsDirectional.only(end: 19.0.w),
-  //                     child: const Icon(
-  //                       Icons.check,
-  //                       size: 35,
-  //                       color: kLightBlueColor,
-  //                     ),
-  //                   )
-  //                 : const SizedBox.shrink(),
-  //           ],
-  //         ),
-  //       ),
-  //       index != 3
-  //           ? Divider(
-  //               indent: 50.0.w,
-  //               thickness: 1.2,
-  //             )
-  //           : const SizedBox.shrink()
-  //     ],
-  //   );
-  // }
-  //
-  // Widget _CustomCategoryRowState(
-  //     {required String statusText, required int index}) {
-  //   return CustomContainer(
-  //       childContainer: Padding(
-  //     padding: index != 2
-  //         ? EdgeInsetsDirectional.only(start: 18.h)
-  //         : EdgeInsets.zero,
-  //     child: Column(
-  //       children: [
-  //         InkWell(
-  //           onTap: () => setState(() {
-  //             isCategorySelected = index;
-  //           }),
-  //           child: Padding(
-  //             padding: const EdgeInsets.symmetric(vertical: 8.0),
-  //             child: Row(
-  //               children: [
-  //                 Padding(
-  //                   padding: index == 2
-  //                       ? EdgeInsetsDirectional.only(start: 18.0)
-  //                       : EdgeInsets.zero,
-  //                   child: Text(
-  //                     statusText,
-  //                     style: buildAppBarTextStyle(
-  //                         color: kBlackColor,
-  //                         fontSizeController: 16,
-  //                         letterSpacing: 0.15),
-  //                   ),
-  //                 ),
-  //                 const Spacer(),
-  //                 isCategorySelected == index
-  //                     ? Padding(
-  //                         padding: EdgeInsetsDirectional.only(end: 19.0.w),
-  //                         child: const Icon(
-  //                           Icons.check,
-  //                           size: 30,
-  //                           color: kLightBlueColor,
-  //                         ),
-  //                       )
-  //                     : const SizedBox.shrink(),
-  //               ],
-  //             ),
-  //           ),
-  //         ),
-  //         index != 3 && index != 2
-  //             ? Divider(
-  //                 indent: 8.0.w,
-  //                 thickness: 1.2,
-  //               )
-  //             : const SizedBox.shrink(),
-  //         index == 2
-  //             ? const Divider(
-  //                 thickness: 1.7,
-  //               )
-  //             : const SizedBox.shrink()
-  //       ],
-  //     ),
-  //   ));
-  // }
 }
 
 class CustomRowStateWidget extends StatelessWidget {
@@ -468,7 +320,7 @@ class CustomRowStateWidget extends StatelessWidget {
   final String statusText;
   final Function() onTap;
   final int selected;
-  final bool condition;
+  final bool checkTap;
   final Color? color;
   final bool isStatus;
   const CustomRowStateWidget(
@@ -477,7 +329,7 @@ class CustomRowStateWidget extends StatelessWidget {
       required this.statusText,
       required this.onTap,
       required this.selected,
-      required this.condition,
+      required this.checkTap,
       this.color,
       required this.isStatus})
       : super(key: key);
@@ -521,7 +373,7 @@ class CustomRowStateWidget extends StatelessWidget {
                     ),
                   ),
                   const Spacer(),
-                  condition == true && selected == index
+                  checkTap == true && selected == index
                       ? Padding(
                           padding: EdgeInsetsDirectional.only(end: 19.0.w),
                           child: const Icon(

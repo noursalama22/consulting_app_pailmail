@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -43,7 +44,7 @@ class CustomDrawerContent extends StatelessWidget {
               margin: const EdgeInsets.symmetric(
                 vertical: 16.0,
               ),
-              child: const Text('Terms of Service | Privacy Policy'),
+              child: const Text('terms_of_service_privacy_policy').tr(),
             ),
           ),
         ],
@@ -55,7 +56,9 @@ class CustomDrawerContent extends StatelessWidget {
     return ListTile(
       onTap: onTap,
       leading: Icon(icon),
-      title: Text(title),
+      title: Text(
+        title,
+      ).tr(),
     );
   }
 }
