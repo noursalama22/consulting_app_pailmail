@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'index_screen.dart';
+
 class SearchScreen extends StatefulWidget {
   const SearchScreen({Key? key}) : super(key: key);
 
@@ -14,6 +16,7 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   late TextEditingController _searchtextEditingController;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -75,7 +78,8 @@ class _SearchScreenState extends State<SearchScreen> {
                     style: const TextStyle(color: Color(0xff272727)),
                     cursorColor: kDarkGreyColor,
                     decoration: InputDecoration(
-                      filled: true, //<-- SEE HERE
+                      filled: true,
+                      //<-- SEE HERE
                       fillColor: Color(0xFFEAEAF5),
                       // fillColor: Color(0xFFE6E6E6),
 
@@ -178,7 +182,14 @@ class _SearchScreenState extends State<SearchScreen> {
                     children: [
                       ListView.builder(
                         itemBuilder: (context, index) {
-                          return const CustomMailContainer(
+                          return CustomMailContainer(
+                            onTap: () {
+                              Navigator.push(context, MaterialPageRoute(
+                                builder: (context) {
+                                  return IndexScreen(isDetails: true);
+                                },
+                              ));
+                            },
                             organizationName: 'Organization Name',
                             color: kYellowColor,
                             date: "Today, 11:00 AM",

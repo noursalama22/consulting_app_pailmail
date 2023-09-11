@@ -13,7 +13,8 @@ class CustomMailContainer extends StatefulWidget {
       required this.tags,
       required this.images,
       required this.color,
-      this.endMargin = 0})
+      this.endMargin = 0,
+      required this.onTap})
       : super(key: key);
   final String organizationName;
   final String date;
@@ -23,6 +24,7 @@ class CustomMailContainer extends StatefulWidget {
   final List<String> images;
   final Color color;
   final double endMargin;
+  final void Function() onTap;
 
   @override
   State<CustomMailContainer> createState() => _CustomMailContainerState();
@@ -45,7 +47,7 @@ class _CustomMailContainerState extends State<CustomMailContainer> {
         borderRadius: BorderRadius.circular(30),
         child: InkWell(
           borderRadius: BorderRadius.circular(30),
-          onTap: () {},
+          onTap: widget.onTap,
           child: Padding(
             padding: const EdgeInsetsDirectional.symmetric(
                 horizontal: 16, vertical: 14),

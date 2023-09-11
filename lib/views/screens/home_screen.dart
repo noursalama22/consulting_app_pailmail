@@ -1,4 +1,6 @@
 import 'package:consulting_app_pailmail/utils/helpers/constants.dart';
+import 'package:consulting_app_pailmail/utils/helpers/routers/router.dart';
+import 'package:consulting_app_pailmail/views/screens/index_screen.dart';
 import 'package:consulting_app_pailmail/views/screens/search_screen.dart';
 import 'package:consulting_app_pailmail/views/widgets/custom_category_container.dart';
 import 'package:consulting_app_pailmail/views/widgets/custom_chip.dart';
@@ -132,6 +134,16 @@ class _HomeScreenState extends State<HomeScreen> {
           child: InkWell(
             onTap: () {
               //print('called on tap');
+              Navigator.push(context, MaterialPageRoute(
+                builder: (context) {
+                  return IndexScreen(isDetails: false);
+                },
+              ));
+
+              //TODO:ADD Push to router
+              // NavigationRoutes().jump(context,MaterialPageRoute(builder: (context) {
+              //   return  IndexScreen(isDetails: false);
+              // },));
             },
             child: SizedBox(
               height: kToolbarHeight,
@@ -375,8 +387,15 @@ class _HomeScreenState extends State<HomeScreen> {
                             style: tileTextTitleStyle,
                           ),
                           mailNumber: "6",
-                          children: const [
+                          children: [
                             CustomMailContainer(
+                              onTap: () {
+                                Navigator.push(context, MaterialPageRoute(
+                                  builder: (context) {
+                                    return IndexScreen(isDetails: true);
+                                  },
+                                ));
+                              },
                               organizationName: 'Organization Name',
                               color: kYellowColor,
                               date: "Today, 11:00 AM",
@@ -392,6 +411,13 @@ class _HomeScreenState extends State<HomeScreen> {
                               endMargin: 8,
                             ),
                             CustomMailContainer(
+                              onTap: () {
+                                Navigator.push(context, MaterialPageRoute(
+                                  builder: (context) {
+                                    return IndexScreen(isDetails: true);
+                                  },
+                                ));
+                              },
                               organizationName: 'Organization Name',
                               color: kGreenColor,
                               date: "Today, 11:00 AM",
@@ -409,8 +435,15 @@ class _HomeScreenState extends State<HomeScreen> {
                             style: tileTextTitleStyle,
                           ),
                           mailNumber: "12",
-                          children: const [
+                          children: [
                             CustomMailContainer(
+                              onTap: () {
+                                Navigator.push(context, MaterialPageRoute(
+                                  builder: (context) {
+                                    return IndexScreen(isDetails: true);
+                                  },
+                                ));
+                              },
                               organizationName: 'Organization Name',
                               color: kYellowColor,
                               date: "Today, 11:00 AM",
@@ -428,8 +461,15 @@ class _HomeScreenState extends State<HomeScreen> {
                             style: tileTextTitleStyle,
                           ),
                           mailNumber: "6",
-                          children: const [
+                          children: [
                             CustomMailContainer(
+                              onTap: () {
+                                Navigator.push(context, MaterialPageRoute(
+                                  builder: (context) {
+                                    return IndexScreen(isDetails: true);
+                                  },
+                                ));
+                              },
                               organizationName: 'Organization Name',
                               color: kYellowColor,
                               date: "Today, 11:00 AM",
@@ -447,7 +487,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             style: tileTextTitleStyle,
                           ),
                           mailNumber: "3",
-                          children: const [
+                          children: [
                             CustomMailContainer(
                               organizationName: 'Organization Name',
                               color: kYellowColor,
@@ -457,6 +497,13 @@ class _HomeScreenState extends State<HomeScreen> {
                               images: [],
                               tags: [],
                               subject: "Here we add the subject",
+                              onTap: () {
+                                Navigator.push(context, MaterialPageRoute(
+                                  builder: (context) {
+                                    return IndexScreen(isDetails: true);
+                                  },
+                                ));
+                              },
                             )
                           ],
                         ),

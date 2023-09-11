@@ -47,7 +47,9 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case Routes.index_screen:
       return _getPageRoute(
         routeName: settings.name!,
-        screen: const IndexScreen(),
+        screen: const IndexScreen(
+          isDetails: false,
+        ),
       );
     case Routes.category_screen:
       return _getPageRoute(
