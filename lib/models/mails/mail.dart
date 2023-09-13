@@ -1,5 +1,8 @@
+import 'package:consulting_app_pailmail/models/tags/tag.dart';
+
+import '../attachments/attachment.dart';
 import '../senders/sender.dart';
-import '../statuses/status_reponse_model.dart';
+import '../statuses/status.dart';
 import 'activity.dart';
 
 class Mail {
@@ -15,7 +18,7 @@ class Mail {
   String? createdAt;
   String? updatedAt;
   Sender? sender;
-  MailStatus? status;
+  Status? status;
   List<Attachment>? attachments;
   List<Activity>? activities;
   List<Tag>? tags;
@@ -52,8 +55,7 @@ class Mail {
         createdAt: json["created_at"],
         updatedAt: json["updated_at"],
         sender: json["sender"] == null ? null : Sender.fromJson(json["sender"]),
-        status:
-            json["status"] == null ? null : MailStatus.fromJson(json["status"]),
+        status: json["status"] == null ? null : Status.fromJson(json["status"]),
         attachments: json["attachments"] == null
             ? []
             : List<Attachment>.from(
