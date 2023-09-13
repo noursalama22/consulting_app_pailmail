@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'app_exception.dart';
 
 class ApiBaseHelper {
-  final String _baseUrl = "http://osamapro.online/api";
+  final String _baseUrl = "https://palmail.gsgtt.tech/api";
 
   Future<dynamic> get(String url, Map<String, String> header) async {
     var responseJson;
@@ -51,14 +51,15 @@ class ApiBaseHelper {
   dynamic _returnResponse(http.Response response) {
     switch (response.statusCode) {
       case 200:
-        var responseJson = json.decode(response.body.toString());
+      case 201:
+        var responseJson = json.decode(response.body);
         print(responseJson);
         return responseJson;
       case 400:
-        throw BadRequestException(response.body.toString());
+        throw BadRequestException(response.body);
       case 401:
       case 403:
-        throw UnauthorisedException(response.body.toString());
+        throw UnauthorisedException(response.body);
       case 500:
       default:
         throw FetchDataException(

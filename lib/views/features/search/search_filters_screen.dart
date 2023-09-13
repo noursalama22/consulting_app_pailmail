@@ -2,10 +2,10 @@ import 'package:consulting_app_pailmail/views/widgets/custom_list_row_state.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../core/helpers/ui_helpers/common_tools.dart';
 import '../../../core/utils/constants.dart';
 import '../../widgets/custom_app_bar.dart';
-import '../../widgets/custom_container.dart';
-import '../../widgets/custom_expansion_tile.dart';
+import '../../widgets/custom_date_container.dart';
 
 class SearchFiltersScreen extends StatefulWidget {
   const SearchFiltersScreen({Key? key}) : super(key: key);
@@ -14,17 +14,23 @@ class SearchFiltersScreen extends StatefulWidget {
   State<SearchFiltersScreen> createState() => _SearchFiltersScreenState();
 }
 
-class _SearchFiltersScreenState extends State<SearchFiltersScreen> {
+class _SearchFiltersScreenState extends State<SearchFiltersScreen>
+    with Pickers {
   DateTime? _selectedDate = DateTime.now();
 
-  List<String> categories = [
+  static List<String> categories = [
     "Official organization",
     "NGOs",
     "UnBorder",
     "Others"
   ];
-  List<Color> colors = [kRedColor, kYellowColor, kLightBlueColor, kGreenColor];
-  List<String> status = ["Inbox", "Pending", "in Progress", "Completed"];
+  static List<Color> colors = [
+    kRedColor,
+    kYellowColor,
+    kLightBlueColor,
+    kGreenColor
+  ];
+  static List<String> status = ["Inbox", "Pending", "in Progress", "Completed"];
   @override
   void initState() {
     super.initState();
@@ -127,100 +133,66 @@ class _SearchFiltersScreenState extends State<SearchFiltersScreen> {
               //     ],
               //   ),
               // ),
-              CustomContainer(
-                childContainer: Padding(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
-                  child: CustomExpansionTile(
-                    isIndexWidet: true,
-                    widgetOfTile: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        const Icon(
-                          Icons.calendar_month,
-                          color: kRedColor,
-                          size: 25,
-                        ),
-                        SizedBox(
-                          width: 9.w,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "From Date",
-                              style: buildAppBarTextStyle(
-                                  color: kBlackColor,
-                                  letterSpacing: 0.15,
-                                  fontSizeController: 16),
-                            ),
-                            Text(
-                              "$_selectedDate".split(" ")[0],
-                              style: buildAppBarTextStyle(
-                                  letterSpacing: 0.15, fontSizeController: 12),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    children: [
-                      buildDivider(),
-                      Column(
-                        children: [buildCalendarDatePicker()],
-                      ),
-                    ],
-                  ),
-                ),
+              CustomDateContainer(
+                title: 'From Date',
+                selected_date: _selectedDate!,
+                datePickerWidget: buildCalendarDatePicker(_selectedDate!),
               ),
+              // CustomContainer(
+              //   childContainer: Padding(
+              //     padding:
+              //         EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+              //     child: CustomExpansionTile(
+              //       isIndexWidet: true,
+              //       widgetOfTile: Row(
+              //         mainAxisSize: MainAxisSize.min,
+              //         crossAxisAlignment: CrossAxisAlignment.center,
+              //         children: [
+              //           const Icon(
+              //             Icons.calendar_month,
+              //             color: kRedColor,
+              //             size: 25,
+              //           ),
+              //           SizedBox(
+              //             width: 9.w,
+              //           ),
+              //           Column(
+              //             crossAxisAlignment: CrossAxisAlignment.start,
+              //             children: [
+              //               Text(
+              //                 "From Date",
+              //                 style: buildAppBarTextStyle(
+              //                     color: kBlackColor,
+              //                     letterSpacing: 0.15,
+              //                     fontSizeController: 16),
+              //               ),
+              //               Text(
+              //                 "$_selectedDate".split(" ")[0],
+              //                 style: buildAppBarTextStyle(
+              //                     letterSpacing: 0.15, fontSizeController: 12),
+              //               ),
+              //             ],
+              //           ),
+              //         ],
+              //       ),
+              //       children: [
+              //         buildDivider(),
+              //         Column(
+              //           children: [
+              //             buildCalendarDatePicker(_selectedDate!)
+              //           ],
+              //         ),
+              //       ],
+              //     ),
+              //   ),
+              // ),
               SizedBox(
                 height: 20.h,
               ),
-              CustomContainer(
-                childContainer: Padding(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
-                  child: CustomExpansionTile(
-                    isIndexWidet: true,
-                    widgetOfTile: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        const Icon(
-                          Icons.calendar_month,
-                          color: kRedColor,
-                          size: 25,
-                        ),
-                        SizedBox(
-                          width: 9.w,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "To Date",
-                              style: buildAppBarTextStyle(
-                                  color: kBlackColor,
-                                  letterSpacing: 0.15,
-                                  fontSizeController: 16),
-                            ),
-                            Text(
-                              "$_selectedDate".split(" ")[0],
-                              style: buildAppBarTextStyle(
-                                  letterSpacing: 0.15, fontSizeController: 12),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    children: [
-                      buildDivider(),
-                      Column(
-                        children: [buildCalendarDatePicker()],
-                      ),
-                    ],
-                  ),
-                ),
+              CustomDateContainer(
+                title: 'To Date',
+                selected_date: _selectedDate!,
+                datePickerWidget: buildCalendarDatePicker(_selectedDate!),
               ),
             ],
           ),
@@ -229,124 +201,5 @@ class _SearchFiltersScreenState extends State<SearchFiltersScreen> {
     );
   }
 
-  CalendarDatePicker buildCalendarDatePicker() {
-    return CalendarDatePicker(
-      initialDate: _selectedDate ?? DateTime.now(),
-      firstDate: DateTime(2020),
-      lastDate: DateTime(2101),
-      onDateChanged: (value) {
-        // _selectedDate = value;
-        if (_selectedDate != null && value != _selectedDate) {
-          setState(() {
-            _selectedDate = value;
-          });
-        }
-      },
-    );
-  }
-
-  Divider buildDivider() {
-    return Divider(
-      height: 12,
-      thickness: 1.5,
-      indent: 17.w,
-      endIndent: 16.w,
-    );
-  }
-}
-
-class CustomRowStateWidget extends StatelessWidget {
-  final int index;
-  final String text;
-  final Function() onTap;
-  final int selected;
-  final bool checkTap;
-  final Color? color;
-  final bool isStatus;
-  const CustomRowStateWidget(
-      {Key? key,
-      required this.index,
-      required this.text,
-      required this.onTap,
-      required this.selected,
-      required this.checkTap,
-      this.color,
-      required this.isStatus})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return CustomContainer(
-        childContainer: Padding(
-      padding: index != 2 && isStatus == false
-          ? EdgeInsetsDirectional.only(start: 18.h)
-          : EdgeInsets.zero,
-      child: Column(
-        children: [
-          InkWell(
-            onTap: onTap,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: Row(
-                children: [
-                  isStatus == true
-                      ? Container(
-                          margin: const EdgeInsets.only(right: 16),
-                          width: 32.w,
-                          height: 32.w,
-                          decoration: BoxDecoration(
-                            color: color,
-                            borderRadius: BorderRadius.circular(10.r),
-                          ),
-                        )
-                      : SizedBox.shrink(),
-                  Padding(
-                    padding: index == 2 && !isStatus
-                        ? EdgeInsetsDirectional.only(start: 18.0)
-                        : EdgeInsets.zero,
-                    child: Text(
-                      text,
-                      style: buildAppBarTextStyle(
-                          color: kBlackColor,
-                          fontSizeController: 16,
-                          letterSpacing: 0.15),
-                    ),
-                  ),
-                  const Spacer(),
-                  checkTap == true && selected == index
-                      ? Padding(
-                          padding: EdgeInsetsDirectional.only(end: 19.0.w),
-                          child: const Icon(
-                            Icons.check,
-                            size: 30,
-                            color: kLightBlueColor,
-                          ),
-                        )
-                      : const SizedBox.shrink(),
-                ],
-              ),
-            ),
-          ),
-          isStatus
-              ? index != 3
-                  ? Divider(
-                      indent: 50.0.w,
-                      thickness: 1.2,
-                    )
-                  : const SizedBox.shrink()
-              : index != 3 && index != 2
-                  ? Divider(
-                      indent: 8.0.w,
-                      thickness: 1.2,
-                    )
-                  : const SizedBox.shrink(),
-          index == 2 && !isStatus
-              ? const Divider(
-                  thickness: 1.7,
-                )
-              : const SizedBox.shrink()
-        ],
-      ),
-    ));
-  }
+  // }
 }

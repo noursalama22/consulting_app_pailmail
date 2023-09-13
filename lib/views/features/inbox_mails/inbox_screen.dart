@@ -1,9 +1,11 @@
 import 'dart:io';
 
+import 'package:consulting_app_pailmail/core/helpers/ui_helpers/common_tools.dart';
 import 'package:consulting_app_pailmail/views/features/status/status_screen.dart';
 import 'package:consulting_app_pailmail/views/features/tags/tags_screen.dart';
 
 import 'package:consulting_app_pailmail/views/widgets/custom_app_bar.dart';
+import 'package:consulting_app_pailmail/views/widgets/custom_divider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
@@ -27,7 +29,8 @@ class InboxScreen extends StatefulWidget {
   State<InboxScreen> createState() => _InboxScreenState();
 }
 
-class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
+class _InboxScreenState extends State<InboxScreen>
+    with MyShowBottomSheet, Pickers {
   DateTime? _selectedDate = DateTime.now();
   late List<AddActivity> addActivity;
   late TextEditingController senderController;
@@ -161,7 +164,7 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
                     withoutPrefix: true,
                     controller: tileOfMailController,
                   ),
-                  buildDivider(),
+                  CustomDivider(),
                   CustomTextField(
                     hintText: 'Description',
                     customFontSize: 14,
@@ -215,7 +218,7 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
                                       letterSpacing: 0.15,
                                       fontSizeController: 12),
                                 ),
-                                buildDivider()
+                                CustomDivider(),
                               ],
                             ),
                           ],
@@ -223,7 +226,7 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
                       ],
                     ),
                     children: [
-                      buildDivider(),
+                      const CustomDivider(),
                       Column(
                         children: [
                           CustomDatePicker(
@@ -233,7 +236,7 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
                       ),
                     ],
                   ),
-                  buildDivider(),
+                  const CustomDivider(),
                   Row(
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -568,22 +571,6 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
     );
   }
 
-  CalendarDatePicker buildCalendarDatePicker() {
-    return CalendarDatePicker(
-      initialDate: _selectedDate ?? DateTime.now(),
-      firstDate: DateTime(2020),
-      lastDate: DateTime(2101),
-      onDateChanged: (value) {
-        // _selectedDate = value;
-        if (_selectedDate != null && value != _selectedDate) {
-          setState(() {
-            _selectedDate = value;
-          });
-        }
-      },
-    );
-  }
-
   CustomContainer buildListTile(
       {required IconData icon, required Widget widget, Function()? onTap}) {
     return CustomContainer(
@@ -610,15 +597,6 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
           ),
         ),
       ),
-    );
-  }
-
-  Divider buildDivider() {
-    return Divider(
-      height: 12,
-      thickness: 1.5,
-      indent: 17.w,
-      endIndent: 16.w,
     );
   }
 
