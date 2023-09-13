@@ -17,6 +17,7 @@ class CustomAppBarWithIcon extends StatelessWidget {
   final double bottomPadding;
   final double endPadding;
   final IconData left_icon;
+
   final IconData right_icon;
 
   @override
