@@ -1,25 +1,31 @@
+import '../mails/mail.dart';
 import '../pivot.dart';
 
-class Category {
+class Tag {
   int? id;
   String? name;
   String? createdAt;
   String? updatedAt;
+  List<Mail>? mails;
   Pivot? pivot;
 
-  Category({
+  Tag({
     this.id,
     this.name,
     this.createdAt,
     this.updatedAt,
+    this.mails,
     this.pivot,
   });
 
-  factory Category.fromJson(Map<String, dynamic> json) => Category(
+  factory Tag.fromJson(Map<String, dynamic> json) => Tag(
         id: json["id"],
         name: json["name"],
         createdAt: json["created_at"],
         updatedAt: json["updated_at"],
+        mails: json["mails"] == null
+            ? []
+            : List<Mail>.from(json["mails"]!.map((x) => Mail.fromJson(x))),
         pivot: json["pivot"] == null ? null : Pivot.fromJson(json["pivot"]),
       );
 
@@ -28,6 +34,9 @@ class Category {
         "name": name,
         "created_at": createdAt,
         "updated_at": updatedAt,
+        "mails": mails == null
+            ? []
+            : List<dynamic>.from(mails!.map((x) => x.toJson())),
         "pivot": pivot?.toJson(),
       };
 }

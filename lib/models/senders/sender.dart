@@ -4,10 +4,11 @@ class Sender {
   int? id;
   String? name;
   String? mobile;
-  String? address;
+  dynamic address;
   String? categoryId;
   String? createdAt;
   String? updatedAt;
+  String? mailsCount;
   Category? category;
 
   Sender({
@@ -18,6 +19,7 @@ class Sender {
     this.categoryId,
     this.createdAt,
     this.updatedAt,
+    this.mailsCount,
     this.category,
   });
 
@@ -29,6 +31,7 @@ class Sender {
         categoryId: json["category_id"],
         createdAt: json["created_at"],
         updatedAt: json["updated_at"],
+        mailsCount: json["mails_count"],
         category: json["category"] == null
             ? null
             : Category.fromJson(json["category"]),
@@ -42,6 +45,7 @@ class Sender {
         "category_id": categoryId,
         "created_at": createdAt,
         "updated_at": updatedAt,
+        "mails_count": mailsCount,
         "category": category?.toJson(),
       };
 }

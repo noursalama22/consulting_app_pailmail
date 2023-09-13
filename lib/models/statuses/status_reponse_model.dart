@@ -5,7 +5,6 @@
 import 'dart:convert';
 
 import '../mails/mail.dart';
-import '../pivot.dart';
 
 StatusResponseModel statusResponseModelFromJson(String str) =>
     StatusResponseModel.fromJson(json.decode(str));
@@ -74,98 +73,5 @@ class StatusResponseModelStatus {
         "mails": mails == null
             ? []
             : List<dynamic>.from(mails!.map((x) => x.toJson())),
-      };
-}
-
-class Attachment {
-  int? id;
-  String? title;
-  String? image;
-  String? mailId;
-  String? createdAt;
-  String? updatedAt;
-
-  Attachment({
-    this.id,
-    this.title,
-    this.image,
-    this.mailId,
-    this.createdAt,
-    this.updatedAt,
-  });
-
-  factory Attachment.fromJson(Map<String, dynamic> json) => Attachment(
-        id: json["id"],
-        title: json["title"],
-        image: json["image"],
-        mailId: json["mail_id"],
-        createdAt: json["created_at"],
-        updatedAt: json["updated_at"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "title": title,
-        "image": image,
-        "mail_id": mailId,
-        "created_at": createdAt,
-        "updated_at": updatedAt,
-      };
-}
-
-class MailStatus {
-  //can be deleted,,,,status.dart
-  int? id;
-  String? name;
-  String? color;
-
-  MailStatus({
-    this.id,
-    this.name,
-    this.color,
-  });
-
-  factory MailStatus.fromJson(Map<String, dynamic> json) => MailStatus(
-        id: json["id"],
-        name: json["name"],
-        color: json["color"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
-        "color": color,
-      };
-}
-
-class Tag {
-  int? id;
-  String? name;
-  String? createdAt;
-  String? updatedAt;
-  Pivot? pivot;
-
-  Tag({
-    this.id,
-    this.name,
-    this.createdAt,
-    this.updatedAt,
-    this.pivot,
-  });
-
-  factory Tag.fromJson(Map<String, dynamic> json) => Tag(
-        id: json["id"],
-        name: json["name"],
-        createdAt: json["created_at"],
-        updatedAt: json["updated_at"],
-        pivot: json["pivot"] == null ? null : Pivot.fromJson(json["pivot"]),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
-        "created_at": createdAt,
-        "updated_at": updatedAt,
-        "pivot": pivot?.toJson(),
       };
 }
