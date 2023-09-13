@@ -1,7 +1,9 @@
 import 'dart:math';
 
 import 'package:animated_toggle_switch/animated_toggle_switch.dart';
+import 'package:consulting_app_pailmail/repositories/auth_repository.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -24,6 +26,10 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final _formKey = GlobalKey<FormState>();
+
+  AuthRepository auth = AuthRepository();
+
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
@@ -34,10 +40,10 @@ class _LoginScreenState extends State<LoginScreen> {
 
   int value = 0; //for the AnimatedToggleSwitch
   void clearTextField() {
-    nameController.clear();
+    // nameController.clear();
     emailController.clear();
     passwordController.clear();
-    confirmPasswordController.clear();
+    // confirmPasswordController.clear();
   }
 
   void toggleView() {
@@ -46,6 +52,45 @@ class _LoginScreenState extends State<LoginScreen> {
       showSignUp = !showSignUp;
       showLogin = !showLogin;
     });
+  }
+
+  signUp() {
+    print('first');
+    if (_formKey.currentState!.validate()) {
+      print('validate');
+
+      final body = {
+        'email': emailController.text,
+        'password': passwordController.text,
+        'password_confirmation': passwordController.text,
+        'name': nameController.text,
+      };
+      print('body');
+
+      auth.register(body).then((user) async {
+        if (mounted) {
+          NavigationRoutes().jump(context, Routes.home_screen, replace: true);
+        }
+      });
+    }
+  }
+
+  logIn() {
+    print(' log');
+    nameController.text = 'name';
+    confirmPasswordController.text = 'confirm';
+    if (_formKey.currentState!.validate()) {
+      print('valid log');
+      final body = {
+        'email': emailController.text,
+        'password': passwordController.text,
+      };
+      auth.login(body).then((user) async {
+        if (mounted) {
+          NavigationRoutes().jump(context, Routes.home_screen, replace: true);
+        }
+      });
+    }
   }
 
   @override
@@ -172,84 +217,100 @@ class _LoginScreenState extends State<LoginScreen> {
                           SizedBox(
                             height: 8.h,
                           ),
-                          AnimatedAuthWidget(
-                              textEditingController: CustomTextFormFieldWidget(
-                                controller: nameController,
-                                hint: 'enter_name'.tr(),
-                                keyboardType: TextInputType.emailAddress,
-                                autofillHints: const [AutofillHints.email],
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'please_enter_the_name'.tr();
-                                  }
-                                  return null;
-                                },
-                              ),
-                              condition: showSignUp),
-                          SizedBox(
-                            height: 10.h,
+                          Form(
+                            key: _formKey,
+                            child: Column(
+                              children: [
+                                AnimatedAuthWidget(
+                                    textEditingController:
+                                        CustomTextFormFieldWidget(
+                                      controller: nameController,
+                                      hint: 'enter_name'.tr(),
+                                      keyboardType: TextInputType.emailAddress,
+                                      autofillHints: const [
+                                        AutofillHints.email
+                                      ],
+                                      validator: (value) {
+                                        if (value == null || value.isEmpty) {
+                                          return 'please_enter_the_name'.tr();
+                                        }
+                                        return null;
+                                      },
+                                    ),
+                                    condition: showSignUp),
+                                SizedBox(
+                                  height: 10.h,
+                                ),
+                                CustomTextFormFieldWidget(
+                                  controller: emailController,
+                                  hint: 'enter_email_or_username'.tr(),
+                                  keyboardType: TextInputType.emailAddress,
+                                  autofillHints: const [AutofillHints.email],
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'please_enter_the_email'.tr();
+                                    } else if (!EmailValidator.validate(
+                                        value)) {
+                                      return 'please enter a valid email';
+                                    }
+                                    return null;
+                                  },
+                                ),
+                                SizedBox(
+                                  height: 10.h,
+                                ),
+                                CustomTextFormFieldWidget(
+                                  controller: passwordController,
+                                  hint: 'enter_password'.tr(),
+                                  keyboardType: TextInputType.emailAddress,
+                                  autofillHints: const [AutofillHints.email],
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'please_enter_the_password'.tr();
+                                    }
+                                    return null;
+                                  },
+                                ),
+                                SizedBox(
+                                  height: 10.h,
+                                ),
+                                AnimatedAuthWidget(
+                                    textEditingController:
+                                        CustomTextFormFieldWidget(
+                                      controller: confirmPasswordController,
+                                      hint: 'confirm_password'.tr(),
+                                      keyboardType: TextInputType.emailAddress,
+                                      autofillHints: const [
+                                        AutofillHints.email
+                                      ],
+                                      validator: (value) {
+                                        if (value == null || value.isEmpty) {
+                                          return 'please_enter_the_password_again'
+                                              .tr();
+                                        }
+                                        return null;
+                                      },
+                                    ),
+                                    condition: showSignUp),
+                              ],
+                            ),
                           ),
-                          CustomTextFormFieldWidget(
-                            controller: emailController,
-                            hint: 'enter_email_or_username'.tr(),
-                            keyboardType: TextInputType.emailAddress,
-                            autofillHints: const [AutofillHints.email],
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'please_enter_the_email'.tr();
-                              }
-                              // else if (!EmailValidator.validate(value)) {
-                              //   return 'please enter a valid email';
-                              // }
-                              return null;
-                            },
-                          ),
-                          SizedBox(
-                            height: 10.h,
-                          ),
-                          CustomTextFormFieldWidget(
-                            controller: passwordController,
-                            hint: 'enter_password'.tr(),
-                            keyboardType: TextInputType.emailAddress,
-                            autofillHints: const [AutofillHints.email],
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'please_enter_the_password'.tr();
-                              }
-                              return null;
-                            },
-                          ),
-                          SizedBox(
-                            height: 10.h,
-                          ),
-                          AnimatedAuthWidget(
-                              textEditingController: CustomTextFormFieldWidget(
-                                controller: confirmPasswordController,
-                                hint: 'confirm_password'.tr(),
-                                keyboardType: TextInputType.emailAddress,
-                                autofillHints: const [AutofillHints.email],
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'please_enter_the_password_again'
-                                        .tr();
-                                  }
-                                  return null;
-                                },
-                              ),
-                              condition: showSignUp),
                           SizedBox(
                             height: 40.h,
                           ),
-                          CustomAuthButtonWidget(
-                            title: showSignUp == true
-                                ? 'sign_up'.tr()
-                                : 'log_in'.tr(),
-                            onTap: () {
-                              NavigationRoutes().jump(
-                                  context, Routes.home_screen,
-                                  replace: true);
-                            },
-                          ),
+                          showSignUp == true
+                              ? CustomAuthButtonWidget(
+                                  title: 'sign_up'.tr(),
+                                  onTap: () {
+                                    signUp();
+                                  },
+                                )
+                              : CustomAuthButtonWidget(
+                                  title: 'log_in'.tr(),
+                                  onTap: () {
+                                    logIn();
+                                  },
+                                ),
                           const SizedBox(
                             height: 22,
                           ),

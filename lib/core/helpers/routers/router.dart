@@ -34,8 +34,4 @@ class NavigationRoutes {
       arguments: arguments,
     );
   }
-//
-//   void pop(context) {
-//     Navigator.pop(context);
-//   }
 }

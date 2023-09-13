@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../features/search/search_filters_screen.dart';
+import 'custom_row_state_widget.dart';
 
 class CustomListRowState extends StatefulWidget {
   CustomListRowState(
