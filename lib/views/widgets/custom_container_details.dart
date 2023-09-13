@@ -27,7 +27,6 @@ class _CustomContainerDetailsState extends State<CustomContainerDetails> {
   @override
   Widget build(BuildContext context) {
     //Todo:Modification  Container
-
     return Container(
       margin: EdgeInsetsDirectional.only(
         bottom: 8.h,
