@@ -366,7 +366,6 @@ class _IndexScreenState extends State<IndexScreen> {
                 SizedBox(
                   height: 16.h,
                 ),
-
                 ///Pick Image
                 CustomContainer(
                     childContainer: SizedBox(
