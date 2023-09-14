@@ -28,7 +28,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
 
-  AuthRepository auth = AuthRepository();
+  late AuthRepository auth;
 
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
@@ -39,35 +39,26 @@ class _LoginScreenState extends State<LoginScreen> {
   late bool showLogin;
 
   int value = 0; //for the AnimatedToggleSwitch
-  void clearTextField() {
-    // nameController.clear();
-    emailController.clear();
-    passwordController.clear();
-    // confirmPasswordController.clear();
-  }
 
   void toggleView() {
     setState(() {
-      clearTextField();
+      _formKey.currentState
+          ?.reset(); //to remove validation error & content on toggle
       showSignUp = !showSignUp;
       showLogin = !showLogin;
     });
   }
 
   signUp() {
-    print('first');
     if (_formKey.currentState!.validate()) {
-      print('validate');
-
-      final body = {
-        'email': emailController.text,
-        'password': passwordController.text,
-        'password_confirmation': passwordController.text,
-        'name': nameController.text,
-      };
-      print('body');
-
-      auth.register(body).then((user) async {
+      auth
+          .register(
+        email: emailController.text,
+        name: nameController.text,
+        password: passwordController.text,
+        password_confirmation: passwordController.text,
+      )
+          .then((user) async {
         if (mounted) {
           NavigationRoutes().jump(context, Routes.home_screen, replace: true);
         }
@@ -76,16 +67,13 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   logIn() {
-    print(' log');
-    nameController.text = 'name';
-    confirmPasswordController.text = 'confirm';
     if (_formKey.currentState!.validate()) {
-      print('valid log');
-      final body = {
-        'email': emailController.text,
-        'password': passwordController.text,
-      };
-      auth.login(body).then((user) async {
+      auth
+          .login(
+        email: emailController.text,
+        password: passwordController.text,
+      )
+          .then((user) async {
         if (mounted) {
           NavigationRoutes().jump(context, Routes.home_screen, replace: true);
         }
@@ -95,6 +83,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   void initState() {
+    auth = AuthRepository();
     showSignUp = true;
     showLogin = false;
     super.initState();
@@ -227,11 +216,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                       controller: nameController,
                                       hint: 'enter_name'.tr(),
                                       keyboardType: TextInputType.emailAddress,
-                                      autofillHints: const [
-                                        AutofillHints.email
-                                      ],
+                                      autofillHints: const [AutofillHints.name],
                                       validator: (value) {
-                                        if (value == null || value.isEmpty) {
+                                        if ((value == null || value.isEmpty) &&
+                                            showSignUp) {
                                           return 'please_enter_the_name'.tr();
                                         }
                                         return null;
@@ -263,7 +251,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   controller: passwordController,
                                   hint: 'enter_password'.tr(),
                                   keyboardType: TextInputType.emailAddress,
-                                  autofillHints: const [AutofillHints.email],
+                                  autofillHints: const [AutofillHints.password],
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
                                       return 'please_enter_the_password'.tr();
@@ -281,10 +269,12 @@ class _LoginScreenState extends State<LoginScreen> {
                                       hint: 'confirm_password'.tr(),
                                       keyboardType: TextInputType.emailAddress,
                                       autofillHints: const [
-                                        AutofillHints.email
+                                        AutofillHints.password
                                       ],
                                       validator: (value) {
-                                        if (value == null || value.isEmpty) {
+                                        if ((value == null || value.isEmpty) &&
+                                            value == passwordController.value &&
+                                            showSignUp) {
                                           return 'please_enter_the_password_again'
                                               .tr();
                                         }

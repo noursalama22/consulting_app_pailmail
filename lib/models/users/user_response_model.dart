@@ -1,13 +1,13 @@
 import 'package:consulting_app_pailmail/models/users/user.dart';
 
 class UserResponseModel {
-  User? user;
-  String? token;
+  late User user;
+  late String token;
 
-  UserResponseModel({this.user, this.token});
+  UserResponseModel({required this.user, required this.token});
 
   UserResponseModel.fromJson(Map<String, dynamic> json) {
-    user = json['user'] != null ? new User.fromJson(json['user']) : null;
+    user = (json['user'] != null ? new User.fromJson(json['user']) : null)!;
     token = json['token'];
   }
 
