@@ -32,6 +32,7 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
   bool isScrollingDown = true;
 
   bool isEn = false;
+
   void changeLanguage() {
     setState(() {
       isEn = !isEn;
@@ -116,7 +117,11 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
           child: InkWell(
             onTap: () {
               //print('called on tap');
-              showSheet(context, InboxScreen());
+              showSheet(
+                  context,
+                  InboxScreen(
+                    isDetails: true,
+                  ));
             },
             child: SizedBox(
               height: kToolbarHeight,
