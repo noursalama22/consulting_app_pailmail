@@ -41,6 +41,7 @@ TextStyle tileTextTitleStyle = GoogleFonts.poppins(
   color: kBlackColor,
   fontSize: 20,
 );
+
 TextStyle tileTextNumberStyle = GoogleFonts.poppins(
   color: kMediumGreyColor,
   fontSize: 14,

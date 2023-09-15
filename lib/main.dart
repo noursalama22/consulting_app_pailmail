@@ -1,5 +1,6 @@
 import 'package:consulting_app_pailmail/storage/shared_prefs.dart';
 import 'package:consulting_app_pailmail/views/features/auth/splash_screen.dart';
+import 'package:consulting_app_pailmail/views/features/home/home_screen.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -38,7 +39,8 @@ class MyApp extends StatelessWidget {
             onGenerateRoute: generateRoute,
             // home: const HomeScreen(),
             //      home: const SearchScreen(),
-            home: const SplashScreen(duration: Duration(seconds: 3)),
+            // home: const SplashScreen(duration: Duration(seconds: 3)),
+            home: HomeScreen(),
           );
         });
   }
