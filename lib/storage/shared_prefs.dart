@@ -1,92 +1,101 @@
+import 'package:consulting_app_pailmail/models/users/user_response_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class SharedPrefsController {
-  SharedPreferences? _prefs;
+enum PrefKeys { loggedIn, email, id, image, name, token, roleId }
 
-  static final SharedPrefsController _instance =
-      SharedPrefsController._internal();
+class SharedPrefrencesController {
+  static final SharedPrefrencesController _instance =
+      SharedPrefrencesController._();
+  late SharedPreferences _sharedPreferences;
 
-  factory SharedPrefsController() {
+  SharedPrefrencesController._();
+
+  factory SharedPrefrencesController() {
     return _instance;
   }
 
-  Future<void> _checkInstance() async {
-    if (_prefs == null) {
-      await init();
+  Future<void> initPref() async {
+    _sharedPreferences = await SharedPreferences.getInstance();
+  }
+
+  Future<bool> saveAuth(
+      {required UserResponseModel userModel, required bool isLogin}) async {
+    try {
+      await _sharedPreferences.setBool(PrefKeys.loggedIn.toString(), true);
+      await _sharedPreferences.setInt(
+          PrefKeys.id.toString(), userModel.user.id!.toInt());
+      await _sharedPreferences.setInt(
+          PrefKeys.roleId.toString(), userModel.user.roleId.toInt());
+      await _sharedPreferences.setString(
+          PrefKeys.email.toString(), userModel.user.email.toString());
+      await _sharedPreferences.setString(
+          PrefKeys.name.toString(), userModel.user.name.toString());
+      await _sharedPreferences.setString(
+          PrefKeys.token.toString(), 'Bearer ${userModel.token}');
+      if (isLogin) {
+        await _sharedPreferences.setString(
+            PrefKeys.image.toString(), userModel.user.image.toString());
+      }
+      return true;
+    } catch (e) {
+      return false;
     }
   }
 
-  SharedPrefsController._internal();
-
-  Future<void> init() async {
-    _prefs = await SharedPreferences.getInstance();
-  }
-
   Future<bool?> setData(String key, dynamic data) async {
-    await _checkInstance();
     switch (data.runtimeType) {
       case int:
-        return _prefs?.setInt(key, data);
+        return _sharedPreferences.setInt(key, data);
       case String:
-        return _prefs?.setString(key, data);
+        return _sharedPreferences.setString(key, data);
       case bool:
-        return _prefs?.setBool(key, data);
+        return _sharedPreferences.setBool(key, data);
     }
     return null;
   }
 
-  Future<dynamic> getData(String key) async {
-    await _checkInstance();
-    return _prefs?.get(key);
-  }
+  bool get loggedIn =>
+      _sharedPreferences.getBool(PrefKeys.loggedIn.toString()) ?? false;
+  String get email =>
+      _sharedPreferences.getString(PrefKeys.email.toString()) ?? '';
+  String get name =>
+      _sharedPreferences.getString(PrefKeys.name.toString()) ?? '';
+  String get roleId =>
+      _sharedPreferences.getString(PrefKeys.roleId.toString()) ?? '';
+  String get id => _sharedPreferences.getString(PrefKeys.id.toString()) ?? '';
+  String get image =>
+      _sharedPreferences.getString(PrefKeys.image.toString()) ?? '';
+  String get token =>
+      _sharedPreferences.getString(PrefKeys.token.toString()) ?? '';
 
-// Future<bool> shouldShowOnboarding() async {
-//   await _checkInstance();
-//   bool onboardingShown = _prefs?.getBool(_onBoardingKey) ?? false;
-//   return !onboardingShown;
-// }
-//
-// Future<void> setOnboardingShown() async {
-//   await _checkInstance();
-//   await _prefs?.setBool(_onBoardingKey, true);
-// }
-
-//for example if the logged in is user
-// Future<bool> saveLoginData(UserSignInModel user) async {
-//   await _checkInstance();
-//   try {
-//     await _prefs?.setString('token', 'Bearer ${user.token}');
-//     await _prefs?.setString('id', user.user.id.toString());
-//     print(user.token);
-//     return true;
-//   } catch (e) {
-//     return false;
-//   }
-// }
-//complete the rest of variable methode in the same way
-// all variable in the enum above are same variable in the model user
-
-// Future<bool> saveSignup(UserSignUpModel user) async {
-//   await _checkInstance();
-//   try {
-//     await _prefs?.setString('id', user.user.id.toString());
-//     await _prefs?.setString('token', 'Bearer ${user.token}');
-//     return true;
-//   } catch (e) {
-//     return false;
-//   }
-// }
+  //
+  // Future<dynamic> getData(String key) async {
+  //   if (_sharedPreferences.containsKey(key)) {
+  //     return _sharedPreferences.get(key);
+  //   }
+  // }
 
 // Future<T?> getValueFor<T>(String key) async {
 //   await _checkInstance();
-//   if (_prefs!.containsKey(key)) {
+//   if (_sharedPreferences!.containsKey(key)) {
 //     return _prefs?.get(key) as T;
 //   }
 //   return null;
 // }
-//
-// Future<bool?> clear() async {
-//   await _checkInstance();
-//   return _prefs?.clear();
-// }
+  // bool get loggedIn =>
+  //     _sharedPreferences.getBool(PrefKeys.loggedIn.toString()) ?? false;
+  //
+  // String get email =>
+  //     _sharedPreferences.getString(PrefKeys.email.toString()) ?? ' ';
+
+  Future<bool> remove({required String key}) async {
+    if (_sharedPreferences.containsKey(key)) {
+      return await _sharedPreferences.remove(key);
+    }
+    return false;
+  }
+
+  Future<bool> clear() async {
+    return await _sharedPreferences.clear();
+  }
 }

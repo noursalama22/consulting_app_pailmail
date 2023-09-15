@@ -1,16 +1,14 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
+import '../../../storage/shared_prefs.dart';
 import 'app_exception.dart';
 
 class ApiBaseHelper {
-  final String _baseUrl = "https://palmail.gsgtt.tech/api";
-
-  Future<dynamic> get(String url, Map<String, String> header) async {
+  Future<dynamic> get(String url) async {
     var responseJson;
     try {
-      final response =
-          await http.get(Uri.parse(_baseUrl + url), headers: header);
+      final response = await http.get(Uri.parse(url), headers: headers);
       responseJson = _returnResponse(response);
     } on SocketException {
       throw FetchDataException('No Internet connection');
@@ -18,13 +16,13 @@ class ApiBaseHelper {
     return responseJson;
   }
 
-  Future<dynamic> post(
-      String url, Map<String, String> body, Map<String, String> header) async {
+  Future<dynamic> post(String url, Map<String, String> body) async {
     var responseJson;
+
     try {
       final response = await http.post(
-        Uri.parse(_baseUrl + url),
-        headers: header,
+        Uri.parse(url),
+        headers: headers,
         body: body,
       );
       responseJson = _returnResponse(response);
@@ -37,15 +35,23 @@ class ApiBaseHelper {
   Future<dynamic> put(String url, Map<String, dynamic> body) async {
     var responseJson;
     try {
-      final response = await http.put(
-        Uri.parse(_baseUrl + url),
-        body: body,
-      );
+      final response =
+          await http.put(Uri.parse(url), body: body, headers: headers);
       responseJson = _returnResponse(response);
     } on SocketException {
       throw FetchDataException('No Internet connection');
     }
     return responseJson;
+  }
+
+  Map<String, String> get headers {
+    Map<String, String> header = <String, String>{};
+    header[HttpHeaders.acceptHeader] = 'application/json';
+    if (SharedPrefrencesController().loggedIn) {
+      header[HttpHeaders.authorizationHeader] =
+          SharedPrefrencesController().token;
+    }
+    return header;
   }
 
   dynamic _returnResponse(http.Response response) {
