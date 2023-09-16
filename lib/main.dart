@@ -1,6 +1,7 @@
 import 'package:consulting_app_pailmail/providers/roles_provider.dart';
 import 'package:consulting_app_pailmail/storage/shared_prefs.dart';
 import 'package:consulting_app_pailmail/views/features/auth/splash_screen.dart';
+import 'package:consulting_app_pailmail/views/features/home/home_screen.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -28,6 +29,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.  @override
   @override
   Widget build(BuildContext context) {
+
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<RoleProvider>(create: (_) => RoleProvider()),
@@ -48,5 +50,6 @@ class MyApp extends StatelessWidget {
             );
           }),
     );
+
   }
 }
