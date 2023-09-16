@@ -29,7 +29,7 @@ class AuthRepository {
     await SharedPrefrencesController().saveAuth(
         userModel: UserResponseModel(
             user: userResponseModel.user, token: userResponseModel.token),
-        isLogin: true);
+        isLogin: false);
     print(SharedPrefrencesController().email);
     print(SharedPrefrencesController().token);
     print(SharedPrefrencesController().roleId);
