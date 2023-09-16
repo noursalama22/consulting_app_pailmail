@@ -1,3 +1,5 @@
+import 'package:consulting_app_pailmail/repositories/roles_repository.dart';
+import 'package:consulting_app_pailmail/storage/shared_prefs.dart';
 import 'package:consulting_app_pailmail/views/widgets/custom_category_container.dart';
 import 'package:consulting_app_pailmail/views/widgets/custom_chip.dart';
 import 'package:consulting_app_pailmail/views/widgets/custom_expansion_tile.dart';
@@ -25,6 +27,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
+  RoleRepository roleRepository = RoleRepository();
+
   final _advancedDrawerController = AdvancedDrawerController();
 
   late ScrollController _scrollViewController;
@@ -50,6 +54,8 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
   @override
   void initState() {
     super.initState();
+    roleRepository.fetchRoleList();
+
     _scrollViewController = ScrollController();
     _scrollViewController.addListener(() {
       if (_scrollViewController.position.userScrollDirection ==
@@ -220,13 +226,13 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                                   raduis: 90.r,
                                 ),
                                 Text(
-                                  "User name",
+                                  '${SharedPrefrencesController().name}',
                                   style: GoogleFonts.poppins(
                                       color: Colors.black, fontSize: 16.sp),
                                   textAlign: TextAlign.center,
                                 ),
                                 Text(
-                                  "admin",
+                                  '  ${SharedPrefrencesController().roleId}',
                                   style: GoogleFonts.poppins(
                                       color: kMediumGreyColor, fontSize: 12.sp),
                                   textAlign: TextAlign.center,
@@ -265,22 +271,27 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                                 .pushUntil(context, Routes.login_screen);
                           },
                           //TODO : Custom Widget for rows
-                          child: Row(
-                            children: [
-                              Icon(
-                                Icons.logout,
-                                color: Colors.grey.shade600,
-                                size: 30.sp,
-                              ),
-                              SizedBox(
-                                width: 12.w,
-                              ),
-                              Text(
-                                'logout'.tr(),
-                                style: statusTextStyle.copyWith(
-                                    color: kDarkGreyColor),
-                              ),
-                            ],
+                          child: InkWell(
+                            onTap: () {
+                              SharedPrefrencesController().remove(key: 'token');
+                            },
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.logout,
+                                  color: Colors.grey.shade600,
+                                  size: 30.sp,
+                                ),
+                                SizedBox(
+                                  width: 12.w,
+                                ),
+                                Text(
+                                  'logout'.tr(),
+                                  style: statusTextStyle.copyWith(
+                                      color: kDarkGreyColor),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ],
