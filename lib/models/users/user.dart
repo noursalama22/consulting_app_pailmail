@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import '../roles/role.dart';
 
 class User {
