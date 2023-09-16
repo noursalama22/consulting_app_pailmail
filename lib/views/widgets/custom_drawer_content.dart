@@ -32,12 +32,24 @@ class CustomDrawerContent extends StatelessWidget {
               width: 100.w,
             ),
           ),
-          menuListTile(Icons.home, 'Home'.tr(), () {}),
-          menuListTile(Icons.account_circle_rounded, 'Profile'.tr(), () {}),
+          menuListTile(Icons.home, 'Home'.tr(), () {
+            NavigationRoutes().jump(
+              context,
+              Routes.home_screen,
+            );
+          }),
+          menuListTile(Icons.account_circle_rounded, 'Profile'.tr(), () {
+            NavigationRoutes().jump(
+              context,
+              Routes.profile_screen,
+            );
+          }),
           menuListTile(Icons.contact_page, 'Senders'.tr(), () {}),
           menuListTile(Icons.settings, 'Settings'.tr(), () {
-            NavigationRoutes()
-                .jump(context, Routes.settings_screen, replace: true);
+            NavigationRoutes().jump(
+              context,
+              Routes.settings_screen,
+            );
           }),
           const Spacer(),
           DefaultTextStyle(

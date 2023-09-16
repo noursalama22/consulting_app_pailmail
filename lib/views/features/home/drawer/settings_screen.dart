@@ -1,9 +1,8 @@
 import 'package:consulting_app_pailmail/models/roles/role.dart';
-import 'package:consulting_app_pailmail/models/roles/role_response_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../core/helpers/api_helpers/api_response.dart';
-import '../../../providers/roles_provider.dart';
+import '../../../../core/helpers/api_helpers/api_response.dart';
+import '../../../../providers/roles_provider.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({Key? key}) : super(key: key);

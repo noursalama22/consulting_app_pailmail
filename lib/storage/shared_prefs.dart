@@ -1,7 +1,7 @@
 import 'package:consulting_app_pailmail/models/users/user_response_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-enum PrefKeys { loggedIn, email, id, image, name, token, roleId }
+enum PrefKeys { loggedIn, email, id, image, name, token, roleId, role }
 
 class SharedPrefrencesController {
   static final SharedPrefrencesController _instance =
@@ -18,34 +18,25 @@ class SharedPrefrencesController {
     _sharedPreferences = await SharedPreferences.getInstance();
   }
 
-  Future<bool> saveAuth(
+  Future<void> saveAuth(
       {required UserResponseModel userModel, required bool isLogin}) async {
-    // await _sharedPreferences.setString(
-    //     PrefKeys.name.toString(), userModel.user.name.toString());
-    // await _sharedPreferences.setString(
-    //     PrefKeys.token.toString(), 'Bearer ${userModel.token}');
-    // await _sharedPreferences.setString(
-    //     PrefKeys.roleId.toString(), userModel.user.roleId.toString());
-    try {
-      print('try');
-      await _sharedPreferences.setBool(PrefKeys.loggedIn.toString(), true);
-      await _sharedPreferences.setInt(
-          PrefKeys.id.toString(), userModel.user.id!.toInt());
-      await _sharedPreferences.setInt(
-          PrefKeys.roleId.toString(), userModel.user.roleId.toInt());
+    print('ave auth shared preferences: ');
+    await _sharedPreferences.setBool(PrefKeys.loggedIn.toString(), true);
+    await _sharedPreferences.setInt(
+        PrefKeys.id.toString(), userModel.user.id!.toInt());
+    await _sharedPreferences.setInt(
+        PrefKeys.roleId.toString(), int.parse(userModel.user.roleId));
+    await _sharedPreferences.setString(
+        PrefKeys.email.toString(), userModel.user.email.toString());
+    await _sharedPreferences.setString(
+        PrefKeys.name.toString(), userModel.user.name.toString());
+    await _sharedPreferences.setString(
+        PrefKeys.token.toString(), 'Bearer ${userModel.token}');
+    await _sharedPreferences.setString(
+        PrefKeys.role.toString(), userModel.user.role!.name.toString());
+    if (isLogin) {
       await _sharedPreferences.setString(
-          PrefKeys.email.toString(), userModel.user.email.toString());
-      await _sharedPreferences.setString(
-          PrefKeys.name.toString(), userModel.user.name.toString());
-      await _sharedPreferences.setString(
-          PrefKeys.token.toString(), 'Bearer ${userModel.token}');
-      if (isLogin) {
-        await _sharedPreferences.setString(
-            PrefKeys.image.toString(), userModel.user.image.toString());
-      }
-      return true;
-    } catch (e) {
-      return false;
+          PrefKeys.image.toString(), userModel.user.image.toString());
     }
   }
 
@@ -74,6 +65,9 @@ class SharedPrefrencesController {
       _sharedPreferences.getString(PrefKeys.image.toString()) ?? '';
   String get token =>
       _sharedPreferences.getString(PrefKeys.token.toString()) ?? '';
+  String get roleName =>
+      _sharedPreferences.getString(PrefKeys.role.toString()) ??
+      'not found role';
 
   //
   // Future<dynamic> getData(String key) async {

@@ -63,7 +63,7 @@ class RoleResponseModel {
     if (json['roles'] != null) {
       roles = <Role>[];
       json['roles'].forEach((v) {
-        roles!.add(new Role.fromJson(v));
+        roles!.add(Role.fromJson(v));
       });
     }
   }
