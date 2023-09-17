@@ -81,33 +81,33 @@ class _TestEmailsState extends State<TestEmails> {
               }
             },
           ),
-          ElevatedButton(
-            onPressed: () async {},
-            child: Consumer<MailProvider>(
-              builder: (context, mailProvider, child) {
-                if (mailProvider.mails.status == ApiStatus.LOADING) {
-                  {
-                    return const CircularProgressIndicator();
-                  }
-                } else if (mailProvider.mails.status == ApiStatus.COMPLETED) {
-                  {
-                    final mail = mailProvider.mails.data![0].id;
-                    return Center(
-                      child: Row(
-                        children: [
-                          Container(
-                            child: Text(mail.toString()),
-                          ),
-                        ],
-                      ),
-                    );
-                  }
-                } else {
-                  return Text(mailProvider.singleMail.message.toString());
-                }
-              },
-            ),
-          ),
+          // ElevatedButton(
+          //   onPressed: () async {},
+          //   child: Consumer<MailProvider>(
+          //     builder: (context, mailProvider, child) {
+          //       if (mailProvider.mails.status == ApiStatus.LOADING) {
+          //         {
+          //           return const CircularProgressIndicator();
+          //         }
+          //       } else if (mailProvider.mails.status == ApiStatus.COMPLETED) {
+          //         {
+          //           final mail = mailProvider.mails.data![0].id;
+          //           return Center(
+          //             child: Row(
+          //               children: [
+          //                 Container(
+          //                   child: Text(mail.toString()),
+          //                 ),
+          //               ],
+          //             ),
+          //           );
+          //         }
+          //       } else {
+          //         return Text(mailProvider.singleMail.message.toString());
+          //       }
+          //     },
+          //   ),
+          // ),
           // Consumer<MailProvider>(
           //   builder: (context, mailProvider, child) {
           //     final mail = mailProvider.createdMail.data?.id;
@@ -135,31 +135,31 @@ class _TestEmailsState extends State<TestEmails> {
           // ),
 
           ///update
-          Consumer<MailProvider>(
-            builder: (context, mailProvider, child) {
-              final mail = mailProvider.singleMail;
-              if (mailProvider.singleMail.status == ApiStatus.LOADING) {
-                {
-                  return const CircularProgressIndicator();
-                }
-              } else if (mailProvider.singleMail.status ==
-                  ApiStatus.COMPLETED) {
-                {
-                  return Center(
-                    child: Row(
-                      children: [
-                        Container(
-                          child: Text(mail.toString()),
-                        ),
-                      ],
-                    ),
-                  );
-                }
-              } else {
-                return Text(mailProvider.mails.message.toString());
-              }
-            },
-          ),
+          // Consumer<MailProvider>(
+          //   builder: (context, mailProvider, child) {
+          //     final mail = mailProvider.singleMail;
+          //     if (mailProvider.singleMail.status == ApiStatus.LOADING) {
+          //       {
+          //         return const CircularProgressIndicator();
+          //       }
+          //     } else if (mailProvider.singleMail.status ==
+          //         ApiStatus.COMPLETED) {
+          //       {
+          //         return Center(
+          //           child: Row(
+          //             children: [
+          //               Container(
+          //                 child: Text(mail.toString()),
+          //               ),
+          //             ],
+          //           ),
+          //         );
+          //       }
+          //     } else {
+          //       return Text(mailProvider.mails.message.toString());
+          //     }
+          //   },
+          // ),
         ],
       ),
     );
