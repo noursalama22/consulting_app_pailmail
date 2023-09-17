@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../../core/helpers/routers/router.dart';
 import '../../../core/utils/constants.dart';
 
+import '../../test_email.dart';
 import '../../widgets/custom_logo_widget.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -38,6 +39,11 @@ class _SplashScreenState extends State<SplashScreen>
             if (status == AnimationStatus.completed) {
               checkLogin();
               // NavigationRoutes().jump(context, Routes.login_screen, replace: true);
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => TestEmails(),
+                  ));
             }
           });
 
