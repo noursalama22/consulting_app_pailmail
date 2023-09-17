@@ -79,13 +79,13 @@ const String imageUrl = "https://palmail.gsgtt.tech/storage/";
 /* private */
 
 // CURRENT USER AUTH //
-const String currentUserInfoUrl = "${baseUrl}/user";
-const String currentUpdateUserUrl = "${currentUserInfoUrl}/update";
-const String logoutrUrl = "${baseUrl}/logout";
+const String currentUserInfoUrl = "$baseUrl/user";
+const String currentUpdateUserUrl = "$currentUserInfoUrl/update";
+const String logoutrUrl = "$baseUrl/logout";
 
 // GENERAL USER AUTH //
-const String allUsersUrl = "${baseUrl}/users";
-const String CRUD_UsersUrl = "${allUsersUrl}/";
+const String allUsersUrl = "$baseUrl/users";
+const String CRUD_UsersUrl = "$allUsersUrl/";
 /* TODO:
 here add {id}, Post for create, Get gor get,  DEL for delete,PUT for update
 for change password add id /password
@@ -93,34 +93,35 @@ for change role add id /role
 */
 
 // MAILS //
-const String allMailsUrl = "${baseUrl}/mails"; // also create mail
-const String CRUD_mailsUrl = "${allMailsUrl}/";
+const String allMailsUrl = "$baseUrl/mails"; // also create mail
+const String CRUD_mailsUrl = "$allMailsUrl/";
 
 // CATEGORIES //
-const String allCategoriesUrl = "${baseUrl}/categories"; // also create category
+const String allCategoriesUrl = "$baseUrl/categories"; // also create category
 const String categoryMailUrl =
-    "${allCategoriesUrl}/"; // add id for for single category , add id/mails for mails of category
+    "$allCategoriesUrl/"; // add id for for single category , add id/mails for mails of category
 
 // TAGS //
 
 const String allTagsUrl = "${baseUrl}/tags"; // also all tags with mails
+
 const String allTagsOfMailUrl =
-    "${allMailsUrl}/"; //  add id/tags for all tags of mail
+    "$allMailsUrl/"; //  add id/tags for all tags of mail
 
 // STATUSES //
-const String statusUrl = "${baseUrl}/statuses";
-const String allTStatusesUrl = "${statusUrl}?mail=false";
-const String singleStatus = "${statusUrl}/"; //  add id/{}?mail=true
+const String statusUrl = "$baseUrl/statuses";
+const String allTStatusesUrl = "$statusUrl?mail=false";
+const String singleStatus = "$statusUrl/"; //  add id/{}?mail=true
 
 // ROLES //
-const String allRolesUrl = "${baseUrl}/roles";
+const String allRolesUrl = "$baseUrl/roles";
 
 // SEARCH //
-const String searchUrl = "${baseUrl}/search";
+const String searchUrl = "$baseUrl/search";
 
 // SENDERS //
-const String sendersUrl = "${baseUrl}/senders";
-const String CRUD_senderUrl = "${sendersUrl}/"; // add  id
+const String sendersUrl = "$baseUrl/senders";
+const String CRUD_senderUrl = "$sendersUrl/"; // add  id
 
 // ATTACHMENTS //
-const String allAttachmentsUrl = "${baseUrl}/attachments";
+const String allAttachmentsUrl = "$baseUrl/attachments";

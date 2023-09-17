@@ -78,7 +78,7 @@ class _CustomExpansionTileState extends State<CustomExpansionTile> {
                         _customTileExpanded ? kLightBlueColor : kDarkGreyColor,
                     // weight: 12,
                   )
-                : SizedBox.shrink(),
+                : const SizedBox.shrink(),
           ],
         ),
       ),
