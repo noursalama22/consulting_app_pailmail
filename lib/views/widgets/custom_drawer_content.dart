@@ -2,6 +2,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../core/helpers/routers/router.dart';
+
 class CustomDrawerContent extends StatelessWidget {
   const CustomDrawerContent({
     super.key,
@@ -30,10 +32,25 @@ class CustomDrawerContent extends StatelessWidget {
               width: 100.w,
             ),
           ),
-          menuListTile(Icons.home, 'Home'.tr(), () {}),
-          menuListTile(Icons.account_circle_rounded, 'Profile'.tr(), () {}),
+          menuListTile(Icons.home, 'Home'.tr(), () {
+            NavigationRoutes().jump(
+              context,
+              Routes.home_screen,
+            );
+          }),
+          menuListTile(Icons.account_circle_rounded, 'Profile'.tr(), () {
+            NavigationRoutes().jump(
+              context,
+              Routes.profile_screen,
+            );
+          }),
           menuListTile(Icons.contact_page, 'Senders'.tr(), () {}),
-          menuListTile(Icons.settings, 'Settings'.tr(), () {}),
+          menuListTile(Icons.settings, 'Settings'.tr(), () {
+            NavigationRoutes().jump(
+              context,
+              Routes.settings_screen,
+            );
+          }),
           const Spacer(),
           DefaultTextStyle(
             style: const TextStyle(

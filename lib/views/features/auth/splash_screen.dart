@@ -1,4 +1,7 @@
+import 'package:consulting_app_pailmail/repositories/roles_repository.dart';
+import 'package:consulting_app_pailmail/storage/shared_prefs.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../core/helpers/routers/router.dart';
 import '../../../core/utils/constants.dart';
@@ -18,16 +21,25 @@ class _SplashScreenState extends State<SplashScreen>
     with SingleTickerProviderStateMixin {
   late AnimationController animationController;
 
+  void checkLogin() async {
+    if (SharedPrefrencesController().loggedIn && mounted) {
+      NavigationRoutes().jump(context, Routes.home_screen, replace: true);
+    } else {
+      NavigationRoutes().jump(context, Routes.login_screen, replace: true);
+    }
+  }
+
   @override
   void initState() {
-    animationController = AnimationController(
-        duration: widget.duration, vsync: this)
-      ..forward()
-      ..addStatusListener((status) {
-        if (status == AnimationStatus.completed) {
-          NavigationRoutes().jump(context, Routes.login_screen, replace: true);
-        }
-      });
+    animationController =
+        AnimationController(duration: widget.duration, vsync: this)
+          ..forward()
+          ..addStatusListener((status) {
+            if (status == AnimationStatus.completed) {
+              checkLogin();
+              // NavigationRoutes().jump(context, Routes.login_screen, replace: true);
+            }
+          });
 
     super.initState();
   }
