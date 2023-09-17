@@ -18,27 +18,22 @@ class SharedPrefrencesController {
     _sharedPreferences = await SharedPreferences.getInstance();
   }
 
-  Future<bool> saveAuth(
+  Future<void> saveAuth(
       {required UserResponseModel userModel, required bool isLogin}) async {
-    try {
-      await _sharedPreferences.setBool(PrefKeys.loggedIn.toString(), true);
-      await _sharedPreferences.setInt(
-          PrefKeys.id.toString(), userModel.user.id!.toInt());
-      await _sharedPreferences.setInt(
-          PrefKeys.roleId.toString(), userModel.user.roleId.toInt());
+    await _sharedPreferences.setBool(PrefKeys.loggedIn.toString(), true);
+    await _sharedPreferences.setInt(
+        PrefKeys.id.toString(), userModel.user.id!.toInt());
+    await _sharedPreferences.setInt(
+        PrefKeys.roleId.toString(), int.parse(userModel.user.roleId!));
+    await _sharedPreferences.setString(
+        PrefKeys.email.toString(), userModel.user.email.toString());
+    await _sharedPreferences.setString(
+        PrefKeys.name.toString(), userModel.user.name.toString());
+    await _sharedPreferences.setString(
+        PrefKeys.token.toString(), 'Bearer ${userModel.token}');
+    if (isLogin) {
       await _sharedPreferences.setString(
-          PrefKeys.email.toString(), userModel.user.email.toString());
-      await _sharedPreferences.setString(
-          PrefKeys.name.toString(), userModel.user.name.toString());
-      await _sharedPreferences.setString(
-          PrefKeys.token.toString(), 'Bearer ${userModel.token}');
-      if (isLogin) {
-        await _sharedPreferences.setString(
-            PrefKeys.image.toString(), userModel.user.image.toString());
-      }
-      return true;
-    } catch (e) {
-      return false;
+          PrefKeys.image.toString(), userModel.user.image.toString());
     }
   }
 

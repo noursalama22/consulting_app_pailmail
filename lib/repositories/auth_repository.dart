@@ -17,7 +17,9 @@ class AuthRepository {
       'password': password,
     };
     final loginResponse = await _helper.post(loginUrl, body);
-
+    var user = UserResponseModel.fromJson(loginResponse);
+    _prefs.saveAuth(userModel: user, isLogin: true);
+    // print("********************${_prefs.email}");
     return UserResponseModel.fromJson(loginResponse);
   }
 

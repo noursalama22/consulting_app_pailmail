@@ -57,7 +57,7 @@ class CustomDrawerContent extends StatelessWidget {
       onTap: onTap,
       leading: Icon(icon),
       title: Text(
-        title,
+        title.tr(),
       ),
     );
   }
