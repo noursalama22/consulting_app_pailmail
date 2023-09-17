@@ -485,6 +485,7 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.0"
+
   octo_image:
     dependency: transitive
     description:
@@ -493,6 +494,7 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.2"
+
   path:
     dependency: transitive
     description:
@@ -589,6 +591,7 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.0.5"
+
   rxdart:
     dependency: transitive
     description:
@@ -597,6 +600,7 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.27.7"
+
   shared_preferences:
     dependency: "direct main"
     description:

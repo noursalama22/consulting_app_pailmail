@@ -1,5 +1,9 @@
+import 'package:consulting_app_pailmail/providers/sender_provider.dart';
+import 'package:consulting_app_pailmail/providers/tag_provider.dart';
+
 import 'package:consulting_app_pailmail/providers/auth_provider.dart';
 import 'package:consulting_app_pailmail/providers/roles_provider.dart';
+
 import 'package:consulting_app_pailmail/storage/shared_prefs.dart';
 import 'package:consulting_app_pailmail/views/features/auth/splash_screen.dart';
 import 'package:consulting_app_pailmail/views/features/home/home_screen.dart';
@@ -27,14 +31,22 @@ Future<void> main() async {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+
   // This widget is the root of your application.  @override
   @override
   Widget build(BuildContext context) {
 
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<AuthProvider>(create: (_) => AuthProvider()),
+        ChangeNotifierProvider<SenderProvider>(
+          create: (_) => SenderProvider(),
+        ),
+        ChangeNotifierProvider<TagProvider>(
+          create: (_) => TagProvider(),
+        ),
+         ChangeNotifierProvider<AuthProvider>(create: (_) => AuthProvider()),
         ChangeNotifierProvider<RoleProvider>(create: (_) => RoleProvider()),
+
       ],
       child: ScreenUtilInit(
           designSize: const Size(428, 812),

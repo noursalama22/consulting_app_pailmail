@@ -44,7 +44,7 @@ class _CustomContainerDetailsState extends State<CustomContainerDetails> {
           onTap: () {},
           child: Padding(
             padding: EdgeInsetsDirectional.symmetric(
-                horizontal: 16.w, vertical: 14.h),
+                horizontal: 14.w, vertical: 14.h),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -78,7 +78,7 @@ class _CustomContainerDetailsState extends State<CustomContainerDetails> {
                                   tileTextTitleStyle.copyWith(fontSize: 16.sp),
                             ),
                             SizedBox(
-                              width: 100.w,
+                              width: 90.w,
                             ),
                             Text(
                               widget.dateOrgName,
@@ -101,7 +101,7 @@ class _CustomContainerDetailsState extends State<CustomContainerDetails> {
                                   tileTextTitleStyle.copyWith(fontSize: 16.sp),
                             ),
                             SizedBox(
-                              width: 170.w,
+                              width: 160.w,
                             ),
                             Text(
                               widget.dateOrgCategory,
@@ -119,7 +119,7 @@ class _CustomContainerDetailsState extends State<CustomContainerDetails> {
                   height: 10.h,
                 ),
                 Divider(
-                  height: 12,
+                  height: 12.h,
                   thickness: 1,
                   color: kLightGreyColor,
                 ),

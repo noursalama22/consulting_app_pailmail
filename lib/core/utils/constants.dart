@@ -102,6 +102,7 @@ const String categoryMailUrl =
     "${allCategoriesUrl}/"; // add id for for single category , add id/mails for mails of category
 
 // TAGS //
+
 const String allTagsUrl = "${baseUrl}/tags"; // also all tags with mails
 const String allTagsOfMailUrl =
     "${allMailsUrl}/"; //  add id/tags for all tags of mail
