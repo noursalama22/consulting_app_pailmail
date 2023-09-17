@@ -1,10 +1,8 @@
-import 'package:consulting_app_pailmail/views/features/search/search_filters_screen.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:consulting_app_pailmail/views/widgets/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import '../../../core/utils/constants.dart';
-import '../../widgets/custom_app_bar.dart';
-import '../../widgets/custom_list_row_state.dart';
 
 class StatusScreen extends StatefulWidget {
   const StatusScreen({Key? key}) : super(key: key);
@@ -63,11 +61,11 @@ class _StatusScreenState extends State<StatusScreen> {
                 SizedBox(
                   height: 19.h,
                 ),
-                CustomListRowState(
-                  list: status,
-                  isStatus: true,
-                  color: colors,
-                ),
+                // CustomListRowState(
+                //   list: status,
+                //   isStatus: true,
+                //   color: colors,
+                // ),
 
                 ///view and select status
                 // _CustomStatusRowState(

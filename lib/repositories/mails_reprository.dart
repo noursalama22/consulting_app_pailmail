@@ -16,6 +16,7 @@ class MailsRepository {
 
   Future<List<Mail>?> fetchSingleMail({required String id}) async {
     final response = await _hepler.get(CRUD_mailsUrl + id);
+
     print(response);
     return MailResponseModel.fromJson(response).mails;
   }
@@ -53,6 +54,7 @@ class MailsRepository {
   }
 
   Future<Mail?> updateMail(
+
       {required String id,
       String? decision,
       required int status_id,
@@ -66,6 +68,7 @@ class MailsRepository {
       "status_id": status_id.toString(),
       "final_decision": final_decision.toString(),
       "tags": jsonEncode(tags),
+
       "activities": jsonEncode(activities),
       "idAttachmentsForDelete": jsonEncode(idAttachmentsForDelete),
       "pathAttachmentsForDelete": jsonEncode(pathAttachmentsForDelete)
@@ -73,6 +76,7 @@ class MailsRepository {
     print("jjjjjjjjjjj");
     final response = await _hepler.put(CRUD_mailsUrl + id, body);
     return Mail.fromJson(response['mail']);
+
   }
 
   Future<bool> deleteMail({required String id}) async {

@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:http/http.dart' as http;
+
 import '../../../storage/shared_prefs.dart';
 import 'app_exception.dart';
 
@@ -8,6 +10,7 @@ class ApiBaseHelper {
   var responseJson;
 
   Future<dynamic> get(String url) async {
+
     try {
       final response = await http.get(Uri.parse(url), headers: headers);
       responseJson = _returnResponse(response);
@@ -17,20 +20,24 @@ class ApiBaseHelper {
     return responseJson;
   }
 
+
   Future<dynamic> post(String url, Map<String, String> body) async {
+ic> postParams(
+      String sender_url, bool params, Map<String, dynamic> body) async {
+    var responseJson;
+
+    String url = '$sender_url/senders/?mail=$params';
+    print("2");
     try {
-      final response = await http.post(
-        Uri.parse(url),
-        headers: headers,
-        body: body,
-      );
-      print("ttttttttttttttttttttttt" + response.statusCode.toString());
+      print("3");
+      final response =
+          await http.post(Uri.parse(url), headers: headers, body: body);
+      print("4");
       responseJson = _returnResponse(response);
-    } on SocketException {
-      throw FetchDataException('No Internet connection');
-    }
-    return responseJson;
-  }
+      print("5");
+    } catch (e) {}
+    ;
+  } //E/flutter ( 8612): [ERROR:flutter/runtime/dart_vm_initializer.cc(41)] Unhandled Exception: Error During Communication: Error occurred while Communication with Server with StatusCode : 301
 
   Future<dynamic> postDel(
     String url,
@@ -50,6 +57,7 @@ class ApiBaseHelper {
   }
 
   Future<dynamic> put(String url, Map<String, String> body) async {
+
     try {
       final response =
           await http.put(Uri.parse(url), body: body, headers: headers);
@@ -60,18 +68,21 @@ class ApiBaseHelper {
     return responseJson;
   }
 
-  Future<bool> delete(String url) async {
+
+  Future<dynamic> delete(String url) async {
+    var responseJson;
     try {
-      final response = await http.delete(Uri.parse(url), headers: headers);
-      if (_returnResponse(response)) {
-        responseJson = true;
-      } else {
-        return false;
-      }
+      final response = await http.delete(
+        Uri.parse(url),
+        headers: headers,
+      );
+      responseJson = _returnResponse(response);
+      Future.value("delete successfully");
     } on SocketException {
-      return false;
+      throw FetchDataException('No Internet connection');
     }
-    return false;
+    return true;
+
   }
 
   Map<String, String> get headers {

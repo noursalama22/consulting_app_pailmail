@@ -1,5 +1,9 @@
 import 'package:consulting_app_pailmail/core/helpers/api_helpers/api_response.dart';
+
 import 'package:consulting_app_pailmail/providers/mails_provider.dart';
+
+import 'package:consulting_app_pailmail/providers/mails_provider_class.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -12,6 +16,8 @@ class TestEmails extends StatefulWidget {
 }
 
 class _TestEmailsState extends State<TestEmails> {
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,6 +55,7 @@ class _TestEmailsState extends State<TestEmails> {
           //   },
           // ),
           Divider(),
+
           Consumer<MailProvider>(
             builder: (context, mailProvider, child) {
               if (mailProvider.singleMail.status == ApiStatus.LOADING) {
@@ -145,6 +152,7 @@ class _TestEmailsState extends State<TestEmails> {
           //     } else if (mailProvider.singleMail.status ==
           //         ApiStatus.COMPLETED) {
           //       {
+
           //         return Center(
           //           child: Row(
           //             children: [
@@ -160,6 +168,8 @@ class _TestEmailsState extends State<TestEmails> {
           //     }
           //   },
           // ),
+
+
         ],
       ),
     );

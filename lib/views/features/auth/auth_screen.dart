@@ -7,9 +7,11 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 import '../../../core/helpers/routers/router.dart';
 import '../../../core/utils/constants.dart';
+import '../../../providers/general_users_provider.dart';
 import '../../widgets/animated_auth_widget.dart';
 import '../../widgets/custom_auth_button_widget.dart';
 import '../../widgets/custom_logo_widget.dart';
@@ -68,6 +70,8 @@ class _LoginScreenState extends State<LoginScreen> {
           .then((user) async {
         if (mounted) {
           NavigationRoutes().jump(context, Routes.home_screen, replace: true);
+          Provider.of<GeneralUsersProvider>(context, listen: false)
+              .fetchGeneralUsersList();
         }
       });
     }

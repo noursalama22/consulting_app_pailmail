@@ -1,4 +1,3 @@
-import 'package:consulting_app_pailmail/views/widgets/custom_list_row_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -13,8 +12,10 @@ class SearchFiltersScreen extends StatefulWidget {
   State<SearchFiltersScreen> createState() => _SearchFiltersScreenState();
 }
 
+
 class _SearchFiltersScreenState extends State<SearchFiltersScreen>
      {
+
   DateTime? _selectedDate = DateTime.now();
 
   static List<String> categories = [
@@ -52,15 +53,15 @@ class _SearchFiltersScreenState extends State<SearchFiltersScreen>
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: Column(
                   children: [
-                    CustomListRowState(
-                      list: categories,
-                      isStatus: false,
-                    ),
-                    CustomListRowState(
-                      list: status,
-                      isStatus: true,
-                      color: colors,
-                    ),
+                    // CustomListRowState(
+                    //   list: categories,
+                    //   isStatus: false,
+                    // ),
+                    // CustomListRowState(
+                    //   list: status,
+                    //   isStatus: true,
+                    //   color: colors,
+                    // ),
                   ],
                 ),
               ),
