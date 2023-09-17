@@ -1,3 +1,4 @@
+import 'package:consulting_app_pailmail/models/tags/tag.dart';
 import 'package:consulting_app_pailmail/views/widgets/custom_photo_container.dart';
 import 'package:consulting_app_pailmail/views/widgets/custom_status_container.dart';
 import 'package:flutter/material.dart';
@@ -14,16 +15,18 @@ class CustomMailContainer extends StatefulWidget {
       required this.tags,
       required this.images,
       required this.color,
-      this.endMargin = 0})
+      this.endMargin = 0,
+      required this.onTap})
       : super(key: key);
   final String organizationName;
   final String date;
   final String subject;
   final String description;
-  final List<String> tags;
+  final List<Tag> tags;
   final List<String> images;
   final Color color;
   final double endMargin;
+  final void Function() onTap;
 
   @override
   State<CustomMailContainer> createState() => _CustomMailContainerState();
@@ -46,7 +49,7 @@ class _CustomMailContainerState extends State<CustomMailContainer> {
         borderRadius: BorderRadius.circular(30),
         child: InkWell(
           borderRadius: BorderRadius.circular(30),
-          onTap: () {},
+          onTap: widget.onTap,
           child: Padding(
             padding: const EdgeInsetsDirectional.symmetric(
                 horizontal: 16, vertical: 14),

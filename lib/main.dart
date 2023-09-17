@@ -1,3 +1,6 @@
+
+import 'package:consulting_app_pailmail/providers/categories_provider.dart';
+
 import 'package:consulting_app_pailmail/providers/sender_provider.dart';
 import 'package:consulting_app_pailmail/providers/tag_provider.dart';
 
@@ -6,7 +9,6 @@ import 'package:consulting_app_pailmail/providers/roles_provider.dart';
 
 import 'package:consulting_app_pailmail/storage/shared_prefs.dart';
 import 'package:consulting_app_pailmail/views/features/auth/splash_screen.dart';
-import 'package:consulting_app_pailmail/views/features/home/home_screen.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -36,6 +38,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<SenderProvider>(
@@ -46,12 +49,16 @@ class MyApp extends StatelessWidget {
         ),
          ChangeNotifierProvider<AuthProvider>(create: (_) => AuthProvider()),
         ChangeNotifierProvider<RoleProvider>(create: (_) => RoleProvider()),
+        ChangeNotifierProvider(
+                create: (context) => CategoriesProvider(),
+              )
 
       ],
       child: ScreenUtilInit(
           designSize: const Size(428, 812),
           builder: (context, child) {
             return MaterialApp(
+
               theme: ThemeData(scaffoldBackgroundColor: kBackgroundColor),
               localizationsDelegates: context.localizationDelegates,
               locale: context.locale,
@@ -60,6 +67,8 @@ class MyApp extends StatelessWidget {
               onGenerateRoute: generateRoute,
               // home: const HomeScreen(),
               //      home: const SearchScreen(),
+
+
               home: const SplashScreen(duration: Duration(seconds: 3)),
             );
           }),

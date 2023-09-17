@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:http/http.dart' as http;
+
 import '../../../storage/shared_prefs.dart';
 import 'app_exception.dart';
 
@@ -10,6 +12,7 @@ class ApiBaseHelper {
     try {
       final response = await http.get(Uri.parse(url), headers: headers);
       responseJson = _returnResponse(response);
+      print("******************$responseJson");
     } on SocketException {
       throw FetchDataException('No Internet connection');
     }

@@ -21,20 +21,13 @@ class SharedPrefrencesController {
   Future<void> saveAuth(
       {required UserResponseModel userModel, required bool isLogin}) async {
 
-    // await _sharedPreferences.setString(
-    //     PrefKeys.name.toString(), userModel.user.name.toString());
-    // await _sharedPreferences.setString(
-    //     PrefKeys.token.toString(), 'Bearer ${userModel.token}');
-    // await _sharedPreferences.setString(
-    //     PrefKeys.roleId.toString(), userModel.user.roleId.toString());
-
-  //  print('ave auth shared preferences: ');
-
     await _sharedPreferences.setBool(PrefKeys.loggedIn.toString(), true);
     await _sharedPreferences.setInt(
         PrefKeys.id.toString(), userModel.user.id!.toInt());
     await _sharedPreferences.setInt(
+
         PrefKeys.roleId.toString(), int.parse(userModel.user.roleId));
+
     await _sharedPreferences.setString(
         PrefKeys.email.toString(), userModel.user.email.toString());
     await _sharedPreferences.setString(
@@ -44,6 +37,7 @@ class SharedPrefrencesController {
 
     await _sharedPreferences.setString(
         PrefKeys.role.toString(), userModel.user.role!.name.toString());
+
     if (isLogin) {
       await _sharedPreferences.setString(
           PrefKeys.image.toString(), userModel.user.image.toString());

@@ -44,6 +44,12 @@ class AuthRepository {
 
 
     final loginResponse = await _helper.post(loginUrl, body);
+
+//     var user = UserResponseModel.fromJson(loginResponse);
+//     _prefs.saveAuth(userModel: user, isLogin: true);
+//     // print("********************${_prefs.email}");
+//     return UserResponseModel.fromJson(loginResponse);
+
     await SharedPrefrencesController().initPref();
     UserResponseModel userResponseModel =
         UserResponseModel.fromJson(loginResponse);
@@ -60,6 +66,7 @@ class AuthRepository {
         isLogin: false);
 
     return userResponseModel;
+
   }
 
   Future<dynamic> register({
