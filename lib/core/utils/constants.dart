@@ -73,6 +73,7 @@ TextStyle kTextFieldTextStyle = GoogleFonts.poppins(
 const String baseUrl = "https://palmail.gsgtt.tech/api";
 const String loginUrl = "${baseUrl}/login";
 const String registerUrl = "${baseUrl}/register";
+const String imageUrl = "https://palmail.gsgtt.tech/storage/";
 
 /* private */
 

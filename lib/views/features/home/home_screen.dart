@@ -1,4 +1,5 @@
-import 'package:consulting_app_pailmail/repositories/roles_repository.dart';
+import 'package:consulting_app_pailmail/providers/auth_provider.dart';
+import 'package:consulting_app_pailmail/repositories/auth_repository.dart';
 import 'package:consulting_app_pailmail/storage/shared_prefs.dart';
 import 'package:consulting_app_pailmail/views/widgets/custom_category_container.dart';
 import 'package:consulting_app_pailmail/views/widgets/custom_chip.dart';
@@ -27,7 +28,9 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
-  RoleRepository roleRepository = RoleRepository();
+  // RoleRepository roleRepository = RoleRepository();
+  AuthRepository authRepository = AuthRepository();
+  AuthProvider authProvider = AuthProvider();
 
   final _advancedDrawerController = AdvancedDrawerController();
 
@@ -54,7 +57,8 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
   @override
   void initState() {
     super.initState();
-    roleRepository.fetchRoleList();
+    // roleRepository.fetchRoleList();
+    authRepository.fetchCurrentUser();
 
     _scrollViewController = ScrollController();
     _scrollViewController.addListener(() {
@@ -232,7 +236,7 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                                   textAlign: TextAlign.center,
                                 ),
                                 Text(
-                                  '  ${SharedPrefrencesController().roleId}',
+                                  '  ${SharedPrefrencesController().roleName}',
                                   style: GoogleFonts.poppins(
                                       color: kMediumGreyColor, fontSize: 12.sp),
                                   textAlign: TextAlign.center,
@@ -266,32 +270,29 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                           ),
                         ),
                         PopupMenuItem(
-                          onTap: () {
+                          onTap: () async {
+                            await authProvider.logout();
+                            await SharedPrefrencesController().clear();
                             NavigationRoutes()
                                 .pushUntil(context, Routes.login_screen);
                           },
                           //TODO : Custom Widget for rows
-                          child: InkWell(
-                            onTap: () {
-                              SharedPrefrencesController().remove(key: 'token');
-                            },
-                            child: Row(
-                              children: [
-                                Icon(
-                                  Icons.logout,
-                                  color: Colors.grey.shade600,
-                                  size: 30.sp,
-                                ),
-                                SizedBox(
-                                  width: 12.w,
-                                ),
-                                Text(
-                                  'logout'.tr(),
-                                  style: statusTextStyle.copyWith(
-                                      color: kDarkGreyColor),
-                                ),
-                              ],
-                            ),
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.logout,
+                                color: Colors.grey.shade600,
+                                size: 30.sp,
+                              ),
+                              SizedBox(
+                                width: 12.w,
+                              ),
+                              Text(
+                                'logout'.tr(),
+                                style: statusTextStyle.copyWith(
+                                    color: kDarkGreyColor),
+                              ),
+                            ],
                           ),
                         ),
                       ],

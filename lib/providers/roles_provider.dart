@@ -1,4 +1,3 @@
-import 'package:consulting_app_pailmail/models/roles/role_response_model.dart';
 import 'package:flutter/material.dart';
 
 import '../core/helpers/api_helpers/api_response.dart';
