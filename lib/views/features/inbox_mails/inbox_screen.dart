@@ -14,6 +14,8 @@ import '../../../core/helpers/routers/router.dart';
 import '../../../core/utils/constants.dart';
 import '../../../core/utils/show_bottom_sheet.dart';
 import '../../../models/add_activity.dart';
+import '../../widgets/custom_app_bar_with_icon.dart';
+import '../../widgets/custom_container_details.dart';
 import '../../widgets/custom_container.dart';
 import '../../widgets/custom_date_picker.dart';
 import '../../widgets/custom_expansion_tile.dart';
@@ -22,8 +24,10 @@ import '../category/category_screen.dart';
 
 class InboxScreen extends StatefulWidget {
   const InboxScreen({
+    required this.isDetails,
     Key? key,
   }) : super(key: key);
+  final bool isDetails;
 
   @override
   State<InboxScreen> createState() => _InboxScreenState();
@@ -58,6 +62,14 @@ class _InboxScreenState extends State<InboxScreen>
     descriptionController = TextEditingController();
   }
 
+  bool _customTileExpanded = false;
+
+  void expandCollapse() {
+    setState(() {
+      _customTileExpanded = !_customTileExpanded;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     //TODO: Modify icons
@@ -68,13 +80,13 @@ class _InboxScreenState extends State<InboxScreen>
           EdgeInsets.only(left: 20.0.w, right: 20.0.w, top: 24.h, bottom: 16.h),
       child: Column(children: [
         ///App Bar
-        const CustomAppBar(
-          widgetName: "New Inbox",
-          bottomPadding: 16,
-          // onTap: () {
-          //   Navigator.pop(context);
-          // },
-        ),
+        widget.isDetails
+            ? CustomAppBarWithIcon(
+                widgetName: "Details",
+                left_icon: Icons.arrow_back_ios_new,
+                right_icon: Icons.menu,
+              )
+            : CustomAppBar(widgetName: "New Inbox", bottomPadding: 16),
         Expanded(
           child: ListView(
             padding: EdgeInsets.zero,
@@ -82,205 +94,273 @@ class _InboxScreenState extends State<InboxScreen>
             physics: const AlwaysScrollableScrollPhysics(),
             children: [
               ///Big Container
-
-              CustomContainer(
-                  childContainer: Column(
-                children: [
-                  ///Upper Part(Name)
-
-                  CustomTextField(
-                    withoutPrefix: false,
-                    withoutSuffix: false,
-                    hintText: 'Sender',
-                    customFontSize: 16,
-                    controller: senderController,
-                    icon: Icons.perm_identity,
-                    suffixFunction: () {
-                      NavigationRoutes().jump(
-                        context,
-                        Routes.sender_screen,
-                      );
-                    },
-                  ),
-                  CustomTextField(
-                    textInputType: TextInputType.number,
-                    withoutPrefix: false,
-                    hintText: 'Mobile',
-                    customFontSize: 16,
-                    controller: senderController,
-                    icon: Icons.phone_android_outlined,
-                  ),
-
-                  // buildDivider(),
-
-                  ///Lower part (category)
-                  Padding(
-                    padding: EdgeInsets.only(
-                        top: 16.0.h, bottom: 18.h, left: 11.w, right: 11.w),
-                    child: Row(
-                      children: [
-                        Text("Category",
-                            style: buildAppBarTextStyle(
-                                color: kBlackColor,
-                                letterSpacing: 0.15,
-                                fontSizeController: 16)),
-                        const Spacer(),
-                        Text("Other",
-                            style: buildAppBarTextStyle(
-                                color: kDarkGreyColor,
-                                letterSpacing: 0.15,
-                                fontSizeController: 14)),
-                        GestureDetector(
-                          onTap: () {
-                            showSheet(context, const CategoryScreen());
-                            // NavigationRoutes().jump(
-                            //   context,
-                            //   Routes.category_screen,
-                            // );
-                          },
-                          child: const Icon(
-                            Icons.arrow_forward_ios,
-                            color: kDarkGreyColor,
-                            size: 20,
+              widget.isDetails
+                  ? CustomContainerDetails(
+                      organizationName: "Emmett Balistreri",
+                      organizationCategory: "Foreign",
+                      dateOrgName: "4-JAN_1990",
+                      dateOrgCategory: "A-Nov-5",
+                      subject:
+                          // CustomExpansionTile(
+                          //   children: [
+                          //     Text(
+                          //       "description of subject",
+                          //       textAlign: TextAlign.start,
+                          //     )
+                          //   ],
+                          //   widgetOfTile: Text(
+                          //     "DR.",
+                          //     style:
+                          //         tileTextTitleStyle.copyWith(color: kBlackColor),
+                          //   ),
+                          // ),
+                          ExpansionTile(
+                        shape: Border(),
+                        initiallyExpanded: false,
+                        onExpansionChanged: (bool expanded) async {
+                          expandCollapse();
+                        },
+                        trailing: Padding(
+                          padding: EdgeInsets.only(left: 20),
+                          child: Icon(
+                            _customTileExpanded
+                                ? Icons.keyboard_arrow_down_rounded
+                                : Icons.arrow_forward_ios_rounded,
+                            size: _customTileExpanded ? 30 : 20,
+                            color: _customTileExpanded
+                                ? kDarkGreyColor
+                                : kMediumGreyColor,
+                            // weight: 12,
                           ),
-                        )
+                        ),
+                        title: Text(
+                          "DR.",
+                          style:
+                              tileTextTitleStyle.copyWith(color: kBlackColor),
+                        ),
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(left: 18.h),
+                            child: Align(
+                              alignment: AlignmentDirectional.centerStart,
+                              child: Text(
+                                "description of subject",
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                      onPress: () {})
+                  : CustomContainer(
+                      childContainer: Column(
+                      children: [
+                        ///Upper Part(Name)
+
+                        CustomTextField(
+                          withoutPrefix: false,
+                          withoutSuffix: false,
+                          hintText: 'Sender',
+                          customFontSize: 16,
+                          controller: senderController,
+                          icon: Icons.perm_identity,
+                          suffixFunction: () {
+                            NavigationRoutes().jump(
+                              context,
+                              Routes.sender_screen,
+                            );
+                          },
+                        ),
+                        CustomTextField(
+                          textInputType: TextInputType.number,
+                          withoutPrefix: false,
+                          hintText: 'Mobile',
+                          customFontSize: 16,
+                          controller: senderController,
+                          icon: Icons.phone_android_outlined,
+                        ),
+
+                        // buildDivider(),
+
+                        ///Lower part (category)
+                        Padding(
+                          padding: EdgeInsets.only(
+                              top: 16.0.h,
+                              bottom: 18.h,
+                              left: 11.w,
+                              right: 11.w),
+                          child: Row(
+                            children: [
+                              Text("Category",
+                                  style: buildAppBarTextStyle(
+                                      color: kBlackColor,
+                                      letterSpacing: 0.15,
+                                      fontSizeController: 16)),
+                              const Spacer(),
+                              Text("Other",
+                                  style: buildAppBarTextStyle(
+                                      color: kDarkGreyColor,
+                                      letterSpacing: 0.15,
+                                      fontSizeController: 14)),
+                              GestureDetector(
+                                onTap: () {
+                                  showSheet(context, const CategoryScreen());
+                                  // NavigationRoutes().jump(
+                                  //   context,
+                                  //   Routes.category_screen,
+                                  // );
+                                },
+                                child: const Icon(
+                                  Icons.arrow_forward_ios,
+                                  color: kDarkGreyColor,
+                                  size: 20,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
                       ],
+                    )),
+              widget.isDetails
+                  ? SizedBox()
+                  : SizedBox(
+                      height: 15.h,
                     ),
-                  ),
-                ],
-              )),
-              SizedBox(
-                height: 15.h,
-              ),
 
               ///Title of mail and description
-              CustomContainer(
-                  childContainer: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  CustomTextField(
-                    hintText: 'Tile of mail',
-                    customFontSize: 20,
-                    withoutPrefix: true,
-                    controller: tileOfMailController,
-                  ),
-                  CustomDivider(),
-                  CustomTextField(
-                    hintText: 'Description',
-                    customFontSize: 14,
-                    textInputType: TextInputType.multiline,
-                    // للسماح بإدخال أكثر من سطر
-                    maxLine: null,
-                    controller: descriptionController,
-                  ),
-                ],
-              )),
-              SizedBox(
-                height: 29.h,
-              ),
-
-              ///date calender
-              CustomContainer(
-                  childContainer: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
-                child: Column(children: [
-                  CustomExpansionTile(
-                    isIndexWidet: true,
-                    widgetOfTile: Column(
+              widget.isDetails
+                  ? SizedBox.shrink()
+                  : CustomContainer(
+                      childContainer: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        CustomTextField(
+                          hintText: 'Tile of mail',
+                          customFontSize: 20,
+                          withoutPrefix: true,
+                          controller: tileOfMailController,
+                        ),
+                        CustomDivider(),
+                        CustomTextField(
+                          hintText: 'Description',
+                          customFontSize: 14,
+                          textInputType: TextInputType.multiline,
+                          // للسماح بإدخال أكثر من سطر
+                          maxLine: null,
+                          controller: descriptionController,
+                        ),
+                      ],
+                    )),
+              widget.isDetails
+                  ? SizedBox()
+                  : SizedBox(
+                      height: 29.h,
+                    ),
+
+              ///date calender
+              widget.isDetails
+                  ? SizedBox.shrink()
+                  : CustomContainer(
+                      childContainer: Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 16.w, vertical: 12.h),
+                      child: Column(children: [
+                        CustomExpansionTile(
+                          isIndexWidet: true,
+                          widgetOfTile: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  const Icon(
+                                    Icons.calendar_month,
+                                    color: kRedColor,
+                                    size: 25,
+                                  ),
+                                  SizedBox(
+                                    width: 9.w,
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "Date",
+                                        style: buildAppBarTextStyle(
+                                            color: kBlackColor,
+                                            letterSpacing: 0.15,
+                                            fontSizeController: 16),
+                                      ),
+                                      Text(
+                                        //20.20.2022
+                                        "$_selectedDate".split(" ")[0],
+                                        style: buildAppBarTextStyle(
+                                            letterSpacing: 0.15,
+                                            fontSizeController: 12),
+                                      ),
+                                      CustomDivider(),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                          children: [
+                            const CustomDivider(),
+                            Column(
+                              children: [
+                                CustomDatePicker(
+                                  selectedDate: _selectedDate,
+                                )
+                              ],
+                            ),
+                          ],
+                        ),
+                        const CustomDivider(),
                         Row(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             const Icon(
-                              Icons.calendar_month,
-                              color: kRedColor,
+                              Icons.archive_outlined,
+                              color: kDarkGreyColor,
                               size: 25,
                             ),
                             SizedBox(
                               width: 9.w,
                             ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Date",
-                                  style: buildAppBarTextStyle(
-                                      color: kBlackColor,
-                                      letterSpacing: 0.15,
-                                      fontSizeController: 16),
-                                ),
-                                Text(
-                                  //20.20.2022
-                                  "$_selectedDate".split(" ")[0],
-                                  style: buildAppBarTextStyle(
-                                      letterSpacing: 0.15,
-                                      fontSizeController: 12),
-                                ),
-                                CustomDivider(),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    children: [
-                      const CustomDivider(),
-                      Column(
-                        children: [
-                          CustomDatePicker(
-                            selectedDate: _selectedDate,
-                          )
-                        ],
-                      ),
-                    ],
-                  ),
-                  const CustomDivider(),
-                  Row(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      const Icon(
-                        Icons.archive_outlined,
-                        color: kDarkGreyColor,
-                        size: 25,
-                      ),
-                      SizedBox(
-                        width: 9.w,
-                      ),
-                      Expanded(
-                        // توسيع الحقل ليحتل العرض المتاح
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Archive Number",
-                              style: buildAppBarTextStyle(
-                                  color: kBlackColor,
-                                  letterSpacing: 0.15,
-                                  fontSizeController: 16),
-                            ),
-                            SizedBox(
-                              width: MediaQuery.of(context)
-                                  .size
-                                  .width, // استخدم العرض الكامل للشاشة - (عرض الأيقونة + 9 وحدة)
-                              child: CustomTextField(
-                                withoutPrefix: true,
-                                paddingHor: 0,
-                                hintText: '2021/2022',
-                                maxLine: null,
-                                customFontSize: 16.0,
-                                controller: archiveController,
+                            Expanded(
+                              // توسيع الحقل ليحتل العرض المتاح
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Archive Number",
+                                    style: buildAppBarTextStyle(
+                                        color: kBlackColor,
+                                        letterSpacing: 0.15,
+                                        fontSizeController: 16),
+                                  ),
+                                  SizedBox(
+                                    width: MediaQuery.of(context).size.width,
+                                    // استخدم العرض الكامل للشاشة - (عرض الأيقونة + 9 وحدة)
+                                    child: CustomTextField(
+                                      withoutPrefix: true,
+                                      paddingHor: 0,
+                                      hintText: '2021/2022',
+                                      maxLine: null,
+                                      customFontSize: 16.0,
+                                      controller: archiveController,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ],
                         ),
-                      ),
-                    ],
-                  ),
-                ]),
-              )),
+                      ]),
+                    )),
               SizedBox(
                 height: 19.h,
               ),
@@ -339,11 +419,15 @@ class _InboxScreenState extends State<InboxScreen>
                       style: buildAppBarTextStyle(
                           color: kBlackColor, letterSpacing: 0.15),
                     ),
-                    CustomTextField(
-                        paddingHor: 0,
-                        hintText: "Add Decision…",
-                        customFontSize: 14,
-                        controller: addDecisionController),
+                    widget.isDetails
+                        ? Padding(
+                            padding: EdgeInsets.only(top: 8.h),
+                            child: Text("description of decision"))
+                        : CustomTextField(
+                            paddingHor: 0,
+                            hintText: "Add Decision…",
+                            customFontSize: 14,
+                            controller: addDecisionController),
                   ],
                 ),
               )),

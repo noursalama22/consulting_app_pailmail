@@ -1,11 +1,10 @@
-import 'package:consulting_app_pailmail/views/widgets/custom_list_row_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../core/utils/picker.dart';
 import '../../../core/utils/constants.dart';
 import '../../widgets/custom_app_bar.dart';
 import '../../widgets/custom_date_container.dart';
+import '../../widgets/custom_text_field.dart';
 
 class SearchFiltersScreen extends StatefulWidget {
   const SearchFiltersScreen({Key? key}) : super(key: key);
@@ -14,8 +13,7 @@ class SearchFiltersScreen extends StatefulWidget {
   State<SearchFiltersScreen> createState() => _SearchFiltersScreenState();
 }
 
-class _SearchFiltersScreenState extends State<SearchFiltersScreen>
-    with Pickers {
+class _SearchFiltersScreenState extends State<SearchFiltersScreen> {
   DateTime? _selectedDate = DateTime.now();
 
   static List<String> categories = [
@@ -31,6 +29,7 @@ class _SearchFiltersScreenState extends State<SearchFiltersScreen>
     kGreenColor
   ];
   static List<String> status = ["Inbox", "Pending", "in Progress", "Completed"];
+
   @override
   void initState() {
     super.initState();
@@ -53,31 +52,127 @@ class _SearchFiltersScreenState extends State<SearchFiltersScreen>
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: Column(
                   children: [
-                    CustomListRowState(
-                      list: categories,
-                      isStatus: false,
-                    ),
-                    CustomListRowState(
-                      list: status,
-                      isStatus: true,
-                      color: colors,
-                    ),
+                    // CustomListRowState(
+                    //   list: categories,
+                    //   isStatus: false,
+                    // ),
+                    // CustomListRowState(
+                    //   list: status,
+                    //   isStatus: true,
+                    //   color: colors,
+                    // ),
                   ],
                 ),
               ),
+
+              ///date calender
               CustomDateContainer(
                 title: 'From Date',
-                selected_date: _selectedDate!,
-                datePickerWidget: buildCalendarDatePicker(_selectedDate!),
-              ),
+                selectedDate: _selectedDate!,
+                isFilterScreen: false,
+                archiveWidget: Column(
+                  children: [
+                    // const CustomDivider(),
+                    Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        const Icon(
+                          Icons.archive_outlined,
+                          color: kDarkGreyColor,
+                          size: 25,
+                        ),
+                        SizedBox(
+                          width: 9.w,
+                        ),
+                        Expanded(
+                          // توسيع الحقل ليحتل العرض المتاح
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Archive Number",
+                                style: buildAppBarTextStyle(
+                                    color: kBlackColor,
+                                    letterSpacing: 0.15,
+                                    fontSizeController: 16),
+                              ),
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width,
+                                // استخدم العرض الكامل للشاشة - (عرض الأيقونة + 9 وحدة)
+                                child: CustomTextField(
+                                  withoutPrefix: true,
+                                  paddingHor: 0,
+                                  hintText: '2021/2022',
+                                  maxLine: null,
+                                  customFontSize: 16.0,
+                                  controller: null,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ), // CustomContainer(
               SizedBox(
                 height: 20.h,
               ),
+
+              ///date calender
               CustomDateContainer(
-                title: 'To Date',
-                selected_date: _selectedDate!,
-                datePickerWidget: buildCalendarDatePicker(_selectedDate!),
-              ),
+                title: 'From Date',
+                selectedDate: _selectedDate!,
+                isFilterScreen: false,
+                archiveWidget: Column(
+                  children: [
+                    // const CustomDivider(),
+                    Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        const Icon(
+                          Icons.archive_outlined,
+                          color: kDarkGreyColor,
+                          size: 25,
+                        ),
+                        SizedBox(
+                          width: 9.w,
+                        ),
+                        Expanded(
+                          // توسيع الحقل ليحتل العرض المتاح
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Archive Number",
+                                style: buildAppBarTextStyle(
+                                    color: kBlackColor,
+                                    letterSpacing: 0.15,
+                                    fontSizeController: 16),
+                              ),
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width,
+                                // استخدم العرض الكامل للشاشة - (عرض الأيقونة + 9 وحدة)
+                                child: CustomTextField(
+                                  withoutPrefix: true,
+                                  paddingHor: 0,
+                                  hintText: '2021/2022',
+                                  maxLine: null,
+                                  customFontSize: 16.0,
+                                  controller: null,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ), // CustomContainer(
             ],
           ),
         ),
@@ -85,5 +180,5 @@ class _SearchFiltersScreenState extends State<SearchFiltersScreen>
     );
   }
 
-  // }
+// }
 }

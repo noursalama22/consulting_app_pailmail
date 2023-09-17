@@ -26,9 +26,9 @@
   "please_enter_the_password" : "please enter the password",
   "please_enter_the_password_again" : "please enter the password again",
   "OR" : "OR",
-  "Home" : "Home",
-  "Profile" : "Profile",
-  "Senders" : "Senders",
-  "Settings" : "Settings",
+  "home" : "Home",
+  "profile" : "Profile",
+  "senders" : "Senders",
+  "settings" : "Settings",
   "terms_of_service_privacy_policy" : "Terms of Service | Privacy Policy"
 }
