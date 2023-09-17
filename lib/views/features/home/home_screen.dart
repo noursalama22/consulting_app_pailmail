@@ -284,6 +284,7 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                           onTap: () async {
                             await authProvider.logout();
                             await SharedPrefrencesController().clear();
+
                             NavigationRoutes()
                                 .pushUntil(context, Routes.login_screen);
                           },

@@ -5,6 +5,7 @@ import 'package:consulting_app_pailmail/providers/sender_provider.dart';
 import 'package:consulting_app_pailmail/providers/tag_provider.dart';
 
 import 'package:consulting_app_pailmail/providers/auth_provider.dart';
+import 'package:consulting_app_pailmail/providers/general_users_provider.dart';
 import 'package:consulting_app_pailmail/providers/roles_provider.dart';
 
 import 'package:consulting_app_pailmail/storage/shared_prefs.dart';
@@ -49,7 +50,10 @@ class MyApp extends StatelessWidget {
         ),
          ChangeNotifierProvider<AuthProvider>(create: (_) => AuthProvider()),
         ChangeNotifierProvider<RoleProvider>(create: (_) => RoleProvider()),
-        ChangeNotifierProvider(
+        ChangeNotifierProvider<GeneralUsersProvider>(
+            create: (_) => GeneralUsersProvider()),
+
+        ChangeNotifierProvider<CategoriesProvider>(
                 create: (context) => CategoriesProvider(),
               )
 

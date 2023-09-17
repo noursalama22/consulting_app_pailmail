@@ -107,6 +107,7 @@ class SharedPrefrencesController {
   }
 
   Future<bool> clear() async {
+    print('------------------clear-----------------------');
     return await _sharedPreferences.clear();
   }
 }

@@ -25,7 +25,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: MediaQuery.of(context).size.height - 70,
+      height: MediaQuery.of(context).size.height - 45.h,
       child: Padding(
         padding: EdgeInsetsDirectional.only(
             top: 20.0.h, start: 20.w, end: 20.w, bottom: 62.h),
