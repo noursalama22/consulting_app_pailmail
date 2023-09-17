@@ -56,12 +56,12 @@ class MailsRepository {
       List<int>? idAttachmentsForDelete,
       List<int>? pathAttachmentsForDelete,
       List<Map<String, dynamic>>? activities}) async {
-    final Map<String, dynamic> body = {
-      "decision": decision,
-      "status_id": status_id,
-      "final_decision": final_decision,
+    final Map<String, String> body = {
+      "decision": decision.toString(),
+      "status_id": status_id.toString(),
+      "final_decision": final_decision.toString(),
       "tags": jsonEncode(tags),
-      "activities": activities,
+      "activities": activities.toString(),
       "idAttachmentsForDelete": jsonEncode(idAttachmentsForDelete),
       "pathAttachmentsForDelete": jsonEncode(pathAttachmentsForDelete)
     };

@@ -20,7 +20,6 @@ class ApiBaseHelper {
     return responseJson;
   }
 
-
 //{{palmail}}/senders?mail=true   for all sender
   Future<dynamic> getParams(String sender_url, String name, var params) async {
     var responseJson;
@@ -66,7 +65,6 @@ class ApiBaseHelper {
     return responseJson;
   }
 
-
   Future<dynamic> postParams(
       String sender_url, bool params, Map<String, dynamic> body) async {
     var responseJson;
@@ -79,8 +77,10 @@ class ApiBaseHelper {
           await http.post(Uri.parse(url), headers: headers, body: body);
       print("4");
       responseJson = _returnResponse(response);
-      print(
-          "5"); //E/flutter ( 8612): [ERROR:flutter/runtime/dart_vm_initializer.cc(41)] Unhandled Exception: Error During Communication: Error occurred while Communication with Server with StatusCode : 301
+      print("5");
+    } catch (e) {}
+    ;
+  } //E/flutter ( 8612): [ERROR:flutter/runtime/dart_vm_initializer.cc(41)] Unhandled Exception: Error During Communication: Error occurred while Communication with Server with StatusCode : 301
 
   Future<dynamic> postDel(
     String url,
@@ -93,14 +93,11 @@ class ApiBaseHelper {
         headers: headers,
       );
       responseJson = _returnResponse(response);
-
     } on SocketException {
       throw FetchDataException('No Internet connection');
     }
     return responseJson;
   }
-
-
 
   Future<dynamic> put(String url, Map<String, String> body) async {
     var responseJson;
@@ -115,7 +112,6 @@ class ApiBaseHelper {
     return responseJson;
   }
 
-
   Future<dynamic> delete(String url) async {
     var responseJson;
     try {
@@ -129,7 +125,6 @@ class ApiBaseHelper {
       throw FetchDataException('No Internet connection');
     }
     return true;
-
   }
 
   Map<String, String> get headers {
