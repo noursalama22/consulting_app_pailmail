@@ -16,38 +16,45 @@ class MailsRepository {
 
   Future<List<Mail>?> fetchSingleMail({required String id}) async {
     final response = await _hepler.get(CRUD_mailsUrl + id);
+
+    print(response);
     return MailResponseModel.fromJson(response).mails;
   }
 
-  Future<List<Mail>?> createMail(
+  Future<Mail?> createMail(
       {required String subject,
       String? description,
-      required String sender_id,
+      required int sender_id,
       required String archive_number,
-      required String archive_date,
-      String? decision = '',
-      required String status_id,
+      required DateTime archive_date,
+      String? decision,
+      required int status_id,
       String? final_decision,
       List<int>? tags,
       List<Map<String, dynamic>>? activities}) async {
-    final Map<String, dynamic> body = {
+    // print("jjjjjjjjjjj");
+    final Map<String, String> body = {
       "subject": subject,
-      "description": description,
-      "sender_id": 50,
-      "archive_number": "20000",
-      "archive_date": archive_date,
-      "decision": decision,
-      "status_id": status_id,
-      "final_decision": final_decision,
+      "description": description.toString(),
+      "sender_id": sender_id.toString(),
+      "archive_number": archive_number,
+      "archive_date": archive_date.toString(),
+      "decision": decision.toString(),
+      "status_id": status_id.toString(),
+      "final_decision": final_decision.toString(),
       "tags": jsonEncode(tags),
       "activities": jsonEncode(activities)
     };
+    // print("hhhhhhhhhhh");
+
     final response = await _hepler.post(allMailsUrl, body);
-    print("create mail");
-    return MailResponseModel.fromJson(response).mails;
+    // print("rrrrrrrrrr" + response);
+    // print("create mail");
+    return Mail.fromJson(response['mail']);
   }
 
-  Future<Mail> updateMail(
+  Future<Mail?> updateMail(
+
       {required String id,
       String? decision,
       required int status_id,
@@ -61,12 +68,15 @@ class MailsRepository {
       "status_id": status_id.toString(),
       "final_decision": final_decision.toString(),
       "tags": jsonEncode(tags),
-      "activities": activities.toString(),
+
+      "activities": jsonEncode(activities),
       "idAttachmentsForDelete": jsonEncode(idAttachmentsForDelete),
       "pathAttachmentsForDelete": jsonEncode(pathAttachmentsForDelete)
     };
-    final response = await _hepler.put(allMailsUrl + id, body);
-    return Mail.fromJson(response);
+    print("jjjjjjjjjjj");
+    final response = await _hepler.put(CRUD_mailsUrl + id, body);
+    return Mail.fromJson(response['mail']);
+
   }
 
   Future<bool> deleteMail({required String id}) async {

@@ -10,20 +10,7 @@ class ApiBaseHelper {
   var responseJson;
 
   Future<dynamic> get(String url) async {
-    try {
-      final response = await http.get(Uri.parse(url), headers: headers);
-      responseJson = _returnResponse(response);
-      print("******************$responseJson");
-    } on SocketException {
-      throw FetchDataException('No Internet connection');
-    }
-    return responseJson;
-  }
 
-//{{palmail}}/senders?mail=true   for all sender
-  Future<dynamic> getParams(String sender_url, String name, var params) async {
-    var responseJson;
-    String url = '$sender_url?$name=$params';
     try {
       final response = await http.get(Uri.parse(url), headers: headers);
       responseJson = _returnResponse(response);
@@ -33,39 +20,9 @@ class ApiBaseHelper {
     return responseJson;
   }
 
-//{{palmail}}/senders/50?mail=false for single sender
-  Future<dynamic> getParam(
-      String sender_url, String? id, String name, var params) async {
-    var responseJson;
 
-    String url = '$sender_url/$id?$name=$params';
-    try {
-      final response = await http.get(Uri.parse(url), headers: headers);
-
-      responseJson = _returnResponse(response);
-    } on SocketException {
-      throw FetchDataException('No Internet connection');
-    }
-    return responseJson;
-  }
-
-  Future<dynamic> post(String url, Map<String, dynamic> body) async {
-    var responseJson;
-
-    try {
-      final response = await http.post(
-        Uri.parse(url),
-        headers: headers,
-        body: body,
-      );
-      responseJson = _returnResponse(response);
-    } on SocketException {
-      throw FetchDataException('No Internet connection');
-    }
-    return responseJson;
-  }
-
-  Future<dynamic> postParams(
+  Future<dynamic> post(String url, Map<String, String> body) async {
+ic> postParams(
       String sender_url, bool params, Map<String, dynamic> body) async {
     var responseJson;
 
@@ -100,7 +57,6 @@ class ApiBaseHelper {
   }
 
   Future<dynamic> put(String url, Map<String, String> body) async {
-    var responseJson;
 
     try {
       final response =
@@ -111,6 +67,7 @@ class ApiBaseHelper {
     }
     return responseJson;
   }
+
 
   Future<dynamic> delete(String url) async {
     var responseJson;
@@ -125,6 +82,7 @@ class ApiBaseHelper {
       throw FetchDataException('No Internet connection');
     }
     return true;
+
   }
 
   Map<String, String> get headers {
@@ -141,6 +99,7 @@ class ApiBaseHelper {
     switch (response.statusCode) {
       case 200:
       case 201:
+        print("rrrrrrrrrrrrrrrrrrrrrr" + response.body);
         var responseJson = json.decode(response.body);
 
         print(responseJson);

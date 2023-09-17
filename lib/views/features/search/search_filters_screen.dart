@@ -13,7 +13,9 @@ class SearchFiltersScreen extends StatefulWidget {
 }
 
 
-class _SearchFiltersScreenState extends State<SearchFiltersScreen> {
+class _SearchFiltersScreenState extends State<SearchFiltersScreen>
+     {
+
   DateTime? _selectedDate = DateTime.now();
 
   static List<String> categories = [

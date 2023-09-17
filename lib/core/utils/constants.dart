@@ -72,8 +72,8 @@ TextStyle kTextFieldTextStyle = GoogleFonts.poppins(
 
 /* public */
 const String baseUrl = "https://palmail.gsgtt.tech/api";
-const String loginUrl = "${baseUrl}/login";
-const String registerUrl = "${baseUrl}/register";
+const String loginUrl = "$baseUrl/login";
+const String registerUrl = "$baseUrl/register";
 const String imageUrl = "https://palmail.gsgtt.tech/storage/";
 
 /* private */
@@ -103,15 +103,20 @@ const String categoryMailUrl =
 
 // TAGS //
 
-const String allTagsUrl = "${baseUrl}/tags"; // also all tags with mails
+const String allTagsUrl = "$baseUrl/tags"; // also all tags with mails
+
 
 const String allTagsOfMailUrl =
     "$allMailsUrl/"; //  add id/tags for all tags of mail
 
 // STATUSES //
 const String statusUrl = "$baseUrl/statuses";
+
+const String fetchUrl = "$statusUrl/"; //  add id/{}?mail=true
+
 const String allTStatusesUrl = "$statusUrl?mail=false";
 const String singleStatus = "$statusUrl/"; //  add id/{}?mail=true
+
 
 // ROLES //
 const String allRolesUrl = "$baseUrl/roles";

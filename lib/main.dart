@@ -5,9 +5,13 @@ import 'package:consulting_app_pailmail/providers/sender_provider.dart';
 import 'package:consulting_app_pailmail/providers/tag_provider.dart';
 
 import 'package:consulting_app_pailmail/providers/auth_provider.dart';
+
+import 'package:consulting_app_pailmail/providers/mails_provider.dart';
+
 import 'package:consulting_app_pailmail/providers/mails_provider_class.dart';
 
 import 'package:consulting_app_pailmail/providers/general_users_provider.dart';
+
 import 'package:consulting_app_pailmail/providers/roles_provider.dart';
 
 import 'package:consulting_app_pailmail/storage/shared_prefs.dart';
@@ -40,7 +44,6 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.  @override
   @override
   Widget build(BuildContext context) {
-
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<SenderProvider>(
@@ -52,6 +55,7 @@ class MyApp extends StatelessWidget {
          ChangeNotifierProvider<AuthProvider>(create: (_) => AuthProvider()),
         ChangeNotifierProvider<RoleProvider>(create: (_) => RoleProvider()),
         ChangeNotifierProvider<MailProvider>(create: (_) => MailProvider()),
+
 
         ChangeNotifierProvider<GeneralUsersProvider>(
             create: (_) => GeneralUsersProvider()),

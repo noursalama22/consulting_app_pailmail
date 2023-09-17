@@ -1,5 +1,9 @@
 import 'package:consulting_app_pailmail/core/helpers/api_helpers/api_response.dart';
+
+import 'package:consulting_app_pailmail/providers/mails_provider.dart';
+
 import 'package:consulting_app_pailmail/providers/mails_provider_class.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -12,7 +16,8 @@ class TestEmails extends StatefulWidget {
 }
 
 class _TestEmailsState extends State<TestEmails> {
-  late ApiResponse<bool> mail;
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,15 +55,104 @@ class _TestEmailsState extends State<TestEmails> {
           //   },
           // ),
           Divider(),
+
+          Consumer<MailProvider>(
+            builder: (context, mailProvider, child) {
+              if (mailProvider.singleMail.status == ApiStatus.LOADING) {
+                {
+                  return const CircularProgressIndicator();
+                }
+              } else if (mailProvider.singleMail.status ==
+                  ApiStatus.COMPLETED) {
+                {
+                  final mail = mailProvider.singleMail.data;
+
+                  return mailProvider.singleMail.data!.isEmpty
+                      ? const SizedBox.shrink()
+                      : Center(
+                          child: ElevatedButton(
+                            onPressed: () {
+                              Provider.of<MailProvider>(context, listen: false)
+                                  .fetchAllMails();
+                            },
+                            child: Row(
+                              children: [
+                                Text(mail.toString()),
+                              ],
+                            ),
+                          ),
+                        );
+                }
+              } else {
+                return Text(mailProvider.mails.message.toString());
+              }
+            },
+          ),
+          // ElevatedButton(
+          //   onPressed: () async {},
+          //   child: Consumer<MailProvider>(
+          //     builder: (context, mailProvider, child) {
+          //       if (mailProvider.mails.status == ApiStatus.LOADING) {
+          //         {
+          //           return const CircularProgressIndicator();
+          //         }
+          //       } else if (mailProvider.mails.status == ApiStatus.COMPLETED) {
+          //         {
+          //           final mail = mailProvider.mails.data![0].id;
+          //           return Center(
+          //             child: Row(
+          //               children: [
+          //                 Container(
+          //                   child: Text(mail.toString()),
+          //                 ),
+          //               ],
+          //             ),
+          //           );
+          //         }
+          //       } else {
+          //         return Text(mailProvider.singleMail.message.toString());
+          //       }
+          //     },
+          //   ),
+          // ),
           // Consumer<MailProvider>(
           //   builder: (context, mailProvider, child) {
-          //     if (mailProvider.mails.status == ApiStatus.LOADING) {
+          //     final mail = mailProvider.createdMail.data?.id;
+          //     if (mailProvider.createdMail.status == ApiStatus.LOADING) {
           //       {
           //         return const CircularProgressIndicator();
           //       }
-          //     } else if (mailProvider.mails.status == ApiStatus.COMPLETED) {
+          //     } else if (mailProvider.createdMail.status ==
+          //         ApiStatus.COMPLETED) {
           //       {
-          //         final mail = mailProvider.mails.data![0].activities![0].body;
+          //         return Center(
+          //           child: Row(
+          //             children: [
+          //               Container(
+          //                 child: Text(mail.toString()),
+          //               ),
+          //             ],
+          //           ),
+          //         );
+          //       }
+          //     } else {
+          //       return Text(mailProvider.createdMail.message.toString());
+          //     }
+          //   },
+          // ),
+
+          ///update
+          // Consumer<MailProvider>(
+          //   builder: (context, mailProvider, child) {
+          //     final mail = mailProvider.singleMail;
+          //     if (mailProvider.singleMail.status == ApiStatus.LOADING) {
+          //       {
+          //         return const CircularProgressIndicator();
+          //       }
+          //     } else if (mailProvider.singleMail.status ==
+          //         ApiStatus.COMPLETED) {
+          //       {
+
           //         return Center(
           //           child: Row(
           //             children: [
@@ -74,59 +168,8 @@ class _TestEmailsState extends State<TestEmails> {
           //     }
           //   },
           // ),
-          // ElevatedButton(
-          //   onPressed: () async {
-          //     await MailProvider().deleteEmail(id: "1");
-          //   },
-          //   child: Consumer<MailProvider>(
-          //     builder: (context, mailProvider, child) {
-          //       if (mailProvider.deleted.status == ApiStatus.LOADING) {
-          //         {
-          //           return const CircularProgressIndicator();
-          //         }
-          //       } else if (mailProvider.deleted.status == ApiStatus.COMPLETED) {
-          //         {
-          //           final mail = mailProvider.deleted;
-          //           return Center(
-          //             child: Row(
-          //               children: [
-          //                 Container(
-          //                   child: Text(mail.toString()),
-          //                 ),
-          //               ],
-          //             ),
-          //           );
-          //         }
-          //       } else {
-          //         return Text(mailProvider.deleted.message.toString());
-          //       }
-          //     },
-          //   ),
-          // )
-          Consumer<MailProvider>(
-            builder: (context, mailProvider, child) {
-              final mail = mailProvider.mails.data?.last.id;
-              if (mailProvider.mails.status == ApiStatus.LOADING) {
-                {
-                  return const CircularProgressIndicator();
-                }
-              } else if (mailProvider.mails.status == ApiStatus.COMPLETED) {
-                {
-                  return Center(
-                    child: Row(
-                      children: [
-                        Container(
-                          child: Text(mail.toString()),
-                        ),
-                      ],
-                    ),
-                  );
-                }
-              } else {
-                return Text(mailProvider.mails.message.toString());
-              }
-            },
-          ),
+
+
         ],
       ),
     );
