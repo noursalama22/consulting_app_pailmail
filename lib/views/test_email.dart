@@ -51,16 +51,16 @@ class _TestEmailsState extends State<TestEmails> {
           Divider(),
           Consumer<MailProvider>(
             builder: (context, mailProvider, child) {
-              if (mailProvider.createdMail.status == ApiStatus.LOADING) {
+              if (mailProvider.singleMail.status == ApiStatus.LOADING) {
                 {
                   return const CircularProgressIndicator();
                 }
-              } else if (mailProvider.createdMail.status ==
+              } else if (mailProvider.singleMail.status ==
                   ApiStatus.COMPLETED) {
                 {
-                  final mail = mailProvider.createdMail.data;
+                  final mail = mailProvider.singleMail.data;
 
-                  return mailProvider.createdMail.data!.isEmpty
+                  return mailProvider.singleMail.data!.isEmpty
                       ? const SizedBox.shrink()
                       : Center(
                           child: ElevatedButton(
@@ -103,11 +103,11 @@ class _TestEmailsState extends State<TestEmails> {
                     );
                   }
                 } else {
-                  return Text(mailProvider.createdMail.message.toString());
+                  return Text(mailProvider.singleMail.message.toString());
                 }
               },
             ),
-          )
+          ),
           // Consumer<MailProvider>(
           //   builder: (context, mailProvider, child) {
           //     final mail = mailProvider.createdMail.data?.id;
@@ -135,31 +135,31 @@ class _TestEmailsState extends State<TestEmails> {
           // ),
 
           ///update
-          // Consumer<MailProvider>(
-          //   builder: (context, mailProvider, child) {
-          //     final mail = mailProvider.createdMail.data!.statusId;
-          //     if (mailProvider.createdMail.status == ApiStatus.LOADING) {
-          //       {
-          //         return const CircularProgressIndicator();
-          //       }
-          //     } else if (mailProvider.createdMail.status ==
-          //         ApiStatus.COMPLETED) {
-          //       {
-          //         return Center(
-          //           child: Row(
-          //             children: [
-          //               Container(
-          //                 child: Text(mail.toString()),
-          //               ),
-          //             ],
-          //           ),
-          //         );
-          //       }
-          //     } else {
-          //       return Text(mailProvider.mails.message.toString());
-          //     }
-          //   },
-          // ),
+          Consumer<MailProvider>(
+            builder: (context, mailProvider, child) {
+              final mail = mailProvider.singleMail;
+              if (mailProvider.singleMail.status == ApiStatus.LOADING) {
+                {
+                  return const CircularProgressIndicator();
+                }
+              } else if (mailProvider.singleMail.status ==
+                  ApiStatus.COMPLETED) {
+                {
+                  return Center(
+                    child: Row(
+                      children: [
+                        Container(
+                          child: Text(mail.toString()),
+                        ),
+                      ],
+                    ),
+                  );
+                }
+              } else {
+                return Text(mailProvider.mails.message.toString());
+              }
+            },
+          ),
         ],
       ),
     );

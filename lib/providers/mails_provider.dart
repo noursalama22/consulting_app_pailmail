@@ -29,7 +29,7 @@ class MailProvider extends ChangeNotifier {
   }
 
   ApiResponse<List<Mail>> get mails => _mailsList;
-  ApiResponse<List<Mail>> get createdMail => _singleMail;
+  ApiResponse<List<Mail>> get singleMail => _singleMail;
   Future<void> fetchAllMails() async {
     _mailsList = ApiResponse.loading("loading");
     notifyListeners();
