@@ -18,27 +18,28 @@ class SharedPrefrencesController {
     _sharedPreferences = await SharedPreferences.getInstance();
   }
 
-  Future<bool> saveAuth(
+  Future<void> saveAuth(
       {required UserResponseModel userModel, required bool isLogin}) async {
-    try {
-      await _sharedPreferences.setBool(PrefKeys.loggedIn.toString(), true);
-      await _sharedPreferences.setInt(
-          PrefKeys.id.toString(), userModel.user.id!.toInt());
-      await _sharedPreferences.setInt(
-          PrefKeys.roleId.toString(), userModel.user.roleId.toInt());
+    // await _sharedPreferences.setString(
+    //     PrefKeys.name.toString(), userModel.user.name.toString());
+    // await _sharedPreferences.setString(
+    //     PrefKeys.token.toString(), 'Bearer ${userModel.token}');
+    // await _sharedPreferences.setString(
+    //     PrefKeys.roleId.toString(), userModel.user.roleId.toString());
+    await _sharedPreferences.setBool(PrefKeys.loggedIn.toString(), true);
+    await _sharedPreferences.setInt(
+        PrefKeys.id.toString(), userModel.user.id!.toInt());
+    await _sharedPreferences.setInt(
+        PrefKeys.roleId.toString(), int.parse(userModel.user.roleId));
+    await _sharedPreferences.setString(
+        PrefKeys.email.toString(), userModel.user.email.toString());
+    await _sharedPreferences.setString(
+        PrefKeys.name.toString(), userModel.user.name.toString());
+    await _sharedPreferences.setString(
+        PrefKeys.token.toString(), 'Bearer ${userModel.token}');
+    if (isLogin) {
       await _sharedPreferences.setString(
-          PrefKeys.email.toString(), userModel.user.email.toString());
-      await _sharedPreferences.setString(
-          PrefKeys.name.toString(), userModel.user.name.toString());
-      await _sharedPreferences.setString(
-          PrefKeys.token.toString(), 'Bearer ${userModel.token}');
-      if (isLogin) {
-        await _sharedPreferences.setString(
-            PrefKeys.image.toString(), userModel.user.image.toString());
-      }
-      return true;
-    } catch (e) {
-      return false;
+          PrefKeys.image.toString(), userModel.user.image.toString());
     }
   }
 
@@ -56,15 +57,21 @@ class SharedPrefrencesController {
 
   bool get loggedIn =>
       _sharedPreferences.getBool(PrefKeys.loggedIn.toString()) ?? false;
+
   String get email =>
       _sharedPreferences.getString(PrefKeys.email.toString()) ?? '';
+
   String get name =>
       _sharedPreferences.getString(PrefKeys.name.toString()) ?? '';
+
   String get roleId =>
       _sharedPreferences.getString(PrefKeys.roleId.toString()) ?? '';
+
   String get id => _sharedPreferences.getString(PrefKeys.id.toString()) ?? '';
+
   String get image =>
       _sharedPreferences.getString(PrefKeys.image.toString()) ?? '';
+
   String get token =>
       _sharedPreferences.getString(PrefKeys.token.toString()) ?? '';
 
