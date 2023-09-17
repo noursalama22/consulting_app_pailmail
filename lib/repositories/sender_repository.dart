@@ -22,11 +22,11 @@ class SenderRepository {
   }
 
   Future<dynamic> updateSender(Sender sender, String id) async {
-    Map<String, dynamic> map = {
-      "name": sender.name,
-      "mobile": sender.mobile,
+    Map<String, String> map = {
+      "name": sender.name.toString(),
+      "mobile": sender.mobile.toString(),
       "address": sender.address,
-      "category_id": sender.categoryId,
+      "category_id": sender.categoryId.toString(),
     };
     final response = await _helper.put(CRUD_senderUrl + id, map);
     return SenderResponseModel.fromJson(response);
