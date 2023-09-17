@@ -5,8 +5,9 @@ import '../../../storage/shared_prefs.dart';
 import 'app_exception.dart';
 
 class ApiBaseHelper {
+  var responseJson;
+
   Future<dynamic> get(String url) async {
-    var responseJson;
     try {
       final response = await http.get(Uri.parse(url), headers: headers);
       responseJson = _returnResponse(response);
@@ -16,9 +17,7 @@ class ApiBaseHelper {
     return responseJson;
   }
 
-  Future<dynamic> post(String url, Map<String, String> body) async {
-    var responseJson;
-
+  Future<dynamic> post(String url, Map<String, dynamic> body) async {
     try {
       final response = await http.post(
         Uri.parse(url),
@@ -50,7 +49,6 @@ class ApiBaseHelper {
   }
 
   Future<dynamic> put(String url, Map<String, dynamic> body) async {
-    var responseJson;
     try {
       final response =
           await http.put(Uri.parse(url), body: body, headers: headers);
@@ -59,6 +57,20 @@ class ApiBaseHelper {
       throw FetchDataException('No Internet connection');
     }
     return responseJson;
+  }
+
+  Future<bool> delete(String url) async {
+    try {
+      final response = await http.delete(Uri.parse(url), headers: headers);
+      if (_returnResponse(response)) {
+        responseJson = true;
+      } else {
+        return false;
+      }
+    } on SocketException {
+      return false;
+    }
+    return false;
   }
 
   Map<String, String> get headers {
@@ -76,6 +88,7 @@ class ApiBaseHelper {
       case 200:
       case 201:
         var responseJson = json.decode(response.body);
+
         print(responseJson);
         return responseJson;
       case 400:
