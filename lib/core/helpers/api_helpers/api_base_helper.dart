@@ -60,6 +60,7 @@ class ApiBaseHelper {
     return responseJson;
   }
 
+
   Future<dynamic> postParams(
       String sender_url, bool params, Map<String, dynamic> body) async {
     var responseJson;
@@ -74,6 +75,19 @@ class ApiBaseHelper {
       responseJson = _returnResponse(response);
       print(
           "5"); //E/flutter ( 8612): [ERROR:flutter/runtime/dart_vm_initializer.cc(41)] Unhandled Exception: Error During Communication: Error occurred while Communication with Server with StatusCode : 301
+
+  Future<dynamic> postDel(
+    String url,
+  ) async {
+    var responseJson;
+
+    try {
+      final response = await http.post(
+        Uri.parse(url),
+        headers: headers,
+      );
+      responseJson = _returnResponse(response);
+
     } on SocketException {
       throw FetchDataException('No Internet connection');
     }

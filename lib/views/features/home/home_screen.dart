@@ -1,3 +1,6 @@
+import 'package:consulting_app_pailmail/providers/auth_provider.dart';
+import 'package:consulting_app_pailmail/repositories/auth_repository.dart';
+import 'package:consulting_app_pailmail/storage/shared_prefs.dart';
 import 'package:consulting_app_pailmail/views/widgets/custom_category_container.dart';
 import 'package:consulting_app_pailmail/views/widgets/custom_chip.dart';
 import 'package:consulting_app_pailmail/views/widgets/custom_expansion_tile.dart';
@@ -25,6 +28,10 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
+  // RoleRepository roleRepository = RoleRepository();
+  AuthRepository authRepository = AuthRepository();
+  AuthProvider authProvider = AuthProvider();
+
   final _advancedDrawerController = AdvancedDrawerController();
 
   late ScrollController _scrollViewController;
@@ -51,6 +58,9 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
   @override
   void initState() {
     super.initState();
+    // roleRepository.fetchRoleList();
+    authRepository.fetchCurrentUser();
+
     _scrollViewController = ScrollController();
     _scrollViewController.addListener(() {
       if (_scrollViewController.position.userScrollDirection ==
@@ -225,13 +235,13 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                                   raduis: 90.r,
                                 ),
                                 Text(
-                                  "User name",
+                                  '${SharedPrefrencesController().name}',
                                   style: GoogleFonts.poppins(
                                       color: Colors.black, fontSize: 16.sp),
                                   textAlign: TextAlign.center,
                                 ),
                                 Text(
-                                  "admin",
+                                  '  ${SharedPrefrencesController().roleName}',
                                   style: GoogleFonts.poppins(
                                       color: kMediumGreyColor, fontSize: 12.sp),
                                   textAlign: TextAlign.center,
@@ -265,7 +275,9 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                           ),
                         ),
                         PopupMenuItem(
-                          onTap: () {
+                          onTap: () async {
+                            await authProvider.logout();
+                            await SharedPrefrencesController().clear();
                             NavigationRoutes()
                                 .pushUntil(context, Routes.login_screen);
                           },

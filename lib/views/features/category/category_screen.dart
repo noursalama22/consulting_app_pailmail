@@ -21,9 +21,9 @@ class _CategoryScreenState extends State<CategoryScreen> {
   ];
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: kBackgroundColor,
-      body: Padding(
+    return SizedBox(
+      height: MediaQuery.of(context).size.height - 70,
+      child: Padding(
         padding: EdgeInsetsDirectional.only(
             top: 20.0.h, start: 20.w, end: 20.w, bottom: 62.h),
         child: Column(children: [

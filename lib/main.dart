@@ -1,5 +1,9 @@
 import 'package:consulting_app_pailmail/providers/sender_provider.dart';
 import 'package:consulting_app_pailmail/providers/tag_provider.dart';
+
+import 'package:consulting_app_pailmail/providers/auth_provider.dart';
+import 'package:consulting_app_pailmail/providers/roles_provider.dart';
+
 import 'package:consulting_app_pailmail/storage/shared_prefs.dart';
 import 'package:consulting_app_pailmail/views/features/auth/splash_screen.dart';
 import 'package:consulting_app_pailmail/views/features/home/home_screen.dart';
@@ -14,7 +18,6 @@ import 'core/utils/constants.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
-  await SharedPrefrencesController().initPref();
   runApp(EasyLocalization(
       path: 'assets/translations',
       supportedLocales: const [
@@ -23,6 +26,7 @@ Future<void> main() async {
       ],
       fallbackLocale: const Locale('ar'),
       child: const MyApp()));
+  await SharedPrefrencesController().initPref();
 }
 
 class MyApp extends StatelessWidget {
@@ -31,6 +35,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.  @override
   @override
   Widget build(BuildContext context) {
+
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<SenderProvider>(
@@ -39,6 +44,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<TagProvider>(
           create: (_) => TagProvider(),
         ),
+         ChangeNotifierProvider<AuthProvider>(create: (_) => AuthProvider()),
+        ChangeNotifierProvider<RoleProvider>(create: (_) => RoleProvider()),
+
       ],
       child: ScreenUtilInit(
           designSize: const Size(428, 812),
@@ -56,5 +64,6 @@ class MyApp extends StatelessWidget {
             );
           }),
     );
+
   }
 }

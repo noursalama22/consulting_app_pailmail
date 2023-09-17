@@ -8,4 +8,7 @@ class Routes {
   static const String index_screen = '/index_screen';
   static const String category_screen = '/category_screen';
   static const String search_filters_screen = '/search_filters_screen';
+  static const String settings_screen = '/settings_screen';
+  static const String profile_screen = '/profile_screen';
+  static const String update_profile_screen = '/update_profile_screen';
 }

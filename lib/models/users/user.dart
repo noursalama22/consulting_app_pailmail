@@ -31,7 +31,9 @@ class User {
     roleId = json['role_id'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
-    role = json['roles'] != null ? new Role.fromJson(json['roles']) : null;
+    role = json['role'] != null
+        ? new Role.fromJson(json['role'])
+        : null; //////////////
   }
 
   Map<String, dynamic> toJson() {
@@ -45,7 +47,7 @@ class User {
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
     if (this.role != null) {
-      data['roles'] = this.role!.toJson();
+      data['role'] = this.role!.toJson();
     }
     return data;
   }
