@@ -115,13 +115,13 @@ class _InboxScreenState extends State<InboxScreen>
                           //   ),
                           // ),
                           ExpansionTile(
-                        shape: Border(),
+                        shape: const Border(),
                         initiallyExpanded: false,
                         onExpansionChanged: (bool expanded) async {
                           expandCollapse();
                         },
                         trailing: Padding(
-                          padding: EdgeInsets.only(left: 20),
+                          padding: const EdgeInsets.only(left: 20),
                           child: Icon(
                             _customTileExpanded
                                 ? Icons.keyboard_arrow_down_rounded
@@ -141,7 +141,7 @@ class _InboxScreenState extends State<InboxScreen>
                         children: [
                           Padding(
                             padding: EdgeInsets.only(left: 18.h),
-                            child: Align(
+                            child: const Align(
                               alignment: AlignmentDirectional.centerStart,
                               child: Text(
                                 "description of subject",
@@ -204,10 +204,6 @@ class _InboxScreenState extends State<InboxScreen>
                               GestureDetector(
                                 onTap: () {
                                   showSheet(context, const CategoryScreen());
-                                  // NavigationRoutes().jump(
-                                  //   context,
-                                  //   Routes.category_screen,
-                                  // );
                                 },
                                 child: const Icon(
                                   Icons.arrow_forward_ios,

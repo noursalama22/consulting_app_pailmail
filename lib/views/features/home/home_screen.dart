@@ -129,8 +129,8 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
               //print('called on tap');
               showSheet(
                   context,
-                  InboxScreen(
-                    isDetails: true,
+                  const InboxScreen(
+                    isDetails: false,
                   ));
             },
             child: SizedBox(
