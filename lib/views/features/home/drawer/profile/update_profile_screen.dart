@@ -70,8 +70,8 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                   Stack(
                     children: [
                       SizedBox(
-                        width: 200,
-                        height: 200,
+                        width: 150,
+                        height: 150,
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(100),
                           child: pickedFile == null
@@ -98,7 +98,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                             setState(() {});
                           },
                           child: CircleAvatar(
-                            radius: 25,
+                            radius: 24,
                             backgroundColor:
                                 Theme.of(context).scaffoldBackgroundColor,
                             child: Container(
@@ -107,7 +107,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                                   const BoxDecoration(shape: BoxShape.circle),
                               child: Icon(
                                 Icons.image,
-                                size: 32,
+                                size: 24,
                                 color: kYellowColor,
                               ),
                             ),

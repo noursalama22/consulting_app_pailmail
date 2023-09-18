@@ -171,14 +171,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       ProfileMenuWidget(
+                        viewRoles: false,
                         title: "$userName",
                         icon: Icons.person,
                       ),
                       ProfileMenuWidget(
+                        viewRoles: false,
                         title: "$userEmail",
                         icon: Icons.alternate_email_outlined,
                       ),
                       ProfileMenuWidget(
+                        viewRoles: false,
                         title: "$userRole",
                         icon: Icons.recent_actors_outlined,
                       ),

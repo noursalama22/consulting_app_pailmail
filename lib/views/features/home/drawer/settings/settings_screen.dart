@@ -25,7 +25,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       body: SafeArea(
         child: Center(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            padding: const EdgeInsets.symmetric(horizontal: 12.0),
             child: Column(
               children: [
                 CustomAppBar(widgetName: 'Settings'),
@@ -49,7 +49,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         return Center(
                             child: ListView.separated(
                           physics: NeverScrollableScrollPhysics(),
-                          padding: const EdgeInsets.all(8),
                           scrollDirection: Axis.vertical,
                           shrinkWrap: true,
                           separatorBuilder: (context, index) {
@@ -62,157 +61,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           itemBuilder: (context, index) {
                             User user = generalUsersProvider
                                 .generalUsersList.data![index];
-                            return
-                                //   Row(children: [
-                                //   IconButton(
-                                //       onPressed: () async {
-                                //         bool isDeleted =
-                                //             await GeneralUsersRepository()
-                                //                 .deleteGeneralUser(
-                                //           userId:
-                                //               '${generalUsersProvider.generalUsersList.data![index].id}',
-                                //         );
-                                //         isDeleted
-                                //             ? Provider.of<GeneralUsersProvider>(
-                                //                     context,
-                                //                     listen: false)
-                                //                 .fetchGeneralUsersList()
-                                //             : null;
-                                //       },
-                                //       icon: Icon(Icons.delete)),
-                                //   Row(
-                                //     children: [
-                                //       GestureDetector(
-                                //         onTap: () {
-                                //           generalUsersRepository.getSingleGeneralUser(
-                                //               userId:
-                                //                   '${generalUsersProvider.generalUsersList.data![index].id}');
-                                //           Navigator.push(context, MaterialPageRoute(
-                                //             builder: (context) {
-                                //               String name =
-                                //                   '${generalUsersProvider.generalUsersList.data![index].name}';
-                                //               String id =
-                                //                   '${generalUsersProvider.generalUsersList.data![index].id}';
-                                //               String image =
-                                //                   '${generalUsersProvider.generalUsersList.data![index].image}';
-                                //               String email =
-                                //                   '${generalUsersProvider.generalUsersList.data![index].email}';
-                                //               String role =
-                                //                   '${generalUsersProvider.generalUsersList.data![index].role!.name}';
-                                //               return GeneralUserProfileScreen(
-                                //                 image: image,
-                                //                 name: name,
-                                //                 email: email,
-                                //                 role: role,
-                                //                 id: id,
-                                //               );
-                                //             },
-                                //           ));
-                                //         },
-                                //         child: Container(
-                                //           width: double.infinity,
-                                //           padding: EdgeInsets.all(16),
-                                //           decoration: BoxDecoration(
-                                //               color: index % 2 == 0
-                                //                   ? kLightBlueColor
-                                //                   : kLightGreyColor,
-                                //               borderRadius:
-                                //                   BorderRadius.circular(15)),
-                                //           child: Column(
-                                //             crossAxisAlignment:
-                                //                 CrossAxisAlignment.start,
-                                //             children: [
-                                //               Text(
-                                //                 '${user.name}',
-                                //                 style: TextStyle(
-                                //                   color: index % 2 == 1
-                                //                       ? kPrimaryBlueColor
-                                //                       : kMediumGreyColor,
-                                //                 ),
-                                //               ),
-                                //               Text(
-                                //                 '${user.email}',
-                                //                 style: TextStyle(
-                                //                   color: index % 2 == 1
-                                //                       ? kLightBlueColor
-                                //                       : kLightGreyColor,
-                                //                 ),
-                                //               ),
-                                //             ],
-                                //           ),
-                                //         ),
-                                //       ),
-                                //     ],
-                                //   ),
-                                // ]);
-////*****/////
-//                                 Row(
-//                               children: [
-//                                 GestureDetector(
-//                                   onTap: () {
-//                                     generalUsersRepository.getSingleGeneralUser(
-//                                         userId:
-//                                             '${generalUsersProvider.generalUsersList.data![index].id}');
-//                                     Navigator.push(context, MaterialPageRoute(
-//                                       builder: (context) {
-//                                         String name =
-//                                             '${generalUsersProvider.generalUsersList.data![index].name}';
-//                                         String id =
-//                                             '${generalUsersProvider.generalUsersList.data![index].id}';
-//                                         String image =
-//                                             '${generalUsersProvider.generalUsersList.data![index].image}';
-//                                         String email =
-//                                             '${generalUsersProvider.generalUsersList.data![index].email}';
-//                                         String role =
-//                                             '${generalUsersProvider.generalUsersList.data![index].role!.name}';
-//                                         return GeneralUserProfileScreen(
-//                                           image: image,
-//                                           name: name,
-//                                           email: email,
-//                                           role: role,
-//                                           id: id,
-//                                         );
-//                                       },
-//                                     ));
-//                                   },
-//                                   child: Container(
-//                                     width: double.infinity,
-//                                     padding: EdgeInsets.all(16),
-//                                     decoration: BoxDecoration(
-//                                         color: index % 2 == 0
-//                                             ? kLightBlueColor
-//                                             : kLightGreyColor,
-//                                         borderRadius:
-//                                             BorderRadius.circular(15)),
-//                                     child: Column(
-//                                       crossAxisAlignment:
-//                                           CrossAxisAlignment.start,
-//                                       children: [
-//                                         Text(
-//                                           '${user.name}',
-//                                           style: TextStyle(
-//                                             color: index % 2 == 1
-//                                                 ? kPrimaryBlueColor
-//                                                 : kMediumGreyColor,
-//                                           ),
-//                                         ),
-//                                         Text(
-//                                           '${user.email}',
-//                                           style: TextStyle(
-//                                             color: index % 2 == 1
-//                                                 ? kLightBlueColor
-//                                                 : kLightGreyColor,
-//                                           ),
-//                                         ),
-//                                       ],
-//                                     ),
-//                                   ),
-//                                 ),
-//                               ],
-//                             );
-
-                                /******/
-                                GestureDetector(
+                            return GestureDetector(
                               onTap: () {
                                 generalUsersRepository.getSingleGeneralUser(
                                     userId:
@@ -241,7 +90,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               },
                               child: Container(
                                 width: double.infinity,
-                                padding: EdgeInsetsDirectional.all(12),
+                                padding: EdgeInsetsDirectional.symmetric(
+                                    horizontal: 24, vertical: 16),
                                 decoration: BoxDecoration(
                                     color: kLightGreyColor,
                                     borderRadius: BorderRadius.circular(15)),
@@ -249,12 +99,27 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
+                                    Icon(Icons.person),
                                     Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Text('${user.name}'),
-                                        Text('${user.email}'),
+                                        Text(
+                                          '${user.name}',
+                                          style: TextStyle(
+                                            color: index % 2 == 1
+                                                ? kBlackColor
+                                                : kBlackColor,
+                                          ),
+                                        ),
+                                        Text(
+                                          '${user.email}',
+                                          style: TextStyle(
+                                            color: index % 2 == 1
+                                                ? kDarkGreyColor
+                                                : kDarkGreyColor,
+                                          ),
+                                        )
                                       ],
                                     ),
 
@@ -277,6 +142,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                       icon: Icon(Icons.delete),
                                       color: kRedColor,
                                     ),
+
                                     // IconButton(
                                     //     onPressed: () {
                                     //       setState(() {
