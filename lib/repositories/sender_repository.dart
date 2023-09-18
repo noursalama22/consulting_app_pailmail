@@ -9,12 +9,12 @@ class SenderRepository {
   final ApiBaseHelper _helper = ApiBaseHelper();
 
   Future<SenderResponseModel> createSender(Sender sender) async {
-    Map<String, dynamic> map = {
-      "name": sender.name,
-      "mobile": sender.mobile,
+    Map<String, String> map = {
+      "name": sender.name.toString(),
+      "mobile": sender.mobile.toString(),
       "address": sender.address,
       // take dynamic but the post method take the string
-      "category_id": sender.categoryId,
+      "category_id": sender.categoryId.toString(),
     };
     final response = await _helper.post(sendersUrl, map);
     print("////////////////");

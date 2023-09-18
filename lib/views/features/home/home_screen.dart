@@ -1,11 +1,8 @@
-
 import 'package:consulting_app_pailmail/core/helpers/api_helpers/api_response.dart';
-import 'package:consulting_app_pailmail/providers/categories_provider.dart';
-
 import 'package:consulting_app_pailmail/providers/auth_provider.dart';
+import 'package:consulting_app_pailmail/providers/categories_provider.dart';
 import 'package:consulting_app_pailmail/repositories/auth_repository.dart';
 import 'package:consulting_app_pailmail/storage/shared_prefs.dart';
-
 import 'package:consulting_app_pailmail/views/widgets/custom_category_container.dart';
 import 'package:consulting_app_pailmail/views/widgets/custom_chip.dart';
 import 'package:consulting_app_pailmail/views/widgets/custom_expansion_tile.dart';
@@ -422,7 +419,8 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                                           );
                                         },
                                         shrinkWrap: true,
-                                        itemCount: data!.length ?? 0,
+                                        itemCount:
+                                            data!.length < 3 ? data!.length : 3,
                                       )
                                     ]);
                               }
@@ -474,7 +472,8 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                                           endMargin: 8,
                                         );
                                       },
-                                      itemCount: data!.length ?? 0,
+                                      itemCount:
+                                          data!.length < 3 ? data!.length : 3,
                                       shrinkWrap: true,
                                     )
                                   ],
@@ -528,9 +527,10 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                                           endMargin: 8,
                                         );
                                       },
-                                      itemCount: data!.length ?? 0,
+                                      itemCount:
+                                          data!.length < 3 ? data!.length : 3,
                                       shrinkWrap: true,
-                                    )
+                                    ),
                                   ],
                                 );
                               }
@@ -582,7 +582,8 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                                           endMargin: 8,
                                         );
                                       },
-                                      itemCount: data!.length ?? 0,
+                                      itemCount:
+                                          data!.length < 3 ? data!.length : 3,
                                       shrinkWrap: true,
                                     )
                                   ],

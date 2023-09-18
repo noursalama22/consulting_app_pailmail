@@ -8,7 +8,7 @@ class TagRepository {
   final ApiBaseHelper _helper = ApiBaseHelper();
 
   Future<dynamic> createTag(String tag) async {
-    Map<String, dynamic> map = {
+    Map<String, String> map = {
       "name": tag,
     };
     final response = await _helper.post(allTagsUrl, map);
