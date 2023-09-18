@@ -31,10 +31,24 @@ class GeneralUsersRepository {
   Future<User> changeUserPassword({
     required String userId,
     required String updatedPass,
+    required String updatedConfoirmPass,
   }) async {
     print('changeUserPassword  repo');
-    Map<String, String> body = {'role_id': updatedPass};
+    Map<String, String> body = {
+      'password': updatedPass,
+      'password_confirmation': updatedConfoirmPass
+    };
     final response = await _helper.post('$CRUD_UsersUrl$userId/password', body);
+    return User.fromJson(response['user']);
+  }
+
+  Future<User> changeGeneralUserName({
+    required String userId,
+    required String updatedName,
+  }) async {
+    print('changeGeneralUserName  repo');
+    final response =
+        await _helper.put('$CRUD_UsersUrl$userId?name=$updatedName', {});
     return User.fromJson(response['user']);
   }
 

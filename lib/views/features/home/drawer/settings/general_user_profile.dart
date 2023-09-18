@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 
+import '../../../../../providers/general_users_provider.dart';
 import '../../../../../repositories/general_users_repository.dart';
 import '../../../../widgets/custom_app_bar.dart';
 import '../../../../widgets/custom_profile_image_widget.dart';
@@ -54,6 +56,13 @@ class _GeneralUserProfileScreenState extends State<GeneralUserProfileScreen> {
                     ProfileMenuWidget(
                       title: widget.name,
                       icon: Icons.person,
+                      edit: () {
+                        GeneralUsersRepository().changeGeneralUserName(
+                            userId: widget.id, updatedName: 'annb');
+                        Provider.of<GeneralUsersProvider>(context,
+                                listen: false)
+                            .fetchGeneralUsersList();
+                      },
                     ),
                     ProfileMenuWidget(
                       title: widget.email,
