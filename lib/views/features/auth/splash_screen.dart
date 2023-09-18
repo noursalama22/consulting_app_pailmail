@@ -1,5 +1,6 @@
 import 'package:consulting_app_pailmail/repositories/roles_repository.dart';
 import 'package:consulting_app_pailmail/storage/shared_prefs.dart';
+import 'package:consulting_app_pailmail/views/features/auth/auth_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -38,12 +39,12 @@ class _SplashScreenState extends State<SplashScreen>
           ..addStatusListener((status) {
             if (status == AnimationStatus.completed) {
               checkLogin();
-              // NavigationRoutes().jump(context, Routes.login_screen, replace: true);
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => TestEmails(),
-                  ));
+              NavigationRoutes().jump(context, Routes.login_screen, replace: true);
+              // Navigator.push(
+              //     context,
+              //     MaterialPageRoute(
+              //       builder: (context) => LoginScreen(),
+              //     ));
             }
           });
 
