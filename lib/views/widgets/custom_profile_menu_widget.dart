@@ -8,11 +8,13 @@ class ProfileMenuWidget extends StatelessWidget {
     required this.title,
     required this.icon,
     this.edit,
+    required this.viewRoles,
   }) : super(key: key);
 
   final String title;
   final IconData icon;
   final Function()? edit;
+  final bool viewRoles;
 
   @override
   Widget build(BuildContext context) {
@@ -37,9 +39,14 @@ class ProfileMenuWidget extends StatelessWidget {
                     height: 40,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(100),
-                      color: kYellowColor.withOpacity(0.1),
+                      color: kDarkGreyColor.withOpacity(0.1),
                     ),
-                    child: Icon(Icons.edit, color: kYellowColor),
+                    child: viewRoles
+                        ? Icon(
+                            Icons.close,
+                            color: kRedColor,
+                          )
+                        : Icon(Icons.edit, color: kDarkGreyColor),
                   ),
                 ),
           title: Text(title,
