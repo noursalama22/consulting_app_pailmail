@@ -160,72 +160,69 @@ class _GeneralUserProfileScreenState extends State<GeneralUserProfileScreen> {
                         },
                       ),
                     ),
-                    AnimatedOpacity(
-                      opacity: viewRoles ? 1 : 0,
-                      duration: Duration(milliseconds: 500),
-                      child: SizedBox(
-                        height: 250.h,
-                        child: Consumer<RoleProvider>(
-                          builder: (_, roleProvider, __) {
-                            if (roleProvider.roleList.status ==
-                                ApiStatus.LOADING) {
-                              return const Center(
-                                child: CircularProgressIndicator(),
-                              );
-                            }
-                            if (roleProvider.roleList.status ==
-                                ApiStatus.ERROR) {
-                              return Center(
-                                child: Text('${roleProvider.roleList.message}'),
-                              );
-                            }
-                            return ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: roleProvider.roleList.data?.length,
-                              itemBuilder: (context, index) {
-                                Role roles = roleProvider.roleList.data![index];
-                                return RadioListTile<String>(
-                                  title: Text('${roles.name}'),
-                                  value: '${roles.id}',
-                                  groupValue: _selectedRoleId,
-                                  onChanged: (String? value) {
-                                    setState(() {
-                                      _selectedRoleId = value!;
-                                      role = '${roles.name}';
-                                      setState(() {});
-                                    });
-                                  },
+                    viewRoles
+                        ? Consumer<RoleProvider>(
+                            builder: (_, roleProvider, __) {
+                              if (roleProvider.roleList.status ==
+                                  ApiStatus.LOADING) {
+                                return const Center(
+                                  child: CircularProgressIndicator(),
                                 );
-                              },
-                              //     ListTile(
-                              //   title: Text('${roles.name}'),
-                              //   leading: Radio<String>(
-                              //     value: '${roles.id}',
-                              //     groupValue: _selectedRoleId,
-                              //     onChanged: (String? value) {
-                              //       setState(() {
-                              //         _selectedRoleId = value!;
-                              //         role = '${roles.name}';
-                              //       });
+                              }
+                              if (roleProvider.roleList.status ==
+                                  ApiStatus.ERROR) {
+                                return Center(
+                                  child:
+                                      Text('${roleProvider.roleList.message}'),
+                                );
+                              }
+                              return ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: roleProvider.roleList.data?.length,
+                                itemBuilder: (context, index) {
+                                  Role roles =
+                                      roleProvider.roleList.data![index];
+                                  return RadioListTile<String>(
+                                    title: Text('${roles.name}'),
+                                    value: '${roles.id}',
+                                    groupValue: _selectedRoleId,
+                                    onChanged: (String? value) {
+                                      setState(() {
+                                        _selectedRoleId = value!;
+                                        role = '${roles.name}';
+                                        setState(() {});
+                                      });
+                                    },
+                                  );
+                                },
+                                //     ListTile(
+                                //   title: Text('${roles.name}'),
+                                //   leading: Radio<String>(
+                                //     value: '${roles.id}',
+                                //     groupValue: _selectedRoleId,
+                                //     onChanged: (String? value) {
+                                //       setState(() {
+                                //         _selectedRoleId = value!;
+                                //         role = '${roles.name}';
+                                //       });
+                                //     },
+                                //   ),
+                                // );d
+                              );
+                              //   Center(
+                              //   child: ListView.builder(
+                              //     itemCount:
+                              //         roleProvider.roleList.data?.length,
+                              //     itemBuilder: (context, index) {
+                              //       Role roles =
+                              //           roleProvider.roleList.data![index];
+                              //       return Text('${roles.name}');
                               //     },
                               //   ),
-                              // );d
-                            );
-                            //   Center(
-                            //   child: ListView.builder(
-                            //     itemCount:
-                            //         roleProvider.roleList.data?.length,
-                            //     itemBuilder: (context, index) {
-                            //       Role roles =
-                            //           roleProvider.roleList.data![index];
-                            //       return Text('${roles.name}');
-                            //     },
-                            //   ),
-                            // );
-                          },
-                        ),
-                      ),
-                    )
+                              // );
+                            },
+                          )
+                        : SizedBox.shrink()
                   ],
                 ),
               ),
