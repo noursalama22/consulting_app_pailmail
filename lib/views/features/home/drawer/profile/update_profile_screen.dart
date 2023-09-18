@@ -3,10 +3,12 @@ import 'dart:io';
 import 'package:consulting_app_pailmail/core/utils/constants.dart';
 import 'package:consulting_app_pailmail/providers/auth_provider.dart';
 import 'package:consulting_app_pailmail/repositories/auth_repository.dart';
+import 'package:consulting_app_pailmail/views/features/home/drawer/profile/profile_screen.dart';
 import 'package:consulting_app_pailmail/views/widgets/custom_auth_button_widget.dart';
 import 'package:consulting_app_pailmail/views/widgets/custom_profile_image_widget.dart';
 import 'package:consulting_app_pailmail/views/widgets/custom_text_forn_field_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../../core/helpers/routers/router.dart';
 import '../../../../widgets/custom_app_bar.dart';
@@ -70,18 +72,21 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                   Stack(
                     children: [
                       SizedBox(
-                        width: 150,
-                        height: 150,
+                        height: 200.h,
+                        width: 200.h,
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(100),
                           child: pickedFile == null
-                              ? CustomProfileWidget(
-                                  image: '$imageUrl/${widget.image}')
-                              // Image.network(
-                              //         '$imageUrl/${widget.image}',
-                              //         fit: BoxFit.cover,
-                              //       )
-                              //
+                              ?
+                              // CustomProfileContainerImage(
+                              //         userImage: '$imageUrl/${widget.image}')
+                              // CustomProfileWidget(
+                              //         image: '$imageUrl/${widget.image}')
+//
+                              Image.network(
+                                  '$imageUrl/${widget.image}',
+                                  fit: BoxFit.cover,
+                                )
                               : Image.file(File(pickedFile!.path)),
                         ),
                       ),
@@ -99,16 +104,16 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                           },
                           child: CircleAvatar(
                             radius: 24,
-                            backgroundColor:
-                                Theme.of(context).scaffoldBackgroundColor,
+                            backgroundColor: kLightBlueColor,
                             child: Container(
                               margin: const EdgeInsets.all(4.0),
-                              decoration:
-                                  const BoxDecoration(shape: BoxShape.circle),
+                              decoration: const BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: kLightBlueColor),
                               child: Icon(
-                                Icons.image,
-                                size: 24,
-                                color: kYellowColor,
+                                Icons.camera,
+                                size: 32,
+                                color: kWhiteColor,
                               ),
                             ),
                           ),

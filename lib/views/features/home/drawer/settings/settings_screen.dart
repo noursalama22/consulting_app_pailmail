@@ -99,7 +99,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Icon(Icons.person),
                                     Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
