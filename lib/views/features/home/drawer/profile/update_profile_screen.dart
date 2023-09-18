@@ -4,6 +4,7 @@ import 'package:consulting_app_pailmail/core/utils/constants.dart';
 import 'package:consulting_app_pailmail/providers/auth_provider.dart';
 import 'package:consulting_app_pailmail/repositories/auth_repository.dart';
 import 'package:consulting_app_pailmail/views/widgets/custom_auth_button_widget.dart';
+import 'package:consulting_app_pailmail/views/widgets/custom_profile_image_widget.dart';
 import 'package:consulting_app_pailmail/views/widgets/custom_text_forn_field_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -74,10 +75,13 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(100),
                           child: pickedFile == null
-                              ? Image.network(
-                                  '$imageUrl/${widget.image}',
-                                  fit: BoxFit.cover,
-                                )
+                              ? CustomProfileWidget(
+                                  image: '$imageUrl/${widget.image}')
+                              // Image.network(
+                              //         '$imageUrl/${widget.image}',
+                              //         fit: BoxFit.cover,
+                              //       )
+                              //
                               : Image.file(File(pickedFile!.path)),
                         ),
                       ),
@@ -93,19 +97,49 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                             }
                             setState(() {});
                           },
-                          child: Container(
-                            width: 40,
-                            height: 40,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(100),
-                                color: kPrimaryBlueColor),
-                            child: Icon(
-                              Icons.image,
-                              color: kWhiteColor,
+                          child: CircleAvatar(
+                            radius: 25,
+                            backgroundColor:
+                                Theme.of(context).scaffoldBackgroundColor,
+                            child: Container(
+                              margin: const EdgeInsets.all(4.0),
+                              decoration:
+                                  const BoxDecoration(shape: BoxShape.circle),
+                              child: Icon(
+                                Icons.image,
+                                size: 32,
+                                color: kYellowColor,
+                              ),
                             ),
                           ),
                         ),
                       ),
+
+                      // Positioned(
+                      //   bottom: 0,
+                      //   right: 0,
+                      //   child: InkWell(
+                      //     onTap: () async {
+                      //       pickedFile = await AuthRepository().pickImage();
+                      //
+                      //       if (pickedFile != null) {
+                      //         filePath = pickedFile!.path;
+                      //       }
+                      //       setState(() {});
+                      //     },
+                      //     child: Container(
+                      //       width: 40,
+                      //       height: 40,
+                      //       decoration: BoxDecoration(
+                      //           borderRadius: BorderRadius.circular(100),
+                      //           color: kPrimaryBlueColor),
+                      //       child: Icon(
+                      //         Icons.image,
+                      //         color: kWhiteColor,
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
                     ],
                   ),
                   const SizedBox(height: 60),
