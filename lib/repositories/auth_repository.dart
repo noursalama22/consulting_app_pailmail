@@ -73,24 +73,29 @@ class AuthRepository {
     return UserResponseModel.fromJson(currentUserResponse);
   }
 
+/***********************************/ ////
+  ////****  update  *****/////
   Future<dynamic> updateCurrentUser({
     required String name,
-    required String image,
+    String? image,
   }) async {
     Map<String, String> body = {
       'name': name,
-      'image': image,
+      // 'image': image,
     };
     print('upddatetUser');
     print(currentUpdateUserUrl);
 
     final upddatetUserResponse = await _helper.post(currentUpdateUserUrl, body);
+    print('update/::::::$upddatetUserResponse');
+
+    // set locally
     SharedPrefrencesController().setData(PrefKeys.name.toString(), name);
     SharedPrefrencesController().setData(PrefKeys.image.toString(), image);
     print(
         '${SharedPrefrencesController().setData(PrefKeys.name.toString(), name)}');
+
     print('updateCurrentUser authrepo');
-    print(upddatetUserResponse);
     return UserResponseModel.fromJson(upddatetUserResponse);
   }
 
@@ -100,16 +105,31 @@ class AuthRepository {
     return UserResponseModel.fromJson(logoutResponse);
   }
 
-  Future<File?> pickImage() async {
-    final ImagePicker picker = ImagePicker();
-    XFile? pickedImage = await picker.pickImage(source: ImageSource.gallery);
-    if (pickedImage == null) {
-      return null;
-    }
-    File imageFile = File(pickedImage.path);
-    return imageFile;
-  }
+  Future<int> uploadImage(File file, userName) async {
+    var request =
+        http.MultipartRequest("POST", Uri.parse('$baseUrl/user/update'));
 
+    //create multipart using filepath, string or bytes
+    var pic = await http.MultipartFile.fromPath('image', file.path);
+    // request.fields['mail_id'] = mailId.toString();
+    request.fields['name'] = userName;
+
+    ///add username
+
+    //add multipart to request
+    request.files.add(pic);
+    request.headers.addAll({
+      'Accept': 'application/json',
+      'Authorization': 'Bearer ${SharedPrefrencesController().token}'
+    });
+    var response = await request.send();
+
+//Get the response from the server
+    var responseData = await response.stream.toBytes();
+    var responseString = String.fromCharCodes(responseData);
+    print(responseString);
+    return response.statusCode;
+  }
   // Future<void> uploadProfileImage(File imageFile) async {
   //   var request =
   //       http.MultipartRequest("POST", Uri.parse('$baseUrl/user/update'));

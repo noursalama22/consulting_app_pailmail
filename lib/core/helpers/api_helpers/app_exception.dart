@@ -4,12 +4,15 @@ class AppException implements Exception {
 
   AppException([this._message, this._prefix]);
 
+  /// prefix: the error, message: the details of error
+
   @override
   String toString() {
     return "$_prefix$_message";
   }
 }
 
+///types of exceptions
 class FetchDataException extends AppException {
   FetchDataException([message])
       : super(message, "Error During Communication: ");

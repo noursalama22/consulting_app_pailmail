@@ -7,10 +7,14 @@ class ProfileMenuWidget extends StatelessWidget {
     Key? key,
     required this.title,
     required this.icon,
+    this.edit,
+    required this.viewRoles,
   }) : super(key: key);
 
   final String title;
   final IconData icon;
+  final Function()? edit;
+  final bool viewRoles;
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +30,25 @@ class ProfileMenuWidget extends StatelessWidget {
             ),
             child: Icon(icon, color: kPrimaryBlueColor),
           ),
+          trailing: edit == null
+              ? null
+              : GestureDetector(
+                  onTap: edit,
+                  child: Container(
+                    width: 40,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(100),
+                      color: kDarkGreyColor.withOpacity(0.1),
+                    ),
+                    child: viewRoles
+                        ? Icon(
+                            Icons.close,
+                            color: kRedColor,
+                          )
+                        : Icon(Icons.edit, color: kDarkGreyColor),
+                  ),
+                ),
           title: Text(title,
               style: Theme.of(context)
                   .textTheme
