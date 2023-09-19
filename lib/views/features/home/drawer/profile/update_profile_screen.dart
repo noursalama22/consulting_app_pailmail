@@ -13,6 +13,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../core/helpers/routers/router.dart';
+import '../../../../../storage/shared_prefs.dart';
 import '../../../../widgets/custom_app_bar.dart';
 
 class UpdateProfileScreen extends StatefulWidget {
@@ -54,6 +55,12 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
         (value) async {
           await Provider.of<AuthProvider>(context, listen: false)
               .fetchCurrentUser();
+          // set locally
+          await SharedPrefrencesController()
+              .setData(PrefKeys.name.toString(), updateNameController.text);
+          await SharedPrefrencesController()
+              .setData(PrefKeys.image.toString(), file.path);
+
           if (mounted) {
             NavigationRoutes()
                 .jump(context, Routes.profile_screen, replace: true);
