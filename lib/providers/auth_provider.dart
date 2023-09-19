@@ -1,6 +1,5 @@
 import 'package:consulting_app_pailmail/models/users/user_response_model.dart';
 import 'package:consulting_app_pailmail/repositories/auth_repository.dart';
-import 'package:consulting_app_pailmail/storage/shared_prefs.dart';
 import 'package:flutter/material.dart';
 
 import '../core/helpers/api_helpers/api_response.dart';

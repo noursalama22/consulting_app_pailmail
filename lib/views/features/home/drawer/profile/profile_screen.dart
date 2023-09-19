@@ -3,15 +3,13 @@ import 'dart:io';
 import 'package:consulting_app_pailmail/providers/auth_provider.dart';
 import 'package:consulting_app_pailmail/views/features/home/drawer/profile/update_profile_screen.dart';
 import 'package:consulting_app_pailmail/views/widgets/custom_auth_button_widget.dart';
-import 'package:consulting_app_pailmail/views/widgets/custom_profile_image_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:image_fade/image_fade.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../core/helpers/api_helpers/api_response.dart';
 import '../../../../../core/utils/constants.dart';
-import '../../../../widgets/custom_app_bar.dart';
+import '../../../../widgets/custom_fade_image.dart';
 import '../../../../widgets/custom_profile_menu_widget.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -150,39 +148,7 @@ class CustomProfileContainerImage extends StatelessWidget {
                 height: 200.h,
                 child: ClipRRect(
                     borderRadius: BorderRadius.circular(100.r),
-                    child: ImageFade(
-                      // whenever the image changes, it will be loaded, and then faded in:
-                      image: NetworkImage('$imageUrl/$userImage'),
-                      // slow fade for newly loaded images:
-                      duration: const Duration(milliseconds: 900),
-
-                      // if the image is loaded synchronously (ex. from memory), fade in faster:
-                      syncDuration: const Duration(milliseconds: 150),
-
-                      // supports most properties of Image:
-                      alignment: Alignment.center,
-                      fit: BoxFit.cover,
-
-                      // shown behind everything:
-                      placeholder: Container(
-                        color: kLightGreyColor,
-                        alignment: Alignment.center,
-                        child: const Icon(Icons.photo,
-                            color: Colors.white70, size: 50.0),
-                      ),
-
-                      // shows progress while loading an image:
-                      loadingBuilder: (context, progress, chunkEvent) => Center(
-                          child: CircularProgressIndicator(value: progress)),
-
-                      // displayed when an error occurs:
-                      errorBuilder: (context, error) => Container(
-                        color: const Color(0xFF6F6D6A),
-                        alignment: Alignment.center,
-                        child: const Icon(Icons.person,
-                            color: Colors.black26, size: 50.0),
-                      ),
-                    )
+                    child: CustomFdeImage(userImage: '$imageUrl/$userImage')
                     //     Image(
                     //   image: NetworkImage('$imageUrl/$userImage'),
                     // ),

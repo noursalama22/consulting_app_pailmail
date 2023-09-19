@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:consulting_app_pailmail/core/utils/picker.dart';
 import 'package:consulting_app_pailmail/models/senders/sender.dart';
 import 'package:consulting_app_pailmail/repositories/sender_repository.dart';
 

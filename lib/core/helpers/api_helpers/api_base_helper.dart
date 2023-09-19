@@ -19,7 +19,6 @@ class ApiBaseHelper {
     return responseJson;
   }
 
-
   Future<dynamic> postDel(
     String url,
   ) async {
@@ -72,7 +71,6 @@ class ApiBaseHelper {
     }
     return header;
   }
-
 
   dynamic _returnResponse(http.Response response) {
     switch (response.statusCode) {
@@ -146,7 +144,6 @@ class ApiBaseHelper {
     }
     return responseJson;
   }
-
 
   Future<dynamic> getParam(
       String sender_url, String? id, String name, var params) async {

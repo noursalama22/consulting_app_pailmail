@@ -132,12 +132,10 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
             onTap: () {
               //print('called on tap');
               showSheet(
-
                   context,
                   InboxScreen(
                     isDetails: false,
                   ));
-
             },
             child: SizedBox(
               height: kToolbarHeight,
@@ -224,18 +222,16 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                       child: Padding(
                         padding: EdgeInsetsDirectional.only(end: 18.0, top: 4),
 
-                        // child: Image(
-                        //   image: NetworkImage(
-                        //       '$imageUrl/${authProvider.currentUser.data?.user.image}'),
-                        //   height: 50,
-                        //   width: 50,
-                        // ),
-
                         child: CustomProfilePhotoContainer(
                           image:
                               '$imageUrl/${authProvider.currentUser.data?.user.image}',
-                          raduis: 50.r,
+                          raduis: 50,
                         ),
+
+                        // child: CustomProfilePhotoContainer(
+                        //   image: '${SharedPrefrencesController().image}',
+                        //   raduis: 50.r,
+                        // ),
                       ),
                       itemBuilder: (context) => [
                         PopupMenuItem(
@@ -245,21 +241,14 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: [
-                                // Image(
-                                //   image: NetworkImage(
-                                //       '$imageUrl/${authProvider.currentUser.data?.user.image}'),
-                                //   height: 100,
-                                //   width: 100,
-                                // ),
-
                                 // CustomProfilePhotoContainer(
                                 //   image:
-                                //       '$imageUrl/${authProvider.currentUser.data?.user.image}',
+                                //       '$imageUrl${SharedPrefrencesController().image}',
                                 //   raduis: 90.r,
                                 // ),
                                 CustomProfilePhotoContainer(
                                   image:
-                                      '$imageUrl/${SharedPrefrencesController().image}',
+                                      '$imageUrl/${authProvider.currentUser.data?.user.image}',
                                   raduis: 90.r,
                                 ),
                                 Text(
@@ -269,7 +258,7 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                                   textAlign: TextAlign.center,
                                 ),
                                 Text(
-                                  '  ${SharedPrefrencesController().roleName}',
+                                  '${SharedPrefrencesController().roleName}',
                                   style: GoogleFonts.poppins(
                                       color: kMediumGreyColor, fontSize: 12.sp),
                                   textAlign: TextAlign.center,
@@ -306,7 +295,6 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                           onTap: () async {
                             await authProvider.logout();
                             await SharedPrefrencesController().clear();
-
                             NavigationRoutes()
                                 .pushUntil(context, Routes.login_screen);
                           },

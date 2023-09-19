@@ -153,7 +153,7 @@ class _TagsScreenState extends State<TagsScreen> {
                     //   _tag=Tag;
                     value = _tagTextEditingController.text;
                     tagRep = TagRepository();
-                    tagRep.createTag(value);
+                    // tagRep.createTag(value);
                     _tag = Provider.of<TagProvider>(context, listen: false)
                         .getTagList();
                     _tagTextEditingController.clear();
