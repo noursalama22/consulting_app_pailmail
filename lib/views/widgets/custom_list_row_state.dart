@@ -1,10 +1,13 @@
 import 'package:consulting_app_pailmail/models/categories/category_response_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 
+import '../../models/statuses/status.dart';
+import '../../providers/status_provider.dart';
 import 'custom_row_state_widget.dart';
 
-class CustomListRowState extends StatefulWidget {
+class CustomListRowState<T> extends StatefulWidget {
   CustomListRowState(
       {Key? key, required this.list, required this.isStatus, this.color})
       : super(key: key);
@@ -20,7 +23,6 @@ class CustomListRowState extends StatefulWidget {
 }
 
 class _CustomListRowStateState extends State<CustomListRowState> {
-  // final bool isCategory;
   int selectedIndex = 0;
 
   @override

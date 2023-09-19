@@ -48,10 +48,10 @@ class CustomRowStateWidget extends StatelessWidget {
                             borderRadius: BorderRadius.circular(10.r),
                           ),
                         )
-                      : SizedBox.shrink(),
+                      : const SizedBox.shrink(),
                   Padding(
                     padding: index == 2 && !isStatus
-                        ? EdgeInsetsDirectional.only(start: 18.0)
+                        ? const EdgeInsetsDirectional.only(start: 18.0)
                         : EdgeInsets.zero,
                     child: Text(
                       text,
