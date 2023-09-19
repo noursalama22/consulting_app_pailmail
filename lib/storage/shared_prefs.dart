@@ -20,16 +20,7 @@ class SharedPrefrencesController {
 
   Future<void> saveAuth(
       {required UserResponseModel userModel, required bool isLogin}) async {
-
-    // await _sharedPreferences.setString(
-    //     PrefKeys.name.toString(), userModel.user.name.toString());
-    // await _sharedPreferences.setString(
-    //     PrefKeys.token.toString(), 'Bearer ${userModel.token}');
-    // await _sharedPreferences.setString(
-    //     PrefKeys.roleId.toString(), userModel.user.roleId.toString());
-
-  //  print('ave auth shared preferences: ');
-
+    print('ave auth shared preferences: ');
     await _sharedPreferences.setBool(PrefKeys.loggedIn.toString(), true);
     await _sharedPreferences.setInt(
         PrefKeys.id.toString(), userModel.user.id!.toInt());
@@ -41,7 +32,6 @@ class SharedPrefrencesController {
         PrefKeys.name.toString(), userModel.user.name.toString());
     await _sharedPreferences.setString(
         PrefKeys.token.toString(), 'Bearer ${userModel.token}');
-
     await _sharedPreferences.setString(
         PrefKeys.role.toString(), userModel.user.role!.name.toString());
     if (isLogin) {
@@ -64,21 +54,15 @@ class SharedPrefrencesController {
 
   bool get loggedIn =>
       _sharedPreferences.getBool(PrefKeys.loggedIn.toString()) ?? false;
-
   String get email =>
       _sharedPreferences.getString(PrefKeys.email.toString()) ?? '';
-
   String get name =>
       _sharedPreferences.getString(PrefKeys.name.toString()) ?? '';
-
   String get roleId =>
       _sharedPreferences.getString(PrefKeys.roleId.toString()) ?? '';
-
   String get id => _sharedPreferences.getString(PrefKeys.id.toString()) ?? '';
-
   String get image =>
       _sharedPreferences.getString(PrefKeys.image.toString()) ?? '';
-
   String get token =>
       _sharedPreferences.getString(PrefKeys.token.toString()) ?? '';
   String get roleName =>
@@ -113,6 +97,7 @@ class SharedPrefrencesController {
   }
 
   Future<bool> clear() async {
+    print('------------------clear-----------------------');
     return await _sharedPreferences.clear();
   }
 }

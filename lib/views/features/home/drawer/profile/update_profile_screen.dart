@@ -3,11 +3,17 @@ import 'dart:io';
 import 'package:consulting_app_pailmail/core/utils/constants.dart';
 import 'package:consulting_app_pailmail/providers/auth_provider.dart';
 import 'package:consulting_app_pailmail/repositories/auth_repository.dart';
+import 'package:consulting_app_pailmail/views/features/home/drawer/profile/profile_screen.dart';
 import 'package:consulting_app_pailmail/views/widgets/custom_auth_button_widget.dart';
+import 'package:consulting_app_pailmail/views/widgets/custom_profile_image_widget.dart';
 import 'package:consulting_app_pailmail/views/widgets/custom_text_forn_field_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../../core/helpers/routers/router.dart';
+import '../../../../../storage/shared_prefs.dart';
 import '../../../../widgets/custom_app_bar.dart';
 
 class UpdateProfileScreen extends StatefulWidget {
@@ -31,20 +37,36 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
   File? pickedFile;
   String? filePath;
   String? currentImagePath;
+  Future<File?> pickImage() async {
+    final ImagePicker picker = ImagePicker();
+    XFile? pickedImage = await picker.pickImage(source: ImageSource.gallery);
+    if (pickedImage == null) {
+      return null;
+    }
+    File imageFile = File(pickedImage.path);
+    return imageFile;
+  }
 
-  updateUser() {
+  updateUser(File file) {
     print('edit 1');
     if (_updateFormKey.currentState!.validate()) {
       print('edit valid 2');
+      AuthRepository().uploadImage(file, updateNameController.text).then(
+        (value) async {
+          await Provider.of<AuthProvider>(context, listen: false)
+              .fetchCurrentUser();
+          // set locally
+          await SharedPrefrencesController()
+              .setData(PrefKeys.name.toString(), updateNameController.text);
+          await SharedPrefrencesController()
+              .setData(PrefKeys.image.toString(), file.path);
 
-      AuthProvider()
-          .updateCurrentUser(name: updateNameController.text, image: 'image')
-          .then((user) async {
-        if (mounted) {
-          NavigationRoutes()
-              .jump(context, Routes.profile_screen, replace: true);
-        }
-      });
+          if (mounted) {
+            NavigationRoutes()
+                .jump(context, Routes.profile_screen, replace: true);
+          }
+        },
+      );
     }
   }
 
@@ -69,12 +91,18 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                   Stack(
                     children: [
                       SizedBox(
-                        width: 200,
-                        height: 200,
+                        height: 200.h,
+                        width: 200.h,
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(100),
                           child: pickedFile == null
-                              ? Image.network(
+                              ?
+                              // CustomProfileContainerImage(
+                              //         userImage: '$imageUrl/${widget.image}')
+                              // CustomProfileWidget(
+                              //         image: '$imageUrl/${widget.image}')
+//
+                              Image.network(
                                   '$imageUrl/${widget.image}',
                                   fit: BoxFit.cover,
                                 )
@@ -86,26 +114,56 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                         right: 0,
                         child: InkWell(
                           onTap: () async {
-                            pickedFile = await AuthRepository().pickImage();
+                            pickedFile = await pickImage();
 
                             if (pickedFile != null) {
                               filePath = pickedFile!.path;
                             }
                             setState(() {});
                           },
-                          child: Container(
-                            width: 40,
-                            height: 40,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(100),
-                                color: kPrimaryBlueColor),
-                            child: Icon(
-                              Icons.image,
-                              color: kWhiteColor,
+                          child: CircleAvatar(
+                            radius: 24,
+                            backgroundColor: kLightBlueColor,
+                            child: Container(
+                              margin: const EdgeInsets.all(4.0),
+                              decoration: const BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: kLightBlueColor),
+                              child: Icon(
+                                Icons.camera,
+                                size: 32,
+                                color: kWhiteColor,
+                              ),
                             ),
                           ),
                         ),
                       ),
+
+                      // Positioned(
+                      //   bottom: 0,
+                      //   right: 0,
+                      //   child: InkWell(
+                      //     onTap: () async {
+                      //       pickedFile = await AuthRepository().pickImage();
+                      //
+                      //       if (pickedFile != null) {
+                      //         filePath = pickedFile!.path;
+                      //       }
+                      //       setState(() {});
+                      //     },
+                      //     child: Container(
+                      //       width: 40,
+                      //       height: 40,
+                      //       decoration: BoxDecoration(
+                      //           borderRadius: BorderRadius.circular(100),
+                      //           color: kPrimaryBlueColor),
+                      //       child: Icon(
+                      //         Icons.image,
+                      //         color: kWhiteColor,
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
                     ],
                   ),
                   const SizedBox(height: 60),
@@ -126,7 +184,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                         CustomAuthButtonWidget(
                           title: 'update',
                           onTap: () {
-                            updateUser();
+                            updateUser(pickedFile!);
                           },
                         ),
                       ],

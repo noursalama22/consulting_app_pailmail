@@ -1,3 +1,5 @@
+import 'package:consulting_app_pailmail/views/features/all_category_mails.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -25,11 +27,29 @@ class CustomExpansionTile extends StatefulWidget {
 
 class _CustomExpansionTileState extends State<CustomExpansionTile> {
   bool _customTileExpanded = false;
-
+  late TapGestureRecognizer _tapGestureRecognizer;
   void expandCollapse() {
     setState(() {
       _customTileExpanded = !_customTileExpanded;
     });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    _tapGestureRecognizer = TapGestureRecognizer()..onTap = navigateToAllMail;
+    super.initState();
+  }
+
+  navigateToAllMail() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) {
+          return AllCategoryMails();
+        },
+      ),
+    );
   }
 
   @override
@@ -56,13 +76,29 @@ class _CustomExpansionTileState extends State<CustomExpansionTile> {
           children: [
             Visibility(
               visible: !widget.isExpanded || !_customTileExpanded,
-              child: Text(
-                widget.mailNumber ?? '',
-                //TODO : Style
-                style: buildAppBarTextStyle(
-                    color: kMediumGreyColor,
-                    fontSizeController: 14,
-                    letterSpacing: 0.15),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  // Text(
+                  //   widget.mailNumber ?? '',
+                  //   //TODO : Style
+                  //   style: buildAppBarTextStyle(
+                  //       color: kMediumGreyColor,
+                  //       fontSizeController: 14,
+                  //       letterSpacing: 0.15),
+                  // ),
+                  RichText(
+                    text: TextSpan(
+                      text: widget.mailNumber ?? "",
+                      recognizer: _tapGestureRecognizer,
+                      style: TextStyle(
+                        decoration: TextDecoration.underline,
+                        color: kLightBlueColor,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
             const SizedBox(
@@ -78,7 +114,7 @@ class _CustomExpansionTileState extends State<CustomExpansionTile> {
                         _customTileExpanded ? kLightBlueColor : kDarkGreyColor,
                     // weight: 12,
                   )
-                : SizedBox.shrink(),
+                : const SizedBox.shrink(),
           ],
         ),
       ),

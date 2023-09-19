@@ -1,3 +1,5 @@
+import 'package:consulting_app_pailmail/repositories/auth_repository.dart';
+import 'package:consulting_app_pailmail/storage/shared_prefs.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -45,12 +47,14 @@ class CustomDrawerContent extends StatelessWidget {
             );
           }),
           menuListTile(Icons.contact_page, 'Senders'.tr(), () {}),
-          menuListTile(Icons.settings, 'Settings'.tr(), () {
-            NavigationRoutes().jump(
-              context,
-              Routes.settings_screen,
-            );
-          }),
+          SharedPrefrencesController().roleName == 'admin'
+              ? menuListTile(Icons.settings, 'Settings'.tr(), () {
+                  NavigationRoutes().jump(
+                    context,
+                    Routes.settings_screen,
+                  );
+                })
+              : SizedBox(),
           const Spacer(),
           DefaultTextStyle(
             style: const TextStyle(
@@ -74,7 +78,7 @@ class CustomDrawerContent extends StatelessWidget {
       onTap: onTap,
       leading: Icon(icon),
       title: Text(
-        title,
+        title.tr(),
       ),
     );
   }

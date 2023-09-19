@@ -17,7 +17,7 @@ class SenderRepository {
       "mobile": sender.mobile,
       "address": sender.address,
       // take dynamic but the post method take the string
-      "category_id": sender.categoryId,
+      "category_id": sender.categoryId.toString(),
     };
     final response = await _helper.post(sendersUrl, map);
     print("////////////////");
@@ -28,8 +28,9 @@ class SenderRepository {
     Map<String, dynamic> map = {
       "name": sender.name,
       "mobile": sender.mobile,
+
       "address": sender.address,
-      "category_id": sender.categoryId,
+      "category_id": sender.categoryId.toString(),
     };
     final response = await _helper.put(CRUD_senderUrl + id, map);
     return SenderResponseModel_1.fromJson(response);

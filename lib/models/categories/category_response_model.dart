@@ -6,6 +6,7 @@ import 'dart:convert';
 
 import '../senders/sender.dart';
 
+//TODO : Remove the following method >> no need
 CategoryResponseModel categoryResponseModelFromJson(String str) =>
     CategoryResponseModel.fromJson(json.decode(str));
 

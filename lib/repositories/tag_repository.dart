@@ -11,6 +11,7 @@ class TagRepository {
 
   Future<TagResponseModel> createTag(String tag) async {
     Map<String, dynamic> map = {
+
       "name": tag,
     };
     final response = await _helper.post(allTagsUrl, map);

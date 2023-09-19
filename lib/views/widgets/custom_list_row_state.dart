@@ -1,3 +1,4 @@
+import 'package:consulting_app_pailmail/models/categories/category_response_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -7,7 +8,10 @@ class CustomListRowState extends StatefulWidget {
   CustomListRowState(
       {Key? key, required this.list, required this.isStatus, this.color})
       : super(key: key);
-  final List<String> list;
+  final List<CategoryElement> list;
+  //2 before API_Cat
+  // final List<String> list;
+
   final bool isStatus;
   final List<Color>? color;
 
@@ -29,7 +33,9 @@ class _CustomListRowStateState extends State<CustomListRowState> {
         itemBuilder: (context, index) {
           return CustomRowStateWidget(
             index: index,
-            text: widget.list[index],
+            text: widget.list[index].name!,
+            //3 before API_Cat
+            // text: widget.list[index],
             onTap: () {
               setState(() {
                 selectedIndex = index;

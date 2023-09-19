@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:consulting_app_pailmail/core/utils/picker.dart';
 import 'package:consulting_app_pailmail/models/senders/sender.dart';
 import 'package:consulting_app_pailmail/repositories/sender_repository.dart';
+
 import 'package:consulting_app_pailmail/views/features/status/status_screen.dart';
 import 'package:consulting_app_pailmail/views/features/tags/tags_screen.dart';
 
@@ -38,8 +39,7 @@ class InboxScreen extends StatefulWidget {
   State<InboxScreen> createState() => _InboxScreenState();
 }
 
-class _InboxScreenState extends State<InboxScreen>
-    with MyShowBottomSheet, Pickers {
+class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
   DateTime? _selectedDate = DateTime.now();
   late List<AddActivity> addActivity;
   late TextEditingController senderController;

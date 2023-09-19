@@ -185,7 +185,8 @@ class _SearchScreenState extends State<SearchScreen> {
                     children: [
                       ListView.builder(
                         itemBuilder: (context, index) {
-                          return const CustomMailContainer(
+                          return CustomMailContainer(
+                            onTap: () {},
                             organizationName: 'Organization Name',
                             color: kYellowColor,
                             date: "Today, 11:00 AM",
@@ -193,9 +194,9 @@ class _SearchScreenState extends State<SearchScreen> {
                                 "And here excerpt of the mail, can added to this location. And we can do more to this like And we can do more to this like ",
                             images: [],
                             tags: [
-                              "urgent",
-                              "new",
-                              "water",
+                              // "urgent",
+                              // "new",
+                              // "water",
                             ],
                             subject: "Here we add the subject",
                             endMargin: 16,

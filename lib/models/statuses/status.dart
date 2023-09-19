@@ -7,6 +7,7 @@ class Status {
   Pivot? pivot;
   String? createdAt;
   String? updatedAt;
+  String? mailsCount;
 
   Status({
     this.id,
@@ -15,6 +16,7 @@ class Status {
     this.updatedAt,
     this.color,
     this.pivot,
+    this.mailsCount,
   });
 
   factory Status.fromJson(Map<String, dynamic> json) => Status(
@@ -24,6 +26,7 @@ class Status {
         updatedAt: json["updated_at"],
         color: json["color"],
         pivot: json["pivot"] == null ? null : Pivot.fromJson(json["pivot"]),
+        mailsCount: json["mails_count"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -33,5 +36,6 @@ class Status {
         "updated_at": updatedAt,
         "color": color,
         "pivot": pivot?.toJson(),
+        "mails_count": mailsCount,
       };
 }
