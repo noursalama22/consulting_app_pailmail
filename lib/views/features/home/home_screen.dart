@@ -22,6 +22,7 @@ import '../../../core/utils/constants.dart';
 import '../../../core/utils/show_bottom_sheet.dart';
 import '../../widgets/custom_drawer_content.dart';
 import '../inbox_mails/inbox_screen.dart';
+import '../tags/tags_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -131,10 +132,12 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
             onTap: () {
               //print('called on tap');
               showSheet(
+
                   context,
                   InboxScreen(
                     isDetails: false,
                   ));
+
             },
             child: SizedBox(
               height: kToolbarHeight,

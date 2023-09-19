@@ -1,5 +1,9 @@
 import 'dart:io';
 
+import 'package:consulting_app_pailmail/core/utils/picker.dart';
+import 'package:consulting_app_pailmail/models/senders/sender.dart';
+import 'package:consulting_app_pailmail/repositories/sender_repository.dart';
+
 import 'package:consulting_app_pailmail/views/features/status/status_screen.dart';
 import 'package:consulting_app_pailmail/views/features/tags/tags_screen.dart';
 
@@ -8,11 +12,14 @@ import 'package:consulting_app_pailmail/views/widgets/custom_divider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 
 import '../../../core/helpers/routers/router.dart';
 import '../../../core/utils/constants.dart';
 import '../../../core/utils/show_bottom_sheet.dart';
 import '../../../models/add_activity.dart';
+import '../../../providers/sender_provider.dart';
+import '../../../repositories/tag_repository.dart';
 import '../../widgets/custom_app_bar_with_icon.dart';
 import '../../widgets/custom_container_details.dart';
 import '../../widgets/custom_container.dart';
@@ -43,6 +50,8 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
   late TextEditingController tileOfMailController;
   late TextEditingController dateController;
   late TextEditingController descriptionController;
+  late SenderRepository sender;
+  late Sender _sender;
 
   @override
   void initState() {
@@ -98,21 +107,7 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
                       organizationCategory: "Foreign",
                       dateOrgName: "4-JAN_1990",
                       dateOrgCategory: "A-Nov-5",
-                      subject:
-                          // CustomExpansionTile(
-                          //   children: [
-                          //     Text(
-                          //       "description of subject",
-                          //       textAlign: TextAlign.start,
-                          //     )
-                          //   ],
-                          //   widgetOfTile: Text(
-                          //     "DR.",
-                          //     style:
-                          //         tileTextTitleStyle.copyWith(color: kBlackColor),
-                          //   ),
-                          // ),
-                          ExpansionTile(
+                      subject: ExpansionTile(
                         shape: Border(),
                         initiallyExpanded: false,
                         onExpansionChanged: (bool expanded) async {
@@ -153,7 +148,6 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
                       childContainer: Column(
                       children: [
                         ///Upper Part(Name)
-
                         CustomTextField(
                           withoutPrefix: false,
                           withoutSuffix: false,
@@ -166,6 +160,17 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
                               context,
                               Routes.sender_screen,
                             );
+                            // sender = SenderRepository();
+                            // sender.createSender(Sender(
+                            //     mobile: phoneController.text,
+                            //     name: senderController.text,
+                            //     categoryId: "1",
+                            //     address: ""));
+                            // _sender = Provider.of<SenderProvider>(context,
+                            //         listen: false)
+                            //     .getSenderList();
+                            // phoneController.clear();
+                            // senderController.clear();
                           },
                         ),
                         CustomTextField(
@@ -173,7 +178,7 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
                           withoutPrefix: false,
                           hintText: 'Mobile',
                           customFontSize: 16,
-                          controller: senderController,
+                          controller: phoneController,
                           icon: Icons.phone_android_outlined,
                         ),
 
@@ -366,6 +371,37 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
               ///Tags it will open bottom Sheet
               buildListTile(
                 onTap: () {
+                  print("err................");
+                  TagRepository s = TagRepository();
+                  Text("${s.getMailWithTags(["24", "27"])}");
+
+                  // s.createTag("tagm");
+                  // // print(s.createTag("tag"));
+                  // print(s.createTag("tagm"));
+                  // print(s.getTags());
+                  // s.getTagsOfMail("30");
+                  // print(s.getTagsOfMail("30"));
+                  // s.getMailWithTags(["2", "3"]);
+                  //
+                  print(s.getMailWithTags(["24", "27"]));
+                  SenderRepository sn = SenderRepository();
+                  // sn.createSender(Sender(
+                  //     name: "ne",
+                  //     categoryId: "2",
+                  //     mobile: "059434343499",
+                  //     address: "f"));
+
+                  // print(sn.getSingleSender("21"));
+                  // sn.updateSender(
+                  //     Sender(
+                  //         name: "ne",
+                  //         categoryId: "2",
+                  //         mobile: "059434734343",
+                  //         address: "f"),
+                  //     "50");
+                  //
+                  // print(sn.deleteSender("51"));
+
                   showSheet(context, const TagsScreen());
                 },
                 icon: Icons.tag_rounded,
