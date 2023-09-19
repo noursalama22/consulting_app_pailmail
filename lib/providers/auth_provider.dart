@@ -54,13 +54,14 @@ class AuthProvider extends ChangeNotifier {
 //update profile
   updateCurrentUser({
     required String name,
-    required String image,
   }) async {
     _current = ApiResponse.loading('updating current user');
     notifyListeners();
     try {
-      UserResponseModel updatedUser =
-          await _authRepository.updateCurrentUser(name: name, image: image);
+      UserResponseModel updatedUser = await _authRepository.updateCurrentUser(
+        name: name,
+      );
+      print('provider : $updatedUser');
 
       _current = ApiResponse.completed(updatedUser);
       print('updated  user');

@@ -76,7 +76,7 @@ class ApiBaseHelper {
     switch (response.statusCode) {
       case 200:
       case 201:
-        print("rrrrrrrrrrrrrrrrrrrrrr" + response.body);
+        print(response.body);
         var responseJson = json.decode(response.body);
 
         print(responseJson);

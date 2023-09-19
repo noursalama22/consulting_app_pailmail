@@ -159,7 +159,6 @@ class CustomProfileContainerImage extends StatelessWidget {
                       // if the image is loaded synchronously (ex. from memory), fade in faster:
                       syncDuration: const Duration(milliseconds: 150),
 
-                      //
                       // supports most properties of Image:
                       alignment: Alignment.center,
                       fit: BoxFit.cover,
