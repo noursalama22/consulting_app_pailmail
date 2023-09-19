@@ -2,7 +2,7 @@ import 'package:consulting_app_pailmail/core/utils/constants.dart';
 import 'package:consulting_app_pailmail/providers/general_users_provider.dart';
 import 'package:consulting_app_pailmail/repositories/general_users_repository.dart';
 import 'package:consulting_app_pailmail/views/features/home/drawer/settings/general_user_profile.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:consulting_app_pailmail/views/widgets/custom_profile_photo_container.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../../../core/helpers/api_helpers/api_response.dart';
@@ -22,13 +22,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: kBackgroundColor,
       body: SafeArea(
         child: Center(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12.0),
             child: Column(
               children: [
-                CustomAppBar(widgetName: 'Settings'),
+                CustomAppBar(
+                  widgetName: 'Settings',
+                  bottomPadding: 32,
+                ),
                 Expanded(
                   child: SingleChildScrollView(
                     child: Consumer<GeneralUsersProvider>(
@@ -78,6 +82,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                         '${generalUsersProvider.generalUsersList.data![index].email}';
                                     String role =
                                         '${generalUsersProvider.generalUsersList.data![index].role!.name}';
+
                                     return GeneralUserProfileScreen(
                                       image: image,
                                       name: name,
@@ -93,34 +98,47 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 padding: EdgeInsetsDirectional.symmetric(
                                     horizontal: 24, vertical: 16),
                                 decoration: BoxDecoration(
-                                    color: kLightGreyColor,
+                                    color: kWhiteColor,
                                     borderRadius: BorderRadius.circular(15)),
                                 child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          '${user.name}',
-                                          style: TextStyle(
-                                            color: index % 2 == 1
-                                                ? kBlackColor
-                                                : kBlackColor,
+                                    user.image != null
+                                        ? CustomProfilePhotoContainer(
+                                            image:
+                                                'https://palmail.gsgtt.tech/storage/${user.image}',
+                                            raduis: 40,
+                                          )
+                                        : Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Icon(
+                                                Icons.account_circle_outlined),
                                           ),
-                                        ),
-                                        Text(
-                                          '${user.email}',
-                                          style: TextStyle(
-                                            color: index % 2 == 1
-                                                ? kDarkGreyColor
-                                                : kDarkGreyColor,
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            '${user.name}',
+                                            style: TextStyle(
+                                              color: index % 2 == 1
+                                                  ? kBlackColor
+                                                  : kBlackColor,
+                                            ),
                                           ),
-                                        )
-                                      ],
+                                          Text(
+                                            '${user.email}',
+                                            style: TextStyle(
+                                              color: index % 2 == 1
+                                                  ? kDarkGreyColor
+                                                  : kDarkGreyColor,
+                                            ),
+                                          )
+                                        ],
+                                      ),
                                     ),
+                                    Spacer(),
 
                                     IconButton(
                                       onPressed: () async {
