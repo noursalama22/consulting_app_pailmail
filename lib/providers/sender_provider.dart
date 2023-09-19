@@ -5,12 +5,13 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../models/senders/sender.dart';
+import '../models/senders/senders_1.dart';
 
 class SenderProvider extends ChangeNotifier {
   late SenderRepository _repository;
-  late ApiResponse<List<Sender>> _senderList;
+  late ApiResponse<List<Data>> _senderList;
 
-  ApiResponse<List<Sender>> get senderList => _senderList;
+  ApiResponse<List<Data>> get senderList => _senderList;
 
   SenderProvider() {
     _repository = SenderRepository();
@@ -21,8 +22,8 @@ class SenderProvider extends ChangeNotifier {
     _senderList = ApiResponse.loading("Fetching Senders");
     notifyListeners();
     try {
-      //List<Sender>senders=await _repository.getallSender();
-      //_senderList=ApiResponse.completed(senders);
+      List<Data>? senders = await _repository.getallSender();
+      _senderList = ApiResponse.completed(senders);
       notifyListeners();
     } catch (error) {
       _senderList = ApiResponse.error(error.toString());

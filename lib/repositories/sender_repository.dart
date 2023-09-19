@@ -1,5 +1,8 @@
 import 'package:consulting_app_pailmail/models/senders/sender_response_model.dart';
+import 'package:consulting_app_pailmail/models/senders/sender_response_model_1.dart';
 import 'package:consulting_app_pailmail/models/senders/senders.dart';
+import 'package:consulting_app_pailmail/models/senders/senders_1.dart';
+import 'package:consulting_app_pailmail/models/statuses/status_reponse_model.dart';
 
 import '../core/helpers/api_helpers/api_base_helper.dart';
 import '../core/utils/constants.dart';
@@ -8,7 +11,7 @@ import '../models/senders/sender.dart';
 class SenderRepository {
   final ApiBaseHelper _helper = ApiBaseHelper();
 
-  Future<SenderResponseModel> createSender(Sender sender) async {
+  Future<SenderResponseModel_1> createSender(Sender sender) async {
     Map<String, dynamic> map = {
       "name": sender.name,
       "mobile": sender.mobile,
@@ -18,10 +21,10 @@ class SenderRepository {
     };
     final response = await _helper.post(sendersUrl, map);
     print("////////////////");
-    return SenderResponseModel.fromJson(response);
+    return SenderResponseModel_1.fromJson(response);
   }
 
-  Future<dynamic> updateSender(Sender sender, String id) async {
+  Future<SenderResponseModel_1> updateSender(Sender sender, String id) async {
     Map<String, dynamic> map = {
       "name": sender.name,
       "mobile": sender.mobile,
@@ -29,28 +32,30 @@ class SenderRepository {
       "category_id": sender.categoryId,
     };
     final response = await _helper.put(CRUD_senderUrl + id, map);
-    return SenderResponseModel.fromJson(response);
+    return SenderResponseModel_1.fromJson(response);
   }
 
   Future<void> deleteSender(String id) async {
     await _helper.delete(CRUD_senderUrl + id);
-    return;
   }
 
-  Future<SendersClass?> getallSender() async {
-    print("1....");
-    final response = await _helper.getParams(CRUD_senderUrl, "mail", true);
-    return Senders.fromJson(response).senders;
+  Future<List<Data>?> getallSender() async {
+    String url = "$sendersUrl?mail=true";
+
+    final response = await _helper.get(url);
+    return SenderResponseModel_1.fromJson(response).senders!.data;
   }
 
-  Future<SenderResponseModel> getSingleSender(String id) async {
-    print("1....");
+  //{{palmail}}/senders/127?mail=false
 
-    final response = await _helper.getParam(sendersUrl, id, "mail",
-        false); //E/flutter ( 8612): [ERROR:flutter/runtime/dart_vm_initializer.cc(41)] Unhandled Exception: Unauthorised: {"message":"Unauthenticated."}
-    print("2....");
-
-    print(response);
-    return SenderResponseModel.fromJson(response);
+  Future<Sender?> getSingleSender(String id) async {
+    print("1.... $id"); //{{palmail}}/senders/{id}?mail=false
+    String url = "$CRUD_senderUrl$id?mail=false";
+    final response = await _helper.get(url);
+    // final response = await _helper.getParam(CRUD_senderUrl, id, "mail", false);
+    print(".............${response}................."); //طبع
+    print(
+        "TEST,,,,,,,,,,,,,,,,,,,,, ${SenderResponseModel.fromJson(response).sender!.name}");
+    return Sender.fromJson(response);
   }
 }
