@@ -64,103 +64,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           return SingleChildScrollView(
             child:
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-              // CustomAppBar(widgetName: 'Profile'),
-              SizedBox(
-                height: 200.h,
-                child: Stack(
-                  fit: StackFit.expand,
-                  children: [
-                    Container(
-                      margin: const EdgeInsets.only(bottom: 50),
-                      decoration: const BoxDecoration(
-                          gradient: kGradient,
-                          borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(50),
-                            bottomRight: Radius.circular(50),
-                          )),
-                    ),
-                    Align(
-                      alignment: Alignment.bottomCenter,
-                      child: SizedBox(
-                        width: 150,
-                        height: 150,
-                        child: Stack(
-                          fit: StackFit.expand,
-                          children: [
-                            Container(
-                              decoration: const BoxDecoration(
-                                color: Colors.black,
-                                shape: BoxShape.circle,
-                              ),
-                              child: CustomProfileWidget(
-                                  image: '$imageUrl/$userImage'),
-                            ),
-                            Positioned(
-                              bottom: 0,
-                              right: 0,
-                              child: CircleAvatar(
-                                radius: 20,
-                                backgroundColor:
-                                    Theme.of(context).scaffoldBackgroundColor,
-                                child: Container(
-                                  margin: const EdgeInsets.all(8.0),
-                                  decoration: const BoxDecoration(
-                                      color: Colors.green,
-                                      shape: BoxShape.circle),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              // SizedBox(
-              //     width: 200.w,
-              //     height: 200.h,
-              //     child: ClipRRect(
-              //         borderRadius: BorderRadius.circular(100.r),
-              //         child: ImageFade(
-              //           // whenever the image changes, it will be loaded, and then faded in:
-              //           image: NetworkImage('$imageUrl/$userImage'),
-              //           // slow fade for newly loaded images:
-              //           duration: const Duration(milliseconds: 900),
-              //
-              //           // if the image is loaded synchronously (ex. from memory), fade in faster:
-              //           syncDuration: const Duration(milliseconds: 150),
-              //
-              //           // supports most properties of Image:
-              //           alignment: Alignment.center,
-              //           fit: BoxFit.cover,
-              //
-              //           // shown behind everything:
-              //           placeholder: Container(
-              //             color: kLightGreyColor,
-              //             alignment: Alignment.center,
-              //             child: const Icon(Icons.photo,
-              //                 color: Colors.white70, size: 50.0),
-              //           ),
-              //
-              //           // shows progress while loading an image:
-              //           loadingBuilder: (context, progress, chunkEvent) =>
-              //               Center(
-              //                   child:
-              //                       CircularProgressIndicator(value: progress)),
-              //
-              //           // displayed when an error occurs:
-              //           errorBuilder: (context, error) => Container(
-              //             color: const Color(0xFF6F6D6A),
-              //             alignment: Alignment.center,
-              //             child: const Icon(Icons.person,
-              //                 color: Colors.black26, size: 50.0),
-              //           ),
-              //         )
-              //         //     Image(
-              //         //   image: NetworkImage('$imageUrl/$userImage'),
-              //         // ),
-              //         )),
+              CustomProfileContainerImage(userImage: userImage),
               SizedBox(
                 height: 20.h,
               ),
@@ -197,7 +101,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       builder: (context) {
                         return UpdateProfileScreen(
                           name: userName!,
-                          image: userImage!,
+                          image: userImage,
                         );
                       },
                     ));
@@ -210,6 +114,81 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ]),
           );
         },
+      ),
+    );
+  }
+}
+
+class CustomProfileContainerImage extends StatelessWidget {
+  const CustomProfileContainerImage({
+    super.key,
+    required this.userImage,
+  });
+
+  final String? userImage;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 220.h,
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          Container(
+            margin: EdgeInsets.only(bottom: 100.h),
+            decoration: BoxDecoration(
+                gradient: kGradient,
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(50.r),
+                  bottomRight: Radius.circular(50.r),
+                )),
+          ),
+          Align(
+            alignment: Alignment.center,
+            child: SizedBox(
+                width: 200.w,
+                height: 200.h,
+                child: ClipRRect(
+                    borderRadius: BorderRadius.circular(100.r),
+                    child: ImageFade(
+                      // whenever the image changes, it will be loaded, and then faded in:
+                      image: NetworkImage('$imageUrl/$userImage'),
+                      // slow fade for newly loaded images:
+                      duration: const Duration(milliseconds: 900),
+
+                      // if the image is loaded synchronously (ex. from memory), fade in faster:
+                      syncDuration: const Duration(milliseconds: 150),
+
+                      // supports most properties of Image:
+                      alignment: Alignment.center,
+                      fit: BoxFit.cover,
+
+                      // shown behind everything:
+                      placeholder: Container(
+                        color: kLightGreyColor,
+                        alignment: Alignment.center,
+                        child: const Icon(Icons.photo,
+                            color: Colors.white70, size: 50.0),
+                      ),
+
+                      // shows progress while loading an image:
+                      loadingBuilder: (context, progress, chunkEvent) => Center(
+                          child: CircularProgressIndicator(value: progress)),
+
+                      // displayed when an error occurs:
+                      errorBuilder: (context, error) => Container(
+                        color: const Color(0xFF6F6D6A),
+                        alignment: Alignment.center,
+                        child: const Icon(Icons.person,
+                            color: Colors.black26, size: 50.0),
+                      ),
+                    )
+                    //     Image(
+                    //   image: NetworkImage('$imageUrl/$userImage'),
+                    // ),
+                    )),
+          )
+        ],
       ),
     );
   }

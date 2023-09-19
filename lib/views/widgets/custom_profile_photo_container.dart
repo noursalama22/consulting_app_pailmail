@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 
 class CustomProfilePhotoContainer extends StatelessWidget {
   final String image;
+  final double raduis;
+
   const CustomProfilePhotoContainer({
     super.key,
-    required this.image,
     required this.raduis,
+    required this.image,
   });
-  final double raduis;
 
   @override
   Widget build(BuildContext context) {
@@ -18,8 +19,8 @@ class CustomProfilePhotoContainer extends StatelessWidget {
         shape: BoxShape.circle,
         border: Border.all(color: Colors.white, width: 3),
         image: DecorationImage(
-          fit: BoxFit.cover,
-          image: AssetImage(image),
+          fit: BoxFit.contain,
+          image: NetworkImage(image),
         ),
       ),
     );

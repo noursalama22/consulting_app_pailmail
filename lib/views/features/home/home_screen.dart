@@ -210,11 +210,18 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                     ),
                     PopupMenuButton<Widget>(
                       color: Colors.white,
-                      child: const Padding(
-                        padding: EdgeInsetsDirectional.only(end: 18.0),
+                      child: Padding(
+                        padding: EdgeInsetsDirectional.only(end: 18.0, top: 4),
+                        // child: Image(
+                        //   image: NetworkImage(
+                        //       '$imageUrl/${authProvider.currentUser.data?.user.image}'),
+                        //   height: 50,
+                        //   width: 50,
+                        // ),
                         child: CustomProfilePhotoContainer(
-                          image: 'assets/images/user_photo.png',
-                          raduis: 36,
+                          image:
+                              '$imageUrl/${authProvider.currentUser.data?.user.image}',
+                          raduis: 50.r,
                         ),
                       ),
                       itemBuilder: (context) => [
@@ -225,8 +232,16 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: [
+                                // Image(
+                                //   image: NetworkImage(
+                                //       '$imageUrl/${authProvider.currentUser.data?.user.image}'),
+                                //   height: 100,
+                                //   width: 100,
+                                // ),
+
                                 CustomProfilePhotoContainer(
-                                  image: 'assets/images/user_photo.png',
+                                  image:
+                                      '$imageUrl/${authProvider.currentUser.data?.user.image}',
                                   raduis: 90.r,
                                 ),
                                 Text(
