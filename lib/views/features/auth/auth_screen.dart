@@ -37,6 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   late bool showSignUp;
   late bool showLogin;
+  late bool showPass;
 
   int value = 0; //for the AnimatedToggleSwitch
 
@@ -46,6 +47,12 @@ class _LoginScreenState extends State<LoginScreen> {
           ?.reset(); //to remove validation error & content on toggle
       showSignUp = !showSignUp;
       showLogin = !showLogin;
+    });
+  }
+
+  void toggleObsecure() {
+    setState(() {
+      showPass = !showPass;
     });
   }
 
@@ -86,6 +93,7 @@ class _LoginScreenState extends State<LoginScreen> {
     auth = AuthRepository();
     showSignUp = true;
     showLogin = false;
+    showPass = false;
     super.initState();
   }
 
@@ -248,8 +256,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                   height: 10.h,
                                 ),
                                 CustomTextFormFieldWidget(
+                                  password: true,
                                   controller: passwordController,
                                   hint: 'enter_password'.tr(),
+                                  isObscure: showPass,
+                                  changeVisibility: toggleObsecure,
                                   keyboardType: TextInputType.emailAddress,
                                   autofillHints: const [AutofillHints.password],
                                   validator: (value) {

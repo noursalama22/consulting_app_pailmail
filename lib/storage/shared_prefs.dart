@@ -1,7 +1,7 @@
 import 'package:consulting_app_pailmail/models/users/user_response_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-enum PrefKeys { loggedIn, email, id, image, name, token, roleId }
+enum PrefKeys { loggedIn, email, id, image, name, token, roleId, role }
 
 class SharedPrefrencesController {
   static final SharedPrefrencesController _instance =
@@ -20,12 +20,16 @@ class SharedPrefrencesController {
 
   Future<void> saveAuth(
       {required UserResponseModel userModel, required bool isLogin}) async {
+
     // await _sharedPreferences.setString(
     //     PrefKeys.name.toString(), userModel.user.name.toString());
     // await _sharedPreferences.setString(
     //     PrefKeys.token.toString(), 'Bearer ${userModel.token}');
     // await _sharedPreferences.setString(
     //     PrefKeys.roleId.toString(), userModel.user.roleId.toString());
+
+  //  print('ave auth shared preferences: ');
+
     await _sharedPreferences.setBool(PrefKeys.loggedIn.toString(), true);
     await _sharedPreferences.setInt(
         PrefKeys.id.toString(), userModel.user.id!.toInt());
@@ -37,6 +41,9 @@ class SharedPrefrencesController {
         PrefKeys.name.toString(), userModel.user.name.toString());
     await _sharedPreferences.setString(
         PrefKeys.token.toString(), 'Bearer ${userModel.token}');
+
+    await _sharedPreferences.setString(
+        PrefKeys.role.toString(), userModel.user.role!.name.toString());
     if (isLogin) {
       await _sharedPreferences.setString(
           PrefKeys.image.toString(), userModel.user.image.toString());
@@ -74,6 +81,9 @@ class SharedPrefrencesController {
 
   String get token =>
       _sharedPreferences.getString(PrefKeys.token.toString()) ?? '';
+  String get roleName =>
+      _sharedPreferences.getString(PrefKeys.role.toString()) ??
+      'not found role';
 
   //
   // Future<dynamic> getData(String key) async {

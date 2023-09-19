@@ -4,6 +4,10 @@ import 'package:consulting_app_pailmail/views/features/search/search_screen.dart
 import 'package:flutter/material.dart';
 import '../../../views/features/auth/auth_screen.dart';
 import '../../../views/features/category/category_screen.dart';
+
+import '../../../views/features/home/drawer/profile/profile_screen.dart';
+import '../../../views/features/home/drawer/profile/update_profile_screen.dart';
+import '../../../views/features/home/drawer/settings_screen.dart';
 import '../../../views/features/home/home_screen.dart';
 import '../../../views/features/inbox_mails/inbox_screen.dart';
 import '../../../views/features/search/search_filters_screen.dart';
@@ -61,6 +65,21 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return _getPageRoute(
         routeName: settings.name!,
         screen: const SearchFiltersScreen(),
+      );
+    case Routes.settings_screen:
+      return _getPageRoute(
+        routeName: settings.name!,
+        screen: const SettingsScreen(),
+      );
+    case Routes.profile_screen:
+      return _getPageRoute(
+        routeName: settings.name!,
+        screen: const ProfileScreen(),
+      );
+    case Routes.update_profile_screen:
+      return _getPageRoute(
+        routeName: settings.name!,
+        screen: UpdateProfileScreen(name: '', image: ''),
       );
     default:
       return MaterialPageRoute(

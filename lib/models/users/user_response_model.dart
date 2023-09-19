@@ -2,7 +2,7 @@ import 'package:consulting_app_pailmail/models/users/user.dart';
 
 class UserResponseModel {
   late User user;
-  late String token;
+  late dynamic token;
 
   UserResponseModel({required this.user, required this.token});
 
