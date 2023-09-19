@@ -212,12 +212,14 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                       color: Colors.white,
                       child: Padding(
                         padding: EdgeInsetsDirectional.only(end: 18.0, top: 4),
+
                         // child: Image(
                         //   image: NetworkImage(
                         //       '$imageUrl/${authProvider.currentUser.data?.user.image}'),
                         //   height: 50,
                         //   width: 50,
                         // ),
+
                         child: CustomProfilePhotoContainer(
                           image:
                               '$imageUrl/${authProvider.currentUser.data?.user.image}',

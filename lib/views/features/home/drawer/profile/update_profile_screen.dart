@@ -82,6 +82,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                               //         userImage: '$imageUrl/${widget.image}')
                               // CustomProfileWidget(
                               //         image: '$imageUrl/${widget.image}')
+
                               Image.network(
                                   '$imageUrl/${widget.image}',
                                   fit: BoxFit.cover,
