@@ -46,14 +46,14 @@ class _TagsScreenState extends State<TagsScreen> {
     return Scaffold(
         //TODO: Remove safe area
         body: Consumer<TagProvider>(builder: (_, tagProvider, __) {
-      if (tagProvider.tagOMailList.status == ApiStatus.LOADING) {
+      if (tagProvider.tagList.status == ApiStatus.LOADING) {
         return const Center(
           child: CircularProgressIndicator(),
         );
       }
-      if (tagProvider.tagOMailList.status == ApiStatus.ERROR) {
+      if (tagProvider.tagList.status == ApiStatus.ERROR) {
         return Center(
-          child: Text('${tagProvider.tagOMailList.message}'),
+          child: Text('${tagProvider.tagList.message}'),
         );
       }
       return Center(
@@ -78,10 +78,10 @@ class _TagsScreenState extends State<TagsScreen> {
                     ),
                     child: ListView.builder(
                       shrinkWrap: true,
-                      itemCount: tagProvider.tagOMailList.data!.length,
+                      itemCount: tagProvider.tagList.data!.length,
                       itemBuilder: (context, index) {
-                        Tag tag = tagProvider.tagOMailList.data![index];
-                        return Text('${tag.id}');
+                        Tag tag = tagProvider.tagList.data![index];
+                        return Text('${tag.name}');
                       },
                     )
 //                 Wrap(
