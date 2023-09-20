@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:consulting_app_pailmail/core/helpers/api_helpers/api_response.dart';
 import 'package:consulting_app_pailmail/providers/auth_provider.dart';
 import 'package:consulting_app_pailmail/providers/categories_provider.dart';
@@ -7,6 +8,7 @@ import 'package:consulting_app_pailmail/views/features/all_category_mails.dart';
 import 'package:consulting_app_pailmail/views/widgets/custom_category_container.dart';
 import 'package:consulting_app_pailmail/views/widgets/custom_chip.dart';
 import 'package:consulting_app_pailmail/views/widgets/custom_expansion_tile.dart';
+import 'package:consulting_app_pailmail/views/widgets/custom_fade_image.dart';
 import 'package:consulting_app_pailmail/views/widgets/custom_mail_container.dart';
 import 'package:consulting_app_pailmail/views/widgets/custom_profile_photo_container.dart';
 import 'package:consulting_app_pailmail/views/widgets/custom_status_container.dart';
@@ -64,6 +66,7 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
     super.initState();
     // roleRepository.fetchRoleList();
     authRepository.fetchCurrentUser();
+    print('$imageUrl${SharedPrefrencesController().image}');
 
     _scrollViewController = ScrollController();
     _scrollViewController.addListener(() {
@@ -234,16 +237,16 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                         padding:
                             const EdgeInsetsDirectional.only(end: 18.0, top: 4),
 
-                        child: CustomProfilePhotoContainer(
-                          image:
-                              '$imageUrl/${authProvider.currentUser.data?.user.image}',
-                          raduis: 50,
-                        ),
-
                         // child: CustomProfilePhotoContainer(
-                        //   image: '${SharedPrefrencesController().image}',
-                        //   raduis: 50.r,
+                        //   image:
+                        //       '$imageUrl/${authProvider.currentUser.data?.user.image}',
+                        //   raduis: 50,
                         // ),
+
+                        child: CustomProfilePhotoContainer(
+                          image: '${SharedPrefrencesController().image}',
+                          raduis: 50.r,
+                        ),
                       ),
                       itemBuilder: (context) => [
                         PopupMenuItem(
@@ -253,16 +256,21 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: [
+                                CustomFdeImage(
+                                    userImage:
+                                        '$imageUrl${SharedPrefrencesController().image}'),
+                                // Image.network(
+                                //     '$imageUrl${SharedPrefrencesController().image}'),
                                 // CustomProfilePhotoContainer(
                                 //   image:
                                 //       '$imageUrl${SharedPrefrencesController().image}',
                                 //   raduis: 90.r,
                                 // ),
-                                CustomProfilePhotoContainer(
-                                  image:
-                                      '$imageUrl/${authProvider.currentUser.data?.user.image}',
-                                  raduis: 90.r,
-                                ),
+                                // CustomProfilePhotoContainer(
+                                //   image:
+                                //       '$imageUrl/${authProvider.currentUser.data?.user.image}',
+                                //   raduis: 90.r,
+                                // ),
                                 Text(
                                   '${SharedPrefrencesController().name}',
                                   style: GoogleFonts.poppins(

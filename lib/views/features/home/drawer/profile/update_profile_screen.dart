@@ -45,7 +45,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
     return imageFile;
   }
 
-  updateUser(File? file) {
+  updateUser(File file) {
     print('edit 1');
     if (_updateFormKey.currentState!.validate()) {
       print('edit valid 2');
@@ -57,10 +57,10 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
           await SharedPrefrencesController()
               .setData(PrefKeys.name.toString(), updateNameController.text);
           print('------------------------------${file.path}');
-          await SharedPrefrencesController().setData(PrefKeys.image.toString(),
-              AuthProvider().currentUser.data?.user.image);
           // await SharedPrefrencesController().setData(PrefKeys.image.toString(),
-          //    SharedPrefrencesController().image);
+          //     AuthProvider().currentUser.data?.user.image);
+          await SharedPrefrencesController()
+              .setData(PrefKeys.image.toString(), file.path);
           setState(() {});
           if (mounted) {
             NavigationRoutes()

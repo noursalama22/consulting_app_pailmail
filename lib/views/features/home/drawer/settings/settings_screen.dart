@@ -111,6 +111,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                         : Padding(
                                             padding: const EdgeInsets.all(8.0),
                                             child: Icon(
+                                                size: 40,
                                                 Icons.account_circle_outlined),
                                           ),
                                     Padding(
