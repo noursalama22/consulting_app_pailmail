@@ -231,7 +231,7 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
 
                         child: CustomProfilePhotoContainer(
                           image:
-                              '$imageUrl/${AuthProvider().currentUser.data?.user.image}',
+                              '$imageUrl${SharedPrefrencesController().image}',
                           raduis: 50.r,
                         ),
                       ),
@@ -245,7 +245,7 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                               children: [
                                 CustomProfilePhotoContainer(
                                   image:
-                                      '$imageUrl/${AuthProvider().currentUser.data?.user.image}',
+                                      '$imageUrl${SharedPrefrencesController().image}',
                                   raduis: 90.r,
                                 ),
                                 Text(

@@ -3,9 +3,7 @@ import 'dart:io';
 import 'package:consulting_app_pailmail/core/utils/constants.dart';
 import 'package:consulting_app_pailmail/providers/auth_provider.dart';
 import 'package:consulting_app_pailmail/repositories/auth_repository.dart';
-import 'package:consulting_app_pailmail/views/features/home/drawer/profile/profile_screen.dart';
 import 'package:consulting_app_pailmail/views/widgets/custom_auth_button_widget.dart';
-import 'package:consulting_app_pailmail/views/widgets/custom_profile_image_widget.dart';
 import 'package:consulting_app_pailmail/views/widgets/custom_text_forn_field_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -33,7 +31,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
   final _updateFormKey = GlobalKey<FormState>();
   TextEditingController updateNameController = TextEditingController();
 
-  late Future<String>? newImagePath;
+  late Future<String>? newPath;
   File? pickedFile;
   String? filePath;
   String? currentImagePath;
@@ -59,9 +57,9 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
           await SharedPrefrencesController()
               .setData(PrefKeys.name.toString(), updateNameController.text);
           print('------------------------------${file.path}');
-          await SharedPrefrencesController()
-              .setData(PrefKeys.image.toString(), file.path);
-
+          await SharedPrefrencesController().setData(PrefKeys.image.toString(),
+              AuthProvider().currentUser.data?.user.image);
+          setState(() {});
           if (mounted) {
             NavigationRoutes()
                 .jump(context, Routes.profile_screen, replace: true);
