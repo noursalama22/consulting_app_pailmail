@@ -1,27 +1,24 @@
 import 'dart:io';
 
+import 'package:consulting_app_pailmail/models/mails/mail.dart';
 import 'package:consulting_app_pailmail/models/senders/sender.dart';
 import 'package:consulting_app_pailmail/repositories/sender_repository.dart';
-
 import 'package:consulting_app_pailmail/views/features/status/status_screen.dart';
 import 'package:consulting_app_pailmail/views/features/tags/tags_screen.dart';
-
 import 'package:consulting_app_pailmail/views/widgets/custom_app_bar.dart';
 import 'package:consulting_app_pailmail/views/widgets/custom_divider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:provider/provider.dart';
 
 import '../../../core/helpers/routers/router.dart';
 import '../../../core/utils/constants.dart';
 import '../../../core/utils/show_bottom_sheet.dart';
 import '../../../models/add_activity.dart';
-import '../../../providers/sender_provider.dart';
 import '../../../repositories/tag_repository.dart';
 import '../../widgets/custom_app_bar_with_icon.dart';
-import '../../widgets/custom_container_details.dart';
 import '../../widgets/custom_container.dart';
+import '../../widgets/custom_container_details.dart';
 import '../../widgets/custom_date_picker.dart';
 import '../../widgets/custom_expansion_tile.dart';
 import '../../widgets/custom_text_field.dart';
@@ -31,8 +28,10 @@ class InboxScreen extends StatefulWidget {
   const InboxScreen({
     required this.isDetails,
     Key? key,
+    this.mail,
   }) : super(key: key);
   final bool isDetails;
+  final Mail? mail;
 
   @override
   State<InboxScreen> createState() => _InboxScreenState();
@@ -102,11 +101,11 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
               ///Big Container
               widget.isDetails
                   ? CustomContainerDetails(
-                      organizationName: "Emmett Balistreri",
-                      organizationCategory: "Foreign",
-                      dateOrgName: "4-JAN_1990",
-                      dateOrgCategory: "A-Nov-5",
-
+                      organizationName: widget.mail!.sender!.name ?? "",
+                      organizationCategory:
+                          widget.mail!.sender!.category!.name! ?? "",
+                      dateOrgName: widget.mail!.archiveDate ?? "",
+                      dateOrgCategory: widget.mail!.archiveNumber ?? "",
                       subject: ExpansionTile(
                         shape: Border(),
                         initiallyExpanded: false,
@@ -134,10 +133,10 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
                         children: [
                           Padding(
                             padding: EdgeInsets.only(left: 18.h),
-                            child: const Align(
+                            child: Align(
                               alignment: AlignmentDirectional.centerStart,
                               child: Text(
-                                "description of subject",
+                                widget.mail!.description ?? "",
                               ),
                             ),
                           )

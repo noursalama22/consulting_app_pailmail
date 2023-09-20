@@ -8,24 +8,15 @@ class MailProvider extends ChangeNotifier {
   late MailsRepository _mailsRepository;
   late ApiResponse<List<Mail>> _mailsList;
   late ApiResponse<List<Mail>> _singleMail;
+  // late SearchRepository _searchRepository;
 
   ///to view a list of all mails
   MailProvider() {
     _mailsRepository = MailsRepository();
+    //_searchRepository = SearchRepository();
+
     fetchAllMails();
     fetchSingleMail("56");
-    // updateEmail(
-    //   id: '60',
-    //   decision: "hhhhhhhhhhhhh",
-    //   status_id: 70,
-    // );
-
-    // createEmail(
-    //     subject: 'hhhhhhhhhh',
-    //     sender_id: 90,
-    //     archive_number: '2000',
-    //     archive_date: DateTime.now(),
-    //     status_id: 50);
   }
 
   ApiResponse<List<Mail>> get mails => _mailsList;
@@ -57,6 +48,19 @@ class MailProvider extends ChangeNotifier {
     }
   }
 
+  // Future<MailResponseModel> searchMails(String text) async {
+  //   _mailsList = ApiResponse.loading("loading");
+  //   notifyListeners();
+  //   try {
+  //     final response =
+  //         await _searchRepository.search(text: text);
+  //    return ApiResponse.completed(response);
+  //     notifyListeners();
+  //   } catch (e) {
+  //     _mailsList = ApiResponse.error(e.toString());
+  //     notifyListeners();
+  //   }
+  // }
   // Future<void> createEmail(
   //     {required String subject,
   //     String? description,

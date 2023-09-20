@@ -120,7 +120,7 @@ const String singleStatus = "$statusUrl/"; //  add id/{}?mail=true
 const String allRolesUrl = "$baseUrl/roles";
 
 // SEARCH //
-const String searchUrl = "$baseUrl/search";
+const String searchUrl = "$baseUrl/search?";
 
 // SENDERS //
 const String sendersUrl = "$baseUrl/senders";

@@ -3,9 +3,9 @@ import 'package:consulting_app_pailmail/views/features/auth/splash_screen.dart';
 import 'package:consulting_app_pailmail/views/features/home/drawer/settings/general_user_profile.dart';
 import 'package:consulting_app_pailmail/views/features/search/search_screen.dart';
 import 'package:flutter/material.dart';
+
 import '../../../views/features/auth/auth_screen.dart';
 import '../../../views/features/category/category_screen.dart';
-
 import '../../../views/features/home/drawer/profile/profile_screen.dart';
 import '../../../views/features/home/drawer/profile/update_profile_screen.dart';
 import '../../../views/features/home/drawer/settings/settings_screen.dart';
@@ -28,7 +28,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case Routes.search_screen:
       return _getPageRoute(
         routeName: settings.name!,
-        screen: const SearchScreen(),
+        screen: SearchScreen(),
       );
     case Routes.login_screen:
       return _getPageRoute(
