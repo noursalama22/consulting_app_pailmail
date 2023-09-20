@@ -1,14 +1,12 @@
-
 import 'package:consulting_app_pailmail/providers/categories_provider.dart';
 
 import 'package:consulting_app_pailmail/providers/sender_provider.dart';
+import 'package:consulting_app_pailmail/providers/status_provider.dart';
 import 'package:consulting_app_pailmail/providers/tag_provider.dart';
 
 import 'package:consulting_app_pailmail/providers/auth_provider.dart';
 
 import 'package:consulting_app_pailmail/providers/mails_provider.dart';
-
-import 'package:consulting_app_pailmail/providers/mails_provider_class.dart';
 
 import 'package:consulting_app_pailmail/providers/general_users_provider.dart';
 
@@ -52,24 +50,20 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<TagProvider>(
           create: (_) => TagProvider(),
         ),
-         ChangeNotifierProvider<AuthProvider>(create: (_) => AuthProvider()),
+        ChangeNotifierProvider<AuthProvider>(create: (_) => AuthProvider()),
         ChangeNotifierProvider<RoleProvider>(create: (_) => RoleProvider()),
         ChangeNotifierProvider<MailProvider>(create: (_) => MailProvider()),
-
-
+        ChangeNotifierProvider<StatusProvider>(create: (_) => StatusProvider()),
         ChangeNotifierProvider<GeneralUsersProvider>(
             create: (_) => GeneralUsersProvider()),
-
         ChangeNotifierProvider<CategoriesProvider>(
-                create: (context) => CategoriesProvider(),
-              )
-
+          create: (context) => CategoriesProvider(),
+        )
       ],
       child: ScreenUtilInit(
           designSize: const Size(428, 812),
           builder: (context, child) {
             return MaterialApp(
-
               theme: ThemeData(scaffoldBackgroundColor: kBackgroundColor),
               localizationsDelegates: context.localizationDelegates,
               locale: context.locale,
@@ -78,7 +72,6 @@ class MyApp extends StatelessWidget {
               onGenerateRoute: generateRoute,
               // home: const HomeScreen(),
               //      home: const SearchScreen(),
-
 
               home: const SplashScreen(duration: Duration(seconds: 3)),
             );

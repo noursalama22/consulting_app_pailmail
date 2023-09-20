@@ -1,6 +1,8 @@
 import 'dart:io';
 
+import 'package:consulting_app_pailmail/core/helpers/api_helpers/api_response.dart';
 import 'package:consulting_app_pailmail/models/senders/sender.dart';
+import 'package:consulting_app_pailmail/providers/status_provider.dart';
 import 'package:consulting_app_pailmail/repositories/sender_repository.dart';
 
 import 'package:consulting_app_pailmail/views/features/status/status_screen.dart';
@@ -106,7 +108,6 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
                       organizationCategory: "Foreign",
                       dateOrgName: "4-JAN_1990",
                       dateOrgCategory: "A-Nov-5",
-
                       subject: ExpansionTile(
                         shape: Border(),
                         initiallyExpanded: false,
@@ -419,16 +420,36 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
                 onTap: () {
                   showSheet(context, const StatusScreen());
                 },
-                widget: const Row(
+                widget: Row(
                   children: [
-                    CustomContainer(
-                      isInBox: true,
-                      backgroundColor: Color(0xffFA3A57),
-                      childContainer: Text(
-                        "Inbox",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ),
+                    Consumer<StatusProvider>(builder: (BuildContext context,
+                        StatusProvider statusProvider, Widget? child) {
+                      if (statusProvider.allStatus.status ==
+                          ApiStatus.LOADING) {
+                        return const CustomContainer(
+                            isInBox: true,
+                            backgroundColor: Color(0xffFA3A57),
+                            childContainer: Text(
+                              "Inbox",
+                              style: TextStyle(color: Colors.white),
+                            ));
+                      } else if (statusProvider.allStatus.status ==
+                          ApiStatus.COMPLETED) {
+                        final status = statusProvider.allStatus.data![
+                            Provider.of<StatusProvider>(context).selectedIndex];
+                        return CustomContainer(
+                            isInBox: true,
+                            backgroundColor:
+                                Color(int.parse(status.color.toString())),
+                            childContainer: Text(
+                              status.name.toString(),
+                              style: const TextStyle(color: Colors.white),
+                            ));
+                      } else {
+                        return Text(
+                            statusProvider.allStatus.message.toString());
+                      }
+                    }),
                   ],
                 ),
               ),

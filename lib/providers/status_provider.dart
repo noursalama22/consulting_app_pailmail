@@ -8,6 +8,8 @@ class StatusProvider extends ChangeNotifier {
   late StatusRepository _statusRepository;
   late ApiResponse<List<Status>> _statusList;
   late ApiResponse<Status> _singleStatus;
+  int index = 0;
+  int get selectedIndex => index;
 
   StatusProvider() {
     _statusRepository = StatusRepository();
@@ -15,6 +17,10 @@ class StatusProvider extends ChangeNotifier {
   }
   ApiResponse<List<Status>> get allStatus => _statusList;
   ApiResponse<Status> get singleStatus => _singleStatus;
+  changeStatus({required int selectedIndex}) {
+    index = selectedIndex;
+    notifyListeners();
+  }
 
   Future<void> fetchAllStatus() async {
     _statusList = ApiResponse.loading("loading");
