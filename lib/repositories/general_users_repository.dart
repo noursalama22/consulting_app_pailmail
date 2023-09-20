@@ -38,7 +38,7 @@ class GeneralUsersRepository {
       'password': updatedPass,
       'password_confirmation': updatedConfoirmPass
     };
-    final response = await _helper.post('$CRUD_UsersUrl$userId/password', body);
+    final response = await _helper.put('$CRUD_UsersUrl$userId/password', body);
     return User.fromJson(response['user']);
   }
 

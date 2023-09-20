@@ -11,30 +11,30 @@ import '../models/senders/sender.dart';
 class SenderRepository {
   final ApiBaseHelper _helper = ApiBaseHelper();
 
-  Future<SenderResponseModel_1> createSender(Sender sender) async {
-    Map<String, dynamic> map = {
-      "name": sender.name,
-      "mobile": sender.mobile,
-      "address": sender.address,
-      // take dynamic but the post method take the string
-      "category_id": sender.categoryId.toString(),
-    };
-    final response = await _helper.post(sendersUrl, map);
-    print("////////////////");
-    return SenderResponseModel_1.fromJson(response);
-  }
+  // Future<SenderResponseModel_1> createSender(Sender sender) async {
+  //   Map<String, dynamic> map = {
+  //     "name": sender.name,
+  //     "mobile": sender.mobile,
+  //     "address": sender.address,
+  //     // take dynamic but the post method take the string
+  //     "category_id": sender.categoryId.toString(),
+  //   };
+  //   final response = await _helper.post(sendersUrl, map);
+  //   print("////////////////");
+  //   return SenderResponseModel_1.fromJson(response);
+  // }
 
-  Future<SenderResponseModel_1> updateSender(Sender sender, String id) async {
-    Map<String, dynamic> map = {
-      "name": sender.name,
-      "mobile": sender.mobile,
-
-      "address": sender.address,
-      "category_id": sender.categoryId.toString(),
-    };
-    final response = await _helper.put(CRUD_senderUrl + id, map);
-    return SenderResponseModel_1.fromJson(response);
-  }
+  // Future<SenderResponseModel_1> updateSender(Sender sender, String id) async {
+  //   Map<String, dynamic> map = {
+  //     "name": sender.name,
+  //     "mobile": sender.mobile,
+  //
+  //     "address": sender.address,
+  //     "category_id": sender.categoryId.toString(),
+  //   };
+  //   final response = await _helper.put(CRUD_senderUrl + id, map);
+  //   return SenderResponseModel_1.fromJson(response);
+  // }
 
   Future<void> deleteSender(String id) async {
     await _helper.delete(CRUD_senderUrl + id);

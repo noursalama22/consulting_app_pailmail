@@ -47,17 +47,18 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
     return imageFile;
   }
 
-  updateUser(File file) {
+  updateUser(File? file) {
     print('edit 1');
     if (_updateFormKey.currentState!.validate()) {
       print('edit valid 2');
-      AuthRepository().uploadImage(file, updateNameController.text).then(
+      AuthRepository().uploadImage(file!, updateNameController.text).then(
         (value) async {
           await Provider.of<AuthProvider>(context, listen: false)
               .fetchCurrentUser();
           // set locally
           await SharedPrefrencesController()
               .setData(PrefKeys.name.toString(), updateNameController.text);
+          print('------------------------------${file.path}');
           await SharedPrefrencesController()
               .setData(PrefKeys.image.toString(), file.path);
 
@@ -89,51 +90,39 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                   CustomAppBar(widgetName: 'Edit Profile'),
 
                   Stack(
+                    alignment: Alignment.bottomRight,
                     children: [
                       SizedBox(
                         height: 200.h,
                         width: 200.h,
                         child: ClipRRect(
-                          borderRadius: BorderRadius.circular(100),
+                          borderRadius: BorderRadius.circular(100.r),
                           child: pickedFile == null
-                              ?
-                              // CustomProfileContainerImage(
-                              //         userImage: '$imageUrl/${widget.image}')
-                              // CustomProfileWidget(
-                              //         image: '$imageUrl/${widget.image}')
-//
-                              Image.network(
+                              ? Image.network(
                                   '$imageUrl/${widget.image}',
                                   fit: BoxFit.cover,
                                 )
                               : Image.file(File(pickedFile!.path)),
                         ),
                       ),
-                      Positioned(
-                        bottom: 0,
-                        right: 0,
-                        child: InkWell(
-                          onTap: () async {
-                            pickedFile = await pickImage();
-
-                            if (pickedFile != null) {
-                              filePath = pickedFile!.path;
-                            }
-                            setState(() {});
-                          },
-                          child: CircleAvatar(
-                            radius: 24,
-                            backgroundColor: kLightBlueColor,
-                            child: Container(
-                              margin: const EdgeInsets.all(4.0),
-                              decoration: const BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: kLightBlueColor),
-                              child: Icon(
-                                Icons.camera,
-                                size: 32,
-                                color: kWhiteColor,
-                              ),
+                      InkWell(
+                        onTap: () async {
+                          pickedFile = await pickImage();
+                          if (pickedFile != null) {
+                            filePath = pickedFile!.path;
+                          }
+                          setState(() {});
+                        },
+                        child: CircleAvatar(
+                          radius: 24,
+                          backgroundColor: kYellowColor,
+                          child: Container(
+                            decoration: const BoxDecoration(
+                                shape: BoxShape.circle, color: kYellowColor),
+                            child: Icon(
+                              size: 32,
+                              Icons.camera_alt,
+                              color: kWhiteColor,
                             ),
                           ),
                         ),

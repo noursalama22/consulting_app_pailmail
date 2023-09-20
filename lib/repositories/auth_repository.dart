@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:consulting_app_pailmail/core/utils/constants.dart';
 import 'package:consulting_app_pailmail/models/users/user_response_model.dart';
 import 'package:consulting_app_pailmail/storage/shared_prefs.dart';
-import 'package:image_picker/image_picker.dart';
 
 import '../core/helpers/api_helpers/api_base_helper.dart';
 
@@ -130,28 +129,28 @@ class AuthRepository {
     print(responseString);
     return response.statusCode;
   }
-  // Future<void> uploadProfileImage(File imageFile) async {
-  //   var request =
-  //       http.MultipartRequest("POST", Uri.parse('$baseUrl/user/update'));
-  //   var newImage = await http.MultipartFile.fromPath('image', imageFile.path);
-  //   request.fields['title'] = 'image_${DateTime.now()}';
-  //   request.files.add(newImage);
-  //   request.headers.addAll({
-  //     'Accept': 'application/json',
-  //     'Authorization': 'Bearer ${SharedPrefrencesController().token}'
-  //   });
-  //   var response = await request.send();
-  //   var responseStream = await response.stream.toBytes();
-  //   var responseString = String.fromCharCodes(responseStream);
-  //
-  //   print(responseString);
-  //   print('uploadProfileImage auth repo');
-  // }
-  //
-  // Future<String?> getNewProfilePic() async {
-  //   print('getNewProfilePic auth repo');
-  //
-  //   final imageResponse = await _helper.get((currentUserInfoUrl));
-  //   return UserResponseModel.fromJson(imageResponse).user.image;
-  // }
+// Future<void> uploadProfileImage(File imageFile) async {
+//   var request =
+//       http.MultipartRequest("POST", Uri.parse('$baseUrl/user/update'));
+//   var newImage = await http.MultipartFile.fromPath('image', imageFile.path);
+//   request.fields['title'] = 'image_${DateTime.now()}';
+//   request.files.add(newImage);
+//   request.headers.addAll({
+//     'Accept': 'application/json',
+//     'Authorization': 'Bearer ${SharedPrefrencesController().token}'
+//   });
+//   var response = await request.send();
+//   var responseStream = await response.stream.toBytes();
+//   var responseString = String.fromCharCodes(responseStream);
+//
+//   print(responseString);
+//   print('uploadProfileImage auth repo');
+// }
+//
+// Future<String?> getNewProfilePic() async {
+//   print('getNewProfilePic auth repo');
+//
+//   final imageResponse = await _helper.get((currentUserInfoUrl));
+//   return UserResponseModel.fromJson(imageResponse).user.image;
+// }
 }

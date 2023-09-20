@@ -132,12 +132,10 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
             onTap: () {
               //print('called on tap');
               showSheet(
-
                   context,
                   InboxScreen(
                     isDetails: false,
                   ));
-
             },
             child: SizedBox(
               height: kToolbarHeight,
@@ -233,7 +231,7 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
 
                         child: CustomProfilePhotoContainer(
                           image:
-                              '$imageUrl/${authProvider.currentUser.data?.user.image}',
+                              '$imageUrl/${AuthProvider().currentUser.data?.user.image}',
                           raduis: 50.r,
                         ),
                       ),
@@ -245,21 +243,9 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: [
-                                // Image(
-                                //   image: NetworkImage(
-                                //       '$imageUrl/${authProvider.currentUser.data?.user.image}'),
-                                //   height: 100,
-                                //   width: 100,
-                                // ),
-
-                                // CustomProfilePhotoContainer(
-                                //   image:
-                                //       '$imageUrl/${authProvider.currentUser.data?.user.image}',
-                                //   raduis: 90.r,
-                                // ),
                                 CustomProfilePhotoContainer(
                                   image:
-                                      '$imageUrl/${SharedPrefrencesController().image}',
+                                      '$imageUrl/${AuthProvider().currentUser.data?.user.image}',
                                   raduis: 90.r,
                                 ),
                                 Text(
