@@ -59,6 +59,8 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
           print('------------------------------${file.path}');
           await SharedPrefrencesController().setData(PrefKeys.image.toString(),
               AuthProvider().currentUser.data?.user.image);
+          // await SharedPrefrencesController().setData(PrefKeys.image.toString(),
+          //    SharedPrefrencesController().image);
           setState(() {});
           if (mounted) {
             NavigationRoutes()
