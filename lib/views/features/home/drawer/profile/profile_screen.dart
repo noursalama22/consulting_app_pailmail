@@ -5,7 +5,6 @@ import 'package:consulting_app_pailmail/views/features/home/drawer/profile/updat
 import 'package:consulting_app_pailmail/views/widgets/custom_auth_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:image_fade/image_fade.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../core/helpers/api_helpers/api_response.dart';
