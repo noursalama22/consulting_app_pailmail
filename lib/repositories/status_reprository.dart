@@ -6,8 +6,8 @@ import '../models/statuses/status_reponse_model.dart';
 
 class StatusRepository {
   final ApiBaseHelper _helper = ApiBaseHelper();
-  Future<List<Status>?> getAllStatus({required String id}) async {
-    final response = await _helper.get("$fetchUrl$id?mail=false");
+  Future<List<Status>?> getAllStatus() async {
+    final response = await _helper.get("$fetchUrl?mail=false");
     return StatusResponseModel.fromJson(response).statuses;
   }
 

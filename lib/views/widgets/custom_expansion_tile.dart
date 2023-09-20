@@ -13,13 +13,17 @@ class CustomExpansionTile extends StatefulWidget {
     this.isIndexWidet = false,
     this.mailNumber,
     this.isExpanded = true,
+    this.index = 0,
+    this.isEmpty = false,
   });
 
   final List<Widget> children;
+  final bool isEmpty;
   final Widget widgetOfTile;
   final bool isIndexWidet;
   final String? mailNumber;
   final bool isExpanded;
+  final int index;
 
   @override
   State<CustomExpansionTile> createState() => _CustomExpansionTileState();
@@ -42,14 +46,16 @@ class _CustomExpansionTileState extends State<CustomExpansionTile> {
   }
 
   navigateToAllMail() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) {
-          return AllCategoryMails();
-        },
-      ),
-    );
+    if (!widget.isEmpty) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) {
+            return AllCategoryMails(index: widget.index);
+          },
+        ),
+      );
+    }
   }
 
   @override
@@ -91,11 +97,10 @@ class _CustomExpansionTileState extends State<CustomExpansionTile> {
                     text: TextSpan(
                       text: widget.mailNumber ?? "",
                       recognizer: _tapGestureRecognizer,
-                      style: TextStyle(
-                        decoration: TextDecoration.underline,
-                        color: kLightBlueColor,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style: const TextStyle(
+                          color: kLightBlueColor,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16),
                     ),
                   ),
                 ],

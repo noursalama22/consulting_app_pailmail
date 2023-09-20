@@ -11,15 +11,15 @@ class StatusProvider extends ChangeNotifier {
 
   StatusProvider() {
     _statusRepository = StatusRepository();
-    // fetchAllStatus();
+    fetchAllStatus();
   }
   ApiResponse<List<Status>> get allStatus => _statusList;
   ApiResponse<Status> get singleStatus => _singleStatus;
 
-  Future<void> fetchAllStatus({required String id}) async {
+  Future<void> fetchAllStatus() async {
     _statusList = ApiResponse.loading("loading");
     try {
-      final response = await _statusRepository.getAllStatus(id: id);
+      final response = await _statusRepository.getAllStatus();
       _statusList = ApiResponse.completed(response);
       notifyListeners();
     } catch (e) {

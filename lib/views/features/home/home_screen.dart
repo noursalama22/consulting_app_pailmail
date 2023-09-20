@@ -3,6 +3,7 @@ import 'package:consulting_app_pailmail/providers/auth_provider.dart';
 import 'package:consulting_app_pailmail/providers/categories_provider.dart';
 import 'package:consulting_app_pailmail/repositories/auth_repository.dart';
 import 'package:consulting_app_pailmail/storage/shared_prefs.dart';
+import 'package:consulting_app_pailmail/views/features/all_category_mails.dart';
 import 'package:consulting_app_pailmail/views/widgets/custom_category_container.dart';
 import 'package:consulting_app_pailmail/views/widgets/custom_chip.dart';
 import 'package:consulting_app_pailmail/views/widgets/custom_expansion_tile.dart';
@@ -22,7 +23,6 @@ import '../../../core/utils/constants.dart';
 import '../../../core/utils/show_bottom_sheet.dart';
 import '../../widgets/custom_drawer_content.dart';
 import '../inbox_mails/inbox_screen.dart';
-import '../tags/tags_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -93,6 +93,17 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
     super.dispose();
   }
 
+  navigateToAllMail(int index) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) {
+          return AllCategoryMails(index: index);
+        },
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return AdvancedDrawer(
@@ -133,7 +144,7 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
               //print('called on tap');
               showSheet(
                   context,
-                  InboxScreen(
+                  const InboxScreen(
                     isDetails: false,
                   ));
             },
@@ -196,7 +207,7 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                       valueListenable: _advancedDrawerController,
                       builder: (_, value, __) {
                         return AnimatedSwitcher(
-                          duration: Duration(milliseconds: 250),
+                          duration: const Duration(milliseconds: 250),
                           child: Icon(
                             value.visible ? Icons.clear : Icons.menu,
                             key: ValueKey<bool>(value.visible),
@@ -220,7 +231,8 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                     PopupMenuButton<Widget>(
                       color: Colors.white,
                       child: Padding(
-                        padding: EdgeInsetsDirectional.only(end: 18.0, top: 4),
+                        padding:
+                            const EdgeInsetsDirectional.only(end: 18.0, top: 4),
 
                         child: CustomProfilePhotoContainer(
                           image:
@@ -267,7 +279,7 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                             ),
                           ),
                         ),
-                        PopupMenuDivider(),
+                        const PopupMenuDivider(),
                         PopupMenuItem(
                           //TODO : Custom Widget for rows
                           child: InkWell(
@@ -384,11 +396,10 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                         SizedBox(
                           height: 24.h,
                         ),
+                        //Consumer 1
                         Consumer<CategoriesProvider>(
                           builder: (BuildContext context,
                               CategoriesProvider value, Widget? child) {
-                            print("***************" +
-                                value.mailsCategory[0].data.toString());
                             if (value.mailsCategory[0].status ==
                                 ApiStatus.LOADING) {
                               return const Center(
@@ -398,50 +409,87 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                             if (value.mailsCategory[0].status ==
                                 ApiStatus.COMPLETED) {
                               if (value.mailsCategory[0].data!.isEmpty) {
-                                return const Column(
-                                  children: [
-                                    Icon(Icons.warning),
-                                    Text("No Data")
-                                  ],
-                                );
-                              } else {
-                                var data = value.mailsCategory[0].data;
                                 return CustomExpansionTile(
+                                    index: 0,
                                     widgetOfTile: Text(
                                       "officialOrganizations".tr(),
                                       // "officialOrganizations".tr(),
                                       style: tileTextTitleStyle,
                                     ),
-                                    mailNumber: data!.length.toString(),
-                                    children: [
-                                      ListView.builder(
-                                        itemBuilder: (context, index) {
-                                          return CustomMailContainer(
-                                            onTap: () {},
-                                            organizationName:
-                                                data![index].sender!.name ?? "",
-                                            color: kYellowColor,
-                                            date:
-                                                data![index].archiveDate ?? "",
-                                            description:
-                                                data![index].description ?? "",
-                                            images: [],
-                                            tags: data![index].tags ?? [],
-                                            subject: data![index].subject ?? "",
-                                            endMargin: 8,
-                                          );
-                                        },
-                                        shrinkWrap: true,
-                                        itemCount:
-                                            data!.length < 3 ? data!.length : 3,
-                                      )
+                                    mailNumber: '',
+                                    isEmpty: true,
+                                    children: const [
+                                      Column(
+                                        children: [
+                                          Icon(Icons.warning),
+                                          Text("No Data")
+                                        ],
+                                      ),
                                     ]);
+                              } else {
+                                var data = value.mailsCategory[0].data;
+                                return CustomExpansionTile(
+                                  index: 0,
+                                  widgetOfTile: Text(
+                                    "officialOrganizations".tr(),
+                                    // "officialOrganizations".tr(),
+                                    style: tileTextTitleStyle,
+                                  ),
+                                  mailNumber: data!.length.toString(),
+                                  children: [
+                                    ListView.builder(
+                                      itemBuilder: (context, index) {
+                                        return CustomMailContainer(
+                                          onTap: () {},
+                                          organizationName:
+                                              data![index].sender!.name ?? "",
+                                          color: kYellowColor,
+                                          date: data![index].archiveDate ?? "",
+                                          description:
+                                              data![index].description ?? "",
+                                          images: const [],
+                                          tags: data![index].tags ?? [],
+                                          subject: data![index].subject ?? "",
+                                          endMargin: 8,
+                                        );
+                                      },
+                                      shrinkWrap: true,
+                                      itemCount:
+                                          data!.length < 3 ? data!.length : 3,
+                                    ),
+                                    const SizedBox(
+                                      height: 8,
+                                    ),
+                                    data!.length > 3
+                                        ? Padding(
+                                            padding: const EdgeInsetsDirectional
+                                                .only(end: 10),
+                                            child: GestureDetector(
+                                              onTap: () => navigateToAllMail(0),
+                                              child: const Align(
+                                                child: Text(
+                                                  'See More',
+                                                  style: TextStyle(
+                                                    fontSize: 14,
+                                                    color: kLightBlueColor,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                                alignment: AlignmentDirectional
+                                                    .centerEnd,
+                                              ),
+                                            ),
+                                          )
+                                        : const SizedBox.shrink(),
+                                  ],
+                                );
                               }
                             }
                             return Text(
                                 value.mailsCategory[0].message.toString());
                           },
                         ),
+                        //Consumer 2
                         Consumer<CategoriesProvider>(
                           builder: (BuildContext context,
                               CategoriesProvider value, Widget? child) {
@@ -454,15 +502,27 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                             if (value.mailsCategory[1].status ==
                                 ApiStatus.COMPLETED) {
                               if (value.mailsCategory[1].data!.isEmpty) {
-                                return const Column(
-                                  children: [
-                                    Icon(Icons.warning),
-                                    Text("No Data")
-                                  ],
-                                );
+                                return CustomExpansionTile(
+                                    index: 0,
+                                    widgetOfTile: Text(
+                                      "NGOs".tr(),
+                                      // "officialOrganizations".tr(),
+                                      style: tileTextTitleStyle,
+                                    ),
+                                    mailNumber: '',
+                                    isEmpty: true,
+                                    children: const [
+                                      Column(
+                                        children: [
+                                          Icon(Icons.warning),
+                                          Text("No Data")
+                                        ],
+                                      ),
+                                    ]);
                               } else {
                                 var data = value.mailsCategory[1].data;
                                 return CustomExpansionTile(
+                                  index: 1,
                                   widgetOfTile: Text(
                                     "NGOs".tr(),
                                     style: tileTextTitleStyle,
@@ -479,7 +539,8 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                                           date: data![index].archiveDate ?? "",
                                           description:
                                               data![index].description ?? "",
-                                          images: [],
+                                          images:
+                                              data![index].attachments ?? [],
                                           tags: data![index].tags ?? [],
                                           subject: data![index].subject ?? "",
                                           endMargin: 8,
@@ -488,7 +549,31 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                                       itemCount:
                                           data!.length < 3 ? data!.length : 3,
                                       shrinkWrap: true,
-                                    )
+                                    ),
+                                    const SizedBox(
+                                      height: 8,
+                                    ),
+                                    data!.length > 3
+                                        ? Padding(
+                                            padding: const EdgeInsetsDirectional
+                                                .only(end: 10),
+                                            child: GestureDetector(
+                                              onTap: () => navigateToAllMail(1),
+                                              child: const Align(
+                                                child: Text(
+                                                  'See More',
+                                                  style: TextStyle(
+                                                    fontSize: 14,
+                                                    color: kLightBlueColor,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                                alignment: AlignmentDirectional
+                                                    .centerEnd,
+                                              ),
+                                            ),
+                                          )
+                                        : const SizedBox.shrink(),
                                   ],
                                 );
                               }
@@ -497,6 +582,7 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                                 value.mailsCategory[1].message.toString());
                           },
                         ),
+                        //Consumer 3
                         Consumer<CategoriesProvider>(
                           builder: (BuildContext context,
                               CategoriesProvider value, Widget? child) {
@@ -509,15 +595,27 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                             if (value.mailsCategory[2].status ==
                                 ApiStatus.COMPLETED) {
                               if (value.mailsCategory[2].data!.isEmpty) {
-                                return const Column(
-                                  children: [
-                                    Icon(Icons.warning),
-                                    Text("No Data")
-                                  ],
-                                );
+                                return CustomExpansionTile(
+                                    index: 0,
+                                    isEmpty: true,
+                                    widgetOfTile: Text(
+                                      "Foreign".tr(),
+                                      // "officialOrganizations".tr(),
+                                      style: tileTextTitleStyle,
+                                    ),
+                                    mailNumber: '0',
+                                    children: const [
+                                      Column(
+                                        children: [
+                                          Icon(Icons.warning),
+                                          Text("No Mails")
+                                        ],
+                                      ),
+                                    ]);
                               } else {
                                 var data = value.mailsCategory[2].data;
                                 return CustomExpansionTile(
+                                  index: 2,
                                   widgetOfTile: Text(
                                     "Foreign".tr(),
                                     style: tileTextTitleStyle,
@@ -534,7 +632,7 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                                           date: data![index].archiveDate ?? "",
                                           description:
                                               data![index].description ?? "",
-                                          images: [],
+                                          images: const [],
                                           tags: data![index].tags ?? [],
                                           subject: data![index].subject ?? "",
                                           endMargin: 8,
@@ -544,6 +642,30 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                                           data!.length < 3 ? data!.length : 3,
                                       shrinkWrap: true,
                                     ),
+                                    const SizedBox(
+                                      height: 8,
+                                    ),
+                                    data!.length > 3
+                                        ? Padding(
+                                            padding: const EdgeInsetsDirectional
+                                                .only(end: 10),
+                                            child: GestureDetector(
+                                              onTap: () => navigateToAllMail(2),
+                                              child: const Align(
+                                                child: Text(
+                                                  'See More',
+                                                  style: TextStyle(
+                                                    fontSize: 14,
+                                                    color: kLightBlueColor,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                                alignment: AlignmentDirectional
+                                                    .centerEnd,
+                                              ),
+                                            ),
+                                          )
+                                        : const SizedBox.shrink(),
                                   ],
                                 );
                               }
@@ -552,6 +674,7 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                                 value.mailsCategory[2].message.toString());
                           },
                         ),
+                        //Consumer 4
                         Consumer<CategoriesProvider>(
                           builder: (BuildContext context,
                               CategoriesProvider value, Widget? child) {
@@ -564,15 +687,27 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                             if (value.mailsCategory[3].status ==
                                 ApiStatus.COMPLETED) {
                               if (value.mailsCategory[3].data!.isEmpty) {
-                                return const Column(
-                                  children: [
-                                    Icon(Icons.warning),
-                                    Text("No Data")
-                                  ],
-                                );
+                                return CustomExpansionTile(
+                                    index: 0,
+                                    isEmpty: true,
+                                    widgetOfTile: Text(
+                                      "Foreign".tr(),
+                                      // "officialOrganizations".tr(),
+                                      style: tileTextTitleStyle,
+                                    ),
+                                    mailNumber: '0',
+                                    children: const [
+                                      Column(
+                                        children: [
+                                          Icon(Icons.warning),
+                                          Text("No Mails")
+                                        ],
+                                      ),
+                                    ]);
                               } else {
                                 var data = value.mailsCategory[3].data;
                                 return CustomExpansionTile(
+                                  index: 3,
                                   widgetOfTile: Text(
                                     "Other".tr(),
                                     style: tileTextTitleStyle,
@@ -589,7 +724,7 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                                           date: data![index].archiveDate ?? "",
                                           description:
                                               data![index].description ?? "",
-                                          images: [],
+                                          images: const [], //TODO:display Images
                                           tags: data![index].tags ?? [],
                                           subject: data![index].subject ?? "",
                                           endMargin: 8,
@@ -598,7 +733,31 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                                       itemCount:
                                           data!.length < 3 ? data!.length : 3,
                                       shrinkWrap: true,
-                                    )
+                                    ),
+                                    const SizedBox(
+                                      height: 8,
+                                    ),
+                                    data!.length > 3
+                                        ? Padding(
+                                            padding: const EdgeInsetsDirectional
+                                                .only(end: 10),
+                                            child: GestureDetector(
+                                              onTap: () => navigateToAllMail(3),
+                                              child: const Align(
+                                                alignment: AlignmentDirectional
+                                                    .centerEnd,
+                                                child: Text(
+                                                  'See More',
+                                                  style: TextStyle(
+                                                    fontSize: 14,
+                                                    color: kLightBlueColor,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          )
+                                        : const SizedBox.shrink(),
                                   ],
                                 );
                               }
