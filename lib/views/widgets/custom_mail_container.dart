@@ -1,3 +1,4 @@
+import 'package:consulting_app_pailmail/models/attachments/attachment.dart';
 import 'package:consulting_app_pailmail/models/tags/tag.dart';
 import 'package:consulting_app_pailmail/views/widgets/custom_photo_container.dart';
 import 'package:consulting_app_pailmail/views/widgets/custom_status_container.dart';
@@ -23,7 +24,7 @@ class CustomMailContainer extends StatefulWidget {
   final String subject;
   final String description;
   final List<Tag> tags;
-  final List<String> images;
+  final List<Attachment> images;
   final Color color;
   final double endMargin;
   final void Function() onTap;
@@ -129,7 +130,7 @@ class _CustomMailContainerState extends State<CustomMailContainer> {
                       : Wrap(children: [
                           for (int i = 0; i < widget.tags.length; i++) ...{
                             Text(
-                              "#${widget.tags[i]}",
+                              "#${widget.tags[i].name}",
                               style: tagsTextStyle,
                             ),
                             const SizedBox(
@@ -142,24 +143,20 @@ class _CustomMailContainerState extends State<CustomMailContainer> {
                 const SizedBox(
                   height: 6,
                 ),
-                const Padding(
+                Padding(
                   padding: EdgeInsetsDirectional.only(start: 24.0),
-                  child: Row(
-                    children: [
-                      //TODO: Add Gesture detoctor
+                  child: Row(children: [
+                    //TODO: Add Gesture detoctor
+                    for (int i = 0; i < widget.images.length; i++) ...{
                       CustomPhotoContainer(
                         raduis: 36,
-                        image: 'assets/images/user_photo.png',
+                        url: '$imageUrl/${widget.images}',
                       ),
                       SizedBox(
                         width: 8,
                       ),
-                      CustomPhotoContainer(
-                        raduis: 36,
-                        image: 'assets/images/user_photo.png',
-                      ),
-                    ],
-                  ),
+                    }
+                  ]),
                 ),
               ],
             ),

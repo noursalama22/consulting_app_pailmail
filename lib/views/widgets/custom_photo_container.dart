@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 
 class CustomPhotoContainer extends StatelessWidget {
-  final String image;
   const CustomPhotoContainer({
     super.key,
-    required this.image, required this.raduis,
+    required this.raduis,
+    required this.url,
   });
   final double raduis;
+  final String url;
 
   @override
   Widget build(BuildContext context) {
@@ -21,8 +22,8 @@ class CustomPhotoContainer extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         image: DecorationImage(
           fit: BoxFit.fitWidth,
-          image: AssetImage(
-            image,
+          image: NetworkImage(
+            url,
           ),
         ),
       ),
