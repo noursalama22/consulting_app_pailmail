@@ -459,25 +459,25 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                                             ));
                                           },
                                           organizationName:
-                                              data![index].sender!.name ?? "",
+                                              data[index].sender!.name ?? "",
                                           color: kYellowColor,
-                                          date: data![index].archiveDate ?? "",
+                                          date: data[index].archiveDate ?? "",
                                           description:
-                                              data![index].description ?? "",
+                                              data[index].description ?? "",
                                           images: const [],
-                                          tags: data![index].tags ?? [],
-                                          subject: data![index].subject ?? "",
+                                          tags: data[index].tags ?? [],
+                                          subject: data[index].subject ?? "",
                                           endMargin: 8,
                                         );
                                       },
                                       shrinkWrap: true,
                                       itemCount:
-                                          data!.length < 3 ? data!.length : 3,
+                                          data.length < 3 ? data.length : 3,
                                     ),
                                     const SizedBox(
                                       height: 8,
                                     ),
-                                    data!.length > 3
+                                    data.length > 3
                                         ? Padding(
                                             padding: const EdgeInsetsDirectional
                                                 .only(end: 10),
@@ -561,26 +561,25 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                                             ));
                                           },
                                           organizationName:
-                                              data![index].sender!.name ?? "",
+                                              data[index].sender!.name ?? "",
                                           color: kYellowColor,
-                                          date: data![index].archiveDate ?? "",
+                                          date: data[index].archiveDate ?? "",
                                           description:
-                                              data![index].description ?? "",
-                                          images:
-                                              data![index].attachments ?? [],
-                                          tags: data![index].tags ?? [],
-                                          subject: data![index].subject ?? "",
+                                              data[index].description ?? "",
+                                          images: data[index].attachments ?? [],
+                                          tags: data[index].tags ?? [],
+                                          subject: data[index].subject ?? "",
                                           endMargin: 8,
                                         );
                                       },
                                       itemCount:
-                                          data!.length < 3 ? data!.length : 3,
+                                          data.length < 3 ? data.length : 3,
                                       shrinkWrap: true,
                                     ),
                                     const SizedBox(
                                       height: 8,
                                     ),
-                                    data!.length > 3
+                                    data.length > 3
                                         ? Padding(
                                             padding: const EdgeInsetsDirectional
                                                 .only(end: 10),
@@ -664,25 +663,25 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                                             ));
                                           },
                                           organizationName:
-                                              data![index].sender!.name ?? "",
+                                              data[index].sender!.name ?? "",
                                           color: kYellowColor,
-                                          date: data![index].archiveDate ?? "",
+                                          date: data[index].archiveDate ?? "",
                                           description:
-                                              data![index].description ?? "",
+                                              data[index].description ?? "",
                                           images: const [],
-                                          tags: data![index].tags ?? [],
-                                          subject: data![index].subject ?? "",
+                                          tags: data[index].tags ?? [],
+                                          subject: data[index].subject ?? "",
                                           endMargin: 8,
                                         );
                                       },
                                       itemCount:
-                                          data!.length < 3 ? data!.length : 3,
+                                          data.length < 3 ? data.length : 3,
                                       shrinkWrap: true,
                                     ),
                                     const SizedBox(
                                       height: 8,
                                     ),
-                                    data!.length > 3
+                                    data.length > 3
                                         ? Padding(
                                             padding: const EdgeInsetsDirectional
                                                 .only(end: 10),
@@ -766,25 +765,25 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                                             ));
                                           },
                                           organizationName:
-                                              data![index].sender!.name ?? "",
+                                              data[index].sender!.name ?? "",
                                           color: kYellowColor,
-                                          date: data![index].archiveDate ?? "",
+                                          date: data[index].archiveDate ?? "",
                                           description:
-                                              data![index].description ?? "",
+                                              data[index].description ?? "",
                                           images: const [], //TODO:display Images
-                                          tags: data![index].tags ?? [],
-                                          subject: data![index].subject ?? "",
+                                          tags: data[index].tags ?? [],
+                                          subject: data[index].subject ?? "",
                                           endMargin: 8,
                                         );
                                       },
                                       itemCount:
-                                          data!.length < 3 ? data!.length : 3,
+                                          data.length < 3 ? data.length : 3,
                                       shrinkWrap: true,
                                     ),
                                     const SizedBox(
                                       height: 8,
                                     ),
-                                    data!.length > 3
+                                    data.length > 3
                                         ? Padding(
                                             padding: const EdgeInsetsDirectional
                                                 .only(end: 10),
