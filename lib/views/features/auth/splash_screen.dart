@@ -1,5 +1,7 @@
+import 'package:consulting_app_pailmail/repositories/roles_repository.dart';
 import 'package:consulting_app_pailmail/storage/shared_prefs.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../core/helpers/routers/router.dart';
 import '../../../core/utils/constants.dart';
@@ -21,7 +23,7 @@ class _SplashScreenState extends State<SplashScreen>
 
   void checkLogin() async {
     if (SharedPrefrencesController().loggedIn && mounted) {
-      NavigationRoutes().jump(context, Routes.home_screen, replace: true);
+      NavigationRoutes().jump(context, Routes.welcome_screen, replace: true);
     } else {
       NavigationRoutes().jump(context, Routes.login_screen, replace: true);
     }
