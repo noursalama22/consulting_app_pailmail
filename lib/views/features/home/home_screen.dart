@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:consulting_app_pailmail/core/helpers/api_helpers/api_response.dart';
 import 'package:consulting_app_pailmail/providers/auth_provider.dart';
 import 'package:consulting_app_pailmail/providers/categories_provider.dart';
@@ -448,7 +447,17 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                                     ListView.builder(
                                       itemBuilder: (context, index) {
                                         return CustomMailContainer(
-                                          onTap: () {},
+                                          onTap: () {
+                                            Navigator.push(context,
+                                                MaterialPageRoute(
+                                              builder: (context) {
+                                                return InboxScreen(
+                                                  isDetails: true,
+                                                  mail: data[index],
+                                                );
+                                              },
+                                            ));
+                                          },
                                           organizationName:
                                               data![index].sender!.name ?? "",
                                           color: kYellowColor,
@@ -540,7 +549,17 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                                     ListView.builder(
                                       itemBuilder: (context, index) {
                                         return CustomMailContainer(
-                                          onTap: () {},
+                                          onTap: () {
+                                            Navigator.push(context,
+                                                MaterialPageRoute(
+                                              builder: (context) {
+                                                return InboxScreen(
+                                                  isDetails: true,
+                                                  mail: data[index],
+                                                );
+                                              },
+                                            ));
+                                          },
                                           organizationName:
                                               data![index].sender!.name ?? "",
                                           color: kYellowColor,
@@ -633,7 +652,17 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                                     ListView.builder(
                                       itemBuilder: (context, index) {
                                         return CustomMailContainer(
-                                          onTap: () {},
+                                          onTap: () {
+                                            Navigator.push(context,
+                                                MaterialPageRoute(
+                                              builder: (context) {
+                                                return InboxScreen(
+                                                  isDetails: true,
+                                                  mail: data[index],
+                                                );
+                                              },
+                                            ));
+                                          },
                                           organizationName:
                                               data![index].sender!.name ?? "",
                                           color: kYellowColor,
@@ -725,7 +754,17 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                                     ListView.builder(
                                       itemBuilder: (context, index) {
                                         return CustomMailContainer(
-                                          onTap: () {},
+                                          onTap: () {
+                                            Navigator.push(context,
+                                                MaterialPageRoute(
+                                              builder: (context) {
+                                                return InboxScreen(
+                                                  isDetails: true,
+                                                  mail: data[index],
+                                                );
+                                              },
+                                            ));
+                                          },
                                           organizationName:
                                               data![index].sender!.name ?? "",
                                           color: kYellowColor,
