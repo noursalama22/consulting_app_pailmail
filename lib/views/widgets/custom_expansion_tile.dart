@@ -1,4 +1,3 @@
-import 'package:consulting_app_pailmail/views/features/all_category_mails.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -47,14 +46,14 @@ class _CustomExpansionTileState extends State<CustomExpansionTile> {
 
   navigateToAllMail() {
     if (!widget.isEmpty) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) {
-            return AllCategoryMails(index: widget.index);
-          },
-        ),
-      );
+      // Navigator.push(
+      //   context,
+      //   MaterialPageRoute(
+      //     builder: (context) {
+      //       return AllCategoryMails(index: widget.index);
+      //     },
+      //   ),
+      // );
     }
   }
 
