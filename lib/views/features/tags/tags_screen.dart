@@ -48,7 +48,7 @@ class _TagsScreenState extends State<TagsScreen> {
         body: Consumer<TagProvider>(builder: (_, tagProvider, __) {
       if (tagProvider.tagList.status == ApiStatus.LOADING) {
         return const Center(
-          child: CircularProgressIndicator(),
+          child: spinkit,
         );
       }
       if (tagProvider.tagList.status == ApiStatus.ERROR) {

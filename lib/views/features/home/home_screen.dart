@@ -410,7 +410,7 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                             if (value.mailsCategory[0].status ==
                                 ApiStatus.LOADING) {
                               return const Center(
-                                child: CircularProgressIndicator(),
+                                child: spinkit,
                               );
                             }
                             if (value.mailsCategory[0].status ==
@@ -513,7 +513,7 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                             if (value.mailsCategory[1].status ==
                                 ApiStatus.LOADING) {
                               return const Center(
-                                child: CircularProgressIndicator(),
+                                child: spinkit,
                               );
                             }
                             if (value.mailsCategory[1].status ==
@@ -616,7 +616,7 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                             if (value.mailsCategory[2].status ==
                                 ApiStatus.LOADING) {
                               return const Center(
-                                child: CircularProgressIndicator(),
+                                child: spinkit,
                               );
                             }
                             if (value.mailsCategory[2].status ==
@@ -718,7 +718,7 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                             if (value.mailsCategory[3].status ==
                                 ApiStatus.LOADING) {
                               return const Center(
-                                child: CircularProgressIndicator(),
+                                child: spinkit,
                               );
                             }
                             if (value.mailsCategory[3].status ==
