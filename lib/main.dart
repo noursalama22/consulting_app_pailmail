@@ -4,6 +4,7 @@ import 'package:consulting_app_pailmail/providers/general_users_provider.dart';
 import 'package:consulting_app_pailmail/providers/mails_provider.dart';
 import 'package:consulting_app_pailmail/providers/roles_provider.dart';
 import 'package:consulting_app_pailmail/providers/sender_provider.dart';
+import 'package:consulting_app_pailmail/providers/status_provider.dart';
 import 'package:consulting_app_pailmail/providers/tag_provider.dart';
 import 'package:consulting_app_pailmail/storage/shared_prefs.dart';
 import 'package:consulting_app_pailmail/views/features/auth/splash_screen.dart';
@@ -18,6 +19,7 @@ import 'core/utils/constants.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
+  await SharedPrefrencesController().initPref();
   runApp(EasyLocalization(
       path: 'assets/translations',
       supportedLocales: const [
@@ -26,7 +28,6 @@ Future<void> main() async {
       ],
       fallbackLocale: const Locale('ar'),
       child: const MyApp()));
-  await SharedPrefrencesController().initPref();
 }
 
 class MyApp extends StatelessWidget {
@@ -46,6 +47,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<AuthProvider>(create: (_) => AuthProvider()),
         ChangeNotifierProvider<RoleProvider>(create: (_) => RoleProvider()),
         ChangeNotifierProvider<MailProvider>(create: (_) => MailProvider()),
+        ChangeNotifierProvider<StatusProvider>(create: (_) => StatusProvider()),
         ChangeNotifierProvider<GeneralUsersProvider>(
             create: (_) => GeneralUsersProvider()),
         ChangeNotifierProvider<CategoriesProvider>(

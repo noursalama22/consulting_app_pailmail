@@ -1,9 +1,12 @@
 import 'package:consulting_app_pailmail/core/helpers/api_helpers/api_response.dart';
+import 'package:consulting_app_pailmail/models/mails/mail.dart';
 import 'package:consulting_app_pailmail/providers/auth_provider.dart';
 import 'package:consulting_app_pailmail/providers/categories_provider.dart';
+import 'package:consulting_app_pailmail/providers/status_provider.dart';
 import 'package:consulting_app_pailmail/repositories/auth_repository.dart';
 import 'package:consulting_app_pailmail/storage/shared_prefs.dart';
 import 'package:consulting_app_pailmail/views/features/all_category_mails.dart';
+import 'package:consulting_app_pailmail/views/features/status_mails.dart';
 import 'package:consulting_app_pailmail/views/widgets/custom_category_container.dart';
 import 'package:consulting_app_pailmail/views/widgets/custom_chip.dart';
 import 'package:consulting_app_pailmail/views/widgets/custom_expansion_tile.dart';
@@ -95,17 +98,20 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
     super.dispose();
   }
 
-  navigateToAllMail(int index) {
+  navigateToAllMail(List<Mail> mails) {
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) {
-          return AllCategoryMails(index: index);
+          return AllCategoryMails(
+            mailsList: mails,
+          );
         },
       ),
     );
   }
 
+  ///TODO :Handle error widget
   @override
   Widget build(BuildContext context) {
     return AdvancedDrawer(
@@ -357,7 +363,21 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                                 endMargin: 16.w,
                                 number: 9,
                                 onTap: () {
-//TODO : Add fn
+                                  Provider.of<StatusProvider>(context,
+                                          listen: false)
+                                      .fetchSingleStatus(id: "1");
+                                  var mails = Provider.of<StatusProvider>(
+                                          context,
+                                          listen: true)
+                                      .singleStatus
+                                      .data;
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => StautsMails(
+                                          mails: mails,
+                                        ),
+                                      ));
                                 },
                                 text: "inbox_mails".tr(),
                                 color: kRedColor,
@@ -482,7 +502,8 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                                             padding: const EdgeInsetsDirectional
                                                 .only(end: 10),
                                             child: GestureDetector(
-                                              onTap: () => navigateToAllMail(0),
+                                              onTap: () =>
+                                                  navigateToAllMail(data),
                                               child: const Align(
                                                 child: Text(
                                                   'See More',
@@ -585,7 +606,8 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                                             padding: const EdgeInsetsDirectional
                                                 .only(end: 10),
                                             child: GestureDetector(
-                                              onTap: () => navigateToAllMail(1),
+                                              onTap: () =>
+                                                  navigateToAllMail(data),
                                               child: const Align(
                                                 child: Text(
                                                   'See More',
@@ -687,7 +709,8 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                                             padding: const EdgeInsetsDirectional
                                                 .only(end: 10),
                                             child: GestureDetector(
-                                              onTap: () => navigateToAllMail(2),
+                                              onTap: () =>
+                                                  navigateToAllMail(data),
                                               child: const Align(
                                                 child: Text(
                                                   'See More',
@@ -789,7 +812,8 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                                             padding: const EdgeInsetsDirectional
                                                 .only(end: 10),
                                             child: GestureDetector(
-                                              onTap: () => navigateToAllMail(3),
+                                              onTap: () =>
+                                                  navigateToAllMail(data),
                                               child: const Align(
                                                 alignment: AlignmentDirectional
                                                     .centerEnd,

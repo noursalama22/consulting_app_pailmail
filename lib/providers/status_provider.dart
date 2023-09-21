@@ -29,6 +29,7 @@ class StatusProvider extends ChangeNotifier {
   }
 
   Future<void> fetchSingleStatus({required String id}) async {
+    print("Fetching************************$id");
     _singleStatus = ApiResponse.loading("loading");
     try {
       final response = await _statusRepository.getSingleStatus(id: id);
