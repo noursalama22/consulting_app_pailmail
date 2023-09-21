@@ -13,6 +13,7 @@ import 'package:provider/provider.dart';
 import '../../../../../core/helpers/routers/router.dart';
 import '../../../../../storage/shared_prefs.dart';
 import '../../../../widgets/custom_app_bar.dart';
+import '../../../../widgets/custom_profile_image.dart';
 
 class UpdateProfileScreen extends StatefulWidget {
   final String name;
@@ -92,19 +93,29 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                   Stack(
                     alignment: Alignment.bottomRight,
                     children: [
-                      SizedBox(
-                        height: 200.h,
-                        width: 200.h,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(100.r),
-                          child: pickedFile == null
-                              ? Image.network(
-                                  '$imageUrl/${widget.image}',
-                                  fit: BoxFit.cover,
-                                )
-                              : Image.file(File(pickedFile!.path)),
-                        ),
-                      ),
+                      // SizedBox(
+                      //   height: 200.h,
+                      //   width: 200.h,
+                      //   child: ClipRRect(
+                      //     borderRadius: BorderRadius.circular(100.r),
+                      //     child: pickedFile == null
+                      //         ? Image.network(
+                      //             '$imageUrl/${widget.image}',
+                      //             fit: BoxFit.cover,
+                      //           )
+                      //         : Image.file(File(pickedFile!.path)),
+                      //   ),
+                      // ),
+
+                      pickedFile == null
+                          ? CustomProfileImage(
+                              image: NetworkImage(
+                                '$imageUrl/${widget.image}',
+                              ),
+                            )
+                          : CustomProfileImage(
+                              image: FileImage(File(pickedFile!.path)),
+                            ),
                       InkWell(
                         onTap: () async {
                           pickedFile = await pickImage();

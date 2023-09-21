@@ -40,7 +40,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         if (generalUsersProvider.generalUsersList.status ==
                             ApiStatus.LOADING) {
                           return const Center(
-                            child: CircularProgressIndicator(),
+                            child: spinkit,
                           );
                         }
                         if (generalUsersProvider.generalUsersList.status ==
@@ -109,10 +109,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                             raduis: 40,
                                           )
                                         : Padding(
-                                            padding: const EdgeInsets.all(8.0),
+                                            padding: const EdgeInsets.all(4.0),
                                             child: Icon(
-                                                size: 40,
-                                                Icons.account_circle_outlined),
+                                              size: 40,
+                                              Icons.account_circle,
+                                              color: kDarkGreyColor,
+                                            ),
                                           ),
                                     Padding(
                                       padding: const EdgeInsets.all(8.0),

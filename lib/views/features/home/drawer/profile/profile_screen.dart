@@ -10,7 +10,9 @@ import 'package:provider/provider.dart';
 import '../../../../../core/helpers/api_helpers/api_response.dart';
 import '../../../../../core/utils/constants.dart';
 import '../../../../widgets/custom_fade_image.dart';
+import '../../../../widgets/custom_profile_container_image.dart';
 import '../../../../widgets/custom_profile_menu_widget.dart';
+import '../../../../widgets/custom_profile_image.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -45,7 +47,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         builder: (_, authProvider, __) {
           if (authProvider.currentUser.status == ApiStatus.LOADING) {
             return const Center(
-              child: CircularProgressIndicator(),
+              child: spinkit,
             );
           }
           if (authProvider.currentUser.status == ApiStatus.ERROR) {
@@ -112,49 +114,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ]),
           );
         },
-      ),
-    );
-  }
-}
-
-class CustomProfileContainerImage extends StatelessWidget {
-  const CustomProfileContainerImage({
-    super.key,
-    required this.userImage,
-  });
-
-  final String? userImage;
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: 220.h,
-      child: Stack(
-        fit: StackFit.expand,
-        children: [
-          Container(
-            margin: EdgeInsets.only(bottom: 100.h),
-            decoration: BoxDecoration(
-                gradient: kGradient,
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(50.r),
-                  bottomRight: Radius.circular(50.r),
-                )),
-          ),
-          Align(
-            alignment: Alignment.center,
-            child: SizedBox(
-                width: 200.w,
-                height: 200.h,
-                child: ClipRRect(
-                    borderRadius: BorderRadius.circular(100.r),
-                    child: CustomFdeImage(userImage: '$imageUrl/$userImage')
-                    //     Image(
-                    //   image: NetworkImage('$imageUrl/$userImage'),
-                    // ),
-                    )),
-          )
-        ],
       ),
     );
   }

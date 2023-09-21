@@ -1,7 +1,9 @@
 import 'package:consulting_app_pailmail/providers/auth_provider.dart';
+
+import 'package:consulting_app_pailmail/providers/mails_provider.dart';
+
 import 'package:consulting_app_pailmail/providers/categories_provider.dart';
 import 'package:consulting_app_pailmail/providers/general_users_provider.dart';
-import 'package:consulting_app_pailmail/providers/mails_provider.dart';
 import 'package:consulting_app_pailmail/providers/roles_provider.dart';
 import 'package:consulting_app_pailmail/providers/sender_provider.dart';
 import 'package:consulting_app_pailmail/providers/tag_provider.dart';

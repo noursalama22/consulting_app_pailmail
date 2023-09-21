@@ -82,10 +82,10 @@ class ApiBaseHelper {
         print(responseJson);
         return responseJson;
       case 400:
-        throw BadRequestException(response.body);
+        throw BadRequestException(jsonDecode(response.body));
       case 401:
       case 403:
-        throw UnauthorisedException(response.body);
+        throw UnauthorisedException(jsonDecode(response.body));
       case 500:
       default:
         throw FetchDataException(
