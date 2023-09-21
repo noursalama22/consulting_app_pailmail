@@ -1,7 +1,5 @@
 import 'package:consulting_app_pailmail/models/users/user.dart';
 
-import '../roles/role.dart';
-
 class GeneralUserModelResponse {
   List<User>? users;
 

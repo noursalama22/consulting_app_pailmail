@@ -1,7 +1,9 @@
 import 'dart:io';
 
+import 'package:consulting_app_pailmail/core/helpers/api_helpers/api_response.dart';
 import 'package:consulting_app_pailmail/models/mails/mail.dart';
 import 'package:consulting_app_pailmail/models/senders/sender.dart';
+import 'package:consulting_app_pailmail/providers/status_provider.dart';
 import 'package:consulting_app_pailmail/repositories/sender_repository.dart';
 import 'package:consulting_app_pailmail/views/features/status/status_screen.dart';
 import 'package:consulting_app_pailmail/views/features/tags/tags_screen.dart';
@@ -101,9 +103,15 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
               ///Big Container
               widget.isDetails
                   ? CustomContainerDetails(
+//  status_api_features
+//                       organizationName: "Emmett Balistreri",
+//                       organizationCategory: "Foreign",
+//                       dateOrgName: "4-JAN_1990",
+//                       dateOrgCategory: "A-Nov-5",
+
                       organizationName: widget.mail!.sender!.name ?? "",
                       organizationCategory:
-                          widget.mail!.sender!.category!.name! ?? "",
+                          widget.mail!.sender!.category!.name!,
                       dateOrgName: widget.mail!.archiveDate ?? "",
                       dateOrgCategory: widget.mail!.archiveNumber ?? "",
                       subject: ExpansionTile(
@@ -418,16 +426,36 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
                 onTap: () {
                   showSheet(context, const StatusScreen());
                 },
-                widget: const Row(
+                widget: Row(
                   children: [
-                    CustomContainer(
-                      isInBox: true,
-                      backgroundColor: Color(0xffFA3A57),
-                      childContainer: Text(
-                        "Inbox",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ),
+                    Consumer<StatusProvider>(builder: (BuildContext context,
+                        StatusProvider statusProvider, Widget? child) {
+                      if (statusProvider.allStatus.status ==
+                          ApiStatus.LOADING) {
+                        return const CustomContainer(
+                            isInBox: true,
+                            backgroundColor: Color(0xffFA3A57),
+                            childContainer: Text(
+                              "Inbox",
+                              style: TextStyle(color: Colors.white),
+                            ));
+                      } else if (statusProvider.allStatus.status ==
+                          ApiStatus.COMPLETED) {
+                        final status = statusProvider.allStatus.data![
+                            Provider.of<StatusProvider>(context).selectedIndex];
+                        return CustomContainer(
+                            isInBox: true,
+                            backgroundColor:
+                                Color(int.parse(status.color.toString())),
+                            childContainer: Text(
+                              status.name.toString(),
+                              style: const TextStyle(color: Colors.white),
+                            ));
+                      } else {
+                        return Text(
+                            statusProvider.allStatus.message.toString());
+                      }
+                    }),
                   ],
                 ),
               ),
@@ -490,8 +518,7 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
                                       letterSpacing: 0.15),
                                 ),
                               ),
-                              pickedMultiImage == null ||
-                                      pickedMultiImage.isEmpty
+                              pickedMultiImage.isEmpty
                                   ? const SizedBox.shrink()
                                   : InkWell(
                                       onTap: () {
@@ -509,7 +536,7 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
                           ),
 
                           ///view Images
-                          pickedMultiImage == null || pickedMultiImage.isEmpty
+                          pickedMultiImage.isEmpty
                               ? const SizedBox.shrink()
                               : SizedBox(
                                   height: 16.h,
@@ -614,8 +641,7 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
                     suffixFunction: () {
                       print("sss");
                       print("${addNewActivityController.text} rrr");
-                      if (addNewActivityController.text != null &&
-                          addNewActivityController.text.isNotEmpty) {
+                      if (addNewActivityController.text.isNotEmpty) {
                         setState(() {
                           addActivity.add(AddActivity(
                               activityName: addNewActivityController.text,
@@ -810,10 +836,8 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
 
   Future<void> get _pickMultiImage async {
     List<XFile?> images = await imagePick.pickMultiImage();
-    if (images != null) {
-      setState(() {
-        pickedMultiImage.addAll(images);
-      });
-    }
+    setState(() {
+      pickedMultiImage.addAll(images);
+    });
   }
 }

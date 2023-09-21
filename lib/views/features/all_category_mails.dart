@@ -68,12 +68,13 @@ class _AllCategoryMailsState extends State<AllCategoryMails> {
 
                       },
                       organizationName: data![index].sender!.name ?? "",
+
                       color: kYellowColor,
-                      date: data![index].archiveDate ?? "",
-                      description: data![index].description ?? "",
+                      date: data[index].archiveDate ?? "",
+                      description: data[index].description ?? "",
                       images: [],
-                      tags: data![index].tags ?? [],
-                      subject: data![index].subject ?? "",
+                      tags: data[index].tags ?? [],
+                      subject: data[index].subject ?? "",
                       endMargin: 8,
                     );
                   },

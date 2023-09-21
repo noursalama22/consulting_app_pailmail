@@ -22,6 +22,7 @@ class _SplashScreenState extends State<SplashScreen>
     if (SharedPrefrencesController().loggedIn && mounted) {
       print("*****************${SharedPrefrencesController().token}");
       NavigationRoutes().jump(context, Routes.home_screen, replace: true);
+
     } else {
       NavigationRoutes().jump(context, Routes.login_screen, replace: true);
     }

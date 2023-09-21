@@ -1,11 +1,8 @@
 import 'package:consulting_app_pailmail/models/users/general_users_response_model.dart';
 import 'package:consulting_app_pailmail/models/users/user.dart';
-import 'package:consulting_app_pailmail/storage/shared_prefs.dart';
-import 'package:provider/provider.dart';
 
 import '../core/helpers/api_helpers/api_base_helper.dart';
 import '../core/utils/constants.dart';
-import '../providers/general_users_provider.dart';
 
 class GeneralUsersRepository {
   final ApiBaseHelper _helper = ApiBaseHelper();

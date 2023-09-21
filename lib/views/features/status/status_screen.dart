@@ -1,8 +1,12 @@
+import 'package:consulting_app_pailmail/core/helpers/api_helpers/api_response.dart';
+import 'package:consulting_app_pailmail/providers/status_provider.dart';
 import 'package:consulting_app_pailmail/views/widgets/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 
 import '../../../core/utils/constants.dart';
+import '../../widgets/custom_list_row_state.dart';
 
 class StatusScreen extends StatefulWidget {
   const StatusScreen({Key? key}) : super(key: key);
@@ -12,13 +16,6 @@ class StatusScreen extends StatefulWidget {
 }
 
 class _StatusScreenState extends State<StatusScreen> {
-  static List<Color> colors = [
-    kRedColor,
-    kYellowColor,
-    kLightBlueColor,
-    kGreenColor
-  ];
-  static List<String> status = ["Inbox", "Pending", "in Progress", "Completed"];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,33 +58,56 @@ class _StatusScreenState extends State<StatusScreen> {
                 SizedBox(
                   height: 19.h,
                 ),
-                // CustomListRowState(
-                //   list: status,
-                //   isStatus: true,
-                //   color: colors,
-                // ),
+                // Consumer<StatusProvider>(
+                //     builder: (context, statusProvider, child) {
+                //   if (statusProvider.allStatus.status == ApiStatus.LOADING) {
+                //     return const CircularProgressIndicator();
+                //   } else if (statusProvider.allStatus.status ==
+                //       ApiStatus.COMPLETED) {
+                //     if (statusProvider.allStatus.data!.isEmpty) {
+                //       return const Column(
+                //         children: [Icon(Icons.warning), Text("No Data")],
+                //       );
+                //     } else {
+                //       final status = statusProvider.allStatus.data!;
+                //       return CustomListRowState(
+                //         statusList: status,
+                //         isStatus: true,
+                //         color: status,
+                //       );
+                //     }
+                //   } else {
+                //     return Text(statusProvider.allStatus.message.toString());
+                //   }
+                // })
 
-                ///view and select status
-                // _CustomStatusRowState(
-                //   statusText: "Inbox",
-                //   color: kRedColor,
-                //   index: 0,
-                // ),
-                // _CustomStatusRowState(
-                //   statusText: "Pending",
-                //   color: kYellowColor,
-                //   index: 1,
-                // ),
-                // _CustomStatusRowState(
-                //   statusText: "in Progress",
-                //   color: kLightBlueColor,
-                //   index: 2,
-                // ),
-                // _CustomStatusRowState(
-                //   statusText: "Completed",
-                //   color: kGreenColor,
-                //   index: 3,
-                // ),
+                Consumer<StatusProvider>(
+                  builder: (BuildContext context, StatusProvider statusProvider,
+                      Widget? child) {
+                    if (statusProvider.allStatus.status == ApiStatus.LOADING) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+                    if (statusProvider.allStatus.status ==
+                        ApiStatus.COMPLETED) {
+                      if (statusProvider.allStatus.data!.isEmpty) {
+                        return const Column(
+                          children: [Icon(Icons.warning), Text("No Data")],
+                        );
+                      } else {
+                        ///view and select status
+
+                        final status = statusProvider.allStatus.data!;
+                        return CustomListRowState(
+                          statusList: status,
+                          isStatus: true,
+                          color: status,
+                        );
+                      }
+                    } else {
+                      return Text(statusProvider.allStatus.message.toString());
+                    }
+                  },
+                ),
               ],
             ),
           ),
@@ -96,60 +116,60 @@ class _StatusScreenState extends State<StatusScreen> {
     );
   }
 
-  // int isSelected = 0;
+// int isSelected = 0;
 
-  // int count = 0;
-  //
-  // Widget _CustomStatusRowState(
-  //     {required String statusText, required Color color, required int index}) {
-  //   return Column(
-  //     children: [
-  //       InkWell(
-  //         onTap: () => setState(() {
-  //           isSelected = index;
-  //         }),
-  //         child: Row(
-  //           children: [
-  //             Opacity(
-  //               opacity: 1.0,
-  //               child: Container(
-  //                 margin: const EdgeInsets.only(right: 16),
-  //                 width: 32.w,
-  //                 height: 32.w,
-  //                 decoration: BoxDecoration(
-  //                   color: color,
-  //                   borderRadius: BorderRadius.circular(10.r),
-  //                 ),
-  //               ),
-  //             ),
-  //             Text(
-  //               statusText,
-  //               style: buildAppBarTextStyle(
-  //                   color: kBlackColor,
-  //                   fontSizeController: 16,
-  //                   letterSpacing: 0.15),
-  //             ),
-  //             const Spacer(),
-  //             isSelected == index
-  //                 ? Padding(
-  //                     padding: EdgeInsetsDirectional.only(end: 19.0.w),
-  //                     child: const Icon(
-  //                       Icons.check,
-  //                       size: 35,
-  //                       color: kLightBlueColor,
-  //                     ),
-  //                   )
-  //                 : const SizedBox.shrink(),
-  //           ],
-  //         ),
-  //       ),
-  //       index != 3
-  //           ? Divider(
-  //               indent: 50.0.w,
-  //               thickness: 1.2,
-  //             )
-  //           : const SizedBox.shrink()
-  //     ],
-  //   );
-  // }
+// int count = 0;
+//
+// Widget _CustomStatusRowState(
+//     {required String statusText, required Color color, required int index}) {
+//   return Column(
+//     children: [
+//       InkWell(
+//         onTap: () => setState(() {
+//           isSelected = index;
+//         }),
+//         child: Row(
+//           children: [
+//             Opacity(
+//               opacity: 1.0,
+//               child: Container(
+//                 margin: const EdgeInsets.only(right: 16),
+//                 width: 32.w,
+//                 height: 32.w,
+//                 decoration: BoxDecoration(
+//                   color: color,
+//                   borderRadius: BorderRadius.circular(10.r),
+//                 ),
+//               ),
+//             ),
+//             Text(
+//               statusText,
+//               style: buildAppBarTextStyle(
+//                   color: kBlackColor,
+//                   fontSizeController: 16,
+//                   letterSpacing: 0.15),
+//             ),
+//             const Spacer(),
+//             isSelected == index
+//                 ? Padding(
+//                     padding: EdgeInsetsDirectional.only(end: 19.0.w),
+//                     child: const Icon(
+//                       Icons.check,
+//                       size: 35,
+//                       color: kLightBlueColor,
+//                     ),
+//                   )
+//                 : const SizedBox.shrink(),
+//           ],
+//         ),
+//       ),
+//       index != 3
+//           ? Divider(
+//               indent: 50.0.w,
+//               thickness: 1.2,
+//             )
+//           : const SizedBox.shrink()
+//     ],
+//   );
+// }
 }

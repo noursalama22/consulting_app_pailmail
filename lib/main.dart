@@ -1,7 +1,22 @@
-import 'package:consulting_app_pailmail/providers/auth_provider.dart';
+
 import 'package:consulting_app_pailmail/providers/categories_provider.dart';
-import 'package:consulting_app_pailmail/providers/general_users_provider.dart';
+
+import 'package:consulting_app_pailmail/providers/sender_provider.dart';
+import 'package:consulting_app_pailmail/providers/status_provider.dart';
+import 'package:consulting_app_pailmail/providers/tag_provider.dart';
+
+import 'package:consulting_app_pailmail/providers/auth_provider.dart';
+
 import 'package:consulting_app_pailmail/providers/mails_provider.dart';
+
+
+import 'package:consulting_app_pailmail/providers/auth_provider.dart';
+
+import 'package:consulting_app_pailmail/providers/mails_provider.dart';
+
+import 'package:consulting_app_pailmail/providers/categories_provider.dart';
+
+import 'package:consulting_app_pailmail/providers/general_users_provider.dart';
 import 'package:consulting_app_pailmail/providers/roles_provider.dart';
 import 'package:consulting_app_pailmail/providers/sender_provider.dart';
 import 'package:consulting_app_pailmail/providers/status_provider.dart';
@@ -48,6 +63,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<RoleProvider>(create: (_) => RoleProvider()),
         ChangeNotifierProvider<MailProvider>(create: (_) => MailProvider()),
         ChangeNotifierProvider<StatusProvider>(create: (_) => StatusProvider()),
+
         ChangeNotifierProvider<GeneralUsersProvider>(
             create: (_) => GeneralUsersProvider()),
         ChangeNotifierProvider<CategoriesProvider>(

@@ -19,7 +19,7 @@ class CustomProfilePhotoContainer extends StatelessWidget {
         shape: BoxShape.circle,
         border: Border.all(color: Colors.white, width: 3),
         image: DecorationImage(
-          fit: BoxFit.contain,
+          fit: BoxFit.cover,
           image: NetworkImage(image),
         ),
       ),

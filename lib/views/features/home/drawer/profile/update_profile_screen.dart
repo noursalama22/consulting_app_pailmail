@@ -6,13 +6,13 @@ import 'package:consulting_app_pailmail/repositories/auth_repository.dart';
 import 'package:consulting_app_pailmail/views/widgets/custom_auth_button_widget.dart';
 import 'package:consulting_app_pailmail/views/widgets/custom_text_forn_field_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../core/helpers/routers/router.dart';
 import '../../../../../storage/shared_prefs.dart';
 import '../../../../widgets/custom_app_bar.dart';
+import '../../../../widgets/custom_profile_image.dart';
 
 class UpdateProfileScreen extends StatefulWidget {
   final String name;
@@ -49,7 +49,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
     print('edit 1');
     if (_updateFormKey.currentState!.validate()) {
       print('edit valid 2');
-      AuthRepository().uploadImage(file!, updateNameController.text).then(
+      AuthRepository().uploadImage(file, updateNameController.text).then(
         (value) async {
           await Provider.of<AuthProvider>(context, listen: false)
               .fetchCurrentUser();
@@ -92,19 +92,29 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                   Stack(
                     alignment: Alignment.bottomRight,
                     children: [
-                      SizedBox(
-                        height: 200.h,
-                        width: 200.h,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(100.r),
-                          child: pickedFile == null
-                              ? Image.network(
-                                  '$imageUrl/${widget.image}',
-                                  fit: BoxFit.cover,
-                                )
-                              : Image.file(File(pickedFile!.path)),
-                        ),
-                      ),
+                      // SizedBox(
+                      //   height: 200.h,
+                      //   width: 200.h,
+                      //   child: ClipRRect(
+                      //     borderRadius: BorderRadius.circular(100.r),
+                      //     child: pickedFile == null
+                      //         ? Image.network(
+                      //             '$imageUrl/${widget.image}',
+                      //             fit: BoxFit.cover,
+                      //           )
+                      //         : Image.file(File(pickedFile!.path)),
+                      //   ),
+                      // ),
+
+                      pickedFile == null
+                          ? CustomProfileImage(
+                              image: NetworkImage(
+                                '$imageUrl/${widget.image}',
+                              ),
+                            )
+                          : CustomProfileImage(
+                              image: FileImage(File(pickedFile!.path)),
+                            ),
                       InkWell(
                         onTap: () async {
                           pickedFile = await pickImage();

@@ -4,7 +4,6 @@
 
 import 'dart:convert';
 
-import 'package:consulting_app_pailmail/models/senders/sender.dart';
 import 'package:consulting_app_pailmail/models/senders/senders_1.dart';
 
 SenderResponseModel_1 senderResponseModelFromJson(String str) =>
