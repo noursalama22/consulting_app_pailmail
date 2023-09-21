@@ -82,11 +82,9 @@ class _CustomDateContainerState extends State<CustomDateContainer> {
                     firstDate: DateTime(2020),
                     lastDate: DateTime(2100),
                     onDateChanged: (_) {
-                      if (_ != null) {
-                        setState(() {
-                          widget.selectedDate = _;
-                        });
-                      }
+                      setState(() {
+                        widget.selectedDate = _;
+                      });
                     })
               ],
             ),

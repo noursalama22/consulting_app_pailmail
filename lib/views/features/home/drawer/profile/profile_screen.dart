@@ -9,10 +9,8 @@ import 'package:provider/provider.dart';
 
 import '../../../../../core/helpers/api_helpers/api_response.dart';
 import '../../../../../core/utils/constants.dart';
-import '../../../../widgets/custom_fade_image.dart';
 import '../../../../widgets/custom_profile_container_image.dart';
 import '../../../../widgets/custom_profile_menu_widget.dart';
-import '../../../../widgets/custom_profile_image.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);

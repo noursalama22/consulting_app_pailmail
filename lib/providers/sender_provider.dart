@@ -1,10 +1,7 @@
-import 'package:consulting_app_pailmail/core/helpers/api_helpers/api_base_helper.dart';
 import 'package:consulting_app_pailmail/core/helpers/api_helpers/api_response.dart';
 import 'package:consulting_app_pailmail/repositories/sender_repository.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 
-import '../models/senders/sender.dart';
 import '../models/senders/senders_1.dart';
 
 class SenderProvider extends ChangeNotifier {

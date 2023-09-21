@@ -2,8 +2,6 @@ import 'package:consulting_app_pailmail/core/helpers/api_helpers/api_response.da
 import 'package:consulting_app_pailmail/providers/tag_provider.dart';
 import 'package:consulting_app_pailmail/repositories/tag_repository.dart';
 import 'package:consulting_app_pailmail/views/widgets/custom_app_bar.dart';
-import 'package:consulting_app_pailmail/views/widgets/custom_chip.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';

@@ -1,8 +1,6 @@
 import 'package:consulting_app_pailmail/models/senders/sender_response_model.dart';
 import 'package:consulting_app_pailmail/models/senders/sender_response_model_1.dart';
-import 'package:consulting_app_pailmail/models/senders/senders.dart';
 import 'package:consulting_app_pailmail/models/senders/senders_1.dart';
-import 'package:consulting_app_pailmail/models/statuses/status_reponse_model.dart';
 
 import '../core/helpers/api_helpers/api_base_helper.dart';
 import '../core/utils/constants.dart';

@@ -103,7 +103,7 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
                   ? CustomContainerDetails(
                       organizationName: widget.mail!.sender!.name ?? "",
                       organizationCategory:
-                          widget.mail!.sender!.category!.name! ?? "",
+                          widget.mail!.sender!.category!.name!,
                       dateOrgName: widget.mail!.archiveDate ?? "",
                       dateOrgCategory: widget.mail!.archiveNumber ?? "",
                       subject: ExpansionTile(
@@ -490,8 +490,7 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
                                       letterSpacing: 0.15),
                                 ),
                               ),
-                              pickedMultiImage == null ||
-                                      pickedMultiImage.isEmpty
+                              pickedMultiImage.isEmpty
                                   ? const SizedBox.shrink()
                                   : InkWell(
                                       onTap: () {
@@ -509,7 +508,7 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
                           ),
 
                           ///view Images
-                          pickedMultiImage == null || pickedMultiImage.isEmpty
+                          pickedMultiImage.isEmpty
                               ? const SizedBox.shrink()
                               : SizedBox(
                                   height: 16.h,
@@ -614,8 +613,7 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
                     suffixFunction: () {
                       print("sss");
                       print("${addNewActivityController.text} rrr");
-                      if (addNewActivityController.text != null &&
-                          addNewActivityController.text.isNotEmpty) {
+                      if (addNewActivityController.text.isNotEmpty) {
                         setState(() {
                           addActivity.add(AddActivity(
                               activityName: addNewActivityController.text,
@@ -810,10 +808,8 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
 
   Future<void> get _pickMultiImage async {
     List<XFile?> images = await imagePick.pickMultiImage();
-    if (images != null) {
-      setState(() {
-        pickedMultiImage.addAll(images);
-      });
-    }
+    setState(() {
+      pickedMultiImage.addAll(images);
+    });
   }
 }
