@@ -58,8 +58,7 @@ class SharedPrefrencesController {
       _sharedPreferences.getString(PrefKeys.email.toString()) ?? '';
   String get name =>
       _sharedPreferences.getString(PrefKeys.name.toString()) ?? '';
-  String get roleId =>
-      _sharedPreferences.getString(PrefKeys.roleId.toString()) ?? '';
+  int get roleId => _sharedPreferences.getInt(PrefKeys.roleId.toString()) ?? 1;
   String get id => _sharedPreferences.getString(PrefKeys.id.toString()) ?? '';
   String get image =>
       _sharedPreferences.getString(PrefKeys.image.toString()) ?? '';

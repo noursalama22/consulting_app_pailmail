@@ -23,7 +23,13 @@ class _SplashScreenState extends State<SplashScreen>
 
   void checkLogin() async {
     if (SharedPrefrencesController().loggedIn && mounted) {
-      NavigationRoutes().jump(context, Routes.welcome_screen, replace: true);
+      print('+++++++++++++++++++++++++++++' +
+          SharedPrefrencesController().roleId.toString());
+      if (SharedPrefrencesController().roleId == 1) {
+        NavigationRoutes().jump(context, Routes.guest_screen, replace: true);
+      } else {
+        NavigationRoutes().jump(context, Routes.home_screen, replace: true);
+      }
     } else {
       NavigationRoutes().jump(context, Routes.login_screen, replace: true);
     }

@@ -19,6 +19,8 @@ import 'core/utils/constants.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await SharedPrefrencesController().initPref();
+
   await EasyLocalization.ensureInitialized();
   runApp(EasyLocalization(
       path: 'assets/translations',
@@ -28,7 +30,6 @@ Future<void> main() async {
       ],
       fallbackLocale: const Locale('ar'),
       child: const MyApp()));
-  await SharedPrefrencesController().initPref();
 }
 
 class MyApp extends StatelessWidget {

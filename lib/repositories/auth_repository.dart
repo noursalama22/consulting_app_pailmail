@@ -21,7 +21,6 @@ class AuthRepository {
     };
 
     final loginResponse = await _helper.post(loginUrl, body);
-    await SharedPrefrencesController().initPref();
     UserResponseModel userResponseModel =
         UserResponseModel.fromJson(loginResponse);
 
