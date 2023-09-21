@@ -71,7 +71,8 @@ class _LoginScreenState extends State<LoginScreen> with ShowSnackBar {
           .then((user) async {
         if (mounted) {
           showSnackBar(context, message: 'Success');
-          NavigationRoutes().jump(context, Routes.home_screen, replace: true);
+          NavigationRoutes()
+              .jump(context, Routes.welcome_screen, replace: true);
           Provider.of<GeneralUsersProvider>(context, listen: false)
               .fetchGeneralUsersList();
         }
@@ -90,10 +91,9 @@ class _LoginScreenState extends State<LoginScreen> with ShowSnackBar {
       )
           .then((user) async {
         if (mounted) {
-          NavigationRoutes().jump(context, Routes.home_screen, replace: true);
+          NavigationRoutes()
+              .jump(context, Routes.welcome_screen, replace: true);
         }
-      }).catchError((e) {
-        showSnackBar(context, message: e.toString());
       });
     }
   }
@@ -293,9 +293,9 @@ class _LoginScreenState extends State<LoginScreen> with ShowSnackBar {
                                         AutofillHints.password
                                       ],
                                       validator: (value) {
-                                        if ((value == null || value.isEmpty) ||
-                                            value != passwordController.value &&
-                                                showSignUp) {
+                                        if ((value == null || value.isEmpty) &&
+                                            value == passwordController.value &&
+                                            showSignUp) {
                                           return 'please_enter_the_password_again'
                                               .tr();
                                         }

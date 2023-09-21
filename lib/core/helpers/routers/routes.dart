@@ -13,4 +13,6 @@ class Routes {
   static const String update_profile_screen = '/update_profile_screen';
   static const String general_user_profile_screen =
       '/general_user_profile_screen';
+  static const String guest_screen = '/guest_screen';
+  static const String welcome_screen = '/welcome_screen';
 }
