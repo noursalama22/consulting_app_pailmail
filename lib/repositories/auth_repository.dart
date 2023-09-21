@@ -1,9 +1,9 @@
-import 'package:http/http.dart' as http;
 import 'dart:io';
 
 import 'package:consulting_app_pailmail/core/utils/constants.dart';
 import 'package:consulting_app_pailmail/models/users/user_response_model.dart';
 import 'package:consulting_app_pailmail/storage/shared_prefs.dart';
+import 'package:http/http.dart' as http;
 
 import '../core/helpers/api_helpers/api_base_helper.dart';
 

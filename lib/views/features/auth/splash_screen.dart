@@ -1,11 +1,8 @@
-import 'package:consulting_app_pailmail/repositories/roles_repository.dart';
 import 'package:consulting_app_pailmail/storage/shared_prefs.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../core/helpers/routers/router.dart';
 import '../../../core/utils/constants.dart';
-
 import '../../widgets/custom_logo_widget.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -30,6 +27,7 @@ class _SplashScreenState extends State<SplashScreen>
       } else {
         NavigationRoutes().jump(context, Routes.home_screen, replace: true);
       }
+
     } else {
       NavigationRoutes().jump(context, Routes.login_screen, replace: true);
     }
