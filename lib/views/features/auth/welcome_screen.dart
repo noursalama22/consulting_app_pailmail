@@ -1,10 +1,9 @@
+import 'package:consulting_app_pailmail/core/helpers/routers/router.dart';
 import 'package:consulting_app_pailmail/core/utils/constants.dart';
 import 'package:consulting_app_pailmail/storage/shared_prefs.dart';
 import 'package:consulting_app_pailmail/views/features/auth/guest_screen.dart';
 import 'package:consulting_app_pailmail/views/features/home/home_screen.dart';
 import 'package:flutter/material.dart';
-
-import '../../../core/helpers/routers/router.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({Key? key}) : super(key: key);
@@ -19,23 +18,17 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     SharedPrefrencesController prefs = SharedPrefrencesController();
     Future.delayed(Duration(seconds: 3)).then((value) {
       if (prefs.roleName != 'guest') {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) {
-              return HomeScreen();
-            },
-          ),
-        );
+        NavigationRoutes().jump(context, Routes.home_screen, replace: true);
       } else {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) {
-              return GuestScreen();
-            },
-          ),
-        );
+        NavigationRoutes().jump(context, Routes.guest_screen, replace: true);
+        // Navigator.pushReplacement(
+        //   context,
+        //   MaterialPageRoute(
+        //     builder: (context) {
+        //       return GuestScreen();
+        //     },
+        //   ),
+        // );
       }
     });
 
