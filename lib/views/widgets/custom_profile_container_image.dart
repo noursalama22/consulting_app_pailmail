@@ -15,7 +15,7 @@ class CustomProfileContainerImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 220.h,
+      height: 224.h,
       child: Stack(
         fit: StackFit.expand,
         children: [

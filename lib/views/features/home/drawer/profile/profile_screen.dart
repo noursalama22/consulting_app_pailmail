@@ -33,6 +33,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       appBar: AppBar(
         title: Text('Profile'),
         centerTitle: true,
+        foregroundColor: Colors.white,
         backgroundColor: kLightBlueColor,
         elevation: 0,
         flexibleSpace: Container(

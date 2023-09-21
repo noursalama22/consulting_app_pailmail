@@ -33,6 +33,8 @@ import 'core/utils/constants.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await SharedPrefrencesController().initPref();
+
   await EasyLocalization.ensureInitialized();
   await SharedPrefrencesController().initPref();
   runApp(EasyLocalization(

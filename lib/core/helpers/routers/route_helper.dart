@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 
 import '../../../views/features/auth/auth_screen.dart';
 import '../../../views/features/auth/guest_screen.dart';
-import '../../../views/features/auth/welcome_screen.dart';
 import '../../../views/features/category/category_screen.dart';
 import '../../../views/features/home/drawer/profile/profile_screen.dart';
 import '../../../views/features/home/drawer/profile/update_profile_screen.dart';
@@ -54,7 +53,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
         routeName: settings.name!,
         screen: const SenderScreen(),
       );
-    case Routes.index_screen:
+    case Routes.inbox_screen:
       return _getPageRoute(
         routeName: settings.name!,
         screen: const InboxScreen(isDetails: false),
@@ -95,11 +94,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
         routeName: settings.name!,
         screen: const GuestScreen(),
       );
-    case Routes.welcome_screen:
-      return _getPageRoute(
-        routeName: settings.name!,
-        screen: const WelcomeScreen(),
-      );
+
     default:
       return MaterialPageRoute(
         builder: (_) => Scaffold(
