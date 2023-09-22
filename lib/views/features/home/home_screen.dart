@@ -247,7 +247,7 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                             const EdgeInsetsDirectional.only(end: 18.0, top: 4),
 
                         child: authProvider.currentUser.data?.user.image == null
-                            ? Icon(
+                            ? const Icon(
                                 Icons.account_circle,
                                 size: 50,
                               )
@@ -282,9 +282,10 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                                 //       '$imageUrl${SharedPrefrencesController().image}',
                                 //   raduis: 90.r,
                                 // ),
+
                                 authProvider.currentUser.data?.user.image ==
                                         null
-                                    ? Icon(
+                                    ? const Icon(
                                         Icons.account_circle,
                                         size: 90,
                                         color: kLightGreyColor,
@@ -295,13 +296,13 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                                         raduis: 90.r,
                                       ),
                                 Text(
-                                  '${SharedPrefrencesController().name}',
+                                  SharedPrefrencesController().name,
                                   style: GoogleFonts.poppins(
                                       color: Colors.black, fontSize: 16.sp),
                                   textAlign: TextAlign.center,
                                 ),
                                 Text(
-                                  '${SharedPrefrencesController().roleName}',
+                                  SharedPrefrencesController().roleName,
                                   style: GoogleFonts.poppins(
                                       color: kMediumGreyColor, fontSize: 12.sp),
                                   textAlign: TextAlign.center,

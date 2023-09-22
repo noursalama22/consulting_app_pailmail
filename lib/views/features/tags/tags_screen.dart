@@ -32,62 +32,62 @@ class _TagsScreenState extends State<TagsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
-        body: SafeArea(
-            child: Padding(
-                padding: EdgeInsetsDirectional.only(
-                    start: 20.0.w, end: 20.0.w, bottom: 55.h),
-                child: Consumer<TagProvider>(
-                    builder: (context, tagProvider, child) {
-                  if (tagProvider.tagList.status == ApiStatus.LOADING) {
-                    return const CircularProgressIndicator();
-                  }
-                  if (tagProvider.tagList.status == ApiStatus.ERROR) {
-                    return Text(tagProvider.tagList.message.toString());
-                  } else {
-                    return SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          const CustomAppBar(
-                            widgetName: 'Tags',
+        body: SizedBox(
+      height: MediaQuery.of(context).size.height - 45.h,
+      child: SafeArea(
+          child: Padding(
+              padding: EdgeInsetsDirectional.only(
+                  start: 20.0.w, end: 20.0.w, bottom: 55.h),
+              child:
+                  Consumer<TagProvider>(builder: (context, tagProvider, child) {
+                if (tagProvider.tagList.status == ApiStatus.LOADING) {
+                  return const CircularProgressIndicator();
+                }
+                if (tagProvider.tagList.status == ApiStatus.ERROR) {
+                  return Text(tagProvider.tagList.message.toString());
+                } else {
+                  return SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        const CustomAppBar(
+                          widgetName: 'Tags',
+                        ),
+                        Container(
+                          width: double.infinity,
+                          padding: const EdgeInsetsDirectional.symmetric(
+                              horizontal: 12, vertical: 12),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(
+                              30,
+                            ),
                           ),
-                          Container(
-                            width: double.infinity,
-                            padding: const EdgeInsetsDirectional.symmetric(
-                                horizontal: 12, vertical: 12),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(
-                                30,
-                              ),
-                            ),
 
-                            child: ListView.builder(
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemCount: tagProvider.tagList.data!.length,
-                              itemBuilder: (context, index) {
-                                return Column(
-                                  children: [
-                                    Container(
-                                      padding: const EdgeInsets.all(20),
-                                      child: InkWell(
-                                        onTap: () {
-                                          tagProvider.changeSelectedTag(
-                                              selectedIndex: index);
-                                          print("sssssss $index");
-                                        },
-                                        child: Text(
-                                            "${tagProvider.tagList.data![index].name}"),
-                                      ),
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: tagProvider.tagList.data!.length,
+                            itemBuilder: (context, index) {
+                              return Column(
+                                children: [
+                                  Container(
+                                    padding: const EdgeInsets.all(20),
+                                    child: InkWell(
+                                      onTap: () {
+                                        tagProvider.changeSelectedTag(
+                                            selectedIndex: [index]);
+                                        print("sssssss $index");
+                                      },
+                                      child: Text(
+                                          "${tagProvider.tagList.data![index].name}"),
                                     ),
-                                  ],
-                                );
-                              },
-                            ),
+                                  ),
+                                ],
+                              );
+                            },
+                          ),
 //                         child: Wrap(
 
-      
 //                 Wrap(
 
 // //    runSpacing: 8,
@@ -120,58 +120,56 @@ class _TagsScreenState extends State<TagsScreen> {
 //                             }
 //                           ],
 //                         ),
+                        ),
+
+                        const SizedBox(
+                          height: 12,
+                        ),
+                        //TODO : This contant diff btn add tag from show email under this tag!!
+                        //TODO: Handle these 2 choice
+                        TextField(
+                          textInputAction: TextInputAction.next,
+                          onSubmitted: (value) {
+                            //TODO:ADD Tag
+                            TagRepository()
+                                .createTag(_tagTextEditingController.text);
+                            Provider.of<TagProvider>(context, listen: false)
+                                .getTagList();
+                            tags.add(
+                                Tags(_tagTextEditingController.text, true));
+
+                            _tagTextEditingController.clear();
+                            setState(() {});
+                          },
+                          controller: _tagTextEditingController,
+                          keyboardType: TextInputType.text,
+                          //TODO :Create new color
+                          style: const TextStyle(color: Color(0xff707070)),
+                          cursorColor: const Color(0xff707070),
+                          decoration: InputDecoration(
+                            filled: true,
+                            fillColor: Colors.white,
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(30),
+                                borderSide: BorderSide.none),
+                            contentPadding: const EdgeInsets.symmetric(
+                                vertical: 12, horizontal: 16),
+                            hintText: "Add New Tag…",
+                            hintStyle: buildAppBarTextStyle(
+                                fontSizeController: 14,
+                                color: const Color(0xFFC4C4C4),
+                                //TODO : Check below color !!!!!!
+                                // color: const Color(0xffafafaf),
+                                letterSpacing: 0.15),
                           ),
-
-                          const SizedBox(
-                            height: 12,
-                          ),
-                          //TODO : This contant diff btn add tag from show email under this tag!!
-                          //TODO: Handle these 2 choice
-                          TextField(
-                            textInputAction: TextInputAction.next,
-                            onSubmitted: (value) {
-                              //TODO:ADD Tag
-                              TagRepository()
-                                  .createTag(_tagTextEditingController.text);
-                              Provider.of<TagProvider>(context, listen: false)
-                                  .getTagList();
-                              tags.add(
-                                  Tags(_tagTextEditingController.text, true));
-
-
-                              _tagTextEditingController.clear();
-                              setState(() {});
-                            },
-                            controller: _tagTextEditingController,
-                            keyboardType: TextInputType.text,
-                            //TODO :Create new color
-                            style: const TextStyle(color: Color(0xff707070)),
-                            cursorColor: const Color(0xff707070),
-                            decoration: InputDecoration(
-                              filled: true,
-                              fillColor: Colors.white,
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(30),
-                                  borderSide: BorderSide.none),
-                              contentPadding: const EdgeInsets.symmetric(
-                                  vertical: 12, horizontal: 16),
-                              hintText: "Add New Tag…",
-                              hintStyle: buildAppBarTextStyle(
-                                  fontSizeController: 14,
-                                  color: const Color(0xFFC4C4C4),
-                                  //TODO : Check below color !!!!!!
-                                  // color: const Color(0xffafafaf),
-                                  letterSpacing: 0.15),
-                            ),
-                          ),
-                          //TODO: modify the visibility of textfield
-                        ],
-                      ),
-                    );
-                  }
-                }))));
-
-
+                        ),
+                        //TODO: modify the visibility of textfield
+                      ],
+                    ),
+                  );
+                }
+              }))),
+    ));
   }
 }
 

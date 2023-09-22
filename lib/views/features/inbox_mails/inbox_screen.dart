@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:consulting_app_pailmail/core/helpers/api_helpers/api_response.dart';
 import 'package:consulting_app_pailmail/models/mails/mail.dart';
+import 'package:consulting_app_pailmail/providers/auth_provider.dart';
 import 'package:consulting_app_pailmail/providers/categories_provider.dart';
 import 'package:consulting_app_pailmail/providers/status_provider.dart';
 import 'package:consulting_app_pailmail/repositories/sender_repository.dart';
@@ -14,6 +15,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
+import '../../../core/helpers/api_helpers/upload_image.dart';
 import '../../../core/helpers/routers/router.dart';
 import '../../../core/utils/constants.dart';
 import '../../../core/utils/show_bottom_sheet.dart';
@@ -23,8 +25,10 @@ import '../../widgets/custom_container.dart';
 import '../../widgets/custom_container_details.dart';
 import '../../widgets/custom_date_picker.dart';
 import '../../widgets/custom_expansion_tile.dart';
+import '../../widgets/custom_profile_photo_container.dart';
 import '../../widgets/custom_text_field.dart';
 import '../category/category_screen.dart';
+import '../senders/sender_screen.dart';
 
 class InboxScreen extends StatefulWidget {
   const InboxScreen({
@@ -40,7 +44,7 @@ class InboxScreen extends StatefulWidget {
 }
 
 class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
-  DateTime? _selectedDate = DateTime.now();
+  final DateTime _selectedDate = DateTime.now();
   late List<AddActivity> addActivity;
   late TextEditingController senderController;
   late TextEditingController addNewActivityController;
@@ -72,6 +76,7 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
   }
 
   bool _customTileExpanded = false;
+  bool isDisable = false;
 
   void expandCollapse() {
     setState(() {
@@ -79,19 +84,53 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
     });
   }
 
+  // Future<> storeImage() async {
+  //   for (int i = 0; i < pickedMultiImage.length; i++) {
+  //   //  await UploadImage().uploadImage(
+  //   //     // File(pickedMultiImage[i]!.path),);      );
+  //   // }
+  // }
+  late String nameSender =
+      Provider.of<CategoriesProvider>(context, listen: false)
+          .allCategories
+          .data![Provider.of<CategoriesProvider>(context, listen: false)
+              .categoryPosition]
+          .senders![Provider.of<CategoriesProvider>(context, listen: false)
+              .senderPosition]
+          .name
+          .toString();
+  late String categoryId =
+      Provider.of<CategoriesProvider>(context, listen: false)
+          .allCategories
+          .data![Provider.of<CategoriesProvider>(context, listen: false)
+              .categoryPosition]
+          .id!
+          .toString();
+  late String mobileSender =
+      Provider.of<CategoriesProvider>(context, listen: false)
+          .allCategories
+          .data![
+              Provider.of<CategoriesProvider>(context, listen: false)
+                  .categoryPosition]
+          .senders![Provider.of<CategoriesProvider>(context, listen: false)
+              .senderPosition]
+          .mobile
+          .toString();
+  int senderIndex = -1;
+
   getSender() {
-    senderController.text = Provider.of<CategoriesProvider>(context)
-        .allCategories
-        .data![Provider.of<CategoriesProvider>(context).categoryPosition]
-        .senders![Provider.of<CategoriesProvider>(context).senderPosition]
-        .name
-        .toString();
-    phoneController.text = Provider.of<CategoriesProvider>(context)
-        .allCategories
-        .data![Provider.of<CategoriesProvider>(context).categoryPosition]
-        .senders![Provider.of<CategoriesProvider>(context).senderPosition]
-        .mobile
-        .toString();
+    if (nameSender.isNotEmpty && mobileSender.isNotEmpty) {
+      senderController.text = nameSender;
+      phoneController.text = mobileSender;
+      senderIndex = Provider.of<CategoriesProvider>(context, listen: false)
+          .allCategories
+          .data![Provider.of<CategoriesProvider>(context, listen: false)
+              .categoryPosition]
+          .senders![Provider.of<CategoriesProvider>(context, listen: false)
+              .senderPosition]
+          .id!
+          .toInt();
+    }
   }
 
   @override
@@ -110,7 +149,19 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
                 left_icon: Icons.arrow_back_ios_new,
                 right_icon: Icons.menu,
               )
-            : const CustomAppBar(widgetName: "New Inbox", bottomPadding: 16),
+            : CustomAppBar(
+                widgetName: "New Inbox",
+                bottomPadding: 16,
+                isEdit: true,
+                onTap: () {
+                  if (senderIndex == -1) {
+                    SenderRepository().createSender(
+                        name: senderController.text,
+                        mobile: phoneController.text,
+                        categoryId: categoryId);
+                  }
+                },
+              ),
         Expanded(
           child: ListView(
             padding: EdgeInsets.zero,
@@ -173,6 +224,8 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
                       children: [
                         ///Upper Part(Name)
                         CustomTextField(
+                            isDisable: isDisable,
+                            isSender: true,
                             controller: senderController,
                             withoutPrefix: false,
                             withoutSuffix: false,
@@ -191,21 +244,50 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
                                     .name
                                     .toString(),
                             customFontSize: 16,
-                            icon: Icons.perm_identity,
+                            icon: const Icon(Icons.perm_identity),
                             suffixFunction: () {
-                              Navigator.pushNamed(context, Routes.sender_screen)
-                                  .then((value) {
-                                senderController.text = Provider.of<
-                                        CategoriesProvider>(context)
-                                    .allCategories
-                                    .data![
-                                        Provider.of<CategoriesProvider>(context)
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => SenderScreen(),
+                                  )).then((value) {
+                                setState(() {
+                                  isDisable = value;
+                                });
+                                getSender();
+                                print("ttttttttttt $isDisable");
+                                senderController.text =
+                                    Provider.of<CategoriesProvider>(context,
+                                            listen: false)
+                                        .allCategories
+                                        .data![Provider.of<CategoriesProvider>(
+                                                context,
+                                                listen: false)
                                             .categoryPosition]
-                                    .senders![
-                                        Provider.of<CategoriesProvider>(context)
-                                            .senderPosition]
-                                    .name
-                                    .toString();
+                                        .senders![
+                                            Provider.of<CategoriesProvider>(
+                                                    context,
+                                                    listen: false)
+                                                .senderPosition]
+                                        .name
+                                        .toString();
+                                phoneController.text =
+                                    Provider.of<CategoriesProvider>(context,
+                                            listen: false)
+                                        .allCategories
+                                        .data![Provider.of<CategoriesProvider>(
+                                                context,
+                                                listen: false)
+                                            .categoryPosition]
+                                        .senders![
+                                            Provider.of<CategoriesProvider>(
+                                                    context,
+                                                    listen: false)
+                                                .senderPosition]
+                                        .mobile
+                                        .toString();
+                                print("rrr");
+                                print(senderController.text);
                               });
                               // NavigationRoutes().jump(
                               //   context,
@@ -213,6 +295,8 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
                               // );
                             }),
                         CustomTextField(
+                          isDisable: isDisable,
+                          isSender: true,
                           textInputType: TextInputType.number,
                           withoutPrefix: false,
                           hintText: Provider.of<CategoriesProvider>(context)
@@ -231,7 +315,7 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
                                   .toString(),
                           customFontSize: 16,
                           controller: phoneController,
-                          icon: Icons.phone_android_outlined,
+                          icon: Icon(Icons.phone_android_outlined),
                         ),
 
                         // buildDivider(),
@@ -291,7 +375,7 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
                                 child: const Icon(
                                   Icons.arrow_forward_ios,
                                   color: kDarkGreyColor,
-                                  size: 20,
+                                  size: 16,
                                 ),
                               )
                             ],
@@ -509,7 +593,6 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
                             childContainer: Text(
                               widget.mail!.status!.name ?? 'inbox',
                               style: const TextStyle(color: Colors.white),
-
                             ))
                         : Consumer<StatusProvider>(builder:
                             (BuildContext context,
@@ -520,7 +603,6 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
                                         .selectedIndex <
                                     0) // to avoid null when status filter is cleared
                             {
-
                               return const CustomContainer(
                                   isInBox: true,
                                   backgroundColor: Color(0xffFA3A57),
@@ -605,7 +687,7 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
                             children: [
                               InkWell(
                                 onTap: () async {
-                                  _showImageSourceOptions;
+                                  _pickMultiImage;
                                 },
                                 child: Text(
                                   "Add Image",
@@ -674,14 +756,14 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
                     ),
                     isIndexWidet: false,
                     children: [
-                      ListView.separated(
+                      ListView.builder(
                         padding: EdgeInsets.zero,
                         physics: const NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
                         itemCount: addActivity.length,
                         itemBuilder: (BuildContext context, int index) {
                           return Padding(
-                            padding: EdgeInsets.symmetric(vertical: 16.0.h),
+                            padding: EdgeInsets.symmetric(vertical: 8.0.h),
                             child: CustomContainer(
                               childContainer: Padding(
                                 padding: const EdgeInsets.all(8.0),
@@ -689,9 +771,22 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    const CircleAvatar(
-                                      radius: 15,
-                                    ),
+                                    Provider.of<AuthProvider>(context)
+                                                .currentUser
+                                                .data
+                                                ?.user
+                                                .image ==
+                                            null
+                                        ? const Icon(
+                                            Icons.account_circle,
+                                            size: 90,
+                                            color: kLightGreyColor,
+                                          )
+                                        : CustomProfilePhotoContainer(
+                                            image:
+                                                '$imageUrl/${Provider.of<AuthProvider>(context).currentUser.data?.user.image}',
+                                            raduis: 50.r,
+                                          ),
                                     SizedBox(
                                       width: 8.w,
                                     ),
@@ -701,7 +796,8 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
                                       mainAxisAlignment:
                                           MainAxisAlignment.start,
                                       children: [
-                                        const Text("Mohammed"),
+                                        Text(
+                                            "${Provider.of<AuthProvider>(context).currentUser.data?.user.name}"),
                                         const SizedBox(
                                           height: 12,
                                         ),
@@ -717,11 +813,6 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
                             ),
                           );
                         },
-                        separatorBuilder: (BuildContext context, int index) {
-                          return SizedBox(
-                            height: 12.h,
-                          );
-                        },
                       )
                     ]),
               ),
@@ -732,6 +823,7 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
                 isInBox: true,
                 backgroundColor: kLightGreyColor,
                 childContainer: CustomTextField(
+                    isAddActivity: true,
                     suffixIcon: Icons.send_outlined,
                     withoutPrefix: false,
                     suffixFunction: () {
@@ -748,7 +840,18 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
                     },
                     withoutSuffix: false,
                     maxLine: null,
-                    icon: Icons.person,
+                    icon: Provider.of<AuthProvider>(context)
+                                .currentUser
+                                .data
+                                ?.user
+                                .image ==
+                            null
+                        ? const Icon(Icons.account_circle_outlined)
+                        : CustomProfilePhotoContainer(
+                            image:
+                                '$imageUrl/${Provider.of<AuthProvider>(context).currentUser.data?.user.image}',
+                            raduis: 5.r,
+                          ),
                     hintText: "Add new Activity ...",
                     customFontSize: 14.sp,
                     controller: addNewActivityController),
@@ -760,6 +863,22 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
     ));
   }
 
+  // Provider.of<AuthProvider>(context)
+  //     .currentUser
+  //     .data
+  //     ?.user
+  //     .image ==
+  // null
+  // ? const Icon(
+  // Icons.account_circle,
+  // size: 90,
+  // color: kLightGreyColor,
+  // )
+  //     : CustomProfilePhotoContainer(
+  // image:
+  // '$imageUrl/${Provider.of<AuthProvider>(context).currentUser.data?.user.image}',
+  // raduis: 50.r,
+  // ),
   Stack viewImages(int index) {
     return Stack(
       fit: StackFit.expand,
@@ -835,57 +954,44 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
     );
   }
 
-  void get _showImageSourceOptions {
-    showModalBottomSheet(
-      isScrollControlled: true,
-      context: context,
-      shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(15), topRight: Radius.circular(15))),
-      builder: (context) {
-        return SafeArea(
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.h),
-            child: Column(
-              children: [
-                const CustomAppBar(widgetName: "Add Image"),
-                Center(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      InkWell(
-                        onTap: () async {
-                          await _pickImage(ImageSource.camera);
-                        },
-                        child: ImagesContainers(
-                            color: kDarkGreyColor,
-                            icon: Icons.camera_alt,
-                            iconColor: kLightGreyColor,
-                            text: 'Camera'),
-                      ),
-                      SizedBox(
-                        width: 12.w,
-                      ),
-                      InkWell(
-                          onTap: () async {
-                            await _pickMultiImage;
-                          },
-                          child: ImagesContainers(
-                              color: kLightGreyColor,
-                              icon: Icons.camera,
-                              fontColor: kDarkGreyColor,
-                              iconColor: kDarkGreyColor,
-                              text: 'Gallery')),
-                    ],
-                  ),
-                )
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
+  // void get _showImageSourceOptions {
+  //   showModalBottomSheet(
+  //     isScrollControlled: true,
+  //     context: context,
+  //     shape: const RoundedRectangleBorder(
+  //         borderRadius: BorderRadius.only(
+  //             topLeft: Radius.circular(15), topRight: Radius.circular(15))),
+  //     builder: (context) {
+  //       return SafeArea(
+  //         child: Padding(
+  //           padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.h),
+  //           child: Column(
+  //             children: [
+  //               const CustomAppBar(widgetName: "Add Image"),
+  //               Center(
+  //                 child: Row(
+  //                   mainAxisAlignment: MainAxisAlignment.center,
+  //                   children: [
+  //                     InkWell(
+  //                         onTap: () async {
+  //                           await _pickMultiImage;
+  //                         },
+  //                         child: ImagesContainers(
+  //                             color: kLightGreyColor,
+  //                             icon: Icons.camera,
+  //                             fontColor: kDarkGreyColor,
+  //                             iconColor: kDarkGreyColor,
+  //                             text: 'Gallery')),
+  //                   ],
+  //                 ),
+  //               )
+  //             ],
+  //           ),
+  //         ),
+  //       );
+  //     },
+  //   );
+  // }
 
   Container ImagesContainers(
       {required Color color,
@@ -920,15 +1026,6 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
   XFile? pickedImage;
   ImagePicker imagePick = ImagePicker();
   List<XFile?> pickedMultiImage = [];
-
-  Future<dynamic> _pickImage(ImageSource imageSource) async {
-    XFile? image = await imagePick.pickImage(source: imageSource);
-    if (image != null) {
-      setState(() {
-        pickedImage = image;
-      });
-    }
-  }
 
   Future<void> get _pickMultiImage async {
     List<XFile?> images = await imagePick.pickMultiImage();
