@@ -1,7 +1,11 @@
 import 'package:consulting_app_pailmail/models/categories/category_response_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 
+import '../../core/utils/constants.dart';
+import '../../models/statuses/status.dart';
+import '../../providers/status_provider.dart';
 import 'custom_row_state_widget.dart';
 
 class CustomListRowState<T> extends StatefulWidget {
@@ -25,10 +29,11 @@ class CustomListRowState<T> extends StatefulWidget {
 }
 
 class _CustomListRowStateState extends State<CustomListRowState> {
-  int selectedIndex = 0;
-
   @override
   Widget build(BuildContext context) {
+    int selectedIndex =
+        Provider.of<StatusProvider>(context, listen: true).index;
+
     return Container(
       margin: EdgeInsetsDirectional.symmetric(vertical: 20.h),
       decoration: BoxDecoration(
@@ -57,8 +62,14 @@ class _CustomListRowStateState extends State<CustomListRowState> {
             isStatus: widget.isStatus,
           );
         },
+        // itemCount: widget.list != null || widget.statusList != null
+        //     ? widget.isStatus
+        //         ? widget.statusList!.length
+        //         : widget.list!.length
+        //     : 0,
         itemCount:
             widget.isStatus ? widget.statusList!.length : widget.list!.length,
+
         shrinkWrap: true,
       ),
     );

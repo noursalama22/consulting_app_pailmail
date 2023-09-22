@@ -8,7 +8,7 @@ class StatusProvider extends ChangeNotifier {
   late StatusRepository _statusRepository;
   late ApiResponse<List<Status>> _statusList;
   late ApiResponse<Status> _singleStatus;
-  int index = 0;
+  int index = -1; // to begin with no selection
   int get selectedIndex => index;
 
   StatusProvider() {

@@ -3,6 +3,7 @@ import 'package:consulting_app_pailmail/providers/general_users_provider.dart';
 import 'package:consulting_app_pailmail/repositories/general_users_repository.dart';
 import 'package:consulting_app_pailmail/views/features/home/drawer/settings/general_user_profile.dart';
 import 'package:consulting_app_pailmail/views/widgets/custom_profile_photo_container.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../../../core/helpers/api_helpers/api_response.dart';
@@ -30,7 +31,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             child: Column(
               children: [
                 CustomAppBar(
-                  widgetName: 'Settings',
+                  widgetName: 'user_management'.tr(),
                   bottomPadding: 32,
                 ),
                 Expanded(

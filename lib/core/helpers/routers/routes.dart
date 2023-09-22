@@ -5,7 +5,7 @@ class Routes {
   static const String status_screen = '/status_screen';
   static const String sender_screen = '/sender_screen';
   static const String search_screen = '/search_screen';
-  static const String inbox_screen = '/ibox_screen';
+  static const String inbox_screen = '/inbox_screen';
   static const String category_screen = '/category_screen';
   static const String search_filters_screen = '/search_filters_screen';
   static const String settings_screen = '/settings_screen';

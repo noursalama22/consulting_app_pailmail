@@ -12,6 +12,7 @@ import 'package:consulting_app_pailmail/views/widgets/custom_divider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 
 import '../../../core/helpers/routers/router.dart';
 import '../../../core/utils/constants.dart';
@@ -431,7 +432,10 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
                     Consumer<StatusProvider>(builder: (BuildContext context,
                         StatusProvider statusProvider, Widget? child) {
                       if (statusProvider.allStatus.status ==
-                          ApiStatus.LOADING) {
+                              ApiStatus.LOADING ||
+                          Provider.of<StatusProvider>(context).selectedIndex <
+                              0) // to avoid null when status filter is cleared
+                      {
                         return const CustomContainer(
                             isInBox: true,
                             backgroundColor: Color(0xffFA3A57),
