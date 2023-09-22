@@ -26,9 +26,9 @@
   "please_enter_the_password" : "الرجاء إدخال كلمة المرور",
   "please_enter_the_password_again" : "الرجاء إدخال كلمة المرور مرة اخرى",
   "OR" : "او",
-  "Home" : "الرئيسية",
-  "Profile" : "الملف الشخصي",
-  "Senders" : "المرسلين",
-  "Settings" : "ادارة المستخدمين",
+  "home" : "الرئيسية",
+  "profile" : "الملف الشخصي",
+  "senders" : "المرسلين",
+  "user_management" : "ادارة المستخدمين",
   "terms_of_service_privacy_policy" : "شروط الخدمة | سياسة الخصوصية"
 }
