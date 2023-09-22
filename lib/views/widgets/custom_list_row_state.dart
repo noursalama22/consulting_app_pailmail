@@ -1,6 +1,11 @@
 import 'package:consulting_app_pailmail/models/categories/category_response_model.dart';
+import 'package:consulting_app_pailmail/providers/categories_provider.dart';
+
+import 'package:consulting_app_pailmail/models/statuses/status.dart';
+import 'package:consulting_app_pailmail/providers/status_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 
 import 'custom_row_state_widget.dart';
 
@@ -45,8 +50,11 @@ class _CustomListRowStateState extends State<CustomListRowState> {
             onTap: () {
               setState(() {
                 selectedIndex = index;
-                Provider.of<StatusProvider>(context, listen: false)
-                    .changeStatus(selectedIndex: selectedIndex);
+                widget.isStatus
+                    ? Provider.of<StatusProvider>(context, listen: false)
+                        .changeStatus(selectedIndex: selectedIndex)
+                    : Provider.of<CategoriesProvider>(context, listen: false)
+                        .changeSelectedCategory(selectedIndex: selectedIndex);
               });
             },
             color: widget.isStatus

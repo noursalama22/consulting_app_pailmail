@@ -1,19 +1,21 @@
 import 'package:consulting_app_pailmail/models/tags/tag.dart';
 import 'package:flutter/cupertino.dart';
-
 import '../core/helpers/api_helpers/api_response.dart';
 import '../repositories/tag_repository.dart';
 
 class TagProvider extends ChangeNotifier {
   String id = "135";
   List<String> list = ["38", "45", "27"];
-
   late TagRepository _repository;
   late ApiResponse<List<Tag>> _tagList;
   late ApiResponse<List<Tag>> _tagWithMailList;
   late ApiResponse<List<Tag>> _tagOfMailList;
 
+  int _tagIndex = 0;
+
+
   ApiResponse<List<Tag>> get tagList => _tagList;
+  int get tagIndex => _tagIndex;
 
   ApiResponse<List<Tag>> get tagWithMailList => _tagWithMailList;
 
@@ -22,16 +24,24 @@ class TagProvider extends ChangeNotifier {
   TagProvider() {
     _repository = TagRepository();
     getTagList();
-    getTagOfMailList(id);
-    getTagWithMailList(list);
+
+    // getTagOfMailList(id);
+    // getTagWithMailList(list);
+  }
+  changeSelectedTag({required int selectedIndex}) {
+    _tagIndex = selectedIndex;
+    notifyListeners();
+
   }
 
   getTagList() async {
     _tagList = ApiResponse.loading("Fetching Tags");
     notifyListeners();
     try {
-      List<Tag>? tags = await _repository.getTags();
-      // print("./////////.......${tags}......//////////////..........");
+
+      List<Tag>? tags = await _repository
+          .getTags(); // print("./////////.......${tags}......//////////////..........");
+
       _tagList = ApiResponse.completed(tags);
       notifyListeners();
     } catch (error) {
@@ -44,8 +54,9 @@ class TagProvider extends ChangeNotifier {
     _tagOfMailList = ApiResponse.loading("Fetching Tags");
     notifyListeners();
     try {
-      List<Tag>? tags = await _repository.getTagsOfMail(id);
-      //print("........${tags}......//////////////..........");
+      List<Tag>? tags = await _repository.getTagsOfMail(
+          id); //print("........${tags}......//////////////..........");
+
       _tagOfMailList = ApiResponse.completed(tags);
       notifyListeners();
     } catch (error) {
@@ -58,8 +69,8 @@ class TagProvider extends ChangeNotifier {
     _tagWithMailList = ApiResponse.loading("Fetching Tags");
     notifyListeners();
     try {
-      List<Tag>? tags = await _repository.getMailWithTags(list);
-      // print(tags);
+      List<Tag>? tags = await _repository.getMailWithTags(list); // print(tags);
+
       _tagWithMailList = ApiResponse.completed(tags);
       notifyListeners();
     } catch (error) {

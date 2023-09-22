@@ -1,3 +1,5 @@
+import 'package:consulting_app_pailmail/models/mails/mail.dart';
+
 import '../pivot.dart';
 
 class Status {
@@ -8,16 +10,16 @@ class Status {
   String? createdAt;
   String? updatedAt;
   String? mailsCount;
-
-  Status({
-    this.id,
-    this.name,
-    this.createdAt,
-    this.updatedAt,
-    this.color,
-    this.pivot,
-    this.mailsCount,
-  });
+  List<Mail>? mails;
+  Status(
+      {this.id,
+      this.name,
+      this.createdAt,
+      this.updatedAt,
+      this.color,
+      this.pivot,
+      this.mailsCount,
+      this.mails});
 
   factory Status.fromJson(Map<String, dynamic> json) => Status(
         id: json["id"],
@@ -27,6 +29,14 @@ class Status {
         color: json["color"],
         pivot: json["pivot"] == null ? null : Pivot.fromJson(json["pivot"]),
         mailsCount: json["mails_count"],
+        mails: json["mails"] == null
+            ? []
+            : List<Mail>.from(json["mails"]!.map((x) => Mail.fromJson(x))),
+        //     if (json['mails'] != null) {
+        // mails = <Mails>[];
+        // json['mails'].forEach((v) {
+        // mails!.add(new Mails.fromJson(v));
+        // });
       );
 
   Map<String, dynamic> toJson() => {
@@ -37,5 +47,8 @@ class Status {
         "color": color,
         "pivot": pivot?.toJson(),
         "mails_count": mailsCount,
+        "mails": mails == null
+            ? []
+            : List<dynamic>.from(mails!.map((x) => x.toJson())),
       };
 }
