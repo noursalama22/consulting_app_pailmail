@@ -13,6 +13,7 @@ class StatusRepository {
 
   Future<Status>? getSingleStatus({required String id}) async {
     final response = await _helper.get("$fetchUrl$id?mail=true");
-    return Status.fromJson(response);
+    print("*************${response}");
+    return Status.fromJson(response["status"]);
   }
 }

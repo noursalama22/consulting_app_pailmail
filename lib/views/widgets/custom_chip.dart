@@ -20,11 +20,6 @@ class _CustomChipState extends State<CustomChip> {
   @override
   Widget build(BuildContext context) {
     return RawChip(
-      // onSelected: (selected) {
-      //   setState(() {
-      //     widget.isSelected = !widget.isSelected;
-      //   });
-      // },
       onPressed: () {
         setState(() {
           widget.isPressed = !widget.isPressed;
