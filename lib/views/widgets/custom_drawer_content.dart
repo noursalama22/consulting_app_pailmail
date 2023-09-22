@@ -45,7 +45,9 @@ class CustomDrawerContent extends StatelessWidget {
               Routes.profile_screen,
             );
           }),
-          menuListTile(Icons.contact_page, 'Senders'.tr(), () {}),
+          menuListTile(Icons.contact_page, 'Senders'.tr(), () {
+            NavigationRoutes().jump(context, Routes.senders);
+          }),
           SharedPrefrencesController().roleName == 'admin'
               ? menuListTile(Icons.settings, 'Settings'.tr(), () {
                   NavigationRoutes().jump(

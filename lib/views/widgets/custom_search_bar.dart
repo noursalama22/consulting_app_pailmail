@@ -37,7 +37,7 @@ class CustomSearchBar extends StatelessWidget {
               ),
             ),
           ),
-          hintText: "Sport",
+          hintText: "Search sender",
           hintStyle:
               buildAppBarTextStyle(fontSizeController: 14, color: kBlackColor),
           focusedBorder: buildOutlineInputBorderTextField(),
