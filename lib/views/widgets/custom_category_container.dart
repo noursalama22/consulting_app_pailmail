@@ -14,7 +14,7 @@ class CustomMailCategoryContainer extends StatelessWidget {
       : super(key: key);
   final Function() onTap;
   final String text;
-  final int number;
+  final String number;
   final double endMargin;
   final Color color;
 
