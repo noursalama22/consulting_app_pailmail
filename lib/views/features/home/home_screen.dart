@@ -23,8 +23,8 @@ import 'package:provider/provider.dart';
 import '../../../core/helpers/routers/router.dart';
 import '../../../core/utils/constants.dart';
 import '../../../core/utils/show_bottom_sheet.dart';
-import '../../widgets/custom_drawer_content.dart';
 import '../inbox_mails/inbox_screen.dart';
+import 'drawer/custom_drawer_content.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -44,23 +44,22 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
   bool _showTextAppbar = false;
   bool isScrollingDown = true;
 
-  bool isEn = false;
+  bool isEn = true;
+  // bool isAr = false;
 
-  // Color hexToColor(String code) {
-  //   return new Color(int.parse(code.substring(1, 7), radix: 16) + 0xFF000000);
-  // }
-  Color hexToColor(String hexString, {String alphaChannel = 'ff'}) {
-    return Color(int.parse(hexString.replaceFirst('#', '0x$alphaChannel')));
+  void changeLanguage() async {
+    isEn = !isEn;
+    isEn
+        ? await context.setLocale(const Locale('en'))
+        : await context.setLocale(const Locale('ar'));
+    setState(() {});
+    Future.delayed(const Duration(seconds: 2), () {
+      NavigationRoutes().pushUntil(context, Routes.splash_screen);
+    });
   }
 
-  void changeLanguage() {
-    setState(() {
-      isEn = !isEn;
-      isEn
-          ? context.setLocale(const Locale('en'))
-          : context.setLocale(const Locale('ar'));
-    });
-    Navigator.pop(context);
+  Color hexToColor(String hexString, {String alphaChannel = 'ff'}) {
+    return Color(int.parse(hexString.replaceFirst('#', '0x$alphaChannel')));
   }
 
   void _handleMenuButtonPressed() {
@@ -134,7 +133,7 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
       animationCurve: Curves.easeInOut,
       animationDuration: const Duration(milliseconds: 300),
       animateChildDecoration: true,
-      rtlOpening: isEn ? false : true,
+      rtlOpening: context.locale.toString() == 'en' ? false : true,
       // openScale: 1.0,
       disabledGestures: false,
       childDecoration: const BoxDecoration(
@@ -247,11 +246,16 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                         padding:
                             const EdgeInsetsDirectional.only(end: 18.0, top: 4),
 
-                        child: CustomProfilePhotoContainer(
-                          image:
-                              '$imageUrl/${authProvider.currentUser.data?.user.image}',
-                          raduis: 50,
-                        ),
+                        child: authProvider.currentUser.data?.user.image == null
+                            ? Icon(
+                                Icons.account_circle,
+                                size: 50,
+                              )
+                            : CustomProfilePhotoContainer(
+                                image:
+                                    '$imageUrl/${authProvider.currentUser.data?.user.image}',
+                                raduis: 50,
+                              ),
 
                         // child: CustomProfilePhotoContainer(
                         //   image: '${SharedPrefrencesController().image}',
@@ -278,11 +282,18 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                                 //       '$imageUrl${SharedPrefrencesController().image}',
                                 //   raduis: 90.r,
                                 // ),
-                                CustomProfilePhotoContainer(
-                                  image:
-                                      '$imageUrl/${authProvider.currentUser.data?.user.image}',
-                                  raduis: 90.r,
-                                ),
+                                authProvider.currentUser.data?.user.image ==
+                                        null
+                                    ? Icon(
+                                        Icons.account_circle,
+                                        size: 90,
+                                        color: kLightGreyColor,
+                                      )
+                                    : CustomProfilePhotoContainer(
+                                        image:
+                                            '$imageUrl/${authProvider.currentUser.data?.user.image}',
+                                        raduis: 90.r,
+                                      ),
                                 Text(
                                   '${SharedPrefrencesController().name}',
                                   style: GoogleFonts.poppins(
@@ -404,9 +415,8 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                                           MaterialPageRoute(
                                             builder: (context) =>
                                                 AllCategoryMails(
-                                                  isCateogry: false,
-
-                                                  mailsList: mails,
+                                              isCateogry: false,
+                                              mailsList: mails,
                                             ),
                                           ),
                                         );
@@ -449,7 +459,7 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                                           MaterialPageRoute(
                                             builder: (context) =>
                                                 AllCategoryMails(
-                                                  isCateogry: false,
+                                              isCateogry: false,
                                               mailsList: mails,
                                             ),
                                           ),
@@ -502,9 +512,8 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                                           MaterialPageRoute(
                                             builder: (context) =>
                                                 AllCategoryMails(
-                                                  isCateogry: false,
-
-                                                  mailsList: mails,
+                                              isCateogry: false,
+                                              mailsList: mails,
                                             ),
                                           ),
                                         );
@@ -547,9 +556,8 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                                           MaterialPageRoute(
                                             builder: (context) =>
                                                 AllCategoryMails(
-                                                  isCateogry: false,
-
-                                                  mailsList: mails,
+                                              isCateogry: false,
+                                              mailsList: mails,
                                             ),
                                           ),
                                         );
@@ -687,7 +695,7 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                                 return CustomExpansionTile(
                                     index: 0,
                                     widgetOfTile: Text(
-                                      "NGOs".tr(),
+                                      "ngos".tr(),
                                       // "officialOrganizations".tr(),
                                       style: tileTextTitleStyle,
                                     ),
@@ -706,7 +714,7 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                                 return CustomExpansionTile(
                                   index: 1,
                                   widgetOfTile: Text(
-                                    "NGOs".tr(),
+                                    "ngos".tr(),
                                     style: tileTextTitleStyle,
                                   ),
                                   mailNumber: data!.length.toString(),
@@ -792,7 +800,7 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                                     index: 0,
                                     isEmpty: true,
                                     widgetOfTile: Text(
-                                      "Foreign".tr(),
+                                      "foreign".tr(),
                                       // "officialOrganizations".tr(),
                                       style: tileTextTitleStyle,
                                     ),
@@ -810,7 +818,7 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                                 return CustomExpansionTile(
                                   index: 2,
                                   widgetOfTile: Text(
-                                    "Foreign".tr(),
+                                    "foreign".tr(),
                                     style: tileTextTitleStyle,
                                   ),
                                   mailNumber: data!.length.toString(),
@@ -915,7 +923,7 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                                 return CustomExpansionTile(
                                   index: 3,
                                   widgetOfTile: Text(
-                                    "Other".tr(),
+                                    "other".tr(),
                                     style: tileTextTitleStyle,
                                   ),
                                   mailNumber: data!.length.toString(),
