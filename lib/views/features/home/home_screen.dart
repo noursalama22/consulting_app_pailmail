@@ -546,6 +546,7 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                                 return CustomMailCategoryContainer(
                                   number: value.allStatus.status ==
                                           ApiStatus.LOADING
+
                                       ? ""
                                       : value.allStatus.data![3].mailsCount!,
                                   onTap: () {
