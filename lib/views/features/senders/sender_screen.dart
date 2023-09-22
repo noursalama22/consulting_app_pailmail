@@ -1,4 +1,5 @@
 
+import 'package:consulting_app_pailmail/core/helpers/api_helpers/api_response.dart';
 import 'package:consulting_app_pailmail/models/senders/sender_response_model.dart';
 import 'package:consulting_app_pailmail/models/senders/senders_1.dart';
 import 'package:consulting_app_pailmail/providers/categories_provider.dart';
@@ -7,6 +8,7 @@ import 'package:consulting_app_pailmail/repositories/sender_repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 
 import '../../../core/utils/constants.dart';
 import '../../../models/senders/sender.dart';
