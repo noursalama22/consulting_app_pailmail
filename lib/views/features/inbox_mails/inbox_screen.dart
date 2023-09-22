@@ -429,37 +429,49 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
                 },
                 widget: Row(
                   children: [
-                    Consumer<StatusProvider>(builder: (BuildContext context,
-                        StatusProvider statusProvider, Widget? child) {
-                      if (statusProvider.allStatus.status ==
-                              ApiStatus.LOADING ||
-                          Provider.of<StatusProvider>(context).selectedIndex <
-                              0) // to avoid null when status filter is cleared
-                      {
-                        return const CustomContainer(
+                    widget.isDetails
+                        ? CustomContainer(
                             isInBox: true,
-                            backgroundColor: Color(0xffFA3A57),
+                            backgroundColor: Color(int.parse(
+                                widget.mail!.status!.color.toString())),
                             childContainer: Text(
-                              "Inbox",
-                              style: TextStyle(color: Colors.white),
-                            ));
-                      } else if (statusProvider.allStatus.status ==
-                          ApiStatus.COMPLETED) {
-                        final status = statusProvider.allStatus.data![
-                            Provider.of<StatusProvider>(context).selectedIndex];
-                        return CustomContainer(
-                            isInBox: true,
-                            backgroundColor:
-                                Color(int.parse(status.color.toString())),
-                            childContainer: Text(
-                              status.name.toString(),
+                              widget.mail!.status!.name ?? 'inbox',
                               style: const TextStyle(color: Colors.white),
-                            ));
-                      } else {
-                        return Text(
-                            statusProvider.allStatus.message.toString());
-                      }
-                    }),
+                            ))
+                        : Consumer<StatusProvider>(builder:
+                            (BuildContext context,
+                                StatusProvider statusProvider, Widget? child) {
+                            if (statusProvider.allStatus.status ==
+                                    ApiStatus.LOADING ||
+                                Provider.of<StatusProvider>(context)
+                                        .selectedIndex <
+                                    0) // to avoid null when status filter is cleared
+                            {
+                              return const CustomContainer(
+                                  isInBox: true,
+                                  backgroundColor: Color(0xffFA3A57),
+                                  childContainer: Text(
+                                    "Inbox",
+                                    style: TextStyle(color: Colors.white),
+                                  ));
+                            } else if (statusProvider.allStatus.status ==
+                                ApiStatus.COMPLETED) {
+                              final status = statusProvider.allStatus.data![
+                                  Provider.of<StatusProvider>(context)
+                                      .selectedIndex];
+                              return CustomContainer(
+                                  isInBox: true,
+                                  backgroundColor:
+                                      Color(int.parse(status.color.toString())),
+                                  childContainer: Text(
+                                    status.name.toString(),
+                                    style: const TextStyle(color: Colors.white),
+                                  ));
+                            } else {
+                              return Text(
+                                  statusProvider.allStatus.message.toString());
+                            }
+                          }),
                   ],
                 ),
               ),
