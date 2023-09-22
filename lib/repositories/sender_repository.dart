@@ -50,13 +50,13 @@ class SenderRepository {
   //{{palmail}}/senders/127?mail=false
 
   Future<Sender?> getSingleSender(String id) async {
-    print("1.... $id"); //{{palmail}}/senders/{id}?mail=false
+    // print("1.... $id"); //{{palmail}}/senders/{id}?mail=false
     String url = "$CRUD_senderUrl$id?mail=false";
     final response = await _helper.get(url);
     // final response = await _helper.getParam(CRUD_senderUrl, id, "mail", false);
-    print(".............${response}................."); //طبع
-    print(
-        "TEST,,,,,,,,,,,,,,,,,,,,, ${SenderResponseModel.fromJson(response).sender!.name}");
+    // print(".............${response}................."); //طبع
+    // print(
+    //     "TEST,,,,,,,,,,,,,,,,,,,,, ${SenderResponseModel.fromJson(response).sender!.name}");
     return Sender.fromJson(response);
   }
 }

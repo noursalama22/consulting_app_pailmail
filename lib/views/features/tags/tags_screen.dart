@@ -150,14 +150,13 @@ class _TagsScreenState extends State<TagsScreen> {
                   onSubmitted: (value) {
                     //TODO:ADD Tag
                     // tags.add(Tag(_tagTextEditingController.text, true));
-                    //   _tag=Tag;
                     value = _tagTextEditingController.text;
                     tagRep = TagRepository();
                     // tagRep.createTag(value);
                     _tag = Provider.of<TagProvider>(context, listen: false)
                         .getTagList();
                     _tagTextEditingController.clear();
-                    //setState(() {});
+                    setState(() {});
                   },
                   controller: _tagTextEditingController,
                   keyboardType: TextInputType.text,

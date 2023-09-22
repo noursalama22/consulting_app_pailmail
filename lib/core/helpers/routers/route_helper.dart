@@ -1,5 +1,6 @@
 import 'package:consulting_app_pailmail/core/helpers/routers/routes.dart';
 import 'package:consulting_app_pailmail/views/features/auth/splash_screen.dart';
+import 'package:consulting_app_pailmail/views/features/home/drawer/sender/senders.dart';
 import 'package:consulting_app_pailmail/views/features/home/drawer/settings/general_user_profile.dart';
 import 'package:consulting_app_pailmail/views/features/search/search_screen.dart';
 import 'package:flutter/material.dart';
@@ -76,6 +77,11 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return _getPageRoute(
         routeName: settings.name!,
         screen: const ProfileScreen(),
+      );
+    case Routes.senders:
+      return _getPageRoute(
+        routeName: settings.name!,
+        screen: const Senders(),
       );
     case Routes.general_user_profile_screen:
       return _getPageRoute(
