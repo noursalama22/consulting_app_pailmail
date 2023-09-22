@@ -66,16 +66,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                             BorderRadius.circular(15.r)),
                                     child: Row(
                                       children: [
-                                        Padding(
-                                          padding: const EdgeInsets.all(4.0),
+                                        const Padding(
+                                          padding: EdgeInsets.all(4.0),
                                           child: Icon(
                                             size: 40,
                                             Icons.account_circle,
                                             color: kDarkGreyColor,
                                           ),
                                         ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
+                                        const Padding(
+                                          padding: EdgeInsets.all(8.0),
                                           child: Column(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
@@ -89,7 +89,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                             ],
                                           ),
                                         ),
-                                        Spacer(),
+                                        const Spacer(),
                                         Container(
                                           decoration: BoxDecoration(
                                             borderRadius:
@@ -111,7 +111,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             ),
                           );
                         }
-
                         if (generalUsersProvider.generalUsersList.status ==
                             ApiStatus.ERROR) {
                           return Center(

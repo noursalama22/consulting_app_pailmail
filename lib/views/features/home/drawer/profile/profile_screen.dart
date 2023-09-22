@@ -94,7 +94,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
               SizedBox(height: 60.h),
               CustomAuthButtonWidget(
-                  title: 'Edit Profile',
+                  child: Text('Edit Profile'),
                   onTap: () {
                     Navigator.pushReplacement(context, MaterialPageRoute(
                       builder: (context) {

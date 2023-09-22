@@ -181,7 +181,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                         ),
                         const SizedBox(height: 60),
                         CustomAuthButtonWidget(
-                          title: 'update',
+                          child: Text('update'),
                           onTap: () {
                             updateUser(pickedFile!);
                           },

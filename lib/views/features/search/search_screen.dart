@@ -4,11 +4,10 @@ import 'package:consulting_app_pailmail/views/features/inbox_mails/inbox_screen.
 import 'package:consulting_app_pailmail/views/widgets/custom_mail_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:provider/provider.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../core/helpers/routers/router.dart';
 import '../../../core/utils/constants.dart';
-import '../../../providers/status_provider.dart';
 
 class SearchScreen extends StatefulWidget {
   SearchScreen({Key? key}) : super(key: key);
@@ -19,6 +18,10 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   late TextEditingController _searchtextEditingController;
+  String statusId = '';
+  bool isChangedIconColor = false;
+  bool isChangedBarColor = false;
+  bool isLoading = false;
   @override
   void initState() {
     // TODO: implement initState
@@ -75,19 +78,42 @@ class _SearchScreenState extends State<SearchScreen> {
                   child: TextField(
                     textInputAction: TextInputAction.search,
                     //TODO:ADD fn
-                    onChanged: (value) async {
-                      //TODO add Debouncer
-                      widget.mails = [];
-                      var response = await SearchRepository().search(
-                          text: value,
-                          status_id: Provider.of<StatusProvider>(context,
-                                  listen: false)
-                              .selectedIndex);
+                    onChanged: (value) {
                       setState(() {
-                        widget.mails = response.mails;
+                        isChangedIconColor = true;
+                        isChangedBarColor = false;
+                        isLoading = false;
+                      });
+                      // //TODO add Debouncer
+                      // widget.mails = [];
+                      // var response = await SearchRepository().search(
+                      //     text: value,
+                      //     status_id: statusId == -1 ? null : statusId);
+                      // print(response);
+                      // setState(() {
+                      //   widget.mails = response.mails;
+                      // });
+                    },
+                    onSubmitted: (value) async {
+                      setState(() {
+                        isChangedBarColor = true;
+                      });
+                      //TODO add Debouncer
+
+                      widget.mails = [];
+                      isLoading = true;
+                      SearchRepository()
+                          .search(
+                              text: value,
+                              status_id: statusId == '0' ? '' : statusId)
+                          .then((value) {
+                        isLoading = false;
+                        var response = value;
+                        setState(() {
+                          widget.mails = response.mails;
+                        });
                       });
                     },
-                    onSubmitted: (v) {},
                     controller: _searchtextEditingController,
                     keyboardType: TextInputType.text,
                     style: const TextStyle(
@@ -96,7 +122,8 @@ class _SearchScreenState extends State<SearchScreen> {
                     cursorColor: kDarkGreyColor,
                     decoration: InputDecoration(
                       filled: true, //<-- SEE HERE
-                      fillColor: Color(0xFFEAEAF5),
+                      fillColor:
+                          isChangedBarColor ? kWhiteColor : Color(0xFFEAEAF5),
                       // fillColor: Color(0xFFE6E6E6),
 
                       contentPadding: const EdgeInsetsDirectional.symmetric(
@@ -121,13 +148,16 @@ class _SearchScreenState extends State<SearchScreen> {
                         splashRadius: 10,
                         // splashColor: kLightGreyColor,
                         onPressed: () {
+                          isChangedIconColor = false;
                           _searchtextEditingController.clear();
                           widget.mails = null;
                           setState(() {});
                         },
                         icon: Icon(
                           Icons.cancel,
-                          color: Color(0xFFAFAFAF),
+                          color: isChangedIconColor
+                              ? kLightBlueColor
+                              : Color(0xFFAFAFAF),
                         ),
                       ),
                     ),
@@ -146,8 +176,16 @@ class _SearchScreenState extends State<SearchScreen> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    NavigationRoutes()
-                        .jump(context, Routes.search_filters_screen);
+                    Navigator.pushNamed(context, Routes.search_filters_screen)
+                        .then((value) {
+                      print('status id ------------$value');
+                      if (value != -1) {
+                        print('filter @@@@@@@@@');
+                        statusId = (value.toString());
+                      }
+                    });
+                    // NavigationRoutes()
+                    //     .jump(context, Routes.search_filters_screen);
                   },
                   child: Image.asset(
                     'assets/images/filter.png',
@@ -158,45 +196,72 @@ class _SearchScreenState extends State<SearchScreen> {
             const SizedBox(
               height: 16,
             ),
-            widget.mails != null
-                ? widget.mails!.length != 0
-                    ? Expanded(
-                        child: ListView.builder(
-                          itemBuilder: (context, index) {
-                            var data = widget.mails;
-                            return CustomMailContainer(
-                              onTap: () {
-                                Navigator.push(context, MaterialPageRoute(
-                                  builder: (context) {
-                                    return InboxScreen(
-                                      isDetails: true,
-                                      mail: data[index],
-                                    );
+            isLoading
+                ? Skeletonizer(
+                    enabled: true,
+                    child: ListView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: 3,
+                      itemBuilder: (context, index) {
+                        return Container(
+                          margin: EdgeInsets.only(bottom: 8),
+                          padding: EdgeInsets.symmetric(vertical: 24),
+                          decoration: BoxDecoration(
+                              color: kWhiteColor,
+                              borderRadius: BorderRadius.circular(15.r)),
+                          child: ListTile(
+                            title: Text('Item number  as title'),
+                            subtitle: Text('Subtitle here'),
+                            trailing: Icon(
+                              Icons.ac_unit,
+                              size: 32,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  )
+                : widget.mails != null
+                    ? widget.mails!.length != 0
+                        ? Expanded(
+                            child: ListView.builder(
+                              itemBuilder: (context, index) {
+                                var data = widget.mails;
+                                return CustomMailContainer(
+                                  onTap: () {
+                                    Navigator.push(context, MaterialPageRoute(
+                                      builder: (context) {
+                                        return InboxScreen(
+                                          isDetails: true,
+                                          mail: data[index],
+                                        );
+                                      },
+                                    ));
                                   },
-                                ));
+                                  organizationName:
+                                      data![index].sender!.name ?? "",
+                                  color: Color(int.parse(
+                                      data[index].status!.color.toString())),
+                                  date: data[index].archiveDate ?? "",
+                                  description: data[index].description ?? "",
+                                  images: const [],
+                                  tags: data[index].tags ?? [],
+                                  subject: data[index].subject ?? "",
+                                  endMargin: 8,
+                                );
                               },
-                              organizationName: data![index].sender!.name ?? "",
-                              color: kYellowColor,
-                              date: data[index].archiveDate ?? "",
-                              description: data[index].description ?? "",
-                              images: const [],
-                              tags: data[index].tags ?? [],
-                              subject: data[index].subject ?? "",
-                              endMargin: 8,
-                            );
-                          },
-                          itemCount: widget.mails!.length,
-                        ),
-                      )
-                    : const Text(
-                        "No mails",
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      )
-                : SizedBox.shrink(),
-
+                              itemCount: widget.mails!.length,
+                            ),
+                          )
+                        : const Text(
+                            "No mails",
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          )
+                    : SizedBox(),
             // SizedBox(
             //   width: 10,
             // ),
