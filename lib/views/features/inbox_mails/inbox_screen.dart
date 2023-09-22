@@ -1,8 +1,12 @@
 import 'dart:io';
 
 import 'package:consulting_app_pailmail/core/helpers/api_helpers/api_response.dart';
+
+import 'package:consulting_app_pailmail/providers/categories_provider.dart';
+
 import 'package:consulting_app_pailmail/models/mails/mail.dart';
 import 'package:consulting_app_pailmail/models/senders/sender.dart';
+
 import 'package:consulting_app_pailmail/providers/status_provider.dart';
 import 'package:consulting_app_pailmail/repositories/sender_repository.dart';
 import 'package:consulting_app_pailmail/views/features/status/status_screen.dart';
@@ -18,7 +22,9 @@ import '../../../core/helpers/routers/router.dart';
 import '../../../core/utils/constants.dart';
 import '../../../core/utils/show_bottom_sheet.dart';
 import '../../../models/add_activity.dart';
+
 import '../../../repositories/tag_repository.dart';
+
 import '../../widgets/custom_app_bar_with_icon.dart';
 import '../../widgets/custom_container.dart';
 import '../../widgets/custom_container_details.dart';
@@ -52,7 +58,9 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
   late TextEditingController dateController;
   late TextEditingController descriptionController;
   late SenderRepository sender;
-  late Sender _sender;
+  String? saveCate = '';
+  String? saveStatusName = '';
+  Color? saveStatusColor = const Color(0xffFA3A57);
 
   @override
   void initState() {
@@ -78,6 +86,21 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
     });
   }
 
+  getSender() {
+    senderController.text = Provider.of<CategoriesProvider>(context)
+        .allCategories
+        .data![Provider.of<CategoriesProvider>(context).categoryPosition]
+        .senders![Provider.of<CategoriesProvider>(context).senderPosition]
+        .name
+        .toString();
+    phoneController.text = Provider.of<CategoriesProvider>(context)
+        .allCategories
+        .data![Provider.of<CategoriesProvider>(context).categoryPosition]
+        .senders![Provider.of<CategoriesProvider>(context).senderPosition]
+        .mobile
+        .toString();
+  }
+
   @override
   Widget build(BuildContext context) {
     //TODO: Modify icons
@@ -89,12 +112,12 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
       child: Column(children: [
         ///App Bar
         widget.isDetails
-            ? CustomAppBarWithIcon(
+            ? const CustomAppBarWithIcon(
                 widgetName: "Details",
                 left_icon: Icons.arrow_back_ios_new,
                 right_icon: Icons.menu,
               )
-            : CustomAppBar(widgetName: "New Inbox", bottomPadding: 16),
+            : const CustomAppBar(widgetName: "New Inbox", bottomPadding: 16),
         Expanded(
           child: ListView(
             padding: EdgeInsets.zero,
@@ -157,34 +180,62 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
                       children: [
                         ///Upper Part(Name)
                         CustomTextField(
-                          withoutPrefix: false,
-                          withoutSuffix: false,
-                          hintText: 'Sender',
-                          customFontSize: 16,
-                          controller: senderController,
-                          icon: Icons.perm_identity,
-                          suffixFunction: () {
-                            NavigationRoutes().jump(
-                              context,
-                              Routes.sender_screen,
-                            );
-                            // sender = SenderRepository();
-                            // sender.createSender(Sender(
-                            //     mobile: phoneController.text,
-                            //     name: senderController.text,
-                            //     categoryId: "1",
-                            //     address: ""));
-                            // _sender = Provider.of<SenderProvider>(context,
-                            //         listen: false)
-                            //     .getSenderList();
-                            // phoneController.clear();
-                            // senderController.clear();
-                          },
-                        ),
+                            controller: senderController,
+                            withoutPrefix: false,
+                            withoutSuffix: false,
+                            hintText: Provider.of<CategoriesProvider>(context)
+                                        .senderPosition ==
+                                    -1
+                                ? "sender name"
+                                : Provider.of<CategoriesProvider>(context)
+                                    .allCategories
+                                    .data![
+                                        Provider.of<CategoriesProvider>(context)
+                                            .categoryPosition]
+                                    .senders![
+                                        Provider.of<CategoriesProvider>(context)
+                                            .senderPosition]
+                                    .name
+                                    .toString(),
+                            customFontSize: 16,
+                            icon: Icons.perm_identity,
+                            suffixFunction: () {
+                              Navigator.pushNamed(context, Routes.sender_screen)
+                                  .then((value) {
+                                senderController.text = Provider.of<
+                                        CategoriesProvider>(context)
+                                    .allCategories
+                                    .data![
+                                        Provider.of<CategoriesProvider>(context)
+                                            .categoryPosition]
+                                    .senders![
+                                        Provider.of<CategoriesProvider>(context)
+                                            .senderPosition]
+                                    .name
+                                    .toString();
+                              });
+                              // NavigationRoutes().jump(
+                              //   context,
+                              //   Routes.sender_screen,
+                              // );
+                            }),
                         CustomTextField(
                           textInputType: TextInputType.number,
                           withoutPrefix: false,
-                          hintText: 'Mobile',
+                          hintText: Provider.of<CategoriesProvider>(context)
+                                      .senderPosition ==
+                                  -1
+                              ? "Mobile"
+                              : Provider.of<CategoriesProvider>(context)
+                                  .allCategories
+                                  .data![
+                                      Provider.of<CategoriesProvider>(context)
+                                          .categoryPosition]
+                                  .senders![
+                                      Provider.of<CategoriesProvider>(context)
+                                          .senderPosition]
+                                  .mobile
+                                  .toString(),
                           customFontSize: 16,
                           controller: phoneController,
                           icon: Icons.phone_android_outlined,
@@ -207,11 +258,39 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
                                       letterSpacing: 0.15,
                                       fontSizeController: 16)),
                               const Spacer(),
-                              Text("Other",
-                                  style: buildAppBarTextStyle(
-                                      color: kDarkGreyColor,
-                                      letterSpacing: 0.15,
-                                      fontSizeController: 14)),
+                              Consumer<CategoriesProvider>(
+                                builder: (context, categoryProvider, child) {
+                                  if (categoryProvider.allCategories.status ==
+                                      ApiStatus.LOADING) {
+                                    return Text("Other",
+                                        style: buildAppBarTextStyle(
+                                            color: kDarkGreyColor,
+                                            letterSpacing: 0.15,
+                                            fontSizeController: 14));
+                                  } else if (categoryProvider
+                                          .allCategories.status ==
+                                      ApiStatus.COMPLETED) {
+                                    final category = categoryProvider
+                                        .allCategories
+                                        .data![Provider.of<CategoriesProvider>(
+                                                context)
+                                            .selectedIndex]
+                                        .name;
+                                    saveCate = category.toString();
+
+                                    // print("ttttttttttttttt" + saveCate);
+                                    return Text(category!,
+                                        style: buildAppBarTextStyle(
+                                            color: kDarkGreyColor,
+                                            letterSpacing: 0.15,
+                                            fontSizeController: 14));
+                                  } else {
+                                    return Text(categoryProvider
+                                        .allCategories.message
+                                        .toString());
+                                  }
+                                },
+                              ),
                               GestureDetector(
                                 onTap: () {
                                   showSheet(context, const CategoryScreen());
@@ -228,25 +307,25 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
                       ],
                     )),
               widget.isDetails
-                  ? SizedBox()
+                  ? const SizedBox.shrink()
                   : SizedBox(
                       height: 15.h,
                     ),
 
               ///Title of mail and description
               widget.isDetails
-                  ? SizedBox.shrink()
+                  ? const SizedBox.shrink()
                   : CustomContainer(
                       childContainer: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         CustomTextField(
-                          hintText: 'Tile of mail',
+                          hintText: 'Title of mail',
                           customFontSize: 20,
                           withoutPrefix: true,
                           controller: tileOfMailController,
                         ),
-                        CustomDivider(),
+                        const CustomDivider(),
                         CustomTextField(
                           hintText: 'Description',
                           customFontSize: 14,
@@ -375,9 +454,9 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
               ///Tags it will open bottom Sheet
               buildListTile(
                 onTap: () {
-                  print("err................");
-                  TagRepository s = TagRepository();
-                  Text("${s.getMailWithTags(["24", "27"])}");
+                  // print("err................");
+                  // TagRepository s = TagRepository();
+                  // Text("${s.getMailWithTags(["24", "27"])}");
 
                   // s.createTag("tagm");
                   // // print(s.createTag("tag"));
@@ -387,8 +466,8 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
                   // print(s.getTagsOfMail("30"));
                   // s.getMailWithTags(["2", "3"]);
                   //
-                  print(s.getMailWithTags(["24", "27"]));
-                  SenderRepository sn = SenderRepository();
+                  // print(s.getMailWithTags(["24", "27"]));
+                  // SenderRepository sn = SenderRepository();
                   // sn.createSender(Sender(
                   //     name: "ne",
                   //     categoryId: "2",
@@ -444,6 +523,11 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
                           ApiStatus.COMPLETED) {
                         final status = statusProvider.allStatus.data![
                             Provider.of<StatusProvider>(context).selectedIndex];
+                        saveStatusColor =
+                            Color(int.parse(status.color.toString()));
+                        saveStatusName = status.name.toString();
+                        print("hhhhhhhhhh $saveStatusColor");
+
                         return CustomContainer(
                             isInBox: true,
                             backgroundColor:

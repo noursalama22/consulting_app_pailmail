@@ -9,12 +9,14 @@ class CustomAppBar extends StatelessWidget {
       required this.widgetName,
       this.bottomPadding = 55,
       this.endPadding = 0,
-      this.onTap})
+      this.onTap,
+      this.isEdit = false})
       : super(key: key);
   final String widgetName;
   final double bottomPadding;
   final double endPadding;
   final Function()? onTap;
+  final bool? isEdit;
 //TODO: ADD underline for app bar
   @override
   Widget build(BuildContext context) {
@@ -36,9 +38,11 @@ class CustomAppBar extends StatelessWidget {
             style: buildAppBarTextStyle(color: kBlackColor),
           ),
           InkWell(
-            onTap: () {
-              Navigator.pop(context);
-            },
+            onTap: isEdit == false
+                ? () {
+                    Navigator.pop(context);
+                  }
+                : onTap,
             child: Text(
               //TODO: Handle on tap navigation
               "Done",

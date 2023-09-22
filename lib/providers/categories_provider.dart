@@ -38,7 +38,6 @@ class CategoriesProvider extends ChangeNotifier {
   List<ApiResponse<List<Mail>>> get mailsCategory => _mailsCategories;
 
   int get selectedIndex => _index;
-
   int get categoryPosition => _categoryIndex;
 
   int get senderPosition => _senderIndex;
@@ -148,4 +147,5 @@ class CategoriesProvider extends ChangeNotifier {
 //     notifyListeners();
 //   }
 // }
+
 }

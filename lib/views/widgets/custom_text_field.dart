@@ -26,7 +26,6 @@ class CustomTextField extends StatelessWidget {
   final TextInputType? textInputType;
   final Color? iconColor;
   final Color hintColor;
-  // final Color backgrundColor;
   final int? maxLine;
   final String hintText;
   final double customFontSize;
@@ -48,6 +47,7 @@ class CustomTextField extends StatelessWidget {
       //TODO :Create new color
       style: const TextStyle(color: Color(0xff707070)),
       cursorColor: const Color(0xff707070),
+
       decoration: InputDecoration(
         //filled: true, //<-- SEE HERE
         //fillColor: backgrundColor,
@@ -55,8 +55,10 @@ class CustomTextField extends StatelessWidget {
         contentPadding: withoutPrefix == true
             ? EdgeInsets.symmetric(horizontal: paddingHor!.w)
             : const EdgeInsets.symmetric(vertical: 0, horizontal: 0),
+
         focusedBorder: buildOutlineInputBorderTextField(),
         enabledBorder: buildOutlineInputBorderTextField(),
+
         prefixIcon: withoutPrefix == true
             ? null
             : Icon(
@@ -70,6 +72,7 @@ class CustomTextField extends StatelessWidget {
             //TODO : Check below color !!!!!!
             // color: const Color(0xffafafaf),
             letterSpacing: 0.15),
+
         suffixIcon: withoutSuffix == true
             ? null
             : InkWell(

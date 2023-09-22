@@ -16,12 +16,6 @@ class CategoryScreen extends StatefulWidget {
 }
 
 class _CategoryScreenState extends State<CategoryScreen> {
-  List<String> categories = [
-    "Official organization",
-    "NGOs",
-    "UnBorder",
-    "Others"
-  ];
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -69,11 +63,6 @@ class _CategoryScreenState extends State<CategoryScreen> {
                           "${categoriesProvider.allCategories.message}");
                     },
                   )
-                  //1 before API_Cat
-                  // CustomListRowState(
-                  //   list: categories,
-                  //   isStatus: false,
-                  // ),
                 ],
               ),
             ),
@@ -82,68 +71,4 @@ class _CategoryScreenState extends State<CategoryScreen> {
       ),
     );
   }
-
-  // int isSelected = 0;
-  //
-  // int count = 0;
-  //
-  // Widget _CustomStatusRowState(
-  //     {required String statusText, required int index}) {
-  //   return CustomContainer(
-  //       childContainer: Padding(
-  //     padding: index != 2
-  //         ? EdgeInsetsDirectional.only(start: 18.h)
-  //         : EdgeInsets.zero,
-  //     child: Column(
-  //       children: [
-  //         InkWell(
-  //           onTap: () => setState(() {
-  //             isSelected = index;
-  //           }),
-  //           child: Padding(
-  //             padding: const EdgeInsets.symmetric(vertical: 8.0),
-  //             child: Row(
-  //               children: [
-  //                 Padding(
-  //                   padding: index == 2
-  //                       ? EdgeInsetsDirectional.only(start: 18.0)
-  //                       : EdgeInsets.zero,
-  //                   child: Text(
-  //                     statusText,
-  //                     style: buildAppBarTextStyle(
-  //                         color: kBlackColor,
-  //                         fontSizeController: 16,
-  //                         letterSpacing: 0.15),
-  //                   ),
-  //                 ),
-  //                 const Spacer(),
-  //                 isSelected == index
-  //                     ? Padding(
-  //                         padding: EdgeInsetsDirectional.only(end: 19.0.w),
-  //                         child: const Icon(
-  //                           Icons.check,
-  //                           size: 30,
-  //                           color: kLightBlueColor,
-  //                         ),
-  //                       )
-  //                     : const SizedBox.shrink(),
-  //               ],
-  //             ),
-  //           ),
-  //         ),
-  //         index != 3 && index != 2
-  //             ? Divider(
-  //                 indent: 8.0.w,
-  //                 thickness: 1.2,
-  //               )
-  //             : const SizedBox.shrink(),
-  //         index == 2
-  //             ? const Divider(
-  //                 thickness: 1.7,
-  //               )
-  //             : const SizedBox.shrink()
-  //       ],
-  //     ),
-  //   ));
-  // }
 }
