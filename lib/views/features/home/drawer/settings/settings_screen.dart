@@ -5,7 +5,9 @@ import 'package:consulting_app_pailmail/views/features/home/drawer/settings/gene
 import 'package:consulting_app_pailmail/views/widgets/custom_profile_photo_container.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import '../../../../../core/helpers/api_helpers/api_response.dart';
 import '../../../../../models/users/user.dart';
 import '../../../../widgets/custom_app_bar.dart';
@@ -40,10 +42,76 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       builder: (_, generalUsersProvider, __) {
                         if (generalUsersProvider.generalUsersList.status ==
                             ApiStatus.LOADING) {
-                          return const Center(
-                            child: spinkit,
+                          // return const Center(
+                          //   child: spinkit,
+                          return Center(
+                            child: Skeletonizer(
+                              child: ListView.separated(
+                                physics: NeverScrollableScrollPhysics(),
+                                separatorBuilder: (context, index) {
+                                  return SizedBox(
+                                    height: 16.h,
+                                  );
+                                },
+                                shrinkWrap: true,
+                                itemCount: 8,
+                                itemBuilder: (context, index) {
+                                  return Container(
+                                    width: double.infinity,
+                                    padding: EdgeInsetsDirectional.symmetric(
+                                        horizontal: 24.w, vertical: 16.h),
+                                    decoration: BoxDecoration(
+                                        color: kWhiteColor,
+                                        borderRadius:
+                                            BorderRadius.circular(15.r)),
+                                    child: Row(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.all(4.0),
+                                          child: Icon(
+                                            size: 40,
+                                            Icons.account_circle,
+                                            color: kDarkGreyColor,
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                'user name',
+                                              ),
+                                              Text(
+                                                'email',
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                        Spacer(),
+                                        Container(
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(100.r),
+                                            color: kPrimaryBlueColor
+                                                .withOpacity(0.1),
+                                          ),
+                                          child: IconButton(
+                                            onPressed: () {},
+                                            icon: Icon(Icons.delete),
+                                            color: kRedColor,
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
                           );
                         }
+
                         if (generalUsersProvider.generalUsersList.status ==
                             ApiStatus.ERROR) {
                           return Center(
@@ -57,8 +125,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           scrollDirection: Axis.vertical,
                           shrinkWrap: true,
                           separatorBuilder: (context, index) {
-                            return const SizedBox(
-                              height: 16,
+                            return SizedBox(
+                              height: 16.h,
                             );
                           },
                           itemCount: generalUsersProvider
@@ -97,10 +165,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               child: Container(
                                 width: double.infinity,
                                 padding: EdgeInsetsDirectional.symmetric(
-                                    horizontal: 24, vertical: 16),
+                                    horizontal: 24.w, vertical: 16.h),
                                 decoration: BoxDecoration(
                                     color: kWhiteColor,
-                                    borderRadius: BorderRadius.circular(15)),
+                                    borderRadius: BorderRadius.circular(15.r)),
                                 child: Row(
                                   children: [
                                     user.image != null
@@ -143,52 +211,34 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                       ),
                                     ),
                                     Spacer(),
-
-                                    IconButton(
-                                      onPressed: () async {
-                                        bool isDeleted =
-                                            await GeneralUsersRepository()
-                                                .deleteGeneralUser(
-                                          userId:
-                                              '${generalUsersProvider.generalUsersList.data![index].id}',
-                                        );
-                                        isDeleted
-                                            ? Provider.of<GeneralUsersProvider>(
-                                                    context,
-                                                    listen: false)
-                                                .fetchGeneralUsersList()
-                                            : null;
-                                        //  setState(() {});
-                                      },
-                                      icon: Icon(Icons.delete),
-                                      color: kRedColor,
-                                    ),
-
-                                    // IconButton(
-                                    //     onPressed: () {
-                                    //       setState(() {
-                                    //         GeneralUsersRepository()
-                                    //             .changeUserPassword(
-                                    //           updatedPass: '1234567',
-                                    //           userId:
-                                    //               '${generalUsersProvider.generalUsersList.data![index].id}',
-                                    //           updatedConfoirmPass: '1234567',
-                                    //         );
-                                    //       });
-                                    //       generalUsersProvider
-                                    //           .fetchGeneralUsersList();
-                                    //       setState(() {});
-                                    //     },
-                                    //     icon: Icon(Icons.lock)),
-
-                                    // IconButton(
-                                    //     onPressed: () {
-                                    //       GeneralUsersRepository().changeUserRole(
-                                    //           userId:
-                                    //               '${generalUsersProvider.generalUsersList.data![index].id}',
-                                    //           updatedRoleId: '4');
-                                    //     },
-                                    //     icon: Icon(Icons.edit)),
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(100.r),
+                                        color:
+                                            kPrimaryBlueColor.withOpacity(0.1),
+                                      ),
+                                      child: IconButton(
+                                        onPressed: () async {
+                                          bool isDeleted =
+                                              await GeneralUsersRepository()
+                                                  .deleteGeneralUser(
+                                            userId:
+                                                '${generalUsersProvider.generalUsersList.data![index].id}',
+                                          );
+                                          isDeleted
+                                              ? Provider.of<
+                                                          GeneralUsersProvider>(
+                                                      context,
+                                                      listen: false)
+                                                  .fetchGeneralUsersList()
+                                              : null;
+                                          //  setState(() {});
+                                        },
+                                        icon: Icon(Icons.delete),
+                                        color: kRedColor,
+                                      ),
+                                    )
                                   ],
                                 ),
                               ),
