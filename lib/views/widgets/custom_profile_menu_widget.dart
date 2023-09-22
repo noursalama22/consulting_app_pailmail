@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../core/utils/constants.dart';
 
@@ -22,8 +23,8 @@ class ProfileMenuWidget extends StatelessWidget {
       children: [
         ListTile(
           leading: Container(
-            width: 40,
-            height: 40,
+            width: 40.w,
+            height: 40.h,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(100),
               color: kPrimaryBlueColor.withOpacity(0.1),
@@ -35,8 +36,7 @@ class ProfileMenuWidget extends StatelessWidget {
               : GestureDetector(
                   onTap: edit,
                   child: Container(
-                    width: 40,
-                    height: 40,
+                    padding: const EdgeInsetsDirectional.all(8),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(100),
                       color: kDarkGreyColor.withOpacity(0.1),

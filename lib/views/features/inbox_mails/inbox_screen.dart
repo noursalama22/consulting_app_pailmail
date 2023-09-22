@@ -505,17 +505,22 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
                         ? CustomContainer(
                             isInBox: true,
                             backgroundColor: Color(int.parse(
-                                    widget.mail!.status!.color.toString())) ??
-                                Colors.white,
+                                widget.mail!.status!.color.toString())),
                             childContainer: Text(
-                              widget.mail!.status!.name ?? "",
-                              style: TextStyle(color: Colors.white),
+                              widget.mail!.status!.name ?? 'inbox',
+                              style: const TextStyle(color: Colors.white),
+
                             ))
                         : Consumer<StatusProvider>(builder:
                             (BuildContext context,
                                 StatusProvider statusProvider, Widget? child) {
                             if (statusProvider.allStatus.status ==
-                                ApiStatus.LOADING) {
+                                    ApiStatus.LOADING ||
+                                Provider.of<StatusProvider>(context)
+                                        .selectedIndex <
+                                    0) // to avoid null when status filter is cleared
+                            {
+
                               return const CustomContainer(
                                   isInBox: true,
                                   backgroundColor: Color(0xffFA3A57),
@@ -528,6 +533,7 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
                               final status = statusProvider.allStatus.data![
                                   Provider.of<StatusProvider>(context)
                                       .selectedIndex];
+
                               saveStatusColor =
                                   Color(int.parse(status.color.toString()));
                               saveStatusName = status.name.toString();

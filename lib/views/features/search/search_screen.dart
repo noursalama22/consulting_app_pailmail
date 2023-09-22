@@ -4,9 +4,11 @@ import 'package:consulting_app_pailmail/views/features/inbox_mails/inbox_screen.
 import 'package:consulting_app_pailmail/views/widgets/custom_mail_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 
 import '../../../core/helpers/routers/router.dart';
 import '../../../core/utils/constants.dart';
+import '../../../providers/status_provider.dart';
 
 class SearchScreen extends StatefulWidget {
   SearchScreen({Key? key}) : super(key: key);
@@ -74,10 +76,13 @@ class _SearchScreenState extends State<SearchScreen> {
                     textInputAction: TextInputAction.search,
                     //TODO:ADD fn
                     onChanged: (value) async {
-                      //TODO ladd Debouncer
+                      //TODO add Debouncer
                       widget.mails = [];
-                      var response =
-                          await SearchRepository().search(text: value);
+                      var response = await SearchRepository().search(
+                          text: value,
+                          status_id: Provider.of<StatusProvider>(context,
+                                  listen: false)
+                              .selectedIndex);
                       setState(() {
                         widget.mails = response.mails;
                       });

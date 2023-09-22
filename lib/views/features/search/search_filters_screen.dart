@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 
 import '../../../core/utils/constants.dart';
+import '../../../models/statuses/status.dart';
+import '../../../providers/status_provider.dart';
 import '../../widgets/custom_app_bar.dart';
 import '../../widgets/custom_date_container.dart';
+import '../../widgets/custom_list_row_state.dart';
 
 class SearchFiltersScreen extends StatefulWidget {
   const SearchFiltersScreen({Key? key}) : super(key: key);
@@ -12,25 +16,14 @@ class SearchFiltersScreen extends StatefulWidget {
   State<SearchFiltersScreen> createState() => _SearchFiltersScreenState();
 }
 
-
-class _SearchFiltersScreenState extends State<SearchFiltersScreen>
-     {
-
+class _SearchFiltersScreenState extends State<SearchFiltersScreen> {
   DateTime? _selectedDate = DateTime.now();
 
-  static List<String> categories = [
-    "Official organization",
-    "NGOs",
-    "UnBorder",
-    "Others"
-  ];
-  static List<Color> colors = [
-    kRedColor,
-    kYellowColor,
-    kLightBlueColor,
-    kGreenColor
-  ];
-  static List<String> status = ["Inbox", "Pending", "in Progress", "Completed"];
+  late List<Status>? colors;
+  clear() {
+    Provider.of<StatusProvider>(context, listen: false).index = -1;
+  }
+
   @override
   void initState() {
     super.initState();
@@ -38,6 +31,8 @@ class _SearchFiltersScreenState extends State<SearchFiltersScreen>
 
   @override
   Widget build(BuildContext context) {
+    final status = Provider.of<StatusProvider>(context).allStatus.data;
+
     return Scaffold(
       backgroundColor: kBackgroundColor,
       body: SingleChildScrollView(
@@ -53,15 +48,41 @@ class _SearchFiltersScreenState extends State<SearchFiltersScreen>
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: Column(
                   children: [
-                    // CustomListRowState(
-                    //   list: categories,
-                    //   isStatus: false,
-                    // ),
-                    // CustomListRowState(
-                    //   list: status,
-                    //   isStatus: true,
-                    //   color: colors,
-                    // ),
+                    ///Add State
+                    Padding(
+                      padding: EdgeInsetsDirectional.only(end: 19.0.w),
+                      child: Align(
+                        alignment: AlignmentDirectional.centerEnd,
+                        child: InkWell(
+                          onTap: () {
+                            setState(() {
+                              //todo: apply clear filter
+                              // clear();
+                              Provider.of<StatusProvider>(context,
+                                      listen: false)
+                                  .index = -1;
+                            });
+                          },
+                          child: Text(
+                            "Clear Filter",
+                            style: buildAppBarTextStyle(
+                                color: kMediumGreyColor,
+                                fontSizeController: 16,
+                                letterSpacing: 0.15),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 12.h,
+                    ),
+                    status == null
+                        ? spinkit
+                        : CustomListRowState(
+                            statusList: status,
+                            isStatus: true,
+                            color: status,
+                          ),
                   ],
                 ),
               ),

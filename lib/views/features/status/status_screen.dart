@@ -85,7 +85,7 @@ class _StatusScreenState extends State<StatusScreen> {
                   builder: (BuildContext context, StatusProvider statusProvider,
                       Widget? child) {
                     if (statusProvider.allStatus.status == ApiStatus.LOADING) {
-                      return const Center(child: CircularProgressIndicator());
+                      return const Center(child: spinkit);
                     }
                     if (statusProvider.allStatus.status ==
                         ApiStatus.COMPLETED) {

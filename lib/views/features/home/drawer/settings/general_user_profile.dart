@@ -85,7 +85,7 @@ class _GeneralUserProfileScreenState extends State<GeneralUserProfileScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 24.0),
           child: Column(
             children: [
-              CustomAppBar(widgetName: '$names profile', bottomPadding: 16.h),
+              CustomAppBar(widgetName: '$names', bottomPadding: 16.h),
               Expanded(
                 child: SingleChildScrollView(
                   child: Column(
