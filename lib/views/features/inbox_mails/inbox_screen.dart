@@ -1,13 +1,16 @@
 import 'dart:io';
 
 import 'package:consulting_app_pailmail/core/helpers/api_helpers/api_response.dart';
+
 import 'package:consulting_app_pailmail/providers/categories_provider.dart';
+
+import 'package:consulting_app_pailmail/models/mails/mail.dart';
+import 'package:consulting_app_pailmail/models/senders/sender.dart';
+
 import 'package:consulting_app_pailmail/providers/status_provider.dart';
 import 'package:consulting_app_pailmail/repositories/sender_repository.dart';
-
 import 'package:consulting_app_pailmail/views/features/status/status_screen.dart';
 import 'package:consulting_app_pailmail/views/features/tags/tags_screen.dart';
-
 import 'package:consulting_app_pailmail/views/widgets/custom_app_bar.dart';
 import 'package:consulting_app_pailmail/views/widgets/custom_divider.dart';
 import 'package:flutter/material.dart';
@@ -20,9 +23,11 @@ import '../../../core/utils/constants.dart';
 import '../../../core/utils/show_bottom_sheet.dart';
 import '../../../models/add_activity.dart';
 
+import '../../../repositories/tag_repository.dart';
+
 import '../../widgets/custom_app_bar_with_icon.dart';
-import '../../widgets/custom_container_details.dart';
 import '../../widgets/custom_container.dart';
+import '../../widgets/custom_container_details.dart';
 import '../../widgets/custom_date_picker.dart';
 import '../../widgets/custom_expansion_tile.dart';
 import '../../widgets/custom_text_field.dart';
@@ -32,8 +37,10 @@ class InboxScreen extends StatefulWidget {
   const InboxScreen({
     required this.isDetails,
     Key? key,
+    this.mail,
   }) : super(key: key);
   final bool isDetails;
+  final Mail? mail;
 
   @override
   State<InboxScreen> createState() => _InboxScreenState();
@@ -120,10 +127,17 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
               ///Big Container
               widget.isDetails
                   ? CustomContainerDetails(
-                      organizationName: "Emmett Balistreri",
-                      organizationCategory: "Foreign",
-                      dateOrgName: "4-JAN_1990",
-                      dateOrgCategory: "A-Nov-5",
+//  status_api_features
+//                       organizationName: "Emmett Balistreri",
+//                       organizationCategory: "Foreign",
+//                       dateOrgName: "4-JAN_1990",
+//                       dateOrgCategory: "A-Nov-5",
+
+                      organizationName: widget.mail!.sender!.name ?? "",
+                      organizationCategory:
+                          widget.mail!.sender!.category!.name!,
+                      dateOrgName: widget.mail!.archiveDate ?? "",
+                      dateOrgCategory: widget.mail!.archiveNumber ?? "",
                       subject: ExpansionTile(
                         shape: Border(),
                         initiallyExpanded: false,
@@ -151,10 +165,10 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
                         children: [
                           Padding(
                             padding: EdgeInsets.only(left: 18.h),
-                            child: const Align(
+                            child: Align(
                               alignment: AlignmentDirectional.centerStart,
                               child: Text(
-                                "description of subject",
+                                widget.mail!.description ?? "",
                               ),
                             ),
                           )
@@ -589,8 +603,7 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
                                       letterSpacing: 0.15),
                                 ),
                               ),
-                              pickedMultiImage == null ||
-                                      pickedMultiImage.isEmpty
+                              pickedMultiImage.isEmpty
                                   ? const SizedBox.shrink()
                                   : InkWell(
                                       onTap: () {
@@ -608,7 +621,7 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
                           ),
 
                           ///view Images
-                          pickedMultiImage == null || pickedMultiImage.isEmpty
+                          pickedMultiImage.isEmpty
                               ? const SizedBox.shrink()
                               : SizedBox(
                                   height: 16.h,
@@ -713,8 +726,7 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
                     suffixFunction: () {
                       print("sss");
                       print("${addNewActivityController.text} rrr");
-                      if (addNewActivityController.text != null &&
-                          addNewActivityController.text.isNotEmpty) {
+                      if (addNewActivityController.text.isNotEmpty) {
                         setState(() {
                           addActivity.add(AddActivity(
                               activityName: addNewActivityController.text,
@@ -909,10 +921,8 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
 
   Future<void> get _pickMultiImage async {
     List<XFile?> images = await imagePick.pickMultiImage();
-    if (images != null) {
-      setState(() {
-        pickedMultiImage.addAll(images);
-      });
-    }
+    setState(() {
+      pickedMultiImage.addAll(images);
+    });
   }
 }

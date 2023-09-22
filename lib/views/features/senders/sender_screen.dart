@@ -1,17 +1,15 @@
+
 import 'package:consulting_app_pailmail/models/senders/sender_response_model.dart';
 import 'package:consulting_app_pailmail/models/senders/senders_1.dart';
 import 'package:consulting_app_pailmail/providers/categories_provider.dart';
+
 import 'package:consulting_app_pailmail/repositories/sender_repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:provider/provider.dart';
 
-import '../../../core/helpers/api_helpers/api_response.dart';
 import '../../../core/utils/constants.dart';
 import '../../../models/senders/sender.dart';
-import '../../../models/senders/senders.dart';
-import '../../../providers/sender_provider.dart';
 import '../../widgets/custom_app_bar.dart';
 import '../../widgets/custom_search_bar.dart';
 
@@ -23,8 +21,7 @@ class SenderScreen extends StatefulWidget {
 }
 
 class _SenderScreenState extends State<SenderScreen> {
-  // int selindex;
-  @override
+
   SenderRepository sn = SenderRepository();
 
   void initState() {

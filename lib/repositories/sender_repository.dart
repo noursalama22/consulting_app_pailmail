@@ -1,8 +1,6 @@
 import 'package:consulting_app_pailmail/models/senders/sender_response_model.dart';
 import 'package:consulting_app_pailmail/models/senders/sender_response_model_1.dart';
-import 'package:consulting_app_pailmail/models/senders/senders.dart';
 import 'package:consulting_app_pailmail/models/senders/senders_1.dart';
-import 'package:consulting_app_pailmail/models/statuses/status_reponse_model.dart';
 
 import '../core/helpers/api_helpers/api_base_helper.dart';
 import '../core/utils/constants.dart';
@@ -50,13 +48,13 @@ class SenderRepository {
   //{{palmail}}/senders/127?mail=false
 
   Future<Sender?> getSingleSender(String id) async {
-    print("1.... $id"); //{{palmail}}/senders/{id}?mail=false
+    // print("1.... $id"); //{{palmail}}/senders/{id}?mail=false
     String url = "$CRUD_senderUrl$id?mail=false";
     final response = await _helper.get(url);
     // final response = await _helper.getParam(CRUD_senderUrl, id, "mail", false);
-    print(".............${response}................."); //طبع
-    print(
-        "TEST,,,,,,,,,,,,,,,,,,,,, ${SenderResponseModel.fromJson(response).sender!.name}");
+    // print(".............${response}................."); //طبع
+    // print(
+    //     "TEST,,,,,,,,,,,,,,,,,,,,, ${SenderResponseModel.fromJson(response).sender!.name}");
     return Sender.fromJson(response);
   }
 }

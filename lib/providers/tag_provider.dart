@@ -10,7 +10,9 @@ class TagProvider extends ChangeNotifier {
   late ApiResponse<List<Tag>> _tagList;
   late ApiResponse<List<Tag>> _tagWithMailList;
   late ApiResponse<List<Tag>> _tagOfMailList;
+
   int _tagIndex = 0;
+
 
   ApiResponse<List<Tag>> get tagList => _tagList;
   int get tagIndex => _tagIndex;
@@ -22,20 +24,24 @@ class TagProvider extends ChangeNotifier {
   TagProvider() {
     _repository = TagRepository();
     getTagList();
+
     // getTagOfMailList(id);
     // getTagWithMailList(list);
   }
   changeSelectedTag({required int selectedIndex}) {
     _tagIndex = selectedIndex;
     notifyListeners();
+
   }
 
   getTagList() async {
     _tagList = ApiResponse.loading("Fetching Tags");
     notifyListeners();
     try {
+
       List<Tag>? tags = await _repository
           .getTags(); // print("./////////.......${tags}......//////////////..........");
+
       _tagList = ApiResponse.completed(tags);
       notifyListeners();
     } catch (error) {
@@ -50,6 +56,7 @@ class TagProvider extends ChangeNotifier {
     try {
       List<Tag>? tags = await _repository.getTagsOfMail(
           id); //print("........${tags}......//////////////..........");
+
       _tagOfMailList = ApiResponse.completed(tags);
       notifyListeners();
     } catch (error) {
@@ -63,6 +70,7 @@ class TagProvider extends ChangeNotifier {
     notifyListeners();
     try {
       List<Tag>? tags = await _repository.getMailWithTags(list); // print(tags);
+
       _tagWithMailList = ApiResponse.completed(tags);
       notifyListeners();
     } catch (error) {

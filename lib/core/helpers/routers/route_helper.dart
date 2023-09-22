@@ -1,11 +1,13 @@
 import 'package:consulting_app_pailmail/core/helpers/routers/routes.dart';
 import 'package:consulting_app_pailmail/views/features/auth/splash_screen.dart';
+import 'package:consulting_app_pailmail/views/features/home/drawer/sender/senders.dart';
 import 'package:consulting_app_pailmail/views/features/home/drawer/settings/general_user_profile.dart';
 import 'package:consulting_app_pailmail/views/features/search/search_screen.dart';
 import 'package:flutter/material.dart';
-import '../../../views/features/auth/auth_screen.dart';
-import '../../../views/features/category/category_screen.dart';
 
+import '../../../views/features/auth/auth_screen.dart';
+import '../../../views/features/auth/guest_screen.dart';
+import '../../../views/features/category/category_screen.dart';
 import '../../../views/features/home/drawer/profile/profile_screen.dart';
 import '../../../views/features/home/drawer/profile/update_profile_screen.dart';
 import '../../../views/features/home/drawer/settings/settings_screen.dart';
@@ -28,7 +30,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case Routes.search_screen:
       return _getPageRoute(
         routeName: settings.name!,
-        screen: const SearchScreen(),
+        screen: SearchScreen(),
       );
     case Routes.login_screen:
       return _getPageRoute(
@@ -52,7 +54,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
         routeName: settings.name!,
         screen: const SenderScreen(),
       );
-    case Routes.index_screen:
+    case Routes.inbox_screen:
       return _getPageRoute(
         routeName: settings.name!,
         screen: const InboxScreen(isDetails: false),
@@ -77,10 +79,15 @@ Route<dynamic> generateRoute(RouteSettings settings) {
         routeName: settings.name!,
         screen: const ProfileScreen(),
       );
+    case Routes.senders:
+      return _getPageRoute(
+        routeName: settings.name!,
+        screen: const Senders(),
+      );
     case Routes.general_user_profile_screen:
       return _getPageRoute(
         routeName: settings.name!,
-        screen: GeneralUserProfileScreen(
+        screen: const GeneralUserProfileScreen(
             image: '', name: '', email: '', role: '', id: ''),
       );
     case Routes.update_profile_screen:
@@ -88,6 +95,12 @@ Route<dynamic> generateRoute(RouteSettings settings) {
         routeName: settings.name!,
         screen: UpdateProfileScreen(name: '', image: ''),
       );
+    case Routes.guest_screen:
+      return _getPageRoute(
+        routeName: settings.name!,
+        screen: const GuestScreen(),
+      );
+
     default:
       return MaterialPageRoute(
         builder: (_) => Scaffold(
@@ -131,7 +144,7 @@ class PageTransition extends PageRouteBuilder {
 
   PageTransition({
     required this.child,
-    this.type = PageTransitionType.rightToLeft,
+    this.type = PageTransitionType.downToUp,
     this.curve = Curves.linear,
     this.alignment = Alignment.center,
     this.duration = const Duration(milliseconds: 300),

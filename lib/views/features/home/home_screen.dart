@@ -1,14 +1,14 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:consulting_app_pailmail/core/helpers/api_helpers/api_response.dart';
+import 'package:consulting_app_pailmail/models/mails/mail.dart';
 import 'package:consulting_app_pailmail/providers/auth_provider.dart';
 import 'package:consulting_app_pailmail/providers/categories_provider.dart';
+import 'package:consulting_app_pailmail/providers/status_provider.dart';
 import 'package:consulting_app_pailmail/repositories/auth_repository.dart';
 import 'package:consulting_app_pailmail/storage/shared_prefs.dart';
 import 'package:consulting_app_pailmail/views/features/all_category_mails.dart';
 import 'package:consulting_app_pailmail/views/widgets/custom_category_container.dart';
 import 'package:consulting_app_pailmail/views/widgets/custom_chip.dart';
 import 'package:consulting_app_pailmail/views/widgets/custom_expansion_tile.dart';
-import 'package:consulting_app_pailmail/views/widgets/custom_fade_image.dart';
 import 'package:consulting_app_pailmail/views/widgets/custom_mail_container.dart';
 import 'package:consulting_app_pailmail/views/widgets/custom_profile_photo_container.dart';
 import 'package:consulting_app_pailmail/views/widgets/custom_status_container.dart';
@@ -46,6 +46,13 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
 
   bool isEn = false;
 
+  // Color hexToColor(String code) {
+  //   return new Color(int.parse(code.substring(1, 7), radix: 16) + 0xFF000000);
+  // }
+  Color hexToColor(String hexString, {String alphaChannel = 'ff'}) {
+    return Color(int.parse(hexString.replaceFirst('#', '0x$alphaChannel')));
+  }
+
   void changeLanguage() {
     setState(() {
       isEn = !isEn;
@@ -66,7 +73,7 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
     super.initState();
     // roleRepository.fetchRoleList();
     authRepository.fetchCurrentUser();
-    print('$imageUrl${SharedPrefrencesController().image}');
+    // print('$imageUrl${SharedPrefrencesController().image}');
 
     _scrollViewController = ScrollController();
     _scrollViewController.addListener(() {
@@ -96,17 +103,20 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
     super.dispose();
   }
 
-  navigateToAllMail(int index) {
+  navigateToAllMail(List<Mail> mails) {
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) {
-          return AllCategoryMails(index: index);
+          return AllCategoryMails(
+            mailsList: mails,
+          );
         },
       ),
     );
   }
 
+  ///TODO :Handle error widget
   @override
   Widget build(BuildContext context) {
     return AdvancedDrawer(
@@ -237,28 +247,30 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                         padding:
                             const EdgeInsetsDirectional.only(end: 18.0, top: 4),
 
-                        // child: CustomProfilePhotoContainer(
-                        //   image:
-                        //       '$imageUrl/${authProvider.currentUser.data?.user.image}',
-                        //   raduis: 50,
-                        // ),
-
                         child: CustomProfilePhotoContainer(
-                          image: '${SharedPrefrencesController().image}',
-                          raduis: 50.r,
+                          image:
+                              '$imageUrl/${authProvider.currentUser.data?.user.image}',
+                          raduis: 50,
                         ),
+
+                        // child: CustomProfilePhotoContainer(
+                        //   image: '${SharedPrefrencesController().image}',
+                        //   raduis: 50.r,
+                        // ),
                       ),
                       itemBuilder: (context) => [
                         PopupMenuItem(
+                          onTap: () => Navigator.pushNamed(
+                              context, Routes.profile_screen),
                           child: Padding(
                             padding: EdgeInsetsDirectional.symmetric(
                                 horizontal: 24.w, vertical: 16.h),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: [
-                                CustomFdeImage(
-                                    userImage:
-                                        '$imageUrl${SharedPrefrencesController().image}'),
+                                // CustomFdeImage(
+                                //     userImage:
+                                //         '$imageUrl${SharedPrefrencesController().image}'),
                                 // Image.network(
                                 //     '$imageUrl${SharedPrefrencesController().image}'),
                                 // CustomProfilePhotoContainer(
@@ -266,11 +278,11 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                                 //       '$imageUrl${SharedPrefrencesController().image}',
                                 //   raduis: 90.r,
                                 // ),
-                                // CustomProfilePhotoContainer(
-                                //   image:
-                                //       '$imageUrl/${authProvider.currentUser.data?.user.image}',
-                                //   raduis: 90.r,
-                                // ),
+                                CustomProfilePhotoContainer(
+                                  image:
+                                      '$imageUrl/${authProvider.currentUser.data?.user.image}',
+                                  raduis: 90.r,
+                                ),
                                 Text(
                                   '${SharedPrefrencesController().name}',
                                   style: GoogleFonts.poppins(
@@ -317,6 +329,13 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                             await SharedPrefrencesController().clear();
                             NavigationRoutes()
                                 .pushUntil(context, Routes.login_screen);
+                            // WidgetsBinding.instance.addPostFrameCallback((_) {
+                            //   Navigator.pushReplacement(
+                            //       context,
+                            //       MaterialPageRoute(
+                            //           builder: (_) => LoginScreen()));
+                            //   setState(() {});
+                            // });
                           },
                           //TODO : Custom Widget for rows
                           child: Row(
@@ -354,26 +373,97 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                         Row(
                           children: [
                             Expanded(
-                              child: CustomMailCategoryContainer(
-                                endMargin: 16.w,
-                                number: 9,
-                                onTap: () {
-//TODO : Add fn
-                                },
-                                text: "inbox_mails".tr(),
-                                color: kRedColor,
-                              ),
+                              child: Consumer<StatusProvider>(builder:
+                                  (BuildContext context, StatusProvider value,
+                                      Widget? child) {
+                                //  var data = value.allStatus.data![0];
+                                return CustomMailCategoryContainer(
+                                  endMargin: 16.w,
+                                  number: value.allStatus.status ==
+                                          ApiStatus.LOADING
+                                      ? 0
+                                      : int.parse(
+                                          value.allStatus.data![0].mailsCount!),
+                                  onTap: () {
+                                    Provider.of<StatusProvider>(context,
+                                            listen: false)
+                                        .fetchSingleStatus(id: "1")
+                                        .then((value) {
+                                      var stauts = Provider.of<StatusProvider>(
+                                              context,
+                                              listen: false)
+                                          .singleStatus;
+
+                                      //  print("**************$mails");
+                                      if (stauts.status ==
+                                          ApiStatus.COMPLETED) {
+                                        var mails = stauts.data!.mails;
+                                        //   print("**************$mails");
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                AllCategoryMails(
+                                                  isCateogry: false,
+
+                                                  mailsList: mails,
+                                            ),
+                                          ),
+                                        );
+                                      }
+                                    });
+                                  },
+                                  text: "inbox".tr(),
+                                  color: kRedColor,
+                                );
+                              }),
                             ),
                             Expanded(
-                              child: CustomMailCategoryContainer(
-                                  color: kYellowColor,
-                                  number: 9,
+                              child: Consumer<StatusProvider>(builder:
+                                  (BuildContext context, StatusProvider value,
+                                      Widget? child) {
+                                //  var data = value.allStatus.data![0];
+                                return CustomMailCategoryContainer(
+                                  number: value.allStatus.status ==
+                                          ApiStatus.LOADING
+                                      ? 0
+                                      : int.parse(
+                                          value.allStatus.data![1].mailsCount!),
                                   onTap: () {
-//TODO : Add fn
+                                    Provider.of<StatusProvider>(context,
+                                            listen: false)
+                                        .fetchSingleStatus(id: "2")
+                                        .then((value) {
+                                      var stauts = Provider.of<StatusProvider>(
+                                              context,
+                                              listen: false)
+                                          .singleStatus;
+
+                                      //  print("**************$mails");
+                                      if (stauts.status ==
+                                          ApiStatus.COMPLETED) {
+                                        var mails = stauts.data!.mails;
+                                        //   print("**************$mails");
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                AllCategoryMails(
+                                                  isCateogry: false,
+                                              mailsList: mails,
+                                            ),
+                                          ),
+                                        );
+                                      }
+                                    });
                                   },
-                                  text: "pending".tr()),
+                                  text: "pending".tr(),
+                                  color: kYellowColor,
+                                );
+                              }),
                             ),
                           ],
+                          // mainAxisAlignment: MainAxisAlignment.end,
                         ),
                         SizedBox(
                           height: 16.h,
@@ -381,23 +471,95 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                         Row(
                           children: [
                             Expanded(
-                              child: CustomMailCategoryContainer(
-                                  color: kLightBlueColor,
+                              child: Consumer<StatusProvider>(builder:
+                                  (BuildContext context, StatusProvider value,
+                                      Widget? child) {
+                                //  var data = value.allStatus.data![0];
+                                return CustomMailCategoryContainer(
                                   endMargin: 16.w,
-                                  number: 9,
+                                  number: value.allStatus.status ==
+                                          ApiStatus.LOADING
+                                      ? 0
+                                      : int.parse(
+                                          value.allStatus.data![2].mailsCount!),
                                   onTap: () {
-//TODO : Add fn
+                                    Provider.of<StatusProvider>(context,
+                                            listen: false)
+                                        .fetchSingleStatus(id: "3")
+                                        .then((value) {
+                                      var stauts = Provider.of<StatusProvider>(
+                                              context,
+                                              listen: false)
+                                          .singleStatus;
+
+                                      //  print("**************$mails");
+                                      if (stauts.status ==
+                                          ApiStatus.COMPLETED) {
+                                        var mails = stauts.data!.mails;
+                                        //   print("**************$mails");
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                AllCategoryMails(
+                                                  isCateogry: false,
+
+                                                  mailsList: mails,
+                                            ),
+                                          ),
+                                        );
+                                      }
+                                    });
                                   },
-                                  text: "inProgress".tr()),
+                                  text: "inProgress".tr(),
+                                  color: kLightBlueColor,
+                                );
+                              }),
                             ),
                             Expanded(
-                              child: CustomMailCategoryContainer(
-                                  color: kGreenColor,
-                                  number: 9,
+                              child: Consumer<StatusProvider>(builder:
+                                  (BuildContext context, StatusProvider value,
+                                      Widget? child) {
+                                //  var data = value.allStatus.data![0];
+                                return CustomMailCategoryContainer(
+                                  number: value.allStatus.status ==
+                                          ApiStatus.LOADING
+                                      ? 0
+                                      : int.parse(
+                                          value.allStatus.data![2].mailsCount!),
                                   onTap: () {
-//TODO : Add fn
+                                    Provider.of<StatusProvider>(context,
+                                            listen: false)
+                                        .fetchSingleStatus(id: "4")
+                                        .then((value) {
+                                      var stauts = Provider.of<StatusProvider>(
+                                              context,
+                                              listen: false)
+                                          .singleStatus;
+
+                                      //  print("**************$mails");
+                                      if (stauts.status ==
+                                          ApiStatus.COMPLETED) {
+                                        var mails = stauts.data!.mails;
+                                        //   print("**************$mails");
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                AllCategoryMails(
+                                                  isCateogry: false,
+
+                                                  mailsList: mails,
+                                            ),
+                                          ),
+                                        );
+                                      }
+                                    });
                                   },
-                                  text: "completed".tr()),
+                                  text: "completed".tr(),
+                                  color: kGreenColor,
+                                );
+                              }),
                             ),
                           ],
                         ),
@@ -411,7 +573,7 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                             if (value.mailsCategory[0].status ==
                                 ApiStatus.LOADING) {
                               return const Center(
-                                child: CircularProgressIndicator(),
+                                child: spinkit,
                               );
                             }
                             if (value.mailsCategory[0].status ==
@@ -448,32 +610,44 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                                     ListView.builder(
                                       itemBuilder: (context, index) {
                                         return CustomMailContainer(
-                                          onTap: () {},
+                                          onTap: () {
+                                            Navigator.push(context,
+                                                MaterialPageRoute(
+                                              builder: (context) {
+                                                return InboxScreen(
+                                                  isDetails: true,
+                                                  mail: data[index],
+                                                );
+                                              },
+                                            ));
+                                          },
                                           organizationName:
-                                              data![index].sender!.name ?? "",
-                                          color: kYellowColor,
-                                          date: data![index].archiveDate ?? "",
+                                              data[index].sender!.name ?? "",
+                                          color: hexToColor(
+                                              data[index].status!.color ?? ''),
+                                          date: data[index].archiveDate ?? "",
                                           description:
-                                              data![index].description ?? "",
+                                              data[index].description ?? "",
                                           images: const [],
-                                          tags: data![index].tags ?? [],
-                                          subject: data![index].subject ?? "",
+                                          tags: data[index].tags ?? [],
+                                          subject: data[index].subject ?? "",
                                           endMargin: 8,
                                         );
                                       },
                                       shrinkWrap: true,
                                       itemCount:
-                                          data!.length < 3 ? data!.length : 3,
+                                          data.length < 3 ? data.length : 3,
                                     ),
                                     const SizedBox(
                                       height: 8,
                                     ),
-                                    data!.length > 3
+                                    data.length > 3
                                         ? Padding(
                                             padding: const EdgeInsetsDirectional
                                                 .only(end: 10),
                                             child: GestureDetector(
-                                              onTap: () => navigateToAllMail(0),
+                                              onTap: () =>
+                                                  navigateToAllMail(data),
                                               child: const Align(
                                                 child: Text(
                                                   'See More',
@@ -504,7 +678,7 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                             if (value.mailsCategory[1].status ==
                                 ApiStatus.LOADING) {
                               return const Center(
-                                child: CircularProgressIndicator(),
+                                child: spinkit,
                               );
                             }
                             if (value.mailsCategory[1].status ==
@@ -540,33 +714,44 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                                     ListView.builder(
                                       itemBuilder: (context, index) {
                                         return CustomMailContainer(
-                                          onTap: () {},
+                                          onTap: () {
+                                            Navigator.push(context,
+                                                MaterialPageRoute(
+                                              builder: (context) {
+                                                return InboxScreen(
+                                                  isDetails: true,
+                                                  mail: data[index],
+                                                );
+                                              },
+                                            ));
+                                          },
                                           organizationName:
-                                              data![index].sender!.name ?? "",
-                                          color: kYellowColor,
-                                          date: data![index].archiveDate ?? "",
+                                              data[index].sender!.name ?? "",
+                                          color: hexToColor(
+                                              data[index].status!.color ?? ''),
+                                          date: data[index].archiveDate ?? "",
                                           description:
-                                              data![index].description ?? "",
-                                          images:
-                                              data![index].attachments ?? [],
-                                          tags: data![index].tags ?? [],
-                                          subject: data![index].subject ?? "",
+                                              data[index].description ?? "",
+                                          images: data[index].attachments ?? [],
+                                          tags: data[index].tags ?? [],
+                                          subject: data[index].subject ?? "",
                                           endMargin: 8,
                                         );
                                       },
                                       itemCount:
-                                          data!.length < 3 ? data!.length : 3,
+                                          data.length < 3 ? data.length : 3,
                                       shrinkWrap: true,
                                     ),
                                     const SizedBox(
                                       height: 8,
                                     ),
-                                    data!.length > 3
+                                    data.length > 3
                                         ? Padding(
                                             padding: const EdgeInsetsDirectional
                                                 .only(end: 10),
                                             child: GestureDetector(
-                                              onTap: () => navigateToAllMail(1),
+                                              onTap: () =>
+                                                  navigateToAllMail(data),
                                               child: const Align(
                                                 child: Text(
                                                   'See More',
@@ -597,7 +782,7 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                             if (value.mailsCategory[2].status ==
                                 ApiStatus.LOADING) {
                               return const Center(
-                                child: CircularProgressIndicator(),
+                                child: spinkit,
                               );
                             }
                             if (value.mailsCategory[2].status ==
@@ -633,32 +818,45 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                                     ListView.builder(
                                       itemBuilder: (context, index) {
                                         return CustomMailContainer(
-                                          onTap: () {},
+                                          onTap: () {
+                                            Navigator.push(context,
+                                                MaterialPageRoute(
+                                              builder: (context) {
+                                                return InboxScreen(
+                                                  isDetails: true,
+                                                  mail: data[index],
+                                                );
+                                              },
+                                            ));
+                                          },
                                           organizationName:
-                                              data![index].sender!.name ?? "",
-                                          color: kYellowColor,
-                                          date: data![index].archiveDate ?? "",
+                                              data[index].sender!.name ?? "",
+                                          color: hexToColor(
+                                              data[index].status!.color ?? ''),
+                                          // Color(data[index].status!.color),
+                                          date: data[index].archiveDate ?? "",
                                           description:
-                                              data![index].description ?? "",
+                                              data[index].description ?? "",
                                           images: const [],
-                                          tags: data![index].tags ?? [],
-                                          subject: data![index].subject ?? "",
+                                          tags: data[index].tags ?? [],
+                                          subject: data[index].subject ?? "",
                                           endMargin: 8,
                                         );
                                       },
                                       itemCount:
-                                          data!.length < 3 ? data!.length : 3,
+                                          data.length < 3 ? data.length : 3,
                                       shrinkWrap: true,
                                     ),
                                     const SizedBox(
                                       height: 8,
                                     ),
-                                    data!.length > 3
+                                    data.length > 3
                                         ? Padding(
                                             padding: const EdgeInsetsDirectional
                                                 .only(end: 10),
                                             child: GestureDetector(
-                                              onTap: () => navigateToAllMail(2),
+                                              onTap: () =>
+                                                  navigateToAllMail(data),
                                               child: const Align(
                                                 child: Text(
                                                   'See More',
@@ -689,7 +887,7 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                             if (value.mailsCategory[3].status ==
                                 ApiStatus.LOADING) {
                               return const Center(
-                                child: CircularProgressIndicator(),
+                                child: spinkit,
                               );
                             }
                             if (value.mailsCategory[3].status ==
@@ -725,32 +923,44 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                                     ListView.builder(
                                       itemBuilder: (context, index) {
                                         return CustomMailContainer(
-                                          onTap: () {},
+                                          onTap: () {
+                                            Navigator.push(context,
+                                                MaterialPageRoute(
+                                              builder: (context) {
+                                                return InboxScreen(
+                                                  isDetails: true,
+                                                  mail: data[index],
+                                                );
+                                              },
+                                            ));
+                                          },
                                           organizationName:
-                                              data![index].sender!.name ?? "",
-                                          color: kYellowColor,
-                                          date: data![index].archiveDate ?? "",
+                                              data[index].sender!.name ?? "",
+                                          color: hexToColor(
+                                              data[index].status!.color ?? ''),
+                                          date: data[index].archiveDate ?? "",
                                           description:
-                                              data![index].description ?? "",
+                                              data[index].description ?? "",
                                           images: const [], //TODO:display Images
-                                          tags: data![index].tags ?? [],
-                                          subject: data![index].subject ?? "",
+                                          tags: data[index].tags ?? [],
+                                          subject: data[index].subject ?? "",
                                           endMargin: 8,
                                         );
                                       },
                                       itemCount:
-                                          data!.length < 3 ? data!.length : 3,
+                                          data.length < 3 ? data.length : 3,
                                       shrinkWrap: true,
                                     ),
                                     const SizedBox(
                                       height: 8,
                                     ),
-                                    data!.length > 3
+                                    data.length > 3
                                         ? Padding(
                                             padding: const EdgeInsetsDirectional
                                                 .only(end: 10),
                                             child: GestureDetector(
-                                              onTap: () => navigateToAllMail(3),
+                                              onTap: () =>
+                                                  navigateToAllMail(data),
                                               child: const Align(
                                                 alignment: AlignmentDirectional
                                                     .centerEnd,
@@ -774,319 +984,6 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                                 value.mailsCategory[3].message.toString());
                           },
                         ),
-                        // Consumer<CategoriesProvider>(
-                        //   builder: (BuildContext context,
-                        //       CategoriesProvider value, Widget? child) {
-                        //     if (value.mailsCategory1.status ==
-                        //         ApiStatus.LOADING) {
-                        //       return const Center(
-                        //         child: CircularProgressIndicator(),
-                        //       );
-                        //     }
-                        //     if (value.mailsCategory1.status ==
-                        //         ApiStatus.COMPLETED) {
-                        //       if (value.mailsCategory1.data!.isEmpty) {
-                        //         return const Column(
-                        //           children: [
-                        //             Icon(Icons.warning),
-                        //             Text("No Data")
-                        //           ],
-                        //         );
-                        //       } else {
-                        //         var data = value.mailsCategory1.data;
-                        //         return CustomExpansionTile(
-                        //             widgetOfTile: Text(
-                        //               "officialOrganizations".tr(),
-                        //               // "officialOrganizations".tr(),
-                        //               style: tileTextTitleStyle,
-                        //             ),
-                        //             mailNumber: data!.length.toString(),
-                        //             children: [
-                        //               ListView.builder(
-                        //                 itemBuilder: (context, index) {
-                        //                   return CustomMailContainer(
-                        //                     onTap: () {},
-                        //                     organizationName:
-                        //                         data![index].sender!.name ?? "",
-                        //                     color: kYellowColor,
-                        //                     date:
-                        //                         data![index].archiveDate ?? "",
-                        //                     description:
-                        //                         data![index].description ?? "",
-                        //                     images: [],
-                        //                     tags: data![index].tags ?? [],
-                        //                     subject: data![index].subject ?? "",
-                        //                     endMargin: 8,
-                        //                   );
-                        //                 },
-                        //                 shrinkWrap: true,
-                        //                 itemCount: data!.length ?? 0,
-                        //               )
-                        //             ]);
-                        //       }
-                        //     }
-                        //     return Text(
-                        //         value.mailsCategory1.message.toString());
-                        //   },
-                        // ),
-                        // Consumer<CategoriesProvider>(
-                        //   builder: (BuildContext context,
-                        //       CategoriesProvider value, Widget? child) {
-                        //     if (value.mailsCategory2.status ==
-                        //         ApiStatus.LOADING) {
-                        //       return const Center(
-                        //         child: CircularProgressIndicator(),
-                        //       );
-                        //     }
-                        //     if (value.mailsCategory2.status ==
-                        //         ApiStatus.COMPLETED) {
-                        //       if (value.mailsCategory2.data!.isEmpty) {
-                        //         return const Column(
-                        //           children: [
-                        //             Icon(Icons.warning),
-                        //             Text("No Data")
-                        //           ],
-                        //         );
-                        //       } else {
-                        //         var data = value.mailsCategory2.data;
-                        //         return CustomExpansionTile(
-                        //           widgetOfTile: Text(
-                        //             "NGOs".tr(),
-                        //             style: tileTextTitleStyle,
-                        //           ),
-                        //           mailNumber: data!.length.toString(),
-                        //           children: [
-                        //             ListView.builder(
-                        //               itemBuilder: (context, index) {
-                        //                 return CustomMailContainer(
-                        //                   onTap: () {},
-                        //                   organizationName:
-                        //                       data![index].sender!.name ?? "",
-                        //                   color: kYellowColor,
-                        //                   date: data![index].archiveDate ?? "",
-                        //                   description:
-                        //                       data![index].description ?? "",
-                        //                   images: [],
-                        //                   tags: data![index].tags ?? [],
-                        //                   subject: data![index].subject ?? "",
-                        //                   endMargin: 8,
-                        //                 );
-                        //               },
-                        //               itemCount: data!.length ?? 0,
-                        //               shrinkWrap: true,
-                        //             )
-                        //           ],
-                        //         );
-                        //       }
-                        //     }
-                        //     return Text(
-                        //         value.mailsCategory2.message.toString());
-                        //   },
-                        // ),
-                        // Consumer<CategoriesProvider>(
-                        //   builder: (BuildContext context,
-                        //       CategoriesProvider value, Widget? child) {
-                        //     if (value.mailsCategory3.status ==
-                        //         ApiStatus.LOADING) {
-                        //       return const Center(
-                        //         child: CircularProgressIndicator(),
-                        //       );
-                        //     }
-                        //     if (value.mailsCategory3.status ==
-                        //         ApiStatus.COMPLETED) {
-                        //       if (value.mailsCategory3.data!.isEmpty) {
-                        //         return const Column(
-                        //           children: [
-                        //             Icon(Icons.warning),
-                        //             Text("No Data")
-                        //           ],
-                        //         );
-                        //       } else {
-                        //         var data = value.mailsCategory3.data;
-                        //         return CustomExpansionTile(
-                        //           widgetOfTile: Text(
-                        //             "Foreign".tr(),
-                        //             style: tileTextTitleStyle,
-                        //           ),
-                        //           mailNumber: data!.length.toString(),
-                        //           children: [
-                        //             ListView.builder(
-                        //               itemBuilder: (context, index) {
-                        //                 return CustomMailContainer(
-                        //                   onTap: () {},
-                        //                   organizationName:
-                        //                       data![index].sender!.name ?? "",
-                        //                   color: kYellowColor,
-                        //                   date: data![index].archiveDate ?? "",
-                        //                   description:
-                        //                       data![index].description ?? "",
-                        //                   images: [],
-                        //                   tags: data![index].tags ?? [],
-                        //                   subject: data![index].subject ?? "",
-                        //                   endMargin: 8,
-                        //                 );
-                        //               },
-                        //               itemCount: data!.length ?? 0,
-                        //               shrinkWrap: true,
-                        //             )
-                        //           ],
-                        //         );
-                        //       }
-                        //     }
-                        //     return Text(
-                        //         value.mailsCategory3.message.toString());
-                        //   },
-                        // ),
-                        // Consumer<CategoriesProvider>(
-                        //   builder: (BuildContext context,
-                        //       CategoriesProvider value, Widget? child) {
-                        //     if (value.mailsCategory4.status ==
-                        //         ApiStatus.LOADING) {
-                        //       return const Center(
-                        //         child: CircularProgressIndicator(),
-                        //       );
-                        //     }
-                        //     if (value.mailsCategory3.status ==
-                        //         ApiStatus.COMPLETED) {
-                        //       if (value.mailsCategory4.data!.isEmpty) {
-                        //         return const Column(
-                        //           children: [
-                        //             Icon(Icons.warning),
-                        //             Text("No Data")
-                        //           ],
-                        //         );
-                        //       } else {
-                        //         var data = value.mailsCategory4.data;
-                        //         return CustomExpansionTile(
-                        //           widgetOfTile: Text(
-                        //             "Other".tr(),
-                        //             style: tileTextTitleStyle,
-                        //           ),
-                        //           mailNumber: data!.length.toString(),
-                        //           children: [
-                        //             ListView.builder(
-                        //               itemBuilder: (context, index) {
-                        //                 return CustomMailContainer(
-                        //                   onTap: () {},
-                        //                   organizationName:
-                        //                       data![index].sender!.name ?? "",
-                        //                   color: kYellowColor,
-                        //                   date: data![index].archiveDate ?? "",
-                        //                   description:
-                        //                       data![index].description ?? "",
-                        //                   images: [],
-                        //                   tags: data![index].tags ?? [],
-                        //                   subject: data![index].subject ?? "",
-                        //                   endMargin: 8,
-                        //                 );
-                        //               },
-                        //               itemCount: data!.length ?? 0,
-                        //               shrinkWrap: true,
-                        //             )
-                        //           ],
-                        //         );
-                        //       }
-                        //     }
-                        //     return Text(
-                        //         value.mailsCategory4.message.toString());
-                        //   },
-                        // ),
-                        // CustomExpansionTile(
-                        //   widgetOfTile: Text(
-                        //     "officialOrganizations".tr(),
-                        //     style: tileTextTitleStyle,
-                        //   ),
-                        //   mailNumber: "6",
-                        //   children: [
-                        //     CustomMailContainer(
-                        //       onTap: () {},
-                        //       organizationName: 'Organization Name',
-                        //       color: kYellowColor,
-                        //       date: "Today, 11:00 AM",
-                        //       description:
-                        //           "And here excerpt of the mail, can added to this location. And we can do more to this like And we can do more to this like ",
-                        //       images: [],
-                        //       tags: [
-                        //         "urgent",
-                        //         "new",
-                        //         "water",
-                        //       ],
-                        //       subject: "Here we add the subject",
-                        //       endMargin: 8,
-                        //     ),
-                        //     CustomMailContainer(
-                        //       onTap: () {},
-                        //       organizationName: 'Organization Name',
-                        //       color: kGreenColor,
-                        //       date: "Today, 11:00 AM",
-                        //       description:
-                        //           "And here excerpt of the mail, can added to this location. And we can do more to this like And we can do more to this like ",
-                        //       images: [],
-                        //       tags: [],
-                        //       subject: "Here we add the subject",
-                        //     ),
-                        //   ],
-                        // ),
-                        // CustomExpansionTile(
-                        //   widgetOfTile: Text(
-                        //     "ngos".tr(),
-                        //     style: tileTextTitleStyle,
-                        //   ),
-                        //   mailNumber: "12",
-                        //   children: [
-                        //     CustomMailContainer(
-                        //       onTap: () {},
-                        //       organizationName: 'Organization Name',
-                        //       color: kYellowColor,
-                        //       date: "Today, 11:00 AM",
-                        //       description:
-                        //           "And here excerpt of the mail, can added to this location. And we can do more to this like And we can do more to this like ",
-                        //       images: [],
-                        //       tags: [],
-                        //       subject: "Here we add the subject",
-                        //     )
-                        //   ],
-                        // ),
-                        // CustomExpansionTile(
-                        //   widgetOfTile: Text(
-                        //     "foreign".tr(),
-                        //     style: tileTextTitleStyle,
-                        //   ),
-                        //   mailNumber: "6",
-                        //   children: [
-                        //     CustomMailContainer(
-                        //       onTap: () {},
-                        //       organizationName: 'Organization Name',
-                        //       color: kYellowColor,
-                        //       date: "Today, 11:00 AM",
-                        //       description:
-                        //           "And here excerpt of the mail, can added to this location. And we can do more to this like And we can do more to this like ",
-                        //       images: [],
-                        //       tags: [],
-                        //       subject: "Here we add the subject",
-                        //     )
-                        //   ],
-                        // ),
-                        // CustomExpansionTile(
-                        //   widgetOfTile: Text(
-                        //     "other".tr(),
-                        //     style: tileTextTitleStyle,
-                        //   ),
-                        //   mailNumber: "3",
-                        //   children: [
-                        //     CustomMailContainer(
-                        //       onTap: () {},
-                        //       organizationName: 'Organization Name',
-                        //       color: kYellowColor,
-                        //       date: "Today, 11:00 AM",
-                        //       description:
-                        //           "And here excerpt of the mail, can added to this location. And we can do more to this like And we can do more to this like ",
-                        //       images: [],
-                        //       tags: [],
-                        //       subject: "Here we add the subject",
-                        //     )
-                        //   ],
-                        // ),
 
                         SizedBox(
                           height: 15.h,

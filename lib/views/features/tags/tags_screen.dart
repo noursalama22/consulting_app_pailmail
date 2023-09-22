@@ -1,7 +1,5 @@
 import 'package:consulting_app_pailmail/providers/tag_provider.dart';
 import 'package:consulting_app_pailmail/views/widgets/custom_app_bar.dart';
-import 'package:consulting_app_pailmail/views/widgets/custom_chip.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -33,6 +31,7 @@ class _TagsScreenState extends State<TagsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
         body: SafeArea(
             child: Padding(
                 padding: EdgeInsetsDirectional.only(
@@ -86,6 +85,10 @@ class _TagsScreenState extends State<TagsScreen> {
                               },
                             ),
 //                         child: Wrap(
+
+      
+//                 Wrap(
+
 // //    runSpacing: 8,
 //
 //                           spacing: 6,
@@ -134,6 +137,7 @@ class _TagsScreenState extends State<TagsScreen> {
                               tags.add(
                                   Tags(_tagTextEditingController.text, true));
 
+
                               _tagTextEditingController.clear();
                               setState(() {});
                             },
@@ -165,6 +169,8 @@ class _TagsScreenState extends State<TagsScreen> {
                     );
                   }
                 }))));
+
+
   }
 }
 

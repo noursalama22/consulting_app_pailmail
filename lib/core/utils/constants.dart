@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 // ============= COLORS CONSTS ==============
@@ -120,7 +121,7 @@ const String singleStatus = "$statusUrl/"; //  add id/{}?mail=true
 const String allRolesUrl = "$baseUrl/roles";
 
 // SEARCH //
-const String searchUrl = "$baseUrl/search";
+const String searchUrl = "$baseUrl/search?";
 
 // SENDERS //
 const String sendersUrl = "$baseUrl/senders";
@@ -128,3 +129,11 @@ const String CRUD_senderUrl = "$sendersUrl/"; // add  id
 
 // ATTACHMENTS //
 const String allAttachmentsUrl = "$baseUrl/attachments";
+
+// utils //
+const spinkit = Center(
+  child: SpinKitThreeBounce(
+    color: kMediumGreyColor,
+    size: 40.0,
+  ),
+);

@@ -1,7 +1,9 @@
 import 'dart:math';
 
 import 'package:animated_toggle_switch/animated_toggle_switch.dart';
+import 'package:consulting_app_pailmail/core/utils/snckbar.dart';
 import 'package:consulting_app_pailmail/repositories/auth_repository.dart';
+import 'package:consulting_app_pailmail/storage/shared_prefs.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +29,7 @@ class LoginScreen extends StatefulWidget {
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginScreenState extends State<LoginScreen> with ShowSnackBar {
   final _formKey = GlobalKey<FormState>();
 
   late AuthRepository auth;
@@ -69,10 +71,13 @@ class _LoginScreenState extends State<LoginScreen> {
       )
           .then((user) async {
         if (mounted) {
+          showSnackBar(context, message: 'Success');
           NavigationRoutes().jump(context, Routes.home_screen, replace: true);
           Provider.of<GeneralUsersProvider>(context, listen: false)
               .fetchGeneralUsersList();
         }
+      }).catchError((e) {
+        showSnackBar(context, message: e.toString());
       });
     }
   }
@@ -86,7 +91,12 @@ class _LoginScreenState extends State<LoginScreen> {
       )
           .then((user) async {
         if (mounted) {
-          NavigationRoutes().jump(context, Routes.home_screen, replace: true);
+          if (SharedPrefrencesController().roleId == 1) {
+            NavigationRoutes()
+                .jump(context, Routes.guest_screen, replace: true);
+          } else {
+            NavigationRoutes().jump(context, Routes.home_screen, replace: true);
+          }
         }
       });
     }

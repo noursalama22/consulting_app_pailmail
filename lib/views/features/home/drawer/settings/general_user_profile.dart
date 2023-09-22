@@ -10,8 +10,8 @@ import '../../../../../providers/general_users_provider.dart';
 import '../../../../../providers/roles_provider.dart';
 import '../../../../../repositories/general_users_repository.dart';
 import '../../../../widgets/custom_app_bar.dart';
-import '../../../../widgets/custom_profile_image_widget.dart';
 import '../../../../widgets/custom_profile_menu_widget.dart';
+import '../../../../widgets/custom_profile_image.dart';
 
 class GeneralUserProfileScreen extends StatefulWidget {
   final String image;
@@ -85,13 +85,15 @@ class _GeneralUserProfileScreenState extends State<GeneralUserProfileScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 24.0),
           child: Column(
             children: [
-              CustomAppBar(widgetName: '$names profile', bottomPadding: 4.h),
+              CustomAppBar(widgetName: '$names profile', bottomPadding: 16.h),
               Expanded(
                 child: SingleChildScrollView(
                   child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        CustomProfileWidget(image: widget.image),
+                        // CustomProfileImage(image: widget.image),
+                        CustomProfileImage(
+                            image: NetworkImage('$imageUrl/${widget.image}')),
                         SizedBox(
                           height: 4.h,
                         ),
@@ -227,7 +229,7 @@ class _GeneralUserProfileScreenState extends State<GeneralUserProfileScreen> {
                                         if (roleProvider.roleList.status ==
                                             ApiStatus.LOADING) {
                                           return const Center(
-                                            child: CircularProgressIndicator(),
+                                            child: spinkit,
                                           );
                                         }
                                         if (roleProvider.roleList.status ==
@@ -295,7 +297,7 @@ class _GeneralUserProfileScreenState extends State<GeneralUserProfileScreen> {
 //         if (roleProvider.roleList.status ==
 //             ApiStatus.LOADING) {
 //           return const Center(
-//             child: CircularProgressIndicator(),
+//             child:spinkit,
 //           );
 //         }
 //         if (roleProvider.roleList.status ==

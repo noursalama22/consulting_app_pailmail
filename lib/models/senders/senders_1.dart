@@ -5,7 +5,6 @@
 import 'dart:convert';
 
 import '../categories/category.dart';
-import '../mails/mail.dart';
 
 Senders_1 sendersFromJson(String str) => Senders_1.fromJson(json.decode(str));
 
@@ -22,7 +21,7 @@ class Senders_1 {
   String? nextPageUrl;
   String? path;
   int? perPage;
-  dynamic? prevPageUrl;
+  dynamic prevPageUrl;
   int? to;
   int? total;
 

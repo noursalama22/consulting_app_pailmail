@@ -42,7 +42,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                       if (categoriesProvider.allCategories.status ==
                           ApiStatus.LOADING) {
                         return const Center(
-                          child: CircularProgressIndicator(),
+                          child: spinkit,
                         );
                       }
                       if (categoriesProvider.allCategories.status ==

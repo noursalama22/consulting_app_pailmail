@@ -1,4 +1,3 @@
-import 'package:consulting_app_pailmail/repositories/auth_repository.dart';
 import 'package:consulting_app_pailmail/storage/shared_prefs.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -46,7 +45,9 @@ class CustomDrawerContent extends StatelessWidget {
               Routes.profile_screen,
             );
           }),
-          menuListTile(Icons.contact_page, 'Senders'.tr(), () {}),
+          menuListTile(Icons.contact_page, 'Senders'.tr(), () {
+            NavigationRoutes().jump(context, Routes.senders);
+          }),
           SharedPrefrencesController().roleName == 'admin'
               ? menuListTile(Icons.settings, 'Settings'.tr(), () {
                   NavigationRoutes().jump(

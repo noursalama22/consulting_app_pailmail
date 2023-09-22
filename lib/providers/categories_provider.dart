@@ -9,6 +9,7 @@ class CategoriesProvider extends ChangeNotifier {
   int _index = 0;
   int _senderIndex = -1; //there is nothing element selected..
   int _categoryIndex = 0;
+
   // late ApiResponse<List<Mail>> _mailsCategories1;
   // late ApiResponse<List<Mail>> _mailsCategories2;
   // late ApiResponse<List<Mail>> _mailsCategories3;
@@ -30,11 +31,15 @@ class CategoriesProvider extends ChangeNotifier {
     fetchCategoryMails(categoryId: "1", index: 3);
     // print(_mailsCategories.length);
   }
+
   //{{palmail_url}}/categories/2/mails
   ApiResponse<List<CategoryElement>> get allCategories => _allCategories;
+
   List<ApiResponse<List<Mail>>> get mailsCategory => _mailsCategories;
+
   int get selectedIndex => _index;
   int get categoryPosition => _categoryIndex;
+
   int get senderPosition => _senderIndex;
 
   // ApiResponse<List<Mail>> get mailsCategory1 => _mailsCategories1;
@@ -80,4 +85,67 @@ class CategoriesProvider extends ChangeNotifier {
     _categoryIndex = categoryIndex!;
     notifyListeners();
   }
+
+// void fetchCategory1Mails({required String categoryId}) async {
+//   _mailsCategories1 = ApiResponse.loading("Loading");
+//   notifyListeners();
+//   try {
+//     final response =
+//         await _categoryRepository.fetchCategoryMails(categoryId: categoryId);
+//     _mailsCategories1 = ApiResponse.completed(response);
+//     //print("rrrrrrrrrrrrrr" + _mailsCategories1[index].data![0].id.toString());
+//     notifyListeners();
+//   } catch (e) {
+//     _mailsCategories1 = ApiResponse.error(e.toString());
+//     notifyListeners();
+//   }
+// }
+//
+// void fetchCategory2Mails({required String categoryId}) async {
+//   _mailsCategories2 = ApiResponse.loading("Loading");
+//   notifyListeners();
+//   try {
+//     final response =
+//         await _categoryRepository.fetchCategoryMails(categoryId: categoryId);
+//     _mailsCategories2 = ApiResponse.completed(response);
+//     //print("rrrrrrrrrrrrrr" + _mailsCategories1[index].data![0].id.toString());
+//     notifyListeners();
+//   } catch (e) {
+//     _mailsCategories2 = ApiResponse.error(e.toString());
+//     notifyListeners();
+//   }
+// }
+//
+// void fetchCategory3Mails({required String categoryId}) async {
+//   _mailsCategories3 = ApiResponse.loading("Loading");
+//   notifyListeners();
+//   try {
+//     final response =
+//         await _categoryRepository.fetchCategoryMails(categoryId: categoryId);
+//     _mailsCategories3 = ApiResponse.completed(response);
+//     //print("rrrrrrrrrrrrrr" + _mailsCategories1[index].data![0].id.toString());
+//     notifyListeners();
+//   } catch (e) {
+//     _mailsCategories3 = ApiResponse.error(e.toString());
+//     notifyListeners();
+//   }
+// }
+//
+// void fetchCategory4Mails({
+//   required String categoryId,
+// }) async {
+//   _mailsCategories4 = ApiResponse.loading("Loading");
+//   notifyListeners();
+//   try {
+//     final response =
+//         await _categoryRepository.fetchCategoryMails(categoryId: categoryId);
+//     _mailsCategories4 = ApiResponse.completed(response);
+//     //print("rrrrrrrrrrrrrr" + _mailsCategories1[index].data![0].id.toString());
+//     notifyListeners();
+//   } catch (e) {
+//     _mailsCategories4 = ApiResponse.error(e.toString());
+//     notifyListeners();
+//   }
+// }
+
 }
