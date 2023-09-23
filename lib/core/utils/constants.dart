@@ -137,3 +137,7 @@ const spinkit = Center(
     size: 40.0,
   ),
 );
+const progressSpinkit = SpinKitFadingCircle(
+  color: Colors.white,
+  size: 30.0,
+);

@@ -1,4 +1,5 @@
 import 'package:consulting_app_pailmail/core/utils/constants.dart';
+import 'package:consulting_app_pailmail/core/utils/snckbar.dart';
 import 'package:consulting_app_pailmail/providers/general_users_provider.dart';
 import 'package:consulting_app_pailmail/repositories/general_users_repository.dart';
 import 'package:consulting_app_pailmail/views/features/home/drawer/settings/general_user_profile.dart';
@@ -9,6 +10,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import '../../../../../core/helpers/api_helpers/api_response.dart';
+import '../../../../../core/helpers/routers/router.dart';
+import '../../../../../core/utils/awesome_dialog.dart';
 import '../../../../../models/users/user.dart';
 import '../../../../widgets/custom_app_bar.dart';
 
@@ -19,7 +22,9 @@ class SettingsScreen extends StatefulWidget {
   State<SettingsScreen> createState() => _SettingsScreenState();
 }
 
-class _SettingsScreenState extends State<SettingsScreen> {
+class _SettingsScreenState extends State<SettingsScreen>
+    with AwesomeDialogMixin, ShowSnackBar {
+  bool isDeleted = false;
   GeneralUsersProvider generalUsersProvider = GeneralUsersProvider();
   GeneralUsersRepository generalUsersRepository = GeneralUsersRepository();
   @override
@@ -219,20 +224,40 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                       ),
                                       child: IconButton(
                                         onPressed: () async {
-                                          bool isDeleted =
-                                              await GeneralUsersRepository()
-                                                  .deleteGeneralUser(
-                                            userId:
-                                                '${generalUsersProvider.generalUsersList.data![index].id}',
-                                          );
-                                          isDeleted
-                                              ? Provider.of<
-                                                          GeneralUsersProvider>(
-                                                      context,
-                                                      listen: false)
-                                                  .fetchGeneralUsersList()
-                                              : null;
-                                          //  setState(() {});
+                                          buildWarningDialog(
+                                              context, 'delete ${user.name}',
+                                              () async {
+                                            await GeneralUsersRepository()
+                                                .deleteGeneralUser(
+                                              userId:
+                                                  '${generalUsersProvider.generalUsersList.data![index].id}',
+                                            );
+                                            // setState(() {
+                                            //   isDeleted = true;
+                                            // });
+                                            await buildSuccessDialog(
+                                                    context,
+                                                    '',
+                                                    'User has been successfully deleted!')
+                                                .show();
+                                            Provider.of<GeneralUsersProvider>(
+                                                    context,
+                                                    listen: false)
+                                                .fetchGeneralUsersList();
+
+                                            // showSnackBar(context,
+                                            //     message:
+                                            //         'User has been successfully deleted!');
+                                            // NavigationRoutes().pop(context);
+                                          }).show();
+
+                                          // if (isDeleted) {
+                                          //   buildSuccessDialog(
+                                          //           context,
+                                          //           'Delete user',
+                                          //           'User has been successfully deleted!')
+                                          //       .show();
+                                          // }
                                         },
                                         icon: Icon(Icons.delete),
                                         color: kRedColor,
@@ -255,4 +280,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
       ),
     );
   }
+
+  okDelete() {}
 }
