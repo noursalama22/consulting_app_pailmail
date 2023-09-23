@@ -17,8 +17,8 @@ To get "palmail - Consulting App" up and running on your local machine:
 -  Clone the repository to your local system:
 
    ```shell
-   git clone https://github.com/yourusername/palmail-consulting-app.git
-
+   [git clone https://github.com/yourusername/palmail-consulting-app.git
+   
 <a name="contributing"></a>
 ## Contributing 
 We welcome contributions from the community to make "palmail - Consulting App" even better. If you'd like to contribute, please follow these guidelines:
