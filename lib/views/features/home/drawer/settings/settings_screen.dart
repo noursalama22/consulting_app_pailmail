@@ -111,7 +111,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             ),
                           );
                         }
-
                         if (generalUsersProvider.generalUsersList.status ==
                             ApiStatus.ERROR) {
                           return Center(

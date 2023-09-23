@@ -5,12 +5,12 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../core/utils/constants.dart';
 
 class CustomAuthButtonWidget extends StatelessWidget {
-  final String title;
+  final Widget child;
   final Function() onTap;
   const CustomAuthButtonWidget({
     super.key,
-    required this.title,
     required this.onTap,
+    required this.child,
   });
 
   @override
@@ -24,13 +24,7 @@ class CustomAuthButtonWidget extends StatelessWidget {
           borderRadius: BorderRadius.circular(22.r),
           gradient: kGradient,
         ),
-        child: Center(
-          child: Text(
-            title,
-            style: GoogleFonts.poppins(
-                color: kWhiteColor, fontSize: 14, letterSpacing: 0.25),
-          ),
-        ),
+        child: Center(child: child),
       ),
     );
   }

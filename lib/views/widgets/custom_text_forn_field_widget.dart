@@ -39,7 +39,9 @@ class CustomTextFormFieldWidget extends StatelessWidget {
           decoration: InputDecoration(
             suffixIcon: password == true
                 ? IconButton(
-                    icon: const Icon(Icons.remove_red_eye_outlined),
+                    icon: isObscure
+                        ? Icon(Icons.visibility_off_rounded)
+                        : Icon(Icons.remove_red_eye),
                     onPressed: changeVisibility)
                 : null,
             contentPadding: const EdgeInsets.all(8),

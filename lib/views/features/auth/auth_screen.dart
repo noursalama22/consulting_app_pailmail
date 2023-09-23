@@ -42,6 +42,8 @@ class _LoginScreenState extends State<LoginScreen> with ShowSnackBar {
   late bool showSignUp;
   late bool showLogin;
   late bool showPass;
+  bool showConfirm = false;
+  bool isLoginResponse = false;
 
   int value = 0; //for the AnimatedToggleSwitch
 
@@ -60,8 +62,17 @@ class _LoginScreenState extends State<LoginScreen> with ShowSnackBar {
     });
   }
 
+  void toggleConfirm() {
+    setState(() {
+      showConfirm = !showConfirm;
+    });
+  }
+
   signUp() {
     if (_formKey.currentState!.validate()) {
+      setState(() {
+        isLoginResponse = true;
+      });
       auth
           .register(
         email: emailController.text,
@@ -71,7 +82,7 @@ class _LoginScreenState extends State<LoginScreen> with ShowSnackBar {
       )
           .then((user) async {
         if (mounted) {
-          showSnackBar(context, message: 'Success');
+          showSnackBar(context, message: 'Success Login');
           NavigationRoutes().jump(context, Routes.home_screen, replace: true);
           Provider.of<GeneralUsersProvider>(context, listen: false)
               .fetchGeneralUsersList();
@@ -84,6 +95,9 @@ class _LoginScreenState extends State<LoginScreen> with ShowSnackBar {
 
   logIn() {
     if (_formKey.currentState!.validate()) {
+      setState(() {
+        isLoginResponse = true;
+      });
       auth
           .login(
         email: emailController.text,
@@ -108,6 +122,7 @@ class _LoginScreenState extends State<LoginScreen> with ShowSnackBar {
     showSignUp = true;
     showLogin = false;
     showPass = false;
+    showConfirm = false;
     super.initState();
   }
 
@@ -290,8 +305,11 @@ class _LoginScreenState extends State<LoginScreen> with ShowSnackBar {
                                 AnimatedAuthWidget(
                                     textEditingController:
                                         CustomTextFormFieldWidget(
+                                      password: true,
                                       controller: confirmPasswordController,
                                       hint: 'confirm_password'.tr(),
+                                      isObscure: showConfirm,
+                                      changeVisibility: toggleConfirm,
                                       keyboardType: TextInputType.emailAddress,
                                       autofillHints: const [
                                         AutofillHints.password
@@ -313,19 +331,38 @@ class _LoginScreenState extends State<LoginScreen> with ShowSnackBar {
                           SizedBox(
                             height: 40.h,
                           ),
-                          showSignUp == true
+                          isLoginResponse
                               ? CustomAuthButtonWidget(
-                                  title: 'sign_up'.tr(),
+                                  child: spinkit,
                                   onTap: () {
                                     signUp();
                                   },
                                 )
-                              : CustomAuthButtonWidget(
-                                  title: 'log_in'.tr(),
-                                  onTap: () {
-                                    logIn();
-                                  },
-                                ),
+                              : showSignUp == true
+                                  ? CustomAuthButtonWidget(
+                                      child: Text(
+                                        'sign_up'.tr(),
+                                        style: GoogleFonts.poppins(
+                                            color: kWhiteColor,
+                                            fontSize: 14,
+                                            letterSpacing: 0.25),
+                                      ),
+                                      onTap: () {
+                                        signUp();
+                                      },
+                                    )
+                                  : CustomAuthButtonWidget(
+                                      child: Text(
+                                        'log_in'.tr(),
+                                        style: GoogleFonts.poppins(
+                                            color: kWhiteColor,
+                                            fontSize: 14,
+                                            letterSpacing: 0.25),
+                                      ),
+                                      onTap: () {
+                                        logIn();
+                                      },
+                                    ),
                           const SizedBox(
                             height: 22,
                           ),
