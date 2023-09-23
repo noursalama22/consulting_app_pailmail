@@ -10,11 +10,12 @@ class SearchRepository {
       {required String text,
       DateTime? start,
       DateTime? end,
-      int? status_id}) async {
-    String url = "$sendersUrl?mail=true";
-
-    final response = await _helper.get(searchUrl + "text=${text}");
-    print("*************$response");
+      String? status_id}) async {
+    final response =
+        await _helper.get(searchUrl + "text=${text}&status_id=${status_id}");
+    print(searchUrl + "text=${text}&status_id=${status_id}");
+    // print("*************$response");
+    print('search done ');
     return MailResponseModel.fromJson(response);
     // final response = await _helper
     //     .get(searchUrl + "text=${text}&${start}&${end}&${status_id}");

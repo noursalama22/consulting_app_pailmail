@@ -7,9 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
-import '../../core/utils/constants.dart';
-import '../../models/statuses/status.dart';
-import '../../providers/status_provider.dart';
 import 'custom_row_state_widget.dart';
 
 class CustomListRowState<T> extends StatefulWidget {

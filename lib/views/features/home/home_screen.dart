@@ -535,7 +535,7 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                                           ApiStatus.LOADING
                                       ? 0
                                       : int.parse(
-                                          value.allStatus.data![2].mailsCount!),
+                                          value.allStatus.data![3].mailsCount!),
                                   onTap: () {
                                     Provider.of<StatusProvider>(context,
                                             listen: false)

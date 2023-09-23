@@ -52,7 +52,7 @@ class _CustomDateContainerState extends State<CustomDateContainer> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Date",
+                        '${widget.title}',
                         style: buildAppBarTextStyle(
                             color: kBlackColor,
                             letterSpacing: 0.15,
