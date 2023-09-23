@@ -83,17 +83,20 @@ class _LoginScreenState extends State<LoginScreen>
         password_confirmation: passwordController.text,
       )
           .then((user) async {
-        // await buildSuccessDialog(context, 'Acount Created Successfully!', '')
-        //     .show();
         showSnackBar(
           context,
           message: 'user created successfully',
         );
+        await buildSuccessDialog(context, '', 'Account Created Successfully!')
+            .show();
 
         if (mounted) {
-          NavigationRoutes().jump(context, Routes.home_screen, replace: true);
-          Provider.of<GeneralUsersProvider>(context, listen: false)
-              .fetchGeneralUsersList();
+          if (SharedPrefrencesController().roleId == 1) {
+            NavigationRoutes()
+                .jump(context, Routes.guest_screen, replace: true);
+          } else {
+            NavigationRoutes().jump(context, Routes.home_screen, replace: true);
+          }
         }
       }).catchError((e) {
         setState(() {
@@ -398,10 +401,7 @@ class _LoginScreenState extends State<LoginScreen>
                                           return 'Please confirm your password'
                                               .tr();
                                         }
-                                        // else if (value !=
-                                        //     passwordController.text) {
-                                        //   return 'Passwords do not match';
-                                        // }
+
                                         return null;
                                       },
                                       // validator: (value) {
