@@ -1,11 +1,15 @@
 import 'dart:io';
 
+import 'package:consulting_app_pailmail/core/utils/awesome_dialog.dart';
 import 'package:consulting_app_pailmail/core/utils/constants.dart';
+import 'package:consulting_app_pailmail/core/utils/snckbar.dart';
 import 'package:consulting_app_pailmail/providers/auth_provider.dart';
 import 'package:consulting_app_pailmail/repositories/auth_repository.dart';
 import 'package:consulting_app_pailmail/views/widgets/custom_auth_button_widget.dart';
 import 'package:consulting_app_pailmail/views/widgets/custom_text_forn_field_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
@@ -27,7 +31,9 @@ class UpdateProfileScreen extends StatefulWidget {
   State<UpdateProfileScreen> createState() => _UpdateProfileScreenState();
 }
 
-class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
+class _UpdateProfileScreenState extends State<UpdateProfileScreen>
+    with ShowSnackBar {
+  bool isUpdating = false;
   final _updateFormKey = GlobalKey<FormState>();
   TextEditingController updateNameController = TextEditingController();
 
@@ -46,9 +52,10 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
   }
 
   updateUser(File file) {
-    print('edit 1');
     if (_updateFormKey.currentState!.validate()) {
-      print('edit valid 2');
+      setState(() {
+        isUpdating = true;
+      });
       AuthRepository().uploadImage(file, updateNameController.text).then(
         (value) async {
           await Provider.of<AuthProvider>(context, listen: false)
@@ -61,6 +68,9 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
           //     AuthProvider().currentUser.data?.user.image);
           // await SharedPrefrencesController()
           //     .setData(PrefKeys.image.toString(), file.path);
+          showSnackBar(context,
+              message: 'Profile has been successfully updated!');
+
           setState(() {});
           if (mounted) {
             NavigationRoutes()
@@ -179,9 +189,17 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                             controller: updateNameController,
                           ),
                         ),
-                        const SizedBox(height: 60),
+                        SizedBox(height: 60.h),
                         CustomAuthButtonWidget(
-                          child: Text('update'),
+                          child: isUpdating
+                              ? progressSpinkit
+                              : Text(
+                                  'update',
+                                  style: GoogleFonts.poppins(
+                                      color: kWhiteColor,
+                                      fontSize: 18,
+                                      letterSpacing: 0.44),
+                                ),
                           onTap: () {
                             updateUser(pickedFile!);
                           },
