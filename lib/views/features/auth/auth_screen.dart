@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:animated_toggle_switch/animated_toggle_switch.dart';
+import 'package:consulting_app_pailmail/core/utils/awesome_dialog.dart';
 import 'package:consulting_app_pailmail/core/utils/snckbar.dart';
 import 'package:consulting_app_pailmail/repositories/auth_repository.dart';
 import 'package:consulting_app_pailmail/storage/shared_prefs.dart';
@@ -29,7 +30,8 @@ class LoginScreen extends StatefulWidget {
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> with ShowSnackBar {
+class _LoginScreenState extends State<LoginScreen>
+    with AwesomeDialogMixin, ShowSnackBar {
   final _formKey = GlobalKey<FormState>();
 
   late AuthRepository auth;
@@ -81,17 +83,58 @@ class _LoginScreenState extends State<LoginScreen> with ShowSnackBar {
         password_confirmation: passwordController.text,
       )
           .then((user) async {
+        // await buildSuccessDialog(context, 'Acount Created Successfully!', '')
+        //     .show();
+        showSnackBar(
+          context,
+          message: 'user created successfully',
+        );
+
         if (mounted) {
-          showSnackBar(context, message: 'Success Login');
           NavigationRoutes().jump(context, Routes.home_screen, replace: true);
           Provider.of<GeneralUsersProvider>(context, listen: false)
               .fetchGeneralUsersList();
         }
       }).catchError((e) {
-        showSnackBar(context, message: e.toString());
+        setState(() {
+          isLoginResponse = false;
+          _formKey.currentState?.reset();
+        });
+        showSnackBar(context,
+            message: handleErrorMessage(e.toString()), error: true);
       });
     }
   }
+
+  // logIn() {
+  //   if (_formKey.currentState!.validate()) {
+  //     setState(() {
+  //       isLoginResponse = true;
+  //     });
+  //     auth
+  //         .login(
+  //       email: emailController.text,
+  //       password: passwordController.text,
+  //     )
+  //         .then((user) async {
+  //       if (mounted) {
+  //         if (SharedPrefrencesController().roleId == 1) {
+  //           NavigationRoutes()
+  //               .jump(context, Routes.guest_screen, replace: true);
+  //         } else {
+  //           NavigationRoutes().jump(context, Routes.home_screen, replace: true);
+  //         }
+  //       }
+  //     }).catchError((e) {
+  //       setState(() {
+  //         isLoginResponse = false;
+  //         _formKey.currentState?.reset();
+  //       });
+  //       showSnackBar(context,
+  //           message: handleErrorMessage(e.toString()), error: true);
+  //     });
+  //   }
+  // }
 
   logIn() {
     if (_formKey.currentState!.validate()) {
@@ -104,6 +147,19 @@ class _LoginScreenState extends State<LoginScreen> with ShowSnackBar {
         password: passwordController.text,
       )
           .then((user) async {
+        showSnackBar(
+          context,
+          message: 'logged in successfully',
+        );
+        await buildSuccessDialog(context, '', 'Logged In Successfully!').show();
+
+        // Future.delayed(
+        //     Duration(
+        //       seconds: 1,
+        //     ), () {
+        //   Navigator.of(context).pop();
+        // });
+
         if (mounted) {
           if (SharedPrefrencesController().roleId == 1) {
             NavigationRoutes()
@@ -112,8 +168,28 @@ class _LoginScreenState extends State<LoginScreen> with ShowSnackBar {
             NavigationRoutes().jump(context, Routes.home_screen, replace: true);
           }
         }
+      }).catchError((e) {
+        setState(() {
+          isLoginResponse = false;
+        });
+        showSnackBar(context,
+            message: handleErrorMessage(e.toString()), error: true);
       });
     }
+  }
+
+  String handleErrorMessage(String e) {
+    print(e);
+    if (e.contains('Invalid credentials')) {
+      return 'Email or password is wrong.';
+    } else if (e.contains('422')) {
+      return "The password must be at least 6 characters.";
+    } else if (e.contains('name')) {
+      return 'The name field is required';
+    } else if (e.contains('email has already been taken')) {
+      return 'The email has already been taken.';
+    }
+    return e;
   }
 
   @override
@@ -295,6 +371,8 @@ class _LoginScreenState extends State<LoginScreen> with ShowSnackBar {
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
                                       return 'please_enter_the_password'.tr();
+                                    } else if (value.length < 6) {
+                                      return "password must be at least 6 characters.";
                                     }
                                     return null;
                                   },
@@ -315,14 +393,32 @@ class _LoginScreenState extends State<LoginScreen> with ShowSnackBar {
                                         AutofillHints.password
                                       ],
                                       validator: (value) {
-                                        if ((value == null || value.isEmpty) &&
-                                            value == passwordController.value &&
-                                            showSignUp) {
-                                          return 'please_enter_the_password_again'
+                                        if (value == null ||
+                                            value.isEmpty && showSignUp) {
+                                          return 'Please confirm your password'
                                               .tr();
                                         }
+                                        // else if (value !=
+                                        //     passwordController.text) {
+                                        //   return 'Passwords do not match';
+                                        // }
                                         return null;
                                       },
+                                      // validator: (value) {
+                                      //   if ((value == null ||
+                                      //           value.isEmpty ||
+                                      //           value !=
+                                      //               passwordController.value) &&
+                                      //       showSignUp) {
+                                      //     return 'please_enter_the_password_again'
+                                      //         .tr();
+                                      //   } else if (confirmPasswordController
+                                      //           .value.text.length <
+                                      //       6) {
+                                      //     return 'The password must be at least 6 characters.';
+                                      //   }
+                                      //   return null;
+                                      // },
                                     ),
                                     condition: showSignUp),
                               ],
@@ -333,7 +429,7 @@ class _LoginScreenState extends State<LoginScreen> with ShowSnackBar {
                           ),
                           isLoginResponse
                               ? CustomAuthButtonWidget(
-                                  child: spinkit,
+                                  child: progressSpinkit,
                                   onTap: () {
                                     signUp();
                                   },

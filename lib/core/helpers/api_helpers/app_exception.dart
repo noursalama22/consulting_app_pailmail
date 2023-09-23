@@ -19,8 +19,7 @@ class FetchDataException extends AppException {
 }
 
 class BadRequestException extends AppException {
-  BadRequestException([message])
-      : super(message['errors']['email'].toString(), "");
+  BadRequestException([message]) : super(message, "Bad Request");
 }
 
 class UnauthorisedException extends AppException {
