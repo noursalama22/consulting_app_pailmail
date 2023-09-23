@@ -134,6 +134,8 @@ class ApiBaseHelper {
         headers: headers,
         body: body,
       );
+      print("jeafhe${response.statusCode}");
+      print("kkkkkkkkkkkkkkkkkkkkkkkkkkk${response.body}");
       responseJson = _returnResponse(response);
     } on SocketException {
       throw FetchDataException('No Internet connection');

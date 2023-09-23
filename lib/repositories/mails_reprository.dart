@@ -34,7 +34,7 @@ class MailsRepository {
       List<Map<String, dynamic>>? activities}) async {
     // print("jjjjjjjjjjj");
     final Map<String, String> body = {
-      "subject": subject,
+      "subject": subject.toString(),
       "description": description.toString(),
       "sender_id": sender_id.toString(),
       "archive_number": archive_number,
@@ -45,11 +45,11 @@ class MailsRepository {
       "tags": jsonEncode(tags),
       "activities": jsonEncode(activities)
     };
-    // print("hhhhhhhhhhh");
-
+    print("hhhhhhhhhhh");
+    print(body);
     final response = await _hepler.post(allMailsUrl, body);
-    // print("rrrrrrrrrr" + response);
-    // print("create mail");
+    print("create mail");
+    print("rrrrrrrrrr ${Mail.fromJson(response['mail'])}");
     return Mail.fromJson(response['mail']);
   }
 

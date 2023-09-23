@@ -63,10 +63,12 @@ class _InboxScreenState extends State<InboxScreen>
   late TextEditingController descriptionController;
   late SenderRepository sender;
   String? saveCate = '';
-  String? saveStatusName = '';
-  String? saveStatusId = '';
+  int? saveCateId = 1;
+  String? saveStatusName = 'Inbox';
+  String? saveStatusId = '1';
   Color? saveStatusColor = const Color(0xffFA3A57);
-  int? status_id;
+  int? sender_id;
+  int? mail_id;
   @override
   void initState() {
     // TODO: implement initState
@@ -91,12 +93,32 @@ class _InboxScreenState extends State<InboxScreen>
     });
   }
 
-  // Future<> storeImage() async {
-  //   for (int i = 0; i < pickedMultiImage.length; i++) {
-  //   //  await UploadImage().uploadImage(
-  //   //     // File(pickedMultiImage[i]!.path),);      );
-  //   // }
-  // }
+  clear() {
+    senderController.clear();
+    phoneController.clear();
+
+    Provider.of<CategoriesProvider>(context, listen: false)
+        .getSender(selectedIndex: -1, categoryIndex: 1);
+    Provider.of<CategoriesProvider>(context, listen: false)
+        .changeSelectedCategory(
+      selectedIndex: 0,
+    );
+    Provider.of<StatusProvider>(context, listen: false).changeStatus(
+      selectedIndex: -1,
+    );
+
+    setState(() {
+      isDisable = false;
+      senderIndex = -1;
+    });
+  }
+
+  Future<void> storeImage() async {
+    for (int i = 0; i < pickedMultiImage.length; i++) {
+      await UploadImage().uploadImage(File(pickedMultiImage[i]!.path), mail_id);
+    }
+  }
+
   late String nameSender =
       Provider.of<CategoriesProvider>(context, listen: false)
           .allCategories
@@ -123,7 +145,7 @@ class _InboxScreenState extends State<InboxScreen>
               .senderPosition]
           .mobile
           .toString();
-  int senderIndex = -1;
+  dynamic senderIndex = -1;
 
   getSender() {
     if (nameSender.isNotEmpty && mobileSender.isNotEmpty) {
@@ -137,7 +159,7 @@ class _InboxScreenState extends State<InboxScreen>
           .senders![Provider.of<CategoriesProvider>(context, listen: false)
               .senderPosition]
           .id!
-          .toInt();
+          .toString();
     }
   }
 
@@ -163,35 +185,78 @@ class _InboxScreenState extends State<InboxScreen>
                 isEdit: true,
                 onTap: () async {
                   if (senderIndex == -1) {
-                    await Future.delayed(
-                      const Duration(milliseconds: 500),
-                      () {
-                        SenderRepository()
-                            .createSender(
-                                name: senderController.text,
-                                mobile: phoneController.text,
-                                categoryId: categoryId)
+                    await Future.delayed(const Duration(milliseconds: 200),
+                        () async {
+                      SenderRepository()
+                          .createSender(
+                              name: senderController.text,
+                              mobile: phoneController.text,
+                              categoryId: categoryId)
+                          .then((value) {
+                        showSnackBar(context,
+                            message: "Created Sender", duration: 1);
+                        Provider.of<CategoriesProvider>(context, listen: false)
+                            .fetchAllCategories();
+                        sender_id = value!.last.id;
+                        print("kkkkkk${sender_id}");
+
+                        Future.delayed(
+                          const Duration(milliseconds: 500),
+                          () async {
+                            print("jjjjj+$sender_id");
+                            await MailsRepository()
+                                .createMail(
+                                    subject: tileOfMailController.text,
+                                    description: descriptionController.text,
+                                    sender_id: sender_id.toString(),
+                                    archive_number: archiveController.text,
+                                    archive_date: DateTime.now(),
+                                    status_id: saveStatusId.toString(),
+                                    activities: addActivity)
+                                .then((value) {
+                              mail_id = value?.id;
+                              showSnackBar(context,
+                                  message: "Created Mail", duration: 2);
+                              clear();
+                            }).catchError((err) {
+                              showSnackBar(context,
+                                  message: "Field to create new mail",
+                                  error: true,
+                                  duration: 1);
+                            });
+                          },
+                        );
+                      }).catchError((err) {
+                        showSnackBar(context,
+                            message: "Try again", error: true, duration: 2);
+                      });
+                    });
+                  } else {
+                    Future.delayed(
+                      const Duration(milliseconds: 100),
+                      () async {
+                        print("jjjjj+$sender_id");
+                        await MailsRepository()
+                            .createMail(
+                                subject: tileOfMailController.text,
+                                description: descriptionController.text,
+                                sender_id: senderIndex.toString(),
+                                archive_number: archiveController.text,
+                                archive_date: DateTime.now(),
+                                status_id: saveStatusId.toString(),
+                                activities: addActivity)
                             .then((value) {
+                          mail_id = value?.id;
+
                           showSnackBar(context,
-                              message: "Created Sender", duration: 2);
-                          Provider.of<CategoriesProvider>(context,
-                                  listen: false)
-                              .fetchAllCategories();
-                          status_id = value!.last.id;
-                          print(status_id);
+                              message: "Created Mail", duration: 2);
+                          clear();
                         }).catchError((err) {
                           showSnackBar(context,
-                              message: "Try again", error: true, duration: 2);
+                              message: "Field to create new mail",
+                              error: true,
+                              duration: 1);
                         });
-
-                        // MailsRepository().createMail(
-                        //     subject: tileOfMailController.text,
-                        //     description: descriptionController.text,
-                        //     sender_id: status_id.toString(),
-                        //     archive_number: archiveController.text,
-                        //     archive_date: DateTime.now(),
-                        //     status_id: saveStatusId.toString(),
-                        //     activities: []);
                       },
                     );
                   }
@@ -218,7 +283,7 @@ class _InboxScreenState extends State<InboxScreen>
                       dateOrgName: widget.mail!.archiveDate ?? "",
                       dateOrgCategory: widget.mail!.archiveNumber ?? "",
                       subject: ExpansionTile(
-                        shape: Border(),
+                        shape: const Border(),
                         initiallyExpanded: false,
                         onExpansionChanged: (bool expanded) async {
                           expandCollapse();
@@ -290,39 +355,6 @@ class _InboxScreenState extends State<InboxScreen>
                                   isDisable = value;
                                 });
                                 getSender();
-                                // print("ttttttttttt $isDisable");
-                                // senderController.text =
-                                //     Provider.of<CategoriesProvider>(context,
-                                //             listen: false)
-                                //         .allCategories
-                                //         .data![Provider.of<CategoriesProvider>(
-                                //                 context,
-                                //                 listen: false)
-                                //             .categoryPosition]
-                                //         .senders![
-                                //             Provider.of<CategoriesProvider>(
-                                //                     context,
-                                //                     listen: false)
-                                //                 .senderPosition]
-                                //         .name
-                                //         .toString();
-                                // phoneController.text =
-                                //     Provider.of<CategoriesProvider>(context,
-                                //             listen: false)
-                                //         .allCategories
-                                //         .data![Provider.of<CategoriesProvider>(
-                                //                 context,
-                                //                 listen: false)
-                                //             .categoryPosition]
-                                //         .senders![
-                                //             Provider.of<CategoriesProvider>(
-                                //                     context,
-                                //                     listen: false)
-                                //                 .senderPosition]
-                                //         .mobile
-                                //         .toString();
-                                // print("rrr");
-                                // print(senderController.text);
                               });
                               // NavigationRoutes().jump(
                               //   context,
@@ -383,15 +415,16 @@ class _InboxScreenState extends State<InboxScreen>
                                           .allCategories.status ==
                                       ApiStatus.COMPLETED) {
                                     final category = categoryProvider
-                                        .allCategories
-                                        .data![Provider.of<CategoriesProvider>(
-                                                context)
-                                            .selectedIndex]
-                                        .name;
-                                    saveCate = category.toString();
+                                            .allCategories.data![
+                                        Provider.of<CategoriesProvider>(context)
+                                            .selectedIndex];
+                                    final categoryName =
+                                        category.name.toString();
+                                    saveCate = categoryName.toString();
+                                    saveCateId = category.id;
 
                                     // print("ttttttttttttttt" + saveCate);
-                                    return Text(category!,
+                                    return Text(categoryName!,
                                         style: buildAppBarTextStyle(
                                             color: kDarkGreyColor,
                                             letterSpacing: 0.15,

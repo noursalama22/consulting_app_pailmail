@@ -24,15 +24,13 @@ class CategoriesProvider extends ChangeNotifier {
     // fetchCategory2Mails(categoryId: "3");
     // fetchCategory3Mails(categoryId: "4");
     // fetchCategory4Mails(categoryId: "1");
-
-    fetchCategoryMails(categoryId: "2", index: 0);
-    fetchCategoryMails(categoryId: "3", index: 1);
-    fetchCategoryMails(categoryId: "4", index: 2);
-    fetchCategoryMails(categoryId: "1", index: 3);
-    // print(_mailsCategories.length);
+    //
+    // fetchCategoryMails(categoryId: "2", index: 0);
+    // fetchCategoryMails(categoryId: "3", index: 1);
+    // fetchCategoryMails(categoryId: "4", index: 2);
+    // fetchCategoryMails(categoryId: "1", index: 3);
   }
 
-  //{{palmail_url}}/categories/2/mails
   ApiResponse<List<CategoryElement>> get allCategories => _allCategories;
 
   List<ApiResponse<List<Mail>>> get mailsCategory => _mailsCategories;
@@ -42,10 +40,6 @@ class CategoriesProvider extends ChangeNotifier {
 
   int get senderPosition => _senderIndex;
 
-  // ApiResponse<List<Mail>> get mailsCategory1 => _mailsCategories1;
-  // ApiResponse<List<Mail>> get mailsCategory2 => _mailsCategories2;
-  // ApiResponse<List<Mail>> get mailsCategory3 => _mailsCategories3;
-  // ApiResponse<List<Mail>> get mailsCategory4 => _mailsCategories4;
   void fetchAllCategories() async {
     _allCategories = ApiResponse.loading("Loading");
     notifyListeners();
@@ -75,77 +69,16 @@ class CategoriesProvider extends ChangeNotifier {
     }
   }
 
+//to change category
   changeSelectedCategory({required int selectedIndex}) {
     _index = selectedIndex;
     notifyListeners();
   }
 
+//to change sender
   getSender({required int selectedIndex, int? categoryIndex = 0}) {
     _senderIndex = selectedIndex;
     _categoryIndex = categoryIndex!;
     notifyListeners();
   }
-
-// void fetchCategory1Mails({required String categoryId}) async {
-//   _mailsCategories1 = ApiResponse.loading("Loading");
-//   notifyListeners();
-//   try {
-//     final response =
-//         await _categoryRepository.fetchCategoryMails(categoryId: categoryId);
-//     _mailsCategories1 = ApiResponse.completed(response);
-//     //print("rrrrrrrrrrrrrr" + _mailsCategories1[index].data![0].id.toString());
-//     notifyListeners();
-//   } catch (e) {
-//     _mailsCategories1 = ApiResponse.error(e.toString());
-//     notifyListeners();
-//   }
-// }
-//
-// void fetchCategory2Mails({required String categoryId}) async {
-//   _mailsCategories2 = ApiResponse.loading("Loading");
-//   notifyListeners();
-//   try {
-//     final response =
-//         await _categoryRepository.fetchCategoryMails(categoryId: categoryId);
-//     _mailsCategories2 = ApiResponse.completed(response);
-//     //print("rrrrrrrrrrrrrr" + _mailsCategories1[index].data![0].id.toString());
-//     notifyListeners();
-//   } catch (e) {
-//     _mailsCategories2 = ApiResponse.error(e.toString());
-//     notifyListeners();
-//   }
-// }
-//
-// void fetchCategory3Mails({required String categoryId}) async {
-//   _mailsCategories3 = ApiResponse.loading("Loading");
-//   notifyListeners();
-//   try {
-//     final response =
-//         await _categoryRepository.fetchCategoryMails(categoryId: categoryId);
-//     _mailsCategories3 = ApiResponse.completed(response);
-//     //print("rrrrrrrrrrrrrr" + _mailsCategories1[index].data![0].id.toString());
-//     notifyListeners();
-//   } catch (e) {
-//     _mailsCategories3 = ApiResponse.error(e.toString());
-//     notifyListeners();
-//   }
-// }
-//
-// void fetchCategory4Mails({
-//   required String categoryId,
-// }) async {
-//   _mailsCategories4 = ApiResponse.loading("Loading");
-//   notifyListeners();
-//   try {
-//     final response =
-//         await _categoryRepository.fetchCategoryMails(categoryId: categoryId);
-//     _mailsCategories4 = ApiResponse.completed(response);
-//     //print("rrrrrrrrrrrrrr" + _mailsCategories1[index].data![0].id.toString());
-//     notifyListeners();
-//   } catch (e) {
-//     _mailsCategories4 = ApiResponse.error(e.toString());
-//     notifyListeners();
-//   }
-// }
-
 }
