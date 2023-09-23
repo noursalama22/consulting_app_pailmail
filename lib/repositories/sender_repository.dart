@@ -5,11 +5,12 @@ import 'package:consulting_app_pailmail/models/senders/senders_1.dart';
 import '../core/helpers/api_helpers/api_base_helper.dart';
 import '../core/utils/constants.dart';
 import '../models/senders/sender.dart';
+import '../models/senders/senders.dart';
 
 class SenderRepository {
   final ApiBaseHelper _helper = ApiBaseHelper();
 
-  Future<SenderResponseModel_1> createSender({
+  Future<List<Sender>?> createSender({
     required String name,
     required String mobile,
     String? address,
@@ -24,7 +25,9 @@ class SenderRepository {
     };
     final response = await _helper.post(sendersUrl, map);
     print("////////////////");
-    return SenderResponseModel_1.fromJson(response);
+    print("${SenderResponseModel.fromJson(response).sender}rrrrrrrrrrr");
+
+    return SenderResponseModel.fromJson(response).sender;
   }
 
   Future<void> deleteSender(String id) async {

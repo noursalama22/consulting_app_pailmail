@@ -25,11 +25,14 @@ class CustomDateContainer extends StatefulWidget {
 }
 
 class _CustomDateContainerState extends State<CustomDateContainer> {
+  modifyDate() {}
   @override
   Widget build(BuildContext context) {
     return CustomContainer(
         childContainer: Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+      padding: widget.isFilterScreen == true
+          ? EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h)
+          : EdgeInsets.symmetric(horizontal: 0.w, vertical: 12.h),
       child: Column(children: [
         CustomExpansionTile(
           isIndexWidet: true,
@@ -52,7 +55,7 @@ class _CustomDateContainerState extends State<CustomDateContainer> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        '${widget.title}',
+                        widget.title,
                         style: buildAppBarTextStyle(
                             color: kBlackColor,
                             letterSpacing: 0.15,
@@ -64,9 +67,9 @@ class _CustomDateContainerState extends State<CustomDateContainer> {
                         style: buildAppBarTextStyle(
                             letterSpacing: 0.15, fontSizeController: 12),
                       ),
-                      !widget.isFilterScreen == true
+                      widget.isFilterScreen == true
                           ? const CustomDivider()
-                          : const SizedBox(),
+                          : const SizedBox.shrink(),
                     ],
                   ),
                 ],
@@ -74,7 +77,9 @@ class _CustomDateContainerState extends State<CustomDateContainer> {
             ],
           ),
           children: [
-            const CustomDivider(),
+            widget.isFilterScreen == true
+                ? const CustomDivider()
+                : const SizedBox.shrink(),
             Column(
               children: [
                 CalendarDatePicker(

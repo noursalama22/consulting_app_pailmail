@@ -1,10 +1,12 @@
 import 'dart:io';
 
 import 'package:consulting_app_pailmail/core/helpers/api_helpers/api_response.dart';
+import 'package:consulting_app_pailmail/models/mails/activity.dart';
 import 'package:consulting_app_pailmail/models/mails/mail.dart';
 import 'package:consulting_app_pailmail/providers/auth_provider.dart';
 import 'package:consulting_app_pailmail/providers/categories_provider.dart';
 import 'package:consulting_app_pailmail/providers/status_provider.dart';
+import 'package:consulting_app_pailmail/repositories/mails_reprository.dart';
 import 'package:consulting_app_pailmail/repositories/sender_repository.dart';
 import 'package:consulting_app_pailmail/views/features/status/status_screen.dart';
 import 'package:consulting_app_pailmail/views/features/tags/tags_screen.dart';
@@ -19,10 +21,12 @@ import '../../../core/helpers/api_helpers/upload_image.dart';
 import '../../../core/helpers/routers/router.dart';
 import '../../../core/utils/constants.dart';
 import '../../../core/utils/show_bottom_sheet.dart';
+import '../../../core/utils/snckbar.dart';
 import '../../../models/add_activity.dart';
 import '../../widgets/custom_app_bar_with_icon.dart';
 import '../../widgets/custom_container.dart';
 import '../../widgets/custom_container_details.dart';
+import '../../widgets/custom_date_container.dart';
 import '../../widgets/custom_date_picker.dart';
 import '../../widgets/custom_expansion_tile.dart';
 import '../../widgets/custom_profile_photo_container.dart';
@@ -43,9 +47,12 @@ class InboxScreen extends StatefulWidget {
   State<InboxScreen> createState() => _InboxScreenState();
 }
 
-class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
+class _InboxScreenState extends State<InboxScreen>
+    with MyShowBottomSheet, ShowSnackBar {
+  bool isDisable = false;
+
   final DateTime _selectedDate = DateTime.now();
-  late List<AddActivity> addActivity;
+  late List<Map<String, dynamic>> addActivity;
   late TextEditingController senderController;
   late TextEditingController addNewActivityController;
   late TextEditingController addDecisionController;
@@ -57,8 +64,9 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
   late SenderRepository sender;
   String? saveCate = '';
   String? saveStatusName = '';
+  String? saveStatusId = '';
   Color? saveStatusColor = const Color(0xffFA3A57);
-
+  int? status_id;
   @override
   void initState() {
     // TODO: implement initState
@@ -76,7 +84,6 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
   }
 
   bool _customTileExpanded = false;
-  bool isDisable = false;
 
   void expandCollapse() {
     setState(() {
@@ -122,6 +129,7 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
     if (nameSender.isNotEmpty && mobileSender.isNotEmpty) {
       senderController.text = nameSender;
       phoneController.text = mobileSender;
+
       senderIndex = Provider.of<CategoriesProvider>(context, listen: false)
           .allCategories
           .data![Provider.of<CategoriesProvider>(context, listen: false)
@@ -153,12 +161,39 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
                 widgetName: "New Inbox",
                 bottomPadding: 16,
                 isEdit: true,
-                onTap: () {
+                onTap: () async {
                   if (senderIndex == -1) {
-                    SenderRepository().createSender(
-                        name: senderController.text,
-                        mobile: phoneController.text,
-                        categoryId: categoryId);
+                    await Future.delayed(
+                      const Duration(milliseconds: 500),
+                      () {
+                        SenderRepository()
+                            .createSender(
+                                name: senderController.text,
+                                mobile: phoneController.text,
+                                categoryId: categoryId)
+                            .then((value) {
+                          showSnackBar(context,
+                              message: "Created Sender", duration: 2);
+                          Provider.of<CategoriesProvider>(context,
+                                  listen: false)
+                              .fetchAllCategories();
+                          status_id = value!.last.id;
+                          print(status_id);
+                        }).catchError((err) {
+                          showSnackBar(context,
+                              message: "Try again", error: true, duration: 2);
+                        });
+
+                        // MailsRepository().createMail(
+                        //     subject: tileOfMailController.text,
+                        //     description: descriptionController.text,
+                        //     sender_id: status_id.toString(),
+                        //     archive_number: archiveController.text,
+                        //     archive_date: DateTime.now(),
+                        //     status_id: saveStatusId.toString(),
+                        //     activities: []);
+                      },
+                    );
                   }
                 },
               ),
@@ -249,45 +284,45 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => SenderScreen(),
+                                    builder: (context) => const SenderScreen(),
                                   )).then((value) {
                                 setState(() {
                                   isDisable = value;
                                 });
                                 getSender();
-                                print("ttttttttttt $isDisable");
-                                senderController.text =
-                                    Provider.of<CategoriesProvider>(context,
-                                            listen: false)
-                                        .allCategories
-                                        .data![Provider.of<CategoriesProvider>(
-                                                context,
-                                                listen: false)
-                                            .categoryPosition]
-                                        .senders![
-                                            Provider.of<CategoriesProvider>(
-                                                    context,
-                                                    listen: false)
-                                                .senderPosition]
-                                        .name
-                                        .toString();
-                                phoneController.text =
-                                    Provider.of<CategoriesProvider>(context,
-                                            listen: false)
-                                        .allCategories
-                                        .data![Provider.of<CategoriesProvider>(
-                                                context,
-                                                listen: false)
-                                            .categoryPosition]
-                                        .senders![
-                                            Provider.of<CategoriesProvider>(
-                                                    context,
-                                                    listen: false)
-                                                .senderPosition]
-                                        .mobile
-                                        .toString();
-                                print("rrr");
-                                print(senderController.text);
+                                // print("ttttttttttt $isDisable");
+                                // senderController.text =
+                                //     Provider.of<CategoriesProvider>(context,
+                                //             listen: false)
+                                //         .allCategories
+                                //         .data![Provider.of<CategoriesProvider>(
+                                //                 context,
+                                //                 listen: false)
+                                //             .categoryPosition]
+                                //         .senders![
+                                //             Provider.of<CategoriesProvider>(
+                                //                     context,
+                                //                     listen: false)
+                                //                 .senderPosition]
+                                //         .name
+                                //         .toString();
+                                // phoneController.text =
+                                //     Provider.of<CategoriesProvider>(context,
+                                //             listen: false)
+                                //         .allCategories
+                                //         .data![Provider.of<CategoriesProvider>(
+                                //                 context,
+                                //                 listen: false)
+                                //             .categoryPosition]
+                                //         .senders![
+                                //             Provider.of<CategoriesProvider>(
+                                //                     context,
+                                //                     listen: false)
+                                //                 .senderPosition]
+                                //         .mobile
+                                //         .toString();
+                                // print("rrr");
+                                // print(senderController.text);
                               });
                               // NavigationRoutes().jump(
                               //   context,
@@ -315,7 +350,7 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
                                   .toString(),
                           customFontSize: 16,
                           controller: phoneController,
-                          icon: Icon(Icons.phone_android_outlined),
+                          icon: const Icon(Icons.phone_android_outlined),
                         ),
 
                         // buildDivider(),
@@ -421,69 +456,20 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
 
               ///date calender
               widget.isDetails
-                  ? SizedBox.shrink()
+                  ? const SizedBox.shrink()
                   : CustomContainer(
-                      childContainer: Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 16.w, vertical: 12.h),
-                      child: Column(children: [
-                        CustomExpansionTile(
-                          isIndexWidet: true,
-                          widgetOfTile: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                mainAxisSize: MainAxisSize.min,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  const Icon(
-                                    Icons.calendar_month,
-                                    color: kRedColor,
-                                    size: 25,
-                                  ),
-                                  SizedBox(
-                                    width: 9.w,
-                                  ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "Date",
-                                        style: buildAppBarTextStyle(
-                                            color: kBlackColor,
-                                            letterSpacing: 0.15,
-                                            fontSizeController: 16),
-                                      ),
-                                      Text(
-                                        //20.20.2022
-                                        "$_selectedDate".split(" ")[0],
-                                        style: buildAppBarTextStyle(
-                                            letterSpacing: 0.15,
-                                            fontSizeController: 12),
-                                      ),
-                                      CustomDivider(),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                          children: [
-                            const CustomDivider(),
-                            Column(
-                              children: [
-                                CustomDatePicker(
-                                  selectedDate: _selectedDate,
-                                )
-                              ],
-                            ),
-                          ],
-                        ),
-                        const CustomDivider(),
-                        Row(
+                      childContainer: Column(children: [
+                      CustomDateContainer(
+                          title: 'Date',
+                          isFilterScreen: false,
+                          selectedDate: _selectedDate),
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 16.w, vertical: 0.h),
+                        child: Row(
                           mainAxisSize: MainAxisSize.max,
                           mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const Icon(
                               Icons.archive_outlined,
@@ -522,8 +508,8 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
                             ),
                           ],
                         ),
-                      ]),
-                    )),
+                      ),
+                    ])),
               SizedBox(
                 height: 19.h,
               ),
@@ -619,6 +605,7 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
                               saveStatusColor =
                                   Color(int.parse(status.color.toString()));
                               saveStatusName = status.name.toString();
+                              saveStatusId = status.id.toString();
                               print("hhhhhhhhhh $saveStatusColor");
 
                               return CustomContainer(
@@ -657,7 +644,7 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
                     widget.isDetails
                         ? Padding(
                             padding: EdgeInsets.only(top: 8.h),
-                            child: Text("description of decision"))
+                            child: const Text("description of decision"))
                         : CustomTextField(
                             paddingHor: 0,
                             hintText: "Add Decision…",
@@ -790,23 +777,27 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
                                     SizedBox(
                                       width: 8.w,
                                     ),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                            "${Provider.of<AuthProvider>(context).currentUser.data?.user.name}"),
-                                        const SizedBox(
-                                          height: 12,
+                                    Expanded(
+                                      child: Container(
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.max,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                                "${Provider.of<AuthProvider>(context).currentUser.data?.user.name}"),
+                                            const SizedBox(
+                                              height: 12,
+                                            ),
+                                            Text(addActivity[index]['body']),
+                                          ],
                                         ),
-                                        Text(addActivity[index].activityName),
-                                      ],
+                                      ),
                                     ),
                                     const Spacer(),
-                                    Text("${addActivity[index].currentTime}"
-                                        .split(" ")[0])
+                                    Text("${DateTime.now()}".split(" ")[0])
                                   ],
                                 ),
                               ),
@@ -831,9 +822,19 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
                       print("${addNewActivityController.text} rrr");
                       if (addNewActivityController.text.isNotEmpty) {
                         setState(() {
-                          addActivity.add(AddActivity(
-                              activityName: addNewActivityController.text,
-                              currentTime: DateTime.now()));
+                          Map<String, dynamic> newActivity = <String, String>{
+                            "body": addNewActivityController.text,
+                            "user_id": Provider.of<AuthProvider>(context,
+                                    listen: false)
+                                .currentUser
+                                .data!
+                                .user
+                                .id
+                                .toString()
+                          };
+                          setState(() {
+                            addActivity.add(newActivity);
+                          });
                         });
                         addNewActivityController.clear();
                       }
@@ -863,22 +864,6 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
     ));
   }
 
-  // Provider.of<AuthProvider>(context)
-  //     .currentUser
-  //     .data
-  //     ?.user
-  //     .image ==
-  // null
-  // ? const Icon(
-  // Icons.account_circle,
-  // size: 90,
-  // color: kLightGreyColor,
-  // )
-  //     : CustomProfilePhotoContainer(
-  // image:
-  // '$imageUrl/${Provider.of<AuthProvider>(context).currentUser.data?.user.image}',
-  // raduis: 50.r,
-  // ),
   Stack viewImages(int index) {
     return Stack(
       fit: StackFit.expand,

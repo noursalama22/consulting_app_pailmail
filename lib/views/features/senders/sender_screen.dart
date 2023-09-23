@@ -23,7 +23,10 @@ class SenderScreen extends StatefulWidget {
 
 class _SenderScreenState extends State<SenderScreen> {
   SenderRepository sn = SenderRepository();
+  bool isCheck = false;
+
   int index = -1;
+  int catIndex = -1;
   void initState() {
     // TODO: implement initState
     super.initState();
@@ -31,7 +34,6 @@ class _SenderScreenState extends State<SenderScreen> {
 
   @override
   Widget build(BuildContext context) {
-    bool isCheck = false;
     return Scaffold(
       backgroundColor: kBackgroundColor,
 
@@ -47,8 +49,6 @@ class _SenderScreenState extends State<SenderScreen> {
                 onTap: () {
                   if (index != -1) {
                     isCheck = true;
-                  } else {
-                    isCheck = false;
                   }
                   Navigator.pop(context, isCheck);
                 },
@@ -126,6 +126,7 @@ class _SenderScreenState extends State<SenderScreen> {
                                 print("sssss $indexSender");
                                 print(index1);
                                 index = indexSender;
+                                catIndex = index1;
                                 Provider.of<CategoriesProvider>(context,
                                         listen: false)
                                     .getSender(
