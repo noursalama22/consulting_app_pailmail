@@ -8,7 +8,7 @@
 
 ## Description
 <a name="description"></a>
-"palmail - Consulting App" is a digital solution designed to streamline and simplify the process of managing incoming mail and tracking its status. This system aims to replace traditional paper-based mail transactions with an efficient and user-friendly digital platform.
+"Palmail - Consulting App" is a digital solution designed to streamline and simplify the process of managing incoming mail and tracking its status. This system aims to replace traditional paper-based mail transactions with an efficient and user-friendly digital platform.
 
 ## Installation
 <a name="installation"></a>
