@@ -25,10 +25,10 @@ class CategoriesProvider extends ChangeNotifier {
     // fetchCategory3Mails(categoryId: "4");
     // fetchCategory4Mails(categoryId: "1");
     //
-    // fetchCategoryMails(categoryId: "2", index: 0);
-    // fetchCategoryMails(categoryId: "3", index: 1);
-    // fetchCategoryMails(categoryId: "4", index: 2);
-    // fetchCategoryMails(categoryId: "1", index: 3);
+    fetchCategoryMails(categoryId: "2", index: 0);
+    fetchCategoryMails(categoryId: "3", index: 1);
+    fetchCategoryMails(categoryId: "4", index: 2);
+    fetchCategoryMails(categoryId: "1", index: 3);
   }
 
   ApiResponse<List<CategoryElement>> get allCategories => _allCategories;
@@ -82,7 +82,6 @@ class CategoriesProvider extends ChangeNotifier {
     _categoryIndex = categoryIndex!;
     notifyListeners();
   }
-
 
 // void fetchCategory1Mails({required String categoryId}) async {
 //   _mailsCategories1 = ApiResponse.loading("Loading");
@@ -145,5 +144,4 @@ class CategoriesProvider extends ChangeNotifier {
 //     notifyListeners();
 //   }
 // }
-
 }
