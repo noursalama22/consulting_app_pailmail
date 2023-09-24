@@ -144,52 +144,54 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
         //   TODO :Animation
         //TODO :add widget comment for work of widget
 
-        bottomNavigationBar: Material(
-          color: Colors.white,
-          shape: Border(
-              top: BorderSide(
-            color: kLightGreyColor,
-            width: 1.w,
-          )),
-          child: InkWell(
-            onTap: () {
-              //print('called on tap');
-              showSheet(
-                  context,
-                  const InboxScreen(
-                    isDetails: false,
-                  ));
-            },
-            child: SizedBox(
-              height: kToolbarHeight,
-              width: double.infinity,
-              child: Padding(
-                padding: EdgeInsetsDirectional.only(start: 20.w),
-                child: Row(
-                  children: [
-                    const CustomStatusContainer(
-                      color: kLightBlueColor,
-                      size: 24,
-                      child: Icon(
-                        Icons.add,
-                        color: Colors.white,
+        bottomNavigationBar: SharedPrefrencesController().roleName != 'user'
+            ? Material(
+                color: Colors.white,
+                shape: Border(
+                    top: BorderSide(
+                  color: kLightGreyColor,
+                  width: 1.w,
+                )),
+                child: InkWell(
+                  onTap: () {
+                    //print('called on tap');
+                    showSheet(
+                        context,
+                        const InboxScreen(
+                          isDetails: false,
+                        ));
+                  },
+                  child: SizedBox(
+                    height: kToolbarHeight,
+                    width: double.infinity,
+                    child: Padding(
+                      padding: EdgeInsetsDirectional.only(start: 20.w),
+                      child: Row(
+                        children: [
+                          const CustomStatusContainer(
+                            color: kLightBlueColor,
+                            size: 24,
+                            child: Icon(
+                              Icons.add,
+                              color: Colors.white,
+                            ),
+                          ),
+                          SizedBox(
+                            width: 8.w,
+                          ),
+                          Text(
+                            "newInbox".tr(),
+                            style: tileTextTitleStyle.copyWith(
+                              color: kLightBlueColor,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    SizedBox(
-                      width: 8.w,
-                    ),
-                    Text(
-                      "newInbox".tr(),
-                      style: tileTextTitleStyle.copyWith(
-                        color: kLightBlueColor,
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
-              ),
-            ),
-          ),
-        ),
+              )
+            : SizedBox(),
         body: SafeArea(
           child: Column(
             children: [
