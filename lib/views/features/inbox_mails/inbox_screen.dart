@@ -895,17 +895,15 @@ class _InboxScreenState extends State<InboxScreen>
                                                 const SizedBox(
                                                   height: 12,
                                                 ),
-                                                Text(addActivity[index]['body'],
-                                                    overflow: TextOverflow.clip,
-                                                    maxLines: 3),
+                                                Text(
+                                                  addActivity[index]['body'],
+                                                ),
                                               ],
                                             ),
                                           ),
                                           const Spacer(),
                                           Text(
                                             "${DateTime.now()}".split(" ")[0],
-                                            overflow: TextOverflow.clip,
-                                            maxLines: 3,
                                           )
                                         ],
                                       ),
