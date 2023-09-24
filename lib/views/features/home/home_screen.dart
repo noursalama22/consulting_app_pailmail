@@ -162,52 +162,56 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
         //   TODO :Animation
         //TODO :add widget comment for work of widget
 
-        bottomNavigationBar: Material(
-          color: Colors.white,
-          shape: Border(
-              top: BorderSide(
-            color: kLightGreyColor,
-            width: 1.w,
-          )),
-          child: InkWell(
-            onTap: () {
-              //print('called on tap');
-              showSheet(
-                  context,
-                  const InboxScreen(
-                    isDetails: false,
-                  ));
-            },
-            child: SizedBox(
-              height: kToolbarHeight,
-              width: double.infinity,
-              child: Padding(
-                padding: EdgeInsetsDirectional.only(start: 20.w),
-                child: Row(
-                  children: [
-                    const CustomStatusContainer(
-                      color: kLightBlueColor,
-                      size: 24,
-                      child: Icon(
-                        Icons.add,
-                        color: Colors.white,
+
+        bottomNavigationBar: SharedPrefrencesController().roleName != 'user'
+            ? Material(
+                color: Colors.white,
+                shape: Border(
+                    top: BorderSide(
+                  color: kLightGreyColor,
+                  width: 1.w,
+                )),
+                child: InkWell(
+                  onTap: () {
+                    //print('called on tap');
+                    showSheet(
+                        context,
+                        const InboxScreen(
+                          isDetails: false,
+                        ));
+                  },
+                  child: SizedBox(
+                    height: kToolbarHeight,
+                    width: double.infinity,
+                    child: Padding(
+                      padding: EdgeInsetsDirectional.only(start: 20.w),
+                      child: Row(
+                        children: [
+                          const CustomStatusContainer(
+                            color: kLightBlueColor,
+                            size: 24,
+                            child: Icon(
+                              Icons.add,
+                              color: Colors.white,
+                            ),
+                          ),
+                          SizedBox(
+                            width: 8.w,
+                          ),
+                          Text(
+                            "newInbox".tr(),
+                            style: tileTextTitleStyle.copyWith(
+                              color: kLightBlueColor,
+                            ),
+                          ),
+                        ],
+
                       ),
                     ),
-                    SizedBox(
-                      width: 8.w,
-                    ),
-                    Text(
-                      "newInbox".tr(),
-                      style: tileTextTitleStyle.copyWith(
-                        color: kLightBlueColor,
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
-              ),
-            ),
-          ),
-        ),
+              )
+            : SizedBox(),
         body: SafeArea(
           child: Column(
             children: [
@@ -614,6 +618,67 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                                       size: 32,
                                     ),
                                   ),
+//                                   mailNumber: data!.length.toString(),
+//                                   children: [
+//                                     ListView.builder(
+//                                       itemBuilder: (context, index) {
+//                                         return CustomMailContainer(
+//                                           onTap: () {
+//                                             Navigator.push(context,
+//                                                 MaterialPageRoute(
+//                                               builder: (context) {
+//                                                 return InboxScreen(
+//                                                   isDetails: true,
+//                                                   mail: data[index],
+//                                                   IsSender: false,
+//                                                 );
+//                                               },
+//                                             ));
+//                                           },
+//                                           organizationName:
+//                                               data[index].sender!.name ?? "",
+//                                           color: hexToColor(
+//                                               data[index].status!.color ?? ''),
+//                                           date: data[index].archiveDate ?? "",
+//                                           description:
+//                                               data[index].description ?? "",
+//                                           images: const [],
+//                                           tags: data[index].tags ?? [],
+//                                           subject: data[index].subject ?? "",
+//                                           endMargin: 8,
+//                                         );
+//                                       },
+//                                       shrinkWrap: true,
+//                                       itemCount:
+//                                           data.length < 3 ? data.length : 3,
+//                                     ),
+//                                     const SizedBox(
+//                                       height: 8,
+//                                     ),
+//                                     data.length > 3
+//                                         ? Padding(
+//                                             padding: const EdgeInsetsDirectional
+//                                                 .only(end: 10),
+//                                             child: GestureDetector(
+//                                               onTap: () =>
+//                                                   navigateToAllMail(data),
+//                                               child: const Align(
+//                                                 child: Text(
+//                                                   'See More',
+//                                                   style: TextStyle(
+//                                                     fontSize: 14,
+//                                                     color: kLightBlueColor,
+//                                                     fontWeight: FontWeight.bold,
+//                                                   ),
+//                                                 ),
+//                                                 alignment: AlignmentDirectional
+//                                                     .centerEnd,
+//                                               ),
+//                                             ),
+//                                           )
+//                                         : const SizedBox.shrink(),
+//                                   ],
+
                                 );
                               } else if (value.mailsCategory[index].status ==
                                   ApiStatus.ERROR) {
@@ -627,6 +692,39 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                                       fetchOrgName(index).tr(),
                                       style: tileTextTitleStyle,
                                     ),
+
+//                                     mailNumber: '',
+//                                     isEmpty: true,
+//                                     children: const [
+//                                       Column(
+//                                         children: [
+//                                           Icon(Icons.warning),
+//                                           Text("No Data")
+//                                         ],
+//                                       ),
+//                                     ]);
+//                               } else {
+//                                 var data = value.mailsCategory[1].data;
+//                                 return CustomExpansionTile(
+//                                   index: 1,
+//                                   widgetOfTile: Text(
+//                                     "ngos".tr(),
+//                                     style: tileTextTitleStyle,
+//                                   ),
+//                                   mailNumber: data!.length.toString(),
+//                                   children: [
+//                                     ListView.builder(
+//                                       itemBuilder: (context, index) {
+//                                         return CustomMailContainer(
+//                                           onTap: () {
+//                                             Navigator.push(context,
+//                                                 MaterialPageRoute(
+//                                               builder: (context) {
+//                                                 return InboxScreen(
+//                                                   isDetails: true,
+//                                                   mail: data[index],
+//                                                   IsSender: false,
+
                                     mailNumber:
                                         value.mailsCategory[index].data!.isEmpty
                                             ? '0'
@@ -714,6 +812,7 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                                                   subject:
                                                       data[index].subject ?? "",
                                                   endMargin: 8,
+
                                                 );
                                               },
                                               itemCount: data.length < 3
@@ -777,6 +876,7 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                                 return Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
+
                                     Padding(
                                       padding: EdgeInsetsDirectional.symmetric(
                                           horizontal: 20.w),
@@ -854,6 +954,52 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                                           }
                                         ],
                                       ),
+//                                     ]);
+//                               } else {
+//                                 var data = value.mailsCategory[3].data;
+//                                 return CustomExpansionTile(
+//                                   index: 3,
+//                                   widgetOfTile: Text(
+//                                     "other".tr(),
+//                                     style: tileTextTitleStyle,
+//                                   ),
+//                                   mailNumber: data!.length.toString(),
+//                                   children: [
+//                                     ListView.builder(
+//                                       itemBuilder: (context, index) {
+//                                         return CustomMailContainer(
+//                                           onTap: () {
+//                                             Navigator.push(context,
+//                                                 MaterialPageRoute(
+//                                               builder: (context) {
+//                                                 return InboxScreen(
+//                                                   isDetails: true,
+//                                                   mail: data[index],
+//                                                   IsSender: false,
+//                                                 );
+//                                               },
+//                                             ));
+//                                           },
+//                                           organizationName:
+//                                               data[index].sender!.name ?? "",
+//                                           color: hexToColor(
+//                                               data[index].status!.color ?? ''),
+//                                           date: data[index].archiveDate ?? "",
+//                                           description:
+//                                               data[index].description ?? "",
+//                                           images: const [], //TODO:display Images
+//                                           tags: data[index].tags ?? [],
+//                                           subject: data[index].subject ?? "",
+//                                           endMargin: 8,
+//                                         );
+//                                       },
+//                                       itemCount:
+//                                           data.length < 3 ? data.length : 3,
+//                                       shrinkWrap: true,
+//                                     ),
+//                                     const SizedBox(
+//                                       height: 8,
+
                                     ),
                                   ],
                                 );

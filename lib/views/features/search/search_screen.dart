@@ -12,16 +12,19 @@ import '../../../core/utils/constants.dart';
 class SearchScreen extends StatefulWidget {
   SearchScreen({Key? key}) : super(key: key);
   List<Mail>? mails;
+
   @override
   State<SearchScreen> createState() => _SearchScreenState();
 }
 
 class _SearchScreenState extends State<SearchScreen> {
   late TextEditingController _searchtextEditingController;
+
   String statusId = '';
   bool isChangedIconColor = false;
   bool isChangedBarColor = false;
   bool isLoading = false;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -121,6 +124,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     ),
                     cursorColor: kDarkGreyColor,
                     decoration: InputDecoration(
+
                       filled: true, //<-- SEE HERE
                       fillColor:
                           isChangedBarColor ? kWhiteColor : Color(0xFFEAEAF5),
@@ -139,9 +143,6 @@ class _SearchScreenState extends State<SearchScreen> {
                       hintStyle: buildAppBarTextStyle(
                           fontSizeController: 16,
                           color: kMediumGreyColor,
-                          // color: Color(0xFF272727),
-                          //TODO : Check below color !!!!!!
-                          // color: const Color(0xffafafaf),
                           letterSpacing: 0.15),
                       //Add  Animated Icon
                       suffixIcon: IconButton(
@@ -196,6 +197,7 @@ class _SearchScreenState extends State<SearchScreen> {
             const SizedBox(
               height: 16,
             ),
+
             isLoading
                 ? Skeletonizer(
                     enabled: true,

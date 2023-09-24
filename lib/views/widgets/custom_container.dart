@@ -12,6 +12,7 @@ class CustomContainer extends StatefulWidget {
   final Widget childContainer;
   final Color? backgroundColor;
   final bool? isInBox;
+
   @override
   State<CustomContainer> createState() => _ContainerCustomState();
 }

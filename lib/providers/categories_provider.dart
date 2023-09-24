@@ -83,7 +83,6 @@ class CategoriesProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-
 // void fetchCategory1Mails({required String categoryId}) async {
 //   _mailsCategories1 = ApiResponse.loading("Loading");
 //   notifyListeners();
@@ -145,5 +144,4 @@ class CategoriesProvider extends ChangeNotifier {
 //     notifyListeners();
 //   }
 // }
-
 }

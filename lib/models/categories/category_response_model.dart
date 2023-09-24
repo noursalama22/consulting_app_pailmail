@@ -52,7 +52,6 @@ class CategoryElement {
     this.sendersCount,
     this.senders,
   });
-
   factory CategoryElement.fromJson(Map<String, dynamic> json) =>
       CategoryElement(
         id: json["id"],
