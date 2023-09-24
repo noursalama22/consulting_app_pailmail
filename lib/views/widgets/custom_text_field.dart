@@ -18,7 +18,11 @@ class CustomTextField extends StatelessWidget {
     this.paddingHor = 16,
     this.suffixIcon = Icons.info_outline,
     this.suffixFunction,
+    this.isAddActivity = false,
     this.hintColor = kGreyWhiteColor,
+    this.image,
+    this.isSender = false,
+    this.isDisable = false,
     // this.backgrundColor = Colors.white
   });
   // this.backgrundColor = const Color(0xff707070)});
@@ -33,10 +37,13 @@ class CustomTextField extends StatelessWidget {
   final bool? withoutPrefix;
   final bool? withoutSuffix;
   final TextEditingController? controller;
-  final IconData? icon;
+  final Widget? icon;
   final IconData? suffixIcon;
   final Function()? suffixFunction;
-
+  final bool? isAddActivity;
+  final Widget? image;
+  final bool? isSender;
+  final bool? isDisable;
   @override
   Widget build(BuildContext context) {
     //TODO: Add select the content of text field to copy or cut .....
@@ -47,42 +54,35 @@ class CustomTextField extends StatelessWidget {
       //TODO :Create new color
       style: const TextStyle(color: Color(0xff707070)),
       cursorColor: const Color(0xff707070),
-
+      readOnly: isSender == true && isDisable == true ? true : false,
       decoration: InputDecoration(
-        //filled: true, //<-- SEE HERE
-        //fillColor: backgrundColor,
+          //filled: true, //<-- SEE HERE
+          //fillColor: backgrundColor,
 
-        contentPadding: withoutPrefix == true
-            ? EdgeInsets.symmetric(horizontal: paddingHor!.w)
-            : const EdgeInsets.symmetric(vertical: 0, horizontal: 0),
-
-        focusedBorder: buildOutlineInputBorderTextField(),
-        enabledBorder: buildOutlineInputBorderTextField(),
-
-        prefixIcon: withoutPrefix == true
-            ? null
-            : Icon(
-                icon,
-                color: iconColor,
-              ),
-        hintText: hintText,
-        hintStyle: buildAppBarTextStyle(
-            fontSizeController: customFontSize,
-            color: hintColor,
-            //TODO : Check below color !!!!!!
-            // color: const Color(0xffafafaf),
-            letterSpacing: 0.15),
-
-        suffixIcon: withoutSuffix == true
-            ? null
-            : InkWell(
-                onTap: suffixFunction,
-                child: Icon(
-                  suffixIcon,
-                  color: kLightBlueColor,
-                ),
-              ),
-      ),
+          contentPadding: withoutPrefix == true
+              ? EdgeInsets.symmetric(horizontal: paddingHor!.w)
+              : const EdgeInsets.symmetric(vertical: 0, horizontal: 0),
+          focusedBorder: buildOutlineInputBorderTextField(),
+          enabledBorder: buildOutlineInputBorderTextField(),
+          prefixIcon: withoutPrefix == true ? null : icon,
+          hintText: hintText,
+          hintStyle: buildAppBarTextStyle(
+              fontSizeController: customFontSize,
+              color: hintColor,
+              //TODO : Check below color !!!!!!
+              // color: const Color(0xffafafaf),
+              letterSpacing: 0.15),
+          suffixStyle:
+              withoutPrefix == true ? null : const TextStyle(height: 12),
+          suffixIcon: withoutSuffix == true
+              ? null
+              : InkWell(
+                  onTap: suffixFunction,
+                  child: Icon(
+                    suffixIcon,
+                    color: kLightBlueColor,
+                  ),
+                )),
     );
   }
 }

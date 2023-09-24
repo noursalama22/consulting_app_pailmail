@@ -46,6 +46,7 @@ class _TagsScreenState extends State<TagsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
         body: SafeArea(
             child: Padding(
       padding:
@@ -387,6 +388,7 @@ class _TagsScreenState extends State<TagsScreen> {
         ],
       ),
     )));
+
   }
 }
 

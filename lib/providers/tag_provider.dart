@@ -12,10 +12,12 @@ class TagProvider extends ChangeNotifier {
   late ApiResponse<List<Tag>> _tagWithMailList;
   late ApiResponse<List<Tag>> _tagOfMailList;
 
-  int _tagIndex = 0;
+ 
+  List<int> _tagIndex = [];
+
 
   ApiResponse<List<Tag>> get tagList => _tagList;
-  int get tagIndex => _tagIndex;
+  List<int> get tagIndex => _tagIndex;
 
   ApiResponse<List<Tag>> get tagWithMailList => _tagWithMailList;
 
@@ -28,8 +30,8 @@ class TagProvider extends ChangeNotifier {
     // getTagOfMailList(id);
     // getTagWithMailList(list);
   }
-  changeSelectedTag({required int selectedIndex}) {
-    _tagIndex = selectedIndex;
+  changeSelectedTag({required List<int> selectedIndex}) {
+    _tagIndex.addAll(selectedIndex);
     notifyListeners();
   }
 

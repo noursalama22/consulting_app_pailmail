@@ -24,6 +24,7 @@ class Senders_1 {
   dynamic prevPageUrl;
   int? to;
   int? total;
+  int? message;
 
   Senders_1(
       {this.currentPage,
@@ -38,6 +39,7 @@ class Senders_1 {
       this.perPage,
       this.prevPageUrl,
       this.to,
+      this.message,
       this.total});
 
   Senders_1.fromJson(Map<String, dynamic> json) {
@@ -59,6 +61,7 @@ class Senders_1 {
       });
     }
     nextPageUrl = json['next_page_url'];
+    message = json['message'];
     path = json['path'];
     perPage = json['per_page'];
     prevPageUrl = json['prev_page_url'];
@@ -81,6 +84,7 @@ class Senders_1 {
     }
     data['next_page_url'] = nextPageUrl;
     data['path'] = path;
+    data['message'] = message;
     data['per_page'] = perPage;
     data['prev_page_url'] = prevPageUrl;
     data['to'] = to;
