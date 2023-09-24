@@ -139,9 +139,6 @@ class _SearchScreenState extends State<SearchScreen> {
                       hintStyle: buildAppBarTextStyle(
                           fontSizeController: 16,
                           color: kMediumGreyColor,
-                          // color: Color(0xFF272727),
-                          //TODO : Check below color !!!!!!
-                          // color: const Color(0xffafafaf),
                           letterSpacing: 0.15),
                       //Add  Animated Icon
                       suffixIcon: IconButton(
