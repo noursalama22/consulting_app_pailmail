@@ -5,6 +5,7 @@ import 'package:consulting_app_pailmail/views/features/home/drawer/profile/updat
 import 'package:consulting_app_pailmail/views/widgets/custom_auth_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../core/helpers/api_helpers/api_response.dart';
@@ -94,7 +95,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
               SizedBox(height: 60.h),
               CustomAuthButtonWidget(
-                  title: 'Edit Profile',
+                  child: Text(
+                    'Edit Profile',
+                    style: GoogleFonts.poppins(
+                        color: kWhiteColor, fontSize: 18, letterSpacing: 0.44),
+                  ),
                   onTap: () {
                     Navigator.pushReplacement(context, MaterialPageRoute(
                       builder: (context) {

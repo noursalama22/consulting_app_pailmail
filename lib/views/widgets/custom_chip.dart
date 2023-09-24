@@ -7,9 +7,11 @@ class CustomChip extends StatefulWidget {
       {super.key,
       required this.text,
       this.isPressed = false,
+      this.isHomeTag = false,
       required this.onPressed});
   final String text;
   bool isPressed;
+  bool isHomeTag;
   final void Function() onPressed;
   //bool isSelected = false;
   @override

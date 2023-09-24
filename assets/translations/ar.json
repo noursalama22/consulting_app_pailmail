@@ -28,7 +28,25 @@
   "OR" : "او",
   "home" : "الرئيسية",
   "profile" : "الملف الشخصي",
+  "edit_Profile":"تعديل الملف الشخصي ",
+  "update_profile":"تحديث  الملف الشخصي",
   "senders" : "المرسلين",
   "user_management" : "ادارة المستخدمين",
-  "terms_of_service_privacy_policy" : "شروط الخدمة | سياسة الخصوصية"
+  "terms_of_service_privacy_policy" : "شروط الخدمة | سياسة الخصوصية",
+  "change_role":"تحديث الصلاحية",
+  "filter":"التصفية",
+  "clear_filter":"مسح التصفية",
+  "start_date":"تاريخ البدء",
+  "end_date":"تاريخ الانتهاء",
+  "sender":"المرسل",
+  "archive_number":"رقم الأرشيف",
+  "delete":"حذف",
+  "warning":"تنبيه",
+  "Username updated": "تحديث اسم المستخدم",
+  "Username has been successfully updated!": "تم تحديث اسم المستخدم بنجاح",
+  "Password updated": "تحديث  كلمة السر",
+  "Password has been successfully updated!": "تم تحديث كلمة السر بنجاح",
+  "New Password": "كلمة سر جديدة",
+  "Confirm Password": "تأكيد كلمة سر جديدة"
+
 }

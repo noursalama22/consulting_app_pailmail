@@ -9,6 +9,7 @@ class Sender {
   String? createdAt;
   String? updatedAt;
   String? mailsCount;
+  String? message;
   Category? category;
 
   Sender({
@@ -21,6 +22,7 @@ class Sender {
     this.updatedAt,
     this.mailsCount,
     this.category,
+    this.message,
   });
 
   factory Sender.fromJson(Map<String, dynamic> json) => Sender(
@@ -32,6 +34,7 @@ class Sender {
         createdAt: json["created_at"],
         updatedAt: json["updated_at"],
         mailsCount: json["mails_count"],
+        message: json["message"],
         category: json["category"] == null
             ? null
             : Category.fromJson(json["category"]),
@@ -46,6 +49,7 @@ class Sender {
         "created_at": createdAt,
         "updated_at": updatedAt,
         "mails_count": mailsCount,
+        "message": message,
         "category": category?.toJson(),
       };
 }

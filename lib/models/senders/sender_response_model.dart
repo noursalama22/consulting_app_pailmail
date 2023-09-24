@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final senderResponseModel = senderResponseModelFromJson(jsonString);
-
 import 'dart:convert';
 
 import 'package:consulting_app_pailmail/models/senders/sender.dart';
@@ -13,18 +9,26 @@ String senderResponseModelToJson(SenderResponseModel data) =>
     json.encode(data.toJson());
 
 class SenderResponseModel {
-  Sender? sender;
+  String? message;
+  List<Sender>? sender;
 
   SenderResponseModel({
+    this.message,
     this.sender,
   });
 
   factory SenderResponseModel.fromJson(Map<String, dynamic> json) =>
       SenderResponseModel(
-        sender: json["sender"] == null ? null : Sender.fromJson(json["sender"]),
+        message: json["message"],
+        sender: json["sender"] == null
+            ? []
+            : List<Sender>.from(json["sender"]!.map((x) => Sender.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
-        "sender": sender?.toJson(),
+        "message": message,
+        "sender": sender == null
+            ? []
+            : List<dynamic>.from(sender!.map((x) => x.toJson())),
       };
 }

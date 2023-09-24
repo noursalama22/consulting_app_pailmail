@@ -1,9 +1,11 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../core/helpers/api_helpers/api_response.dart';
+import '../../../../../core/utils/awesome_dialog.dart';
 import '../../../../../core/utils/constants.dart';
 import '../../../../../models/roles/role.dart';
 import '../../../../../providers/general_users_provider.dart';
@@ -34,7 +36,8 @@ class GeneralUserProfileScreen extends StatefulWidget {
       _GeneralUserProfileScreenState();
 }
 
-class _GeneralUserProfileScreenState extends State<GeneralUserProfileScreen> {
+class _GeneralUserProfileScreenState extends State<GeneralUserProfileScreen>
+    with AwesomeDialogMixin {
   TextEditingController updateNameController = TextEditingController();
   TextEditingController updatePassController = TextEditingController();
   TextEditingController confirmPassController = TextEditingController();
@@ -45,6 +48,19 @@ class _GeneralUserProfileScreenState extends State<GeneralUserProfileScreen> {
   toggleRoles() {
     setState(() {
       viewRoles = !viewRoles;
+    });
+  }
+
+  okChangeRole() async {
+    await GeneralUsersRepository()
+        .changeUserRole(userId: widget.id, updatedRoleId: _selectedRoleId);
+    Provider.of<GeneralUsersProvider>(context, listen: false)
+        .fetchGeneralUsersList();
+    toggleRoles();
+    Future.delayed(const Duration(milliseconds: 200), () {
+      buildSuccessDialog(
+              context, 'Role Updated', 'Role has been successfully updated!')
+          .show();
     });
   }
 
@@ -72,11 +88,8 @@ class _GeneralUserProfileScreenState extends State<GeneralUserProfileScreen> {
               backgroundColor: kPrimaryBlueColor,
               icon: Icon(Icons.recent_actors_outlined),
               onPressed: () async {
-                await GeneralUsersRepository().changeUserRole(
-                    userId: widget.id, updatedRoleId: _selectedRoleId);
-                Provider.of<GeneralUsersProvider>(context, listen: false)
-                    .fetchGeneralUsersList();
-                toggleRoles();
+                buildWarningDialog(context, 'change $names role', okChangeRole)
+                    .show();
               },
             )
           : null,
@@ -106,7 +119,7 @@ class _GeneralUserProfileScreenState extends State<GeneralUserProfileScreen> {
                                 title: names,
                                 icon: Icons.person,
                                 edit: () async {
-                                  AwesomeDialog(
+                                  await AwesomeDialog(
                                     context: context,
                                     dialogType: DialogType.noHeader,
                                     borderSide: BorderSide(
@@ -145,11 +158,15 @@ class _GeneralUserProfileScreenState extends State<GeneralUserProfileScreen> {
                                         names = updateNameController.text;
                                       });
 
-                                      Future.delayed(const Duration(seconds: 1),
+                                      Future.delayed(
+                                          const Duration(milliseconds: 200),
                                           () {
-                                        Navigator.pop(
-                                          context,
-                                        );
+                                        buildSuccessDialog(
+                                                context,
+                                                'Username updated'.tr(),
+                                                'Username has been successfully updated!'
+                                                    .tr())
+                                            .show();
                                       });
                                     },
                                   ).show();
@@ -184,7 +201,7 @@ class _GeneralUserProfileScreenState extends State<GeneralUserProfileScreen> {
                                           minLines: 1,
                                           decoration: InputDecoration(
                                             border: InputBorder.none,
-                                            labelText: 'New Password',
+                                            labelText: 'New Password'.tr(),
                                             prefixIcon: Icon(Icons.password),
                                           ),
                                         ),
@@ -194,7 +211,7 @@ class _GeneralUserProfileScreenState extends State<GeneralUserProfileScreen> {
                                           minLines: 1,
                                           decoration: InputDecoration(
                                             border: InputBorder.none,
-                                            labelText: 'Confirm Password',
+                                            labelText: 'Confirm Password'.tr(),
                                             prefixIcon: Icon(Icons.password),
                                           ),
                                         ),
@@ -210,7 +227,16 @@ class _GeneralUserProfileScreenState extends State<GeneralUserProfileScreen> {
                                               updatedConfoirmPass:
                                                   confirmPassController.text,
                                               userId: widget.id);
-                                      //todo:use snackbar
+                                      Future.delayed(
+                                          const Duration(milliseconds: 200),
+                                          () {
+                                        buildSuccessDialog(
+                                                context,
+                                                'Password updated'.tr(),
+                                                'Password has been successfully updated!'
+                                                    .tr())
+                                            .show();
+                                      });
                                     },
                                   ).show();
                                 },
@@ -254,9 +280,10 @@ class _GeneralUserProfileScreenState extends State<GeneralUserProfileScreen> {
                                               groupValue: _selectedRoleId,
                                               onChanged: (String? value) {
                                                 setState(() {
-                                                  _selectedRoleId = value!;
-                                                  role = '${roles.name}';
-                                                  setState(() {});
+                                                  setState(() {
+                                                    _selectedRoleId = value!;
+                                                    role = '${roles.name}';
+                                                  });
                                                 });
                                               },
                                             );
@@ -277,92 +304,20 @@ class _GeneralUserProfileScreenState extends State<GeneralUserProfileScreen> {
       ),
     );
   }
+
+  // AwesomeDialog buildAwesomeDialog(BuildContext context, String title) {
+  //   return AwesomeDialog(
+  //     context: context,
+  //     dialogType: DialogType.success,
+  //     borderSide: BorderSide(color: kGreenColor, width: 1),
+  //     buttonsBorderRadius: BorderRadius.all(Radius.circular(2)),
+  //     headerAnimationLoop: false,
+  //     animType: AnimType.topSlide,
+  //     title: '$title  Updated',
+  //     desc: '$title has been successfully updated!',
+  //     showCloseIcon: false,
+  //     btnCancelOnPress: () {},
+  //     btnOkOnPress: () {},
+  //   );
+  // }
 }
-/***/
-// AwesomeDialog(
-//   context: context,
-//   dialogType: DialogType.warning,
-//   borderSide:
-//       BorderSide(color: kLightBlueColor, width: 2),
-//   buttonsBorderRadius:
-//       BorderRadius.all(Radius.circular(5)),
-//   headerAnimationLoop: true,
-//   animType: AnimType.topSlide,
-//   title: 'Update role',
-//   desc: 'Change Role...',
-//   body: SizedBox(
-//     height: 250.h,
-//     child: Consumer<RoleProvider>(
-//       builder: (_, roleProvider, __) {
-//         if (roleProvider.roleList.status ==
-//             ApiStatus.LOADING) {
-//           return const Center(
-//             child:spinkit,
-//           );
-//         }
-//         if (roleProvider.roleList.status ==
-//             ApiStatus.ERROR) {
-//           return Center(
-//             child: Text(
-//                 '${roleProvider.roleList.message}'),
-//           );
-//         }
-//         return ListView.builder(
-//           itemCount: roleProvider.roleList.data?.length,
-//           itemBuilder: (context, index) {
-//             Role roles =
-//                 roleProvider.roleList.data![index];
-//             return RadioListTile<String>(
-//               title: Text('${roles.name}'),
-//               value: '${roles.id}',
-//               groupValue: _selectedRoleId,
-//               onChanged: (String? value) {
-//                 setState(() {
-//                   _selectedRoleId = value!;
-//                   role = '${roles.name}';
-//                   setState(() {});
-//                 });
-//               },
-//             );
-//           },
-//           //     ListTile(
-//           //   title: Text('${roles.name}'),
-//           //   leading: Radio<String>(
-//           //     value: '${roles.id}',
-//           //     groupValue: _selectedRoleId,
-//           //     onChanged: (String? value) {
-//           //       setState(() {
-//           //         _selectedRoleId = value!;
-//           //         role = '${roles.name}';
-//           //       });
-//           //     },
-//           //   ),
-//           // );d
-//         );
-//         //   Center(
-//         //   child: ListView.builder(
-//         //     itemCount:
-//         //         roleProvider.roleList.data?.length,
-//         //     itemBuilder: (context, index) {
-//         //       Role roles =
-//         //           roleProvider.roleList.data![index];
-//         //       return Text('${roles.name}');
-//         //     },
-//         //   ),
-//         // );
-//       },
-//     ),
-//   ),
-//   showCloseIcon: true,
-//   btnCancelOnPress: () {},
-//   btnOkOnPress: () async {
-//     await GeneralUsersRepository().changeUserRole(
-//         userId: widget.id,
-//         updatedRoleId: _selectedRoleId);
-//     Provider.of<GeneralUsersProvider>(context,
-//             listen: false)
-//         .fetchGeneralUsersList();
-//   },
-// ).show();
-// GeneralUsersRepository().changeUserRole(
-//     userId: widget.id, updatedRoleId: '4');

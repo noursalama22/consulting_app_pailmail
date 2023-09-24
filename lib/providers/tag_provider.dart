@@ -1,5 +1,6 @@
 import 'package:consulting_app_pailmail/models/tags/tag.dart';
 import 'package:flutter/cupertino.dart';
+
 import '../core/helpers/api_helpers/api_response.dart';
 import '../repositories/tag_repository.dart';
 
@@ -11,11 +12,12 @@ class TagProvider extends ChangeNotifier {
   late ApiResponse<List<Tag>> _tagWithMailList;
   late ApiResponse<List<Tag>> _tagOfMailList;
 
-  int _tagIndex = 0;
+ 
+  List<int> _tagIndex = [];
 
 
   ApiResponse<List<Tag>> get tagList => _tagList;
-  int get tagIndex => _tagIndex;
+  List<int> get tagIndex => _tagIndex;
 
   ApiResponse<List<Tag>> get tagWithMailList => _tagWithMailList;
 
@@ -28,17 +30,15 @@ class TagProvider extends ChangeNotifier {
     // getTagOfMailList(id);
     // getTagWithMailList(list);
   }
-  changeSelectedTag({required int selectedIndex}) {
-    _tagIndex = selectedIndex;
+  changeSelectedTag({required List<int> selectedIndex}) {
+    _tagIndex.addAll(selectedIndex);
     notifyListeners();
-
   }
 
   getTagList() async {
     _tagList = ApiResponse.loading("Fetching Tags");
     notifyListeners();
     try {
-
       List<Tag>? tags = await _repository
           .getTags(); // print("./////////.......${tags}......//////////////..........");
 
@@ -65,7 +65,7 @@ class TagProvider extends ChangeNotifier {
     }
   }
 
-  getTagWithMailList(List<dynamic> list) async {
+  getTagWithMailList(dynamic list) async {
     _tagWithMailList = ApiResponse.loading("Fetching Tags");
     notifyListeners();
     try {
