@@ -109,36 +109,6 @@ class _LoginScreenState extends State<LoginScreen>
     }
   }
 
-  // logIn() {
-  //   if (_formKey.currentState!.validate()) {
-  //     setState(() {
-  //       isLoginResponse = true;
-  //     });
-  //     auth
-  //         .login(
-  //       email: emailController.text,
-  //       password: passwordController.text,
-  //     )
-  //         .then((user) async {
-  //       if (mounted) {
-  //         if (SharedPrefrencesController().roleId == 1) {
-  //           NavigationRoutes()
-  //               .jump(context, Routes.guest_screen, replace: true);
-  //         } else {
-  //           NavigationRoutes().jump(context, Routes.home_screen, replace: true);
-  //         }
-  //       }
-  //     }).catchError((e) {
-  //       setState(() {
-  //         isLoginResponse = false;
-  //         _formKey.currentState?.reset();
-  //       });
-  //       showSnackBar(context,
-  //           message: handleErrorMessage(e.toString()), error: true);
-  //     });
-  //   }
-  // }
-
   logIn() {
     if (_formKey.currentState!.validate()) {
       setState(() {
@@ -155,13 +125,6 @@ class _LoginScreenState extends State<LoginScreen>
         //   message: 'logged in successfully',
         // );
         await buildSuccessDialog(context, 'Logged In Successfully!', '').show();
-
-        // Future.delayed(
-        //     Duration(
-        //       seconds: 1,
-        //     ), () {
-        //   Navigator.of(context).pop();
-        // });
 
         if (mounted) {
           if (SharedPrefrencesController().roleId == 1) {
@@ -405,21 +368,6 @@ class _LoginScreenState extends State<LoginScreen>
 
                                         return null;
                                       },
-                                      // validator: (value) {
-                                      //   if ((value == null ||
-                                      //           value.isEmpty ||
-                                      //           value !=
-                                      //               passwordController.value) &&
-                                      //       showSignUp) {
-                                      //     return 'please_enter_the_password_again'
-                                      //         .tr();
-                                      //   } else if (confirmPasswordController
-                                      //           .value.text.length <
-                                      //       6) {
-                                      //     return 'The password must be at least 6 characters.';
-                                      //   }
-                                      //   return null;
-                                      // },
                                     ),
                                     condition: showSignUp),
                               ],

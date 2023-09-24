@@ -5,8 +5,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../core/utils/constants.dart';
 
 class CustomSearchBar extends StatelessWidget {
-  const CustomSearchBar({Key? key, this.onTap}) : super(key: key);
-  final Function()? onTap;
+  const CustomSearchBar(
+      {Key? key, this.onTap, this.searchController, this.isSenderPage = false})
+      : super(key: key);
+  final Function(String)? onTap;
+  final bool isSenderPage;
+
+  final TextEditingController? searchController;
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +23,8 @@ class CustomSearchBar extends StatelessWidget {
           color: Colors.white,
           borderRadius: BorderRadius.circular(24)),
       child: TextField(
-        onTap: onTap,
+        controller: isSenderPage == true ? searchController : null,
+        onChanged: onTap,
         decoration: InputDecoration(
           contentPadding: EdgeInsetsDirectional.zero,
           prefixIcon: const Icon(

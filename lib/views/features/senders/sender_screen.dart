@@ -11,6 +11,7 @@ import 'package:provider/provider.dart';
 
 import '../../../core/utils/constants.dart';
 import '../../../models/senders/sender.dart';
+import '../../../repositories/search_repository.dart';
 import '../../widgets/custom_app_bar.dart';
 import '../../widgets/custom_search_bar.dart';
 
@@ -24,12 +25,21 @@ class SenderScreen extends StatefulWidget {
 class _SenderScreenState extends State<SenderScreen> {
   SenderRepository sn = SenderRepository();
   bool isCheck = false;
-
-  int index = -1;
+  bool iSearch = false;
+  late int index = -1;
   int catIndex = -1;
+  late TextEditingController searchController;
   void initState() {
     // TODO: implement initState
     super.initState();
+    searchController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    searchController.dispose();
   }
 
   @override
@@ -61,7 +71,13 @@ class _SenderScreenState extends State<SenderScreen> {
               ///Search Bar
               Padding(
                 padding: EdgeInsetsDirectional.only(end: 12.w),
-                child: const CustomSearchBar(),
+                child: CustomSearchBar(
+                  isSenderPage: true,
+                  searchController: searchController,
+                  onTap: (input) async {
+                    setState(() {});
+                  },
+                ),
               ),
 
               ///Text of Search
@@ -94,95 +110,106 @@ class _SenderScreenState extends State<SenderScreen> {
               physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (context, index1) {
                 final category = categoriesProvider.allCategories.data![index1];
+                var sender =
+                    categoriesProvider.allCategories.data![index1].senders;
+                if (searchController.text.isNotEmpty) {
+                  sender = sender
+                      ?.where((senderInfo) =>
+                          senderInfo.name!.contains(searchController.text))
+                      .toList();
+                }
+                return sender!.isEmpty
+                    ? const SizedBox.shrink()
+                    : Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          ///Company Name
+                          ///هيتغير لما يجي من ال api
+                          Padding(
+                            padding: EdgeInsets.only(top: 23.0, bottom: 4.h),
+                            child: Text(
+                              category.name.toString(),
+                              style: buildAppBarTextStyle(
+                                  fontSizeController: 12,
+                                  color: const Color(0xffafafaf)),
+                            ),
+                          ),
 
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    ///Company Name
-                    ///هيتغير لما يجي من ال api
-                    Padding(
-                      padding: EdgeInsets.only(top: 23.0, bottom: 4.h),
-                      child: Text(
-                        category.name.toString(),
-                        style: buildAppBarTextStyle(
-                            fontSizeController: 12,
-                            color: const Color(0xffafafaf)),
-                      ),
-                    ),
+                          ///هيتغير اسم السيندر لما يجي من ال api
+                          ///sender convert it to future builder
+                          ListView.builder(
+                              padding: EdgeInsets.zero,
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemBuilder: (context, indexSender) {
+                                return Container(
+                                  padding: EdgeInsetsDirectional.symmetric(
+                                      vertical: 20.h),
+                                  decoration: buildBoxDecoration(),
+                                  child: InkWell(
+                                    onTap: () {
+                                      print("sssss $indexSender");
+                                      print(index1);
+                                      index = indexSender;
+                                      catIndex = index1;
 
-                    ///هيتغير اسم السيندر لما يجي من ال api
-                    ///sender convert it to future builder
-                    ListView.builder(
-                        padding: EdgeInsets.zero,
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemBuilder: (context, indexSender) {
-                          return Container(
-                            padding:
-                                EdgeInsetsDirectional.symmetric(vertical: 20.h),
-                            decoration: buildBoxDecoration(),
-                            child: InkWell(
-                              onTap: () {
-                                print("sssss $indexSender");
-                                print(index1);
-                                index = indexSender;
-                                catIndex = index1;
-                                Provider.of<CategoriesProvider>(context,
-                                        listen: false)
-                                    .getSender(
-                                        selectedIndex: indexSender,
-                                        categoryIndex: index1);
-                              },
-                              child: Row(
-                                children: [
-                                  Transform.scale(
-                                    scale:
-                                        1.5, // Adjust the scale factor as needed
-                                    child: Container(
-                                      margin:
-                                          EdgeInsetsDirectional.only(end: 8.h),
-                                      decoration: const BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: kDarkGreyColor,
-                                      ),
-                                      child: const Icon(
-                                        Icons.person,
-                                        color: Colors.white,
-                                      ),
+                                      Provider.of<CategoriesProvider>(context,
+                                              listen: false)
+                                          .getSender(
+                                              selectedIndex: indexSender,
+                                              categoryIndex: index1);
+                                    },
+                                    child: Row(
+                                      children: [
+                                        Transform.scale(
+                                          scale:
+                                              1.5, // Adjust the scale factor as needed
+                                          child: Container(
+                                            margin: EdgeInsetsDirectional.only(
+                                                end: 8.h),
+                                            decoration: const BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: kDarkGreyColor,
+                                            ),
+                                            child: const Icon(
+                                              Icons.person,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                        ),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              sender![indexSender]
+                                                  .name
+                                                  .toString(),
+                                              style: buildAppBarTextStyle(
+                                                  fontSizeController: 14,
+                                                  color: kBlackColor),
+                                            ),
+                                            SizedBox(
+                                              height: 4.h,
+                                            ),
+                                            Text(
+                                              sender![indexSender]
+                                                  .mobile
+                                                  .toString(),
+                                              style: buildAppBarTextStyle(
+                                                  fontSizeController: 14,
+                                                  color: kBlackColor),
+                                            ),
+                                          ],
+                                        )
+                                      ],
                                     ),
                                   ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        category.senders![indexSender].name
-                                            .toString(),
-                                        style: buildAppBarTextStyle(
-                                            fontSizeController: 14,
-                                            color: kBlackColor),
-                                      ),
-                                      SizedBox(
-                                        height: 4.h,
-                                      ),
-                                      Text(
-                                        category.senders![indexSender].mobile
-                                            .toString(),
-                                        style: buildAppBarTextStyle(
-                                            fontSizeController: 14,
-                                            color: kBlackColor),
-                                      ),
-                                    ],
-                                  )
-                                ],
-                              ),
-                            ),
-                          );
-                        },
-                        itemCount: categoriesProvider
-                            .allCategories.data![index1].senders!.length),
-                  ],
-                );
+                                );
+                              },
+                              itemCount: sender!.length),
+                        ],
+                      );
               },
               itemCount: 4);
         }
