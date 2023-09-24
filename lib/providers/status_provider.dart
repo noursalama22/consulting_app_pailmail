@@ -15,6 +15,7 @@ class StatusProvider extends ChangeNotifier {
     _statusRepository = StatusRepository();
     fetchAllStatus();
   }
+
   ApiResponse<List<Status>> get allStatus => _statusList;
   ApiResponse<Status> get singleStatus => _singleStatus;
   changeStatus({required int selectedIndex}) {

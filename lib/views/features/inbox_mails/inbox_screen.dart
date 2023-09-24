@@ -5,8 +5,10 @@ import 'package:consulting_app_pailmail/models/mails/activity.dart';
 import 'package:consulting_app_pailmail/models/mails/mail.dart';
 import 'package:consulting_app_pailmail/providers/auth_provider.dart';
 import 'package:consulting_app_pailmail/providers/categories_provider.dart';
+import 'package:consulting_app_pailmail/providers/mails_provider.dart';
 import 'package:consulting_app_pailmail/providers/status_provider.dart';
 import 'package:consulting_app_pailmail/repositories/mails_reprository.dart';
+
 
 import 'package:consulting_app_pailmail/providers/tag_provider.dart';
 
@@ -26,7 +28,11 @@ import '../../../core/utils/constants.dart';
 import '../../../core/utils/show_bottom_sheet.dart';
 import '../../../core/utils/snckbar.dart';
 import '../../../models/add_activity.dart';
+import '../../../models/senders/senderMails.dart';
+import '../../../providers/auth_provider.dart';
+
 import '../../../storage/shared_prefs.dart';
+
 import '../../widgets/custom_app_bar_with_icon.dart';
 import '../../widgets/custom_container.dart';
 import '../../widgets/custom_container_details.dart';
@@ -39,13 +45,15 @@ import '../category/category_screen.dart';
 import '../senders/sender_screen.dart';
 
 class InboxScreen extends StatefulWidget {
-  const InboxScreen({
-    required this.isDetails,
-    Key? key,
-    this.mail,
-  }) : super(key: key);
+  const InboxScreen(
+      {required this.isDetails, Key? key, this.mail, this.mails, this.IsSender})
+      : super(key: key);
   final bool isDetails;
   final Mail? mail;
+  final Mails? mails;
+  final bool? IsSender;
+
+  //final Future<List<Mails>?>? mails;
 
   @override
   State<InboxScreen> createState() => _InboxScreenState();
@@ -178,10 +186,18 @@ class _InboxScreenState extends State<InboxScreen>
       child: Column(children: [
         ///App Bar
         widget.isDetails
-            ? const CustomAppBarWithIcon(
+            // widget.mail!.id.toString(),
+            ? CustomAppBarWithIcon(
                 widgetName: "Details",
                 left_icon: Icons.arrow_back_ios_new,
-                right_icon: Icons.menu,
+
+                right_icon: Icons.more_horiz,
+                id: widget.IsSender!
+                    ? widget.mails!.id.toString()
+                    : widget.mail!.id.toString())
+//             : const CustomAppBar(widgetName: "New Inbox", bottomPadding: 16),
+
+//                 right_icon: Icons.menu,
               )
             : CustomAppBar(
                 widgetName: "New Inbox",
@@ -270,22 +286,23 @@ class _InboxScreenState extends State<InboxScreen>
           child: ListView(
             padding: EdgeInsets.zero,
             shrinkWrap: true,
-            physics: const AlwaysScrollableScrollPhysics(),
+            physics: AlwaysScrollableScrollPhysics(),
             children: [
               ///Big Container
               widget.isDetails
                   ? CustomContainerDetails(
-//  status_api_features
-//                       organizationName: "Emmett Balistreri",
-//                       organizationCategory: "Foreign",
-//                       dateOrgName: "4-JAN_1990",
-//                       dateOrgCategory: "A-Nov-5",
-
-                      organizationName: widget.mail!.sender!.name ?? "",
-                      organizationCategory:
-                          widget.mail!.sender!.category!.name!,
-                      dateOrgName: widget.mail!.archiveDate ?? "",
-                      dateOrgCategory: widget.mail!.archiveNumber ?? "",
+                      organizationName: widget.IsSender!
+                          ? widget.mails!.sender!.name ?? ""
+                          : widget.mail!.sender!.name ?? "",
+                      organizationCategory: widget.IsSender!
+                          ? widget.mails!.sender!.category!.name ?? ""
+                          : widget.mail!.sender!.category!.name ?? "",
+                      dateOrgName: widget.IsSender!
+                          ? widget.mails!.archiveDate ?? ""
+                          : widget.mail!.archiveDate ?? "",
+                      dateOrgCategory: widget.IsSender!
+                          ? widget.mails!.archiveNumber ?? ""
+                          : widget.mail!.archiveNumber ?? "",
                       subject: ExpansionTile(
                         shape: const Border(),
                         initiallyExpanded: false,
@@ -306,7 +323,9 @@ class _InboxScreenState extends State<InboxScreen>
                           ),
                         ),
                         title: Text(
-                          "DR.",
+                          widget.IsSender!
+                              ? widget.mails!.sender!.name ?? ""
+                              : widget.mail!.sender!.name ?? "",
                           style:
                               tileTextTitleStyle.copyWith(color: kBlackColor),
                         ),
@@ -316,7 +335,9 @@ class _InboxScreenState extends State<InboxScreen>
                             child: Align(
                               alignment: AlignmentDirectional.centerStart,
                               child: Text(
-                                widget.mail!.description ?? "",
+                                widget.IsSender!
+                                    ? widget.mails!.description ?? ""
+                                    : widget.mail!.description ?? "",
                               ),
                             ),
                           )
@@ -554,6 +575,10 @@ class _InboxScreenState extends State<InboxScreen>
               ///Tags it will open bottom Sheet
               buildListTile(
                 onTap: () {
+                 
+
+                  showSheet(context, TagsScreen());
+
                   Provider.of<TagProvider>(context, listen: false).getTagList();
 
                   showSheet(
@@ -561,6 +586,7 @@ class _InboxScreenState extends State<InboxScreen>
                       TagsScreen(
                         navFromHome: false,
                       ));
+
                 },
                 icon: Icons.tag_rounded,
                 widget: Text(
@@ -588,10 +614,13 @@ class _InboxScreenState extends State<InboxScreen>
                     widget.isDetails
                         ? CustomContainer(
                             isInBox: true,
-                            backgroundColor: Color(int.parse(
-                                widget.mail!.status!.color.toString())),
+                            backgroundColor: Color(int.parse(widget.IsSender!
+                                ? widget.mails!.status!.color.toString()
+                                : widget.mail!.status!.color.toString())),
                             childContainer: Text(
-                              widget.mail!.status!.name ?? 'inbox',
+                              widget.IsSender!
+                                  ? widget.mails!.status!.name ?? 'inbox'
+                                  : widget.mail!.status!.name ?? 'inbox',
                               style: const TextStyle(color: Colors.white),
                             ))
                         : Consumer<StatusProvider>(builder:
@@ -599,7 +628,8 @@ class _InboxScreenState extends State<InboxScreen>
                                 StatusProvider statusProvider, Widget? child) {
                             if (statusProvider.allStatus.status ==
                                     ApiStatus.LOADING ||
-                                Provider.of<StatusProvider>(context)
+                                Provider.of<StatusProvider>(context,
+                                            listen: false)
                                         .selectedIndex <
                                     0) // to avoid null when status filter is cleared
                             {
@@ -613,9 +643,10 @@ class _InboxScreenState extends State<InboxScreen>
                             } else if (statusProvider.allStatus.status ==
                                 ApiStatus.COMPLETED) {
                               final status = statusProvider.allStatus.data![
-                                  Provider.of<StatusProvider>(context)
+                                  Provider.of<StatusProvider>(context,
+                                          listen: false)
                                       .selectedIndex];
-
+                              //indexSelected  like variable .....
                               saveStatusColor =
                                   Color(int.parse(status.color.toString()));
                               saveStatusName = status.name.toString();
@@ -658,7 +689,10 @@ class _InboxScreenState extends State<InboxScreen>
                     widget.isDetails
                         ? Padding(
                             padding: EdgeInsets.only(top: 8.h),
-                            child: const Text("description of decision"))
+                            child: Text(widget.IsSender!
+                                ? widget.mails!.decision ?? ""
+                                : widget.mail!.decision ?? ""))
+
                         : CustomTextField(
                             paddingHor: 0,
                             hintText: "Add Decision…",
@@ -757,11 +791,33 @@ class _InboxScreenState extends State<InboxScreen>
                     ),
                     isIndexWidet: false,
                     children: [
+                      // Consumer<MailProvider>(
+                      //   builder: (_, mailProvider, __) {
+                      //     if (mailProvider.activityMail.status ==
+                      //         ApiStatus.LOADING) {
+                      //       return CircularProgressIndicator();
+                      //     }
+                      //     if (mailProvider.activityMail.status ==
+                      //         ApiStatus.ERROR) {
+                      //       return Text("${mailProvider.activityMail.message}");
+                      //     }
+                      //     return
+                      //   Provider.of<MailProvider>(context,
+                      //   listen: false)
+                      //   .fetchActivityMail("id")
+                      //   .then((value) {
+                      // var stauts = Provider.of<MailProvider>(
+                      //     context,
+                      //     listen: false)
+                      //     .activityMail;
+                      // },
+
+
                       ListView.builder(
                         padding: EdgeInsets.zero,
-                        physics: const NeverScrollableScrollPhysics(),
+                        physics: NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
-                        itemCount: addActivity.length,
+                        itemCount: widget.mail!.activities!.length,
                         itemBuilder: (BuildContext context, int index) {
                           return Padding(
                             padding: EdgeInsets.symmetric(vertical: 8.0.h),
@@ -772,6 +828,40 @@ class _InboxScreenState extends State<InboxScreen>
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
+//                                     Container(
+//                                       child: Column(children: [
+//                                         CircleAvatar(
+//                                           radius: 15,
+//                                         ),
+//                                         SizedBox(
+//                                           width: 8.w,
+//                                         ),
+//                                         Column(
+//                                           crossAxisAlignment:
+//                                               CrossAxisAlignment.start,
+//                                           mainAxisAlignment:
+//                                               MainAxisAlignment.start,
+//                                           children: [
+//                                             widget.isDetails
+//                                                 ? Text(
+//                                                     "${widget.mail!.activities![index].user!.name}")
+//                                                 : Text(""),
+//                                             const SizedBox(
+//                                               height: 12,
+//                                             ),
+//                                             widget.isDetails
+//                                                 ? Text(
+//                                                     "${widget.mail!.activities![index].body}")
+//                                                 : Text(""),
+//                                           ],
+//                                         ),
+//                                         Spacer(),
+//                                         Text(
+//                                             "${widget.mail!.activities![index].user!.createdAt}"
+//                                                 .split(" ")[0])
+//                                       ]),
+//                                     )
+
                                     Provider.of<AuthProvider>(context)
                                                 .currentUser
                                                 .data
@@ -812,15 +902,76 @@ class _InboxScreenState extends State<InboxScreen>
                                     ),
                                     const Spacer(),
                                     Text("${DateTime.now()}".split(" ")[0])
+
                                   ],
                                 ),
                               ),
                             ),
                           );
+
+// //                                 Padding(
+// //                                 padding: EdgeInsets.symmetric(vertical: 16.0.h),
+// //                                 child: CustomContainer(
+// //                                   childContainer: Padding(
+// //                                     padding: const EdgeInsets.all(8.0),
+// //                                     child: Row(
+// //                                       mainAxisAlignment:
+// //                                           MainAxisAlignment.start,
+// //                                       crossAxisAlignment:
+// //                                           CrossAxisAlignment.start,
+// //                                       children: [
+// // // for(int i = 0; i< mailProvider.activityMail!.data!.length ; i++) ...{
+// // //   return
+// // // }
+// //                                         CircleAvatar(
+// //                                           radius: 15,
+// //                                         ),
+// //                                         SizedBox(
+// //                                           width: 8.w,
+// //                                         ),
+// //                                         Column(
+// //                                           crossAxisAlignment:
+// //                                               CrossAxisAlignment.start,
+// //                                           mainAxisAlignment:
+// //                                               MainAxisAlignment.start,
+// //                                           children: [
+// //                                             widget.isDetails
+// //                                                 ? Text(
+// //                                                     "${mailProvider.activityMail.data![index].user!.name}")
+// //                                                 : Text(""),
+// //                                             const SizedBox(
+// //                                               height: 12,
+// //                                             ),
+// //                                             widget.isDetails
+// //                                                 ? Text(
+// //                                                     "${mailProvider.activityMail.data![index].body}")
+// //                                                 : Text(""),
+// //                                           ],
+// //                                         ),
+// //                                         const Spacer(),
+// //                                         Text(
+// //                                             "${mailProvider.activityMail.data![index].createdAt}"
+// //                                                 .split(" ")[0])
+// //                                       ],
+// //                                     ),
+// //                                   ),
+// //                                 ),
+// //                               );
+//                           },
+//                           separatorBuilder: (BuildContext context, int index) {
+//                             return SizedBox(
+//                               height: 12.h,
+//                             );
+//                           },
+//                         ),
+//                       )
+                          //   },
+                          // )
                         },
                       )
                     ]),
               ),
+
               SizedBox(
                 height: 10.h,
               ),
@@ -865,6 +1016,7 @@ class _InboxScreenState extends State<InboxScreen>
                       print("${addNewActivityController.text} rrr");
                       if (addNewActivityController.text.isNotEmpty) {
                         setState(() {
+
                           Map<String, dynamic> newActivity = <String, String>{
                             "body": addNewActivityController.text,
                             "user_id": Provider.of<AuthProvider>(context,

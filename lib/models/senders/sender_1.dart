@@ -1,18 +1,26 @@
 import '../categories/category.dart';
+import '../mails/mail.dart';
 
-class Sender {
+class Sender_1 {
+  Sender1 sender;
+  Sender_1({
+    required this.sender,
+  });
+}
+
+class Sender1 {
   int? id;
   String? name;
   String? mobile;
-  String? address;
+  dynamic? address;
   String? categoryId;
   String? createdAt;
   String? updatedAt;
   String? mailsCount;
-  String? message;
   Category? category;
+  List<Mail>? mails;
 
-  Sender({
+  Sender1({
     this.id,
     this.name,
     this.mobile,
@@ -22,10 +30,10 @@ class Sender {
     this.updatedAt,
     this.mailsCount,
     this.category,
-    this.message,
+    this.mails,
   });
 
-  factory Sender.fromJson(Map<String, dynamic> json) => Sender(
+  factory Sender1.fromJson(Map<String, dynamic> json) => Sender1(
         id: json["id"],
         name: json["name"],
         mobile: json["mobile"],
@@ -34,10 +42,12 @@ class Sender {
         createdAt: json["created_at"],
         updatedAt: json["updated_at"],
         mailsCount: json["mails_count"],
-        message: json["message"],
         category: json["category"] == null
             ? null
             : Category.fromJson(json["category"]),
+        mails: json["mails"] == null
+            ? []
+            : List<Mail>.from(json["mails"]!.map((x) => Mail.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -49,7 +59,9 @@ class Sender {
         "created_at": createdAt,
         "updated_at": updatedAt,
         "mails_count": mailsCount,
-        "message": message,
         "category": category?.toJson(),
+        "mails": mails == null
+            ? []
+            : List<dynamic>.from(mails!.map((x) => x.toJson())),
       };
 }

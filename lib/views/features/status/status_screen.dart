@@ -28,8 +28,6 @@ class _StatusScreenState extends State<StatusScreen> {
           const CustomAppBar(
             widgetName: 'Status',
           ),
-
-          ///
           Container(
             padding: EdgeInsetsDirectional.only(
                 start: 19.w, top: 20.h, bottom: 20.h),
