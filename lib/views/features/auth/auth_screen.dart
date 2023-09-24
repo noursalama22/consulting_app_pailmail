@@ -83,11 +83,11 @@ class _LoginScreenState extends State<LoginScreen>
         password_confirmation: passwordController.text,
       )
           .then((user) async {
-        showSnackBar(
-          context,
-          message: 'user created successfully',
-        );
-        await buildSuccessDialog(context, '', 'Account Created Successfully!')
+        // showSnackBar(
+        //   context,
+        //   message: 'user created successfully',
+        // );
+        await buildSuccessDialog(context, 'Account Created Successfully!', '')
             .show();
 
         if (mounted) {
@@ -120,11 +120,11 @@ class _LoginScreenState extends State<LoginScreen>
         password: passwordController.text,
       )
           .then((user) async {
-        showSnackBar(
-          context,
-          message: 'logged in successfully',
-        );
-        await buildSuccessDialog(context, '', 'Logged In Successfully!').show();
+        // showSnackBar(
+        //   context,
+        //   message: 'logged in successfully',
+        // );
+        await buildSuccessDialog(context, 'Logged In Successfully!', '').show();
 
         if (mounted) {
           if (SharedPrefrencesController().roleId == 1) {
@@ -137,6 +137,7 @@ class _LoginScreenState extends State<LoginScreen>
       }).catchError((e) {
         setState(() {
           isLoginResponse = false;
+          _formKey.currentState?.reset();
         });
         showSnackBar(context,
             message: handleErrorMessage(e.toString()), error: true);

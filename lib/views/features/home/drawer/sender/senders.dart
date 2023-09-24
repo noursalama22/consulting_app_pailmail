@@ -3,6 +3,7 @@ import 'package:consulting_app_pailmail/models/senders/senders_1.dart';
 import 'package:consulting_app_pailmail/providers/categories_provider.dart';
 import 'package:consulting_app_pailmail/providers/sender_provider.dart';
 import 'package:consulting_app_pailmail/repositories/sender_repository.dart';
+import 'package:consulting_app_pailmail/views/features/home/drawer/sender/SenderMalisScreen.dart';
 import 'package:consulting_app_pailmail/views/features/inbox_mails/inbox_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -24,9 +25,8 @@ class Senders extends StatefulWidget {
 
 class _SenderScreenState extends State<Senders> {
   // int selindex;
-  @override
-  SenderRepository sn = SenderRepository();
 
+  @override
   void initState() {
     // TODO: implement initState    super.initState();
   }
@@ -98,31 +98,36 @@ class _SenderScreenState extends State<Senders> {
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
                         itemBuilder: (context, indexSender) {
-                          return Container(
-                            padding:
-                                EdgeInsetsDirectional.symmetric(vertical: 20.h),
-                            decoration: buildBoxDecoration(),
-                            child: InkWell(
-                              onTap: () {
-                                print("sssss $indexSender");
-                                Navigator.push(context, MaterialPageRoute(
-                                  builder: (context) {
-                                    return InboxScreen(isDetails: true);
-                                  },
-                                ));
-                                // print(index1);
-                                // Provider.of<CategoriesProvider>(context,
-                                //         listen: false)
-                                //     .getSender(
-                                //         selectedIndex: indexSender,
-                                //         categoryIndex: index1);
-                                // sn.deleteSender(category
-                                //     .senders![indexSender].id
-                                //     .toString());
-                                // Provider.of<CategoriesProvider>(context,
-                                //         listen: false)
-                                //     .allCategories;
-                              },
+                          return InkWell(
+                            onTap: () {
+                              Provider.of<SenderProvider>(context,
+                                      listen: false)
+                                  .getMailsOfSenderList(
+                                      id: category.senders![indexSender].id
+                                          .toString())
+                                  .then((value) {
+                                var stauts = Provider.of<SenderProvider>(
+                                        context,
+                                        listen: false)
+                                    .mailOfSenderList;
+                                // }
+                                if (stauts.status == ApiStatus.COMPLETED) {
+                                  var mails = stauts.data!;
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => SenderMailsScreen(
+                                        mailsList: mails,
+                                      ),
+                                    ),
+                                  );
+                                }
+                              });
+                            },
+                            child: Container(
+                              padding: EdgeInsetsDirectional.symmetric(
+                                  vertical: 20.h),
+                              decoration: buildBoxDecoration(),
                               child: Row(
                                 children: [
                                   Transform.scale(
@@ -324,3 +329,30 @@ class _SenderScreenState extends State<Senders> {
 //             ])));
 //   }
 // }
+//return
+//                                         Provider.of<SenderProvider>(
+//                                               context,
+//                                               listen: false)
+//                                           .getMailsOfSenderList(
+//                                               id: category
+//                                                   .senders![indexSender].id
+//                                                   .toString())
+//                                           .then(
+//                                         (value) {
+//                                           var sender =
+//                                               Provider.of<SenderProvider>(
+//                                                       context,
+//                                                       listen: false)
+//                                                   .mailOfSenderList;
+//
+//                                           //  print("**************$mails");
+//                                           if (sender.status ==
+//                                               ApiStatus.COMPLETED) {
+//                                             var mails = sender.data!;
+//
+//                                             return SenderMailsScreen(
+//                                               mailsList: mails,
+//                                             );
+//                                           }
+//                                         },
+//                                       );

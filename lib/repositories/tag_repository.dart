@@ -9,13 +9,13 @@ import '../models/tags/tags_of_mail.dart';
 class TagRepository {
   final ApiBaseHelper _helper = ApiBaseHelper();
 
-  Future<TagResponseModel> createTag(String tag) async {
+  Future<int> createTag(String tag) async {
     Map<String, String> map = {
       "name": tag,
     };
     final response = await _helper.post(allTagsUrl, map);
 
-    return TagResponseModel.fromJson(response);
+    return response['tag']["id"];
   }
 
   Future<List<Tag>?> getTags() async {

@@ -82,6 +82,7 @@ class CategoriesProvider extends ChangeNotifier {
     _categoryIndex = categoryIndex!;
     notifyListeners();
   }
+
 // void fetchCategory1Mails({required String categoryId}) async {
 //   _mailsCategories1 = ApiResponse.loading("Loading");
 //   notifyListeners();

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:consulting_app_pailmail/core/helpers/api_helpers/api_base_helper.dart';
+import 'package:consulting_app_pailmail/models/mails/activity.dart';
 
 import '../core/utils/constants.dart';
 import '../models/mails/mail.dart';
@@ -8,15 +9,14 @@ import '../models/mails/mail_response_model.dart';
 
 class MailsRepository {
   final ApiBaseHelper _hepler = ApiBaseHelper();
+
   Future<List<Mail>?> fetchAllMails() async {
     final response = await _hepler.get(allMailsUrl);
-
     return MailResponseModel.fromJson(response).mails;
   }
 
   Future<List<Mail>?> fetchSingleMail({required String id}) async {
     final response = await _hepler.get(CRUD_mailsUrl + id);
-
     print(response);
     return MailResponseModel.fromJson(response).mails;
   }
@@ -45,13 +45,20 @@ class MailsRepository {
       "tags": jsonEncode(tags),
       "activities": jsonEncode(activities)
     };
-    print("hhhhhhhhhhh");
     print(body);
     final response = await _hepler.post(allMailsUrl, body);
     print("create mail");
     print("rrrrrrrrrr ${Mail.fromJson(response['mail'])}");
     return Mail.fromJson(response['mail']);
   }
+
+  Future<List<Activity>?> fetchActivities({required String id}) async {
+    final response = await _hepler.get(CRUD_mailsUrl + id);
+    print(response);
+    print("${Mail.fromJson(response['mail']).activities}");
+    return Mail.fromJson(response['mail']).activities;
+  }
+
 
   Future<Mail?> updateMail(
       {required String id,

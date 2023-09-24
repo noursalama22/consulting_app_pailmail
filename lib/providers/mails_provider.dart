@@ -2,25 +2,30 @@ import 'package:consulting_app_pailmail/core/helpers/api_helpers/api_response.da
 import 'package:consulting_app_pailmail/repositories/mails_reprository.dart';
 import 'package:flutter/cupertino.dart';
 
+import '../models/mails/activity.dart';
 import '../models/mails/mail.dart';
 
 class MailProvider extends ChangeNotifier {
   late MailsRepository _mailsRepository;
   late ApiResponse<List<Mail>> _mailsList;
   late ApiResponse<List<Mail>> _singleMail;
+  late ApiResponse<List<Activity>> _activityMail;
+
   // late SearchRepository _searchRepository;
 
   ///to view a list of all mails
   MailProvider() {
     _mailsRepository = MailsRepository();
     //_searchRepository = SearchRepository();
-
     fetchAllMails();
-    fetchSingleMail("56");
+    // fetchSingleMail("146");
+    // fetchActivityMail("315");
   }
 
   ApiResponse<List<Mail>> get mails => _mailsList;
   ApiResponse<List<Mail>> get singleMail => _singleMail;
+  ApiResponse<List<Activity>> get activityMail => _activityMail;
+
   Future<void> fetchAllMails() async {
     _mailsList = ApiResponse.loading("loading");
     notifyListeners();
@@ -30,6 +35,20 @@ class MailProvider extends ChangeNotifier {
       notifyListeners();
     } catch (e) {
       _mailsList = ApiResponse.error(e.toString());
+      notifyListeners();
+    }
+  }
+
+  Future<void> fetchActivityMail(String id) async {
+    _activityMail = ApiResponse.loading("loading");
+    notifyListeners();
+    try {
+      List<Activity>? response = await _mailsRepository.fetchActivities(
+          id: id); //add id here as string
+      _activityMail = ApiResponse.completed(response);
+      notifyListeners();
+    } catch (e) {
+      _activityMail = ApiResponse.error(e.toString());
       notifyListeners();
     }
   }
