@@ -1,10 +1,12 @@
-import 'package:consulting_app_pailmail/models/senders/sender_response_model.dart';
+import 'package:consulting_app_pailmail/models/mails/mail.dart';
+import 'package:consulting_app_pailmail/models/senders/senderMails.dart';
+import 'package:consulting_app_pailmail/models/senders/sender_1.dart';
 import 'package:consulting_app_pailmail/models/senders/sender_response_model_1.dart';
-import 'package:consulting_app_pailmail/models/senders/senders_1.dart';
 
 import '../core/helpers/api_helpers/api_base_helper.dart';
 import '../core/utils/constants.dart';
 import '../models/senders/sender.dart';
+import '../models/senders/senders_1.dart';
 
 class SenderRepository {
   final ApiBaseHelper _helper = ApiBaseHelper();
@@ -45,16 +47,22 @@ class SenderRepository {
     return SenderResponseModel_1.fromJson(response).senders!.data;
   }
 
-  //{{palmail}}/senders/127?mail=false
-
-  Future<Sender?> getSingleSender(String id) async {
+  Future<Sender>? getSingleSender(String id) async {
     // print("1.... $id"); //{{palmail}}/senders/{id}?mail=false
     String url = "$CRUD_senderUrl$id?mail=false";
     final response = await _helper.get(url);
-    // final response = await _helper.getParam(CRUD_senderUrl, id, "mail", false);
     // print(".............${response}................."); //طبع
     // print(
     //     "TEST,,,,,,,,,,,,,,,,,,,,, ${SenderResponseModel.fromJson(response).sender!.name}");
     return Sender.fromJson(response);
+  }
+
+  //{{palmail}}/senders/143?mail=true
+  Future<List<Mails>?> getAllMailToSender(String id) async {
+    String url = "$CRUD_senderUrl$id?mail=true";
+    final response = await _helper.get(url);
+
+    // return SenderResponseModel.fromJson(response).;
+    return senderMails.fromJson(response).sender!.mails;
   }
 }

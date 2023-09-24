@@ -3,7 +3,9 @@ import 'dart:io';
 import 'package:consulting_app_pailmail/core/helpers/api_helpers/api_response.dart';
 import 'package:consulting_app_pailmail/models/mails/mail.dart';
 import 'package:consulting_app_pailmail/providers/categories_provider.dart';
+import 'package:consulting_app_pailmail/providers/mails_provider.dart';
 import 'package:consulting_app_pailmail/providers/status_provider.dart';
+import 'package:consulting_app_pailmail/repositories/mails_reprository.dart';
 import 'package:consulting_app_pailmail/repositories/sender_repository.dart';
 import 'package:consulting_app_pailmail/views/features/status/status_screen.dart';
 import 'package:consulting_app_pailmail/views/features/tags/tags_screen.dart';
@@ -18,22 +20,27 @@ import '../../../core/helpers/routers/router.dart';
 import '../../../core/utils/constants.dart';
 import '../../../core/utils/show_bottom_sheet.dart';
 import '../../../models/add_activity.dart';
+import '../../../models/senders/senderMails.dart';
+import '../../../providers/auth_provider.dart';
 import '../../widgets/custom_app_bar_with_icon.dart';
 import '../../widgets/custom_container.dart';
 import '../../widgets/custom_container_details.dart';
 import '../../widgets/custom_date_picker.dart';
 import '../../widgets/custom_expansion_tile.dart';
+import '../../widgets/custom_profile_photo_container.dart';
 import '../../widgets/custom_text_field.dart';
 import '../category/category_screen.dart';
 
 class InboxScreen extends StatefulWidget {
-  const InboxScreen({
-    required this.isDetails,
-    Key? key,
-    this.mail,
-  }) : super(key: key);
+  const InboxScreen(
+      {required this.isDetails, Key? key, this.mail, this.mails, this.IsSender})
+      : super(key: key);
   final bool isDetails;
   final Mail? mail;
+  final Mails? mails;
+  final bool? IsSender;
+
+  //final Future<List<Mails>?>? mails;
 
   @override
   State<InboxScreen> createState() => _InboxScreenState();
@@ -105,32 +112,36 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
       child: Column(children: [
         ///App Bar
         widget.isDetails
-            ? const CustomAppBarWithIcon(
+            // widget.mail!.id.toString(),
+            ? CustomAppBarWithIcon(
                 widgetName: "Details",
                 left_icon: Icons.arrow_back_ios_new,
-                right_icon: Icons.menu,
-              )
+                right_icon: Icons.more_horiz,
+                id: widget.IsSender!
+                    ? widget.mails!.id.toString()
+                    : widget.mail!.id.toString())
             : const CustomAppBar(widgetName: "New Inbox", bottomPadding: 16),
         Expanded(
           child: ListView(
             padding: EdgeInsets.zero,
             shrinkWrap: true,
-            physics: const AlwaysScrollableScrollPhysics(),
+            physics: AlwaysScrollableScrollPhysics(),
             children: [
               ///Big Container
               widget.isDetails
                   ? CustomContainerDetails(
-//  status_api_features
-//                       organizationName: "Emmett Balistreri",
-//                       organizationCategory: "Foreign",
-//                       dateOrgName: "4-JAN_1990",
-//                       dateOrgCategory: "A-Nov-5",
-
-                      organizationName: widget.mail!.sender!.name ?? "",
-                      organizationCategory:
-                          widget.mail!.sender!.category!.name!,
-                      dateOrgName: widget.mail!.archiveDate ?? "",
-                      dateOrgCategory: widget.mail!.archiveNumber ?? "",
+                      organizationName: widget.IsSender!
+                          ? widget.mails!.sender!.name ?? ""
+                          : widget.mail!.sender!.name ?? "",
+                      organizationCategory: widget.IsSender!
+                          ? widget.mails!.sender!.category!.name ?? ""
+                          : widget.mail!.sender!.category!.name ?? "",
+                      dateOrgName: widget.IsSender!
+                          ? widget.mails!.archiveDate ?? ""
+                          : widget.mail!.archiveDate ?? "",
+                      dateOrgCategory: widget.IsSender!
+                          ? widget.mails!.archiveNumber ?? ""
+                          : widget.mail!.archiveNumber ?? "",
                       subject: ExpansionTile(
                         shape: Border(),
                         initiallyExpanded: false,
@@ -151,7 +162,9 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
                           ),
                         ),
                         title: Text(
-                          "DR.",
+                          widget.IsSender!
+                              ? widget.mails!.sender!.name ?? ""
+                              : widget.mail!.sender!.name ?? "",
                           style:
                               tileTextTitleStyle.copyWith(color: kBlackColor),
                         ),
@@ -161,7 +174,9 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
                             child: Align(
                               alignment: AlignmentDirectional.centerStart,
                               child: Text(
-                                widget.mail!.description ?? "",
+                                widget.IsSender!
+                                    ? widget.mails!.description ?? ""
+                                    : widget.mail!.description ?? "",
                               ),
                             ),
                           )
@@ -477,8 +492,11 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
                   //     "50");
                   //
                   // print(sn.deleteSender("51"));
+                  // SenderRepository sender = SenderRepository();
+                  // sender.getAllMailToSender("151");
+                  // print(sender.getAllMailToSender("151"));
 
-                  showSheet(context, const TagsScreen());
+                  showSheet(context, TagsScreen());
                 },
                 icon: Icons.tag_rounded,
                 widget: Text(
@@ -504,23 +522,25 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
                     widget.isDetails
                         ? CustomContainer(
                             isInBox: true,
-                            backgroundColor: Color(int.parse(
-                                widget.mail!.status!.color.toString())),
+                            backgroundColor: Color(int.parse(widget.IsSender!
+                                ? widget.mails!.status!.color.toString()
+                                : widget.mail!.status!.color.toString())),
                             childContainer: Text(
-                              widget.mail!.status!.name ?? 'inbox',
+                              widget.IsSender!
+                                  ? widget.mails!.status!.name ?? 'inbox'
+                                  : widget.mail!.status!.name ?? 'inbox',
                               style: const TextStyle(color: Colors.white),
-
                             ))
                         : Consumer<StatusProvider>(builder:
                             (BuildContext context,
                                 StatusProvider statusProvider, Widget? child) {
                             if (statusProvider.allStatus.status ==
                                     ApiStatus.LOADING ||
-                                Provider.of<StatusProvider>(context)
+                                Provider.of<StatusProvider>(context,
+                                            listen: false)
                                         .selectedIndex <
                                     0) // to avoid null when status filter is cleared
                             {
-
                               return const CustomContainer(
                                   isInBox: true,
                                   backgroundColor: Color(0xffFA3A57),
@@ -531,9 +551,10 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
                             } else if (statusProvider.allStatus.status ==
                                 ApiStatus.COMPLETED) {
                               final status = statusProvider.allStatus.data![
-                                  Provider.of<StatusProvider>(context)
+                                  Provider.of<StatusProvider>(context,
+                                          listen: false)
                                       .selectedIndex];
-
+                              //indexSelected  like variable .....
                               saveStatusColor =
                                   Color(int.parse(status.color.toString()));
                               saveStatusName = status.name.toString();
@@ -575,7 +596,9 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
                     widget.isDetails
                         ? Padding(
                             padding: EdgeInsets.only(top: 8.h),
-                            child: Text("description of decision"))
+                            child: Text(widget.IsSender!
+                                ? widget.mails!.decision ?? ""
+                                : widget.mail!.decision ?? ""))
                         : CustomTextField(
                             paddingHor: 0,
                             hintText: "Add Decision…",
@@ -674,11 +697,32 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
                     ),
                     isIndexWidet: false,
                     children: [
+                      // Consumer<MailProvider>(
+                      //   builder: (_, mailProvider, __) {
+                      //     if (mailProvider.activityMail.status ==
+                      //         ApiStatus.LOADING) {
+                      //       return CircularProgressIndicator();
+                      //     }
+                      //     if (mailProvider.activityMail.status ==
+                      //         ApiStatus.ERROR) {
+                      //       return Text("${mailProvider.activityMail.message}");
+                      //     }
+                      //     return
+                      //   Provider.of<MailProvider>(context,
+                      //   listen: false)
+                      //   .fetchActivityMail("id")
+                      //   .then((value) {
+                      // var stauts = Provider.of<MailProvider>(
+                      //     context,
+                      //     listen: false)
+                      //     .activityMail;
+                      // },
+
                       ListView.separated(
                         padding: EdgeInsets.zero,
-                        physics: const NeverScrollableScrollPhysics(),
+                        physics: NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
-                        itemCount: addActivity.length,
+                        itemCount: widget.mail!.activities!.length,
                         itemBuilder: (BuildContext context, int index) {
                           return Padding(
                             padding: EdgeInsets.symmetric(vertical: 16.0.h),
@@ -689,33 +733,103 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    const CircleAvatar(
-                                      radius: 15,
-                                    ),
-                                    SizedBox(
-                                      width: 8.w,
-                                    ),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        const Text("Mohammed"),
-                                        const SizedBox(
-                                          height: 12,
+                                    Container(
+                                      child: Column(children: [
+                                        CircleAvatar(
+                                          radius: 15,
                                         ),
-                                        Text(addActivity[index].activityName),
-                                      ],
-                                    ),
-                                    const Spacer(),
-                                    Text("${addActivity[index].currentTime}"
-                                        .split(" ")[0])
+                                        SizedBox(
+                                          width: 8.w,
+                                        ),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            widget.isDetails
+                                                ? Text(
+                                                    "${widget.mail!.activities![index].user!.name}")
+                                                : Text(""),
+                                            const SizedBox(
+                                              height: 12,
+                                            ),
+                                            widget.isDetails
+                                                ? Text(
+                                                    "${widget.mail!.activities![index].body}")
+                                                : Text(""),
+                                          ],
+                                        ),
+                                        Spacer(),
+                                        Text(
+                                            "${widget.mail!.activities![index].user!.createdAt}"
+                                                .split(" ")[0])
+                                      ]),
+                                    )
                                   ],
                                 ),
                               ),
                             ),
                           );
+
+// //                                 Padding(
+// //                                 padding: EdgeInsets.symmetric(vertical: 16.0.h),
+// //                                 child: CustomContainer(
+// //                                   childContainer: Padding(
+// //                                     padding: const EdgeInsets.all(8.0),
+// //                                     child: Row(
+// //                                       mainAxisAlignment:
+// //                                           MainAxisAlignment.start,
+// //                                       crossAxisAlignment:
+// //                                           CrossAxisAlignment.start,
+// //                                       children: [
+// // // for(int i = 0; i< mailProvider.activityMail!.data!.length ; i++) ...{
+// // //   return
+// // // }
+// //                                         CircleAvatar(
+// //                                           radius: 15,
+// //                                         ),
+// //                                         SizedBox(
+// //                                           width: 8.w,
+// //                                         ),
+// //                                         Column(
+// //                                           crossAxisAlignment:
+// //                                               CrossAxisAlignment.start,
+// //                                           mainAxisAlignment:
+// //                                               MainAxisAlignment.start,
+// //                                           children: [
+// //                                             widget.isDetails
+// //                                                 ? Text(
+// //                                                     "${mailProvider.activityMail.data![index].user!.name}")
+// //                                                 : Text(""),
+// //                                             const SizedBox(
+// //                                               height: 12,
+// //                                             ),
+// //                                             widget.isDetails
+// //                                                 ? Text(
+// //                                                     "${mailProvider.activityMail.data![index].body}")
+// //                                                 : Text(""),
+// //                                           ],
+// //                                         ),
+// //                                         const Spacer(),
+// //                                         Text(
+// //                                             "${mailProvider.activityMail.data![index].createdAt}"
+// //                                                 .split(" ")[0])
+// //                                       ],
+// //                                     ),
+// //                                   ),
+// //                                 ),
+// //                               );
+//                           },
+//                           separatorBuilder: (BuildContext context, int index) {
+//                             return SizedBox(
+//                               height: 12.h,
+//                             );
+//                           },
+//                         ),
+//                       )
+                          //   },
+                          // )
                         },
                         separatorBuilder: (BuildContext context, int index) {
                           return SizedBox(
@@ -725,6 +839,7 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
                       )
                     ]),
               ),
+
               SizedBox(
                 height: 10.h,
               ),
@@ -739,6 +854,7 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
                       print("${addNewActivityController.text} rrr");
                       if (addNewActivityController.text.isNotEmpty) {
                         setState(() {
+                          //    MailsRepository ma = MailsRepository();
                           addActivity.add(AddActivity(
                               activityName: addNewActivityController.text,
                               currentTime: DateTime.now()));

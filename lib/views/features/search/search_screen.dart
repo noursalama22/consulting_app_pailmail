@@ -13,12 +13,14 @@ import '../../../providers/status_provider.dart';
 class SearchScreen extends StatefulWidget {
   SearchScreen({Key? key}) : super(key: key);
   List<Mail>? mails;
+
   @override
   State<SearchScreen> createState() => _SearchScreenState();
 }
 
 class _SearchScreenState extends State<SearchScreen> {
   late TextEditingController _searchtextEditingController;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -95,7 +97,8 @@ class _SearchScreenState extends State<SearchScreen> {
                     ),
                     cursorColor: kDarkGreyColor,
                     decoration: InputDecoration(
-                      filled: true, //<-- SEE HERE
+                      filled: true,
+                      //<-- SEE HERE
                       fillColor: Color(0xFFEAEAF5),
                       // fillColor: Color(0xFFE6E6E6),
 
@@ -171,6 +174,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                     return InboxScreen(
                                       isDetails: true,
                                       mail: data[index],
+                                      IsSender: false,
                                     );
                                   },
                                 ));

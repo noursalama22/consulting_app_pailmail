@@ -156,7 +156,7 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
               //print('called on tap');
               showSheet(
                   context,
-                  const InboxScreen(
+                  InboxScreen(
                     isDetails: false,
                   ));
             },
@@ -625,6 +625,7 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                                                 return InboxScreen(
                                                   isDetails: true,
                                                   mail: data[index],
+                                                  IsSender: false,
                                                 );
                                               },
                                             ));
@@ -729,6 +730,7 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                                                 return InboxScreen(
                                                   isDetails: true,
                                                   mail: data[index],
+                                                  IsSender: false,
                                                 );
                                               },
                                             ));
@@ -833,6 +835,7 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                                                 return InboxScreen(
                                                   isDetails: true,
                                                   mail: data[index],
+                                                  IsSender: false,
                                                 );
                                               },
                                             ));
@@ -938,6 +941,7 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                                                 return InboxScreen(
                                                   isDetails: true,
                                                   mail: data[index],
+                                                  IsSender: false,
                                                 );
                                               },
                                             ));
