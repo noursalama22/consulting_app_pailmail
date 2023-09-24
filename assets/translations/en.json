@@ -26,13 +26,14 @@
   "please_enter_the_password" : "Please enter the password",
   "please_enter_the_password_again" : "Please enter the password again",
   "OR" : "OR",
-  "home" : "Home",
-  "profile" : "Profile",
+  "home" : "home",
+  "profile" : "profile",
   "senders" : "Senders",
+  "user_management" : "user management",
+  "terms_of_service_privacy_policy" : "Terms of Service | Privacy Policy"
+
   "edit_Profile":"Edit Profile",
   "update_profile":"Update Profile",
-  "user_management" : "User management",
-  "terms_of_service_privacy_policy" : "Terms of Service | Privacy Policy",
   "change_role":"Change role",
   "filter":"Search filter",
   "clear_filter":"Clear filter",
