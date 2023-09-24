@@ -28,6 +28,7 @@ class CustomListRowState<T> extends StatefulWidget {
 }
 
 class _CustomListRowStateState extends State<CustomListRowState> {
+  bool check = false;
   @override
   Widget build(BuildContext context) {
     int selectedIndex =
@@ -47,6 +48,8 @@ class _CustomListRowStateState extends State<CustomListRowState> {
             onTap: () {
               setState(() {
                 selectedIndex = index;
+                print(selectedIndex);
+                check = true;
                 widget.isStatus
                     ? Provider.of<StatusProvider>(context, listen: false)
                         .changeStatus(selectedIndex: selectedIndex)

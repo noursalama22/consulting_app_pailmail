@@ -48,8 +48,11 @@ class SenderRepository {
 
   Future<List<Data>?> getallSender() async {
     String url = "$sendersUrl?mail=true";
-
     final response = await _helper.get(url);
+    print("/////////////////////////////////////////////");
+    print(SenderResponseModel_1.fromJson(response).senders!.data![0].mobile);
+    print("/////////////////////////////////////////////");
+
     return SenderResponseModel_1.fromJson(response).senders!.data;
   }
 

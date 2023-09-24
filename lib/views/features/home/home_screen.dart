@@ -547,7 +547,6 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                                 return CustomMailCategoryContainer(
                                   number: value.allStatus.status ==
                                           ApiStatus.LOADING
-
                                       ? ""
                                       : value.allStatus.data![3].mailsCount!,
                                   onTap: () {
@@ -690,6 +689,9 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                                                           navigateToAllMail(
                                                               data),
                                                       child: const Align(
+                                                        alignment:
+                                                            AlignmentDirectional
+                                                                .centerEnd,
                                                         child: Text(
                                                           'See More',
                                                           style: TextStyle(
@@ -700,9 +702,6 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                                                                 FontWeight.bold,
                                                           ),
                                                         ),
-                                                        alignment:
-                                                            AlignmentDirectional
-                                                                .centerEnd,
                                                       ),
                                                     ),
                                                   )
@@ -711,7 +710,7 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                               }
                             },
                             itemCount: 4,
-                            physics: NeverScrollableScrollPhysics(),
+                            physics: const NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
                           );
                         }),

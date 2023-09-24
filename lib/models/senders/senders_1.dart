@@ -97,7 +97,7 @@ class Data {
   int? id;
   String? name;
   String? mobile;
-  Null? address; //
+  String? address; //
   String? categoryId;
   String? createdAt;
   String? updatedAt;

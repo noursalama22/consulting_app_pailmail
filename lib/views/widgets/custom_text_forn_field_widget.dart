@@ -40,8 +40,8 @@ class CustomTextFormFieldWidget extends StatelessWidget {
             suffixIcon: password == true
                 ? IconButton(
                     icon: isObscure
-                        ? Icon(Icons.visibility_off_rounded)
-                        : Icon(Icons.remove_red_eye),
+                        ? const Icon(Icons.visibility_off_rounded)
+                        : const Icon(Icons.remove_red_eye),
                     onPressed: changeVisibility)
                 : null,
             contentPadding: const EdgeInsets.all(8),
@@ -57,9 +57,6 @@ class CustomTextFormFieldWidget extends StatelessWidget {
                 width: 2,
               ),
             ),
-            // errorBorder: Styles.primaryRoundedOutlineInputBorder,
-            // enabledBorder: Styles.primaryRoundedOutlineInputBorder,
-            // disabledBorder: Styles.primaryRoundedOutlineInputBorder,
           ),
         ),
       ],

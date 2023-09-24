@@ -8,27 +8,18 @@ class CategoriesProvider extends ChangeNotifier {
   late ApiResponse<List<CategoryElement>> _allCategories;
   int _index = 0;
   int _senderIndex = -1; //there is nothing element selected..
-  int _categoryIndex = 0;
+  int _categoryIndex = 1;
 
-  // late ApiResponse<List<Mail>> _mailsCategories1;
-  // late ApiResponse<List<Mail>> _mailsCategories2;
-  // late ApiResponse<List<Mail>> _mailsCategories3;
-  // late ApiResponse<List<Mail>> _mailsCategories4;
-  List<ApiResponse<List<Mail>>> _mailsCategories = [];
+  late ApiResponse<List<Mail>> _mailsCategories1;
+  late ApiResponse<List<Mail>> _mailsCategories2;
+  late ApiResponse<List<Mail>> _mailsCategories3;
+  late ApiResponse<List<Mail>> _mailsCategories4;
+  final List<ApiResponse<List<Mail>>> _mailsCategories = [];
   late CategoryRepository _categoryRepository;
 
   CategoriesProvider() {
     _categoryRepository = CategoryRepository();
     fetchAllCategories();
-    // fetchCategory1Mails(categoryId: "2");
-    // fetchCategory2Mails(categoryId: "3");
-    // fetchCategory3Mails(categoryId: "4");
-    // fetchCategory4Mails(categoryId: "1");
-    //
-    // fetchCategoryMails(categoryId: "2", index: 0);
-    // fetchCategoryMails(categoryId: "3", index: 1);
-    // fetchCategoryMails(categoryId: "4", index: 2);
-    // fetchCategoryMails(categoryId: "1", index: 3);
   }
 
   ApiResponse<List<CategoryElement>> get allCategories => _allCategories;

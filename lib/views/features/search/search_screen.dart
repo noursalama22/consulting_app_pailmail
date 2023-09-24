@@ -130,7 +130,7 @@ class _SearchScreenState extends State<SearchScreen> {
                           vertical: 14, horizontal: 0),
                       focusedBorder: buildOutlineInputBorderTextField(),
                       enabledBorder: buildOutlineInputBorderTextField(),
-                      prefixIcon: Icon(
+                      prefixIcon: const Icon(
                         Icons.search,
                         color: Color(0xFFAFAFAF),
                         size: 24,
@@ -262,83 +262,6 @@ class _SearchScreenState extends State<SearchScreen> {
                             ),
                           )
                     : SizedBox(),
-            // SizedBox(
-            //   width: 10,
-            // ),
-            //
-            // ///Completed mails
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //   children: [
-            //     Text(
-            //       "25 Completed",
-            //       style: GoogleFonts.poppins(
-            //           fontSize: 14.sp, color: kDarkGreyColor),
-            //     ),
-            //     TextButton(
-            //       onPressed: () {},
-            //       child: Text(
-            //         "Show",
-            //         style: tagsTextStyle,
-            //       ),
-            //     ),
-            //   ],
-            // ),
-            //
-            // Divider(
-            //   color: Color(0xFFAFAFAF),
-            //   thickness: 0.5,
-            // ),
-            //
-            // ///Result of Search
-            // Expanded(
-            //   child: ListView.builder(
-            //     //    physics: NeverScrollableScrollPhysics(),
-            //     itemCount: 3,
-            //     padding: EdgeInsetsDirectional.zero,
-            //     //        physics: NeverScrollableScrollPhysics(),
-            //     shrinkWrap: true,
-            //     itemBuilder: (context, index) {
-            //       return CustomExpansionTile(
-            //         isExpanded: false,
-            //         mailNumber: "3 Founds",
-            //         isIndexWidet: true,
-            //         widgetOfTile: Text(
-            //           "Official Organization",
-            //           style: GoogleFonts.poppins(
-            //               fontSize: 18.sp, color: kDarkGreyColor),
-            //         ),
-            //         children: [
-            //           ListView.builder(
-            //             itemBuilder: (context, index) {
-            //               return CustomMailContainer(
-            //                 onTap: () {},
-            //                 organizationName: 'Organization Name',
-            //                 color: kYellowColor,
-            //                 date: "Today, 11:00 AM",
-            //                 description:
-            //                     "And here excerpt of the mail, can added to this location. And we can do more to this like And we can do more to this like ",
-            //                 images: [],
-            //                 tags: [
-            //                   // "urgent",
-            //                   // "new",
-            //                   // "water",
-            //                 ],
-            //                 subject: "Here we add the subject",
-            //                 endMargin: 16,
-            //               );
-            //             },
-            //             shrinkWrap: true,
-            //             physics: const NeverScrollableScrollPhysics(),
-            //             itemCount: 3,
-            //             // physics: NeverScrollableScrollPhysics(),
-            //             //      physics: NeverScrollableScrollPhysics(),
-            //           ),
-            //         ],
-            //       );
-            //     },
-            //   ),
-            // )
           ],
         ),
       ),

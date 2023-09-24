@@ -17,6 +17,7 @@ class CustomAppBar extends StatelessWidget {
   final double endPadding;
   final Function()? onTap;
   final bool? isEdit;
+
 //TODO: ADD underline for app bar
   @override
   Widget build(BuildContext context) {
