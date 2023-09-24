@@ -36,42 +36,46 @@ class _GuestScreenState extends State<GuestScreen> {
         tooltip: 'Back to Login',
       ),
       backgroundColor: kBackgroundColor,
-      body: Center(
-        child: Padding(
-          padding: EdgeInsets.all(24.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                padding: EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.red,
+      body: SafeArea(
+        child: Center(
+          child: Padding(
+            padding: EdgeInsets.all(24.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  padding: EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.red,
+                  ),
+                  child: Icon(
+                    Icons.error_outline,
+                    size: 80,
+                    color: Colors.white,
+                  ),
                 ),
-                child: Icon(
-                  Icons.error_outline,
-                  size: 80,
-                  color: Colors.white,
+                SizedBox(height: 20),
+                Text(
+                  'Access Denied',
+                  style: GoogleFonts.poppins(
+                      color: kDarkGreyColor,
+                      fontSize: 24,
+                      letterSpacing: 0.25,
+                      fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.center,
                 ),
-              ),
-              SizedBox(height: 20),
-              Text(
-                'Access Denied',
-                style: GoogleFonts.poppins(
-                    color: kDarkGreyColor,
-                    fontSize: 24,
-                    letterSpacing: 0.25,
-                    fontWeight: FontWeight.bold),
-                textAlign: TextAlign.center,
-              ),
-              SizedBox(height: 20),
-              Text(
-                'Sorry, you don\'t have access.\n Please contact your administrator.',
-                style: GoogleFonts.poppins(
-                    color: kGreyWhiteColor, fontSize: 16, letterSpacing: 0.25),
-                textAlign: TextAlign.center,
-              ),
-            ],
+                SizedBox(height: 20),
+                Text(
+                  'Sorry, you don\'t have access.\n Please contact your administrator.',
+                  style: GoogleFonts.poppins(
+                      color: kGreyWhiteColor,
+                      fontSize: 16,
+                      letterSpacing: 0.25),
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
           ),
         ),
       ),
