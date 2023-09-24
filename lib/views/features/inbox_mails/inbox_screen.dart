@@ -1,16 +1,16 @@
 import 'dart:io';
 
 import 'package:consulting_app_pailmail/core/helpers/api_helpers/api_response.dart';
-import 'package:consulting_app_pailmail/models/mails/activity.dart';
 import 'package:consulting_app_pailmail/models/mails/mail.dart';
 import 'package:consulting_app_pailmail/providers/auth_provider.dart';
 import 'package:consulting_app_pailmail/providers/categories_provider.dart';
 import 'package:consulting_app_pailmail/providers/mails_provider.dart';
 import 'package:consulting_app_pailmail/providers/status_provider.dart';
+
 import 'package:consulting_app_pailmail/repositories/mails_reprository.dart';
 
 import 'package:consulting_app_pailmail/providers/tag_provider.dart';
-
+import 'package:consulting_app_pailmail/repositories/mails_reprository.dart';
 import 'package:consulting_app_pailmail/repositories/sender_repository.dart';
 import 'package:consulting_app_pailmail/views/features/status/status_screen.dart';
 import 'package:consulting_app_pailmail/views/features/tags/tags_screen.dart';
@@ -22,10 +22,10 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/helpers/api_helpers/upload_image.dart';
-import '../../../core/helpers/routers/router.dart';
 import '../../../core/utils/constants.dart';
 import '../../../core/utils/show_bottom_sheet.dart';
 import '../../../core/utils/snckbar.dart';
+
 import '../../../models/add_activity.dart';
 import '../../../models/senders/senderMails.dart';
 import '../../../providers/auth_provider.dart';
@@ -36,7 +36,6 @@ import '../../widgets/custom_app_bar_with_icon.dart';
 import '../../widgets/custom_container.dart';
 import '../../widgets/custom_container_details.dart';
 import '../../widgets/custom_date_container.dart';
-import '../../widgets/custom_date_picker.dart';
 import '../../widgets/custom_expansion_tile.dart';
 import '../../widgets/custom_photo_container.dart';
 import '../../widgets/custom_profile_photo_container.dart';
@@ -99,7 +98,7 @@ class _InboxScreenState extends State<InboxScreen>
   }
 
   bool _customTileExpanded = false;
-
+  List<int>? listTag = [];
   void expandCollapse() {
     setState(() {
       _customTileExpanded = !_customTileExpanded;
@@ -232,6 +231,7 @@ class _InboxScreenState extends State<InboxScreen>
                                     archive_number: archiveController.text,
                                     archive_date: DateTime.now(),
                                     status_id: saveStatusId.toString(),
+                                    tags: listTag,
                                     activities: addActivity)
                                 .then((value) {
                               mail_id = value?.id;
@@ -574,10 +574,99 @@ class _InboxScreenState extends State<InboxScreen>
               widget.isDetails
                   ?
 
-                  ///Tags it will open bottom Sheet
-                  buildListTile(
+              !widget.isDetails
+                  ? buildListTile(
                       onTap: () {
-                        showSheet(context, TagsScreen());
+                        Provider.of<TagProvider>(context, listen: false)
+                            .getTagList();
+
+                        Navigator.push(context, MaterialPageRoute(
+                          builder: (context) {
+                            return TagsScreen(
+                              navFromHome: false,
+                            );
+                          },
+                        )).then((value) {
+                          listTag = value;
+                          print("//////////////////////////${listTag!.length}");
+                        });
+                      },
+                      //   showSheet(
+                      //       context,
+                      //       TagsScreen(
+                      //         navFromHome: false,
+                      //       ));
+                      // },
+                      icon: Icons.tag_rounded,
+                      widget: Text(
+                        "Tags",
+                        style: buildAppBarTextStyle(
+                            color: const Color(0xff272727),
+                            letterSpacing: 0.15,
+                            fontSizeController: 16.sp),
+                      ),
+                    )
+                  : buildListTile(
+                      onTap: () {
+                        Provider.of<TagProvider>(context, listen: false)
+                            .getTagList();
+
+                        Navigator.push(context, MaterialPageRoute(
+                          builder: (context) {
+                            // if (widget.mail!.tags!.length != 0) {
+                            //   for (int i = 0; i < widget.mail!.tags!.length;) {
+                            //     list.add(widget.mail!.tags![i].id ?? 0);
+                            //   }
+                            // }
+                            return TagsScreen(
+                              tags: widget.mail!.tags!,
+                              navFromHome: false,
+                            );
+                          },
+                        )).then((value) {
+                          listTag = value;
+                          print("//////////////////////////${listTag!.length}");
+                        });
+                      },
+                      icon: Icons.tag_rounded,
+                      widget: Text(
+                        "Tags",
+                        style: buildAppBarTextStyle(
+                            color: const Color(0xff272727),
+                            letterSpacing: 0.15,
+                            fontSizeController: 16.sp),
+                      ),
+                    ),
+
+              buildListTile(
+                onTap: () {
+                 
+
+                  showSheet(context, TagsScreen());
+
+                  Provider.of<TagProvider>(context, listen: false).getTagList();
+
+                  showSheet(
+                      context,
+                      TagsScreen(
+                        navFromHome: false,
+                      ));
+
+                },
+                icon: Icons.tag_rounded,
+                widget: Text(
+                  "Tags",
+                  style: buildAppBarTextStyle(
+                      color: const Color(0xff272727),
+                      letterSpacing: 0.15,
+                      fontSizeController: 16.sp),
+                ),
+              ),
+
+              SizedBox(
+                height: 12.h,
+              ),
+
 
                         Provider.of<TagProvider>(context, listen: false)
                             .getTagList();

@@ -45,7 +45,6 @@ class MailsRepository {
       "tags": jsonEncode(tags),
       "activities": jsonEncode(activities)
     };
-    print("hhhhhhhhhhh");
     print(body);
     final response = await _hepler.post(allMailsUrl, body);
     print("create mail");

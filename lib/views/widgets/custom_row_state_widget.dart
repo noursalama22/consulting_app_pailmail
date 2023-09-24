@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../core/utils/constants.dart';
 import 'custom_container.dart';
 
-class CustomRowStateWidget extends StatelessWidget {
+class CustomRowStateWidget extends StatefulWidget {
   final int index;
   final String text;
   final Function() onTap;
@@ -24,37 +24,49 @@ class CustomRowStateWidget extends StatelessWidget {
       : super(key: key);
 
   @override
+  State<CustomRowStateWidget> createState() => _CustomRowStateWidgetState();
+}
+
+class _CustomRowStateWidgetState extends State<CustomRowStateWidget> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    setState(() {});
+  }
+
+  @override
   Widget build(BuildContext context) {
     return CustomContainer(
         childContainer: Padding(
-      padding: index != 2 && isStatus == false
+      padding: widget.index != 2 && widget.isStatus == false
           ? EdgeInsetsDirectional.only(start: 18.h)
           : EdgeInsets.zero,
       child: Column(
         children: [
           InkWell(
-            onTap: onTap,
+            onTap: widget.onTap,
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
               child: Row(
                 children: [
-                  isStatus == true
+                  widget.isStatus == true
                       ? Container(
                           margin: const EdgeInsets.only(right: 16),
                           width: 32.w,
                           height: 32.w,
                           decoration: BoxDecoration(
-                            color: color,
+                            color: widget.color,
                             borderRadius: BorderRadius.circular(10.r),
                           ),
                         )
                       : const SizedBox.shrink(),
                   Padding(
-                    padding: index == 2 && !isStatus
+                    padding: widget.index == 2 && !widget.isStatus
                         ? const EdgeInsetsDirectional.only(start: 18.0)
                         : EdgeInsets.zero,
                     child: Text(
-                      text,
+                      widget.text,
                       style: buildAppBarTextStyle(
                           color: kBlackColor,
                           fontSizeController: 16,
@@ -62,12 +74,12 @@ class CustomRowStateWidget extends StatelessWidget {
                     ),
                   ),
                   const Spacer(),
-                  checkTap == true && selected == index
+                  widget.selected == widget.index
                       ? Padding(
                           padding: EdgeInsetsDirectional.only(end: 19.0.w),
                           child: const Icon(
                             Icons.check,
-                            size: 30,
+                            size: 25,
                             color: kLightBlueColor,
                           ),
                         )
@@ -76,20 +88,20 @@ class CustomRowStateWidget extends StatelessWidget {
               ),
             ),
           ),
-          isStatus
-              ? index != 3
+          widget.isStatus
+              ? widget.index != 3
                   ? Divider(
                       indent: 50.0.w,
                       thickness: 1.2,
                     )
                   : const SizedBox.shrink()
-              : index != 3 && index != 2
+              : widget.index != 3 && widget.index != 2
                   ? Divider(
                       indent: 8.0.w,
                       thickness: 1.2,
                     )
                   : const SizedBox.shrink(),
-          index == 2 && !isStatus
+          widget.index == 2 && !widget.isStatus
               ? const Divider(
                   thickness: 1.7,
                 )
