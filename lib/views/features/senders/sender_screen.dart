@@ -1,4 +1,3 @@
-
 import 'package:consulting_app_pailmail/core/helpers/api_helpers/api_response.dart';
 import 'package:consulting_app_pailmail/models/senders/sender_response_model.dart';
 import 'package:consulting_app_pailmail/models/senders/senders_1.dart';
@@ -23,9 +22,11 @@ class SenderScreen extends StatefulWidget {
 }
 
 class _SenderScreenState extends State<SenderScreen> {
-
   SenderRepository sn = SenderRepository();
+  bool isCheck = false;
 
+  int index = -1;
+  int catIndex = -1;
   void initState() {
     // TODO: implement initState
     super.initState();
@@ -33,9 +34,6 @@ class _SenderScreenState extends State<SenderScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // Future<Sender?>? datas;
-    // String? name;
-
     return Scaffold(
       backgroundColor: kBackgroundColor,
 
@@ -49,7 +47,10 @@ class _SenderScreenState extends State<SenderScreen> {
             children: [
               CustomAppBar(
                 onTap: () {
-                  Navigator.pop(context);
+                  if (index != -1) {
+                    isCheck = true;
+                  }
+                  Navigator.pop(context, isCheck);
                 },
                 widgetName: 'Sender',
                 isEdit: true,
@@ -64,7 +65,7 @@ class _SenderScreenState extends State<SenderScreen> {
               ),
 
               ///Text of Search
-              ///
+
               Container(
                   width: double.infinity,
                   margin: EdgeInsetsDirectional.only(top: 24.h),
@@ -124,6 +125,8 @@ class _SenderScreenState extends State<SenderScreen> {
                               onTap: () {
                                 print("sssss $indexSender");
                                 print(index1);
+                                index = indexSender;
+                                catIndex = index1;
                                 Provider.of<CategoriesProvider>(context,
                                         listen: false)
                                     .getSender(
