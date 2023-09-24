@@ -48,7 +48,7 @@ class _AllCategoryMailsState extends State<AllCategoryMails> {
               color: hexToColor(widget.mailsList[index].status!.color ?? ''),
               date: widget.mailsList[index].archiveDate ?? "",
               description: widget.mailsList[index].description ?? "",
-              images: [],
+              images: widget.mailsList[index].attachments,
               tags: widget.mailsList[index].tags ?? [],
               subject: widget.mailsList[index].subject ?? "",
               endMargin: 8,

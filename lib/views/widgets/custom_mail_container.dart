@@ -150,7 +150,7 @@ class _CustomMailContainerState extends State<CustomMailContainer> {
                     for (int i = 0; i < widget.images.length; i++) ...{
                       CustomPhotoContainer(
                         raduis: 36,
-                        url: '$imageUrl/${widget.images}',
+                        url: '$imageUrl/${widget.images[i].image}',
                       ),
                       SizedBox(
                         width: 8,

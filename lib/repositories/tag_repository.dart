@@ -19,9 +19,7 @@ class TagRepository {
   }
 
   Future<List<Tag>?> getTags() async {
-   
     final response = await _helper.get(allTagsUrl);
-   
 
     return TagResponseModel.fromJson(response).tags;
   }
@@ -33,7 +31,7 @@ class TagRepository {
     return TagsOfMail.fromJson(response).tags;
   }
 
-  Future<List<Tag>?> getMailWithTags(List<dynamic> list) async {
+  Future<List<Tag>?> getMailWithTags(dynamic list) async {
     final response = await _helper.get("$allTagsUrl?tags=$list");
     return TagsWithMails.fromJson(response).tags;
   }
