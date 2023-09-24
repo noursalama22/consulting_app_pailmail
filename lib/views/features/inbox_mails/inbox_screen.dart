@@ -26,6 +26,7 @@ import '../../../core/utils/constants.dart';
 import '../../../core/utils/show_bottom_sheet.dart';
 import '../../../core/utils/snckbar.dart';
 import '../../../models/add_activity.dart';
+import '../../../storage/shared_prefs.dart';
 import '../../widgets/custom_app_bar_with_icon.dart';
 import '../../widgets/custom_container.dart';
 import '../../widgets/custom_container_details.dart';
@@ -577,9 +578,11 @@ class _InboxScreenState extends State<InboxScreen>
               /// Categories it will view categories screen
               buildListTile(
                 icon: Icons.forward_to_inbox,
-                onTap: () {
-                  showSheet(context, const StatusScreen());
-                },
+                onTap: SharedPrefrencesController().roleName == 'user'
+                    ? () {}
+                    : () {
+                        showSheet(context, const StatusScreen());
+                      },
                 widget: Row(
                   children: [
                     widget.isDetails
@@ -821,6 +824,35 @@ class _InboxScreenState extends State<InboxScreen>
               SizedBox(
                 height: 10.h,
               ),
+
+              SharedPrefrencesController().roleName == 'user'
+                  ? SizedBox.expand()
+                  : CustomContainer(
+                      isInBox: true,
+                      backgroundColor: kLightGreyColor,
+                      childContainer: CustomTextField(
+                          suffixIcon: Icons.send_outlined,
+                          withoutPrefix: false,
+                          suffixFunction: () {
+                            print("sss");
+                            print("${addNewActivityController.text} rrr");
+                            if (addNewActivityController.text.isNotEmpty) {
+                              setState(() {
+                                addActivity.add(AddActivity(
+                                    activityName: addNewActivityController.text,
+                                    currentTime: DateTime.now()));
+                              });
+                              addNewActivityController.clear();
+                            }
+                          },
+                          withoutSuffix: false,
+                          maxLine: null,
+                          icon: Icons.person,
+                          hintText: "Add new Activity ...",
+                          customFontSize: 14.sp,
+                          controller: addNewActivityController),
+                    ),
+
               CustomContainer(
                 isInBox: true,
                 backgroundColor: kLightGreyColor,
@@ -868,6 +900,7 @@ class _InboxScreenState extends State<InboxScreen>
                     customFontSize: 14.sp,
                     controller: addNewActivityController),
               ),
+
             ],
           ),
         ),

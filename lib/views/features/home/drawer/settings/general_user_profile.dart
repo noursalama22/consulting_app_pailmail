@@ -1,4 +1,5 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -162,8 +163,9 @@ class _GeneralUserProfileScreenState extends State<GeneralUserProfileScreen>
                                           () {
                                         buildSuccessDialog(
                                                 context,
-                                                'Username updated',
-                                                'Username has been successfully updated!')
+                                                'Username updated'.tr(),
+                                                'Username has been successfully updated!'
+                                                    .tr())
                                             .show();
                                       });
                                     },
@@ -199,7 +201,7 @@ class _GeneralUserProfileScreenState extends State<GeneralUserProfileScreen>
                                           minLines: 1,
                                           decoration: InputDecoration(
                                             border: InputBorder.none,
-                                            labelText: 'New Password',
+                                            labelText: 'New Password'.tr(),
                                             prefixIcon: Icon(Icons.password),
                                           ),
                                         ),
@@ -209,7 +211,7 @@ class _GeneralUserProfileScreenState extends State<GeneralUserProfileScreen>
                                           minLines: 1,
                                           decoration: InputDecoration(
                                             border: InputBorder.none,
-                                            labelText: 'Confirm Password',
+                                            labelText: 'Confirm Password'.tr(),
                                             prefixIcon: Icon(Icons.password),
                                           ),
                                         ),
@@ -230,8 +232,9 @@ class _GeneralUserProfileScreenState extends State<GeneralUserProfileScreen>
                                           () {
                                         buildSuccessDialog(
                                                 context,
-                                                'Password updated',
-                                                'Password has been successfully updated!')
+                                                'Password updated'.tr(),
+                                                'Password has been successfully updated!'
+                                                    .tr())
                                             .show();
                                       });
                                     },
