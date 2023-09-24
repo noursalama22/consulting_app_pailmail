@@ -409,7 +409,9 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                                 return CustomMailCategoryContainer(
                                   endMargin: 16.w,
                                   number: value.allStatus.status ==
-                                          ApiStatus.LOADING
+                                              ApiStatus.LOADING ||
+                                          value.allStatus.status ==
+                                              ApiStatus.ERROR
                                       ? ""
                                       : value.allStatus.data![0].mailsCount!,
                                   onTap: () {
@@ -450,7 +452,9 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                                 //  var data = value.allStatus.data![0];
                                 return CustomMailCategoryContainer(
                                   number: value.allStatus.status ==
-                                          ApiStatus.LOADING
+                                              ApiStatus.LOADING ||
+                                          value.allStatus.status ==
+                                              ApiStatus.ERROR
                                       ? ""
                                       : value.allStatus.data![1].mailsCount!,
                                   onTap: () {
@@ -502,7 +506,9 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                                 return CustomMailCategoryContainer(
                                   endMargin: 16.w,
                                   number: value.allStatus.status ==
-                                          ApiStatus.LOADING
+                                              ApiStatus.LOADING ||
+                                          value.allStatus.status ==
+                                              ApiStatus.ERROR
                                       ? ""
                                       : value.allStatus.data![2].mailsCount!,
                                   onTap: () {
@@ -545,7 +551,9 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                                 //  var data = value.allStatus.data![0];
                                 return CustomMailCategoryContainer(
                                   number: value.allStatus.status ==
-                                          ApiStatus.LOADING
+                                              ApiStatus.LOADING ||
+                                          value.allStatus.status ==
+                                              ApiStatus.ERROR
                                       ? ""
                                       : value.allStatus.data![3].mailsCount!,
                                   onTap: () {
@@ -650,7 +658,38 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                                                           mail: data[index],
                                                         );
                                                       },
-                                                    ));
+                                                    )).then((value) {
+                                                      print(
+                                                          "lllllllllllllllllllll&$value");
+                                                      Provider.of<CategoriesProvider>(
+                                                              context,
+                                                              listen: false)
+                                                          .fetchCategoryMails(
+                                                              categoryId: "2",
+                                                              index: 0);
+                                                      Provider.of<CategoriesProvider>(
+                                                              context,
+                                                              listen: false)
+                                                          .fetchCategoryMails(
+                                                              categoryId: "3",
+                                                              index: 1);
+                                                      Provider.of<CategoriesProvider>(
+                                                              context,
+                                                              listen: false)
+                                                          .fetchCategoryMails(
+                                                              categoryId: "4",
+                                                              index: 2);
+                                                      Provider.of<CategoriesProvider>(
+                                                              context,
+                                                              listen: false)
+                                                          .fetchCategoryMails(
+                                                              categoryId: "1",
+                                                              index: 3);
+                                                    });
+                                                    Provider.of<CategoriesProvider>(
+                                                            context)
+                                                        .mailsCategory;
+                                                    setState(() {});
                                                   },
                                                   organizationName: data[index]
                                                           .sender!

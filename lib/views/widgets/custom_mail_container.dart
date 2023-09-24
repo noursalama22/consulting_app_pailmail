@@ -149,7 +149,7 @@ class _CustomMailContainerState extends State<CustomMailContainer> {
                     //TODO: Add Gesture detoctor
                     for (int i = 0; i < widget.images.length; i++) ...{
                       CustomPhotoContainer(
-                        raduis: 36,
+                        raduis: 48,
                         url: '$imageUrl/${widget.images[i].image}',
                       ),
                       SizedBox(
