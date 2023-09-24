@@ -509,7 +509,6 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
                             childContainer: Text(
                               widget.mail!.status!.name ?? 'inbox',
                               style: const TextStyle(color: Colors.white),
-
                             ))
                         : Consumer<StatusProvider>(builder:
                             (BuildContext context,
@@ -520,7 +519,6 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
                                         .selectedIndex <
                                     0) // to avoid null when status filter is cleared
                             {
-
                               return const CustomContainer(
                                   isInBox: true,
                                   backgroundColor: Color(0xffFA3A57),
