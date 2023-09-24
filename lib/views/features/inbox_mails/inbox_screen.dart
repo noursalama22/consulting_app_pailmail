@@ -9,7 +9,6 @@ import 'package:consulting_app_pailmail/providers/mails_provider.dart';
 import 'package:consulting_app_pailmail/providers/status_provider.dart';
 import 'package:consulting_app_pailmail/repositories/mails_reprository.dart';
 
-
 import 'package:consulting_app_pailmail/providers/tag_provider.dart';
 
 import 'package:consulting_app_pailmail/repositories/sender_repository.dart';
@@ -39,6 +38,7 @@ import '../../widgets/custom_container_details.dart';
 import '../../widgets/custom_date_container.dart';
 import '../../widgets/custom_date_picker.dart';
 import '../../widgets/custom_expansion_tile.dart';
+import '../../widgets/custom_photo_container.dart';
 import '../../widgets/custom_profile_photo_container.dart';
 import '../../widgets/custom_text_field.dart';
 import '../category/category_screen.dart';
@@ -81,6 +81,7 @@ class _InboxScreenState extends State<InboxScreen>
   Color? saveStatusColor = const Color(0xffFA3A57);
   int? sender_id;
   int? mail_id;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -190,7 +191,6 @@ class _InboxScreenState extends State<InboxScreen>
             ? CustomAppBarWithIcon(
                 widgetName: "Details",
                 left_icon: Icons.arrow_back_ios_new,
-
                 right_icon: Icons.more_horiz,
                 id: widget.IsSender!
                     ? widget.mails!.id.toString()
@@ -198,7 +198,7 @@ class _InboxScreenState extends State<InboxScreen>
 //             : const CustomAppBar(widgetName: "New Inbox", bottomPadding: 16),
 
 //                 right_icon: Icons.menu,
-              )
+
             : CustomAppBar(
                 widgetName: "New Inbox",
                 bottomPadding: 16,
@@ -571,104 +571,104 @@ class _InboxScreenState extends State<InboxScreen>
               SizedBox(
                 height: 19.h,
               ),
+              widget.isDetails
+                  ?
 
-              ///Tags it will open bottom Sheet
-              buildListTile(
-                onTap: () {
-                 
+                  ///Tags it will open bottom Sheet
+                  buildListTile(
+                      onTap: () {
+                        showSheet(context, TagsScreen());
 
-                  showSheet(context, TagsScreen());
-
-                  Provider.of<TagProvider>(context, listen: false).getTagList();
-
-                  showSheet(
-                      context,
-                      TagsScreen(
-                        navFromHome: false,
-                      ));
-
-                },
-                icon: Icons.tag_rounded,
-                widget: Text(
-                  "Tags",
-                  style: buildAppBarTextStyle(
-                      color: const Color(0xff272727),
-                      letterSpacing: 0.15,
-                      fontSizeController: 16.sp),
-                ),
-              ),
-              SizedBox(
-                height: 12.h,
-              ),
-
-              /// Categories it will view categories screen
-              buildListTile(
-                icon: Icons.forward_to_inbox,
-                onTap: SharedPrefrencesController().roleName == 'user'
-                    ? () {}
-                    : () {
-                        showSheet(context, const StatusScreen());
+                        Provider.of<TagProvider>(context, listen: false)
+                            .getTagList();
+                        showSheet(
+                            context,
+                            TagsScreen(
+                              navFromHome: false,
+                            ));
                       },
-                widget: Row(
-                  children: [
-                    widget.isDetails
-                        ? CustomContainer(
-                            isInBox: true,
-                            backgroundColor: Color(int.parse(widget.IsSender!
-                                ? widget.mails!.status!.color.toString()
-                                : widget.mail!.status!.color.toString())),
-                            childContainer: Text(
-                              widget.IsSender!
-                                  ? widget.mails!.status!.name ?? 'inbox'
-                                  : widget.mail!.status!.name ?? 'inbox',
-                              style: const TextStyle(color: Colors.white),
-                            ))
-                        : Consumer<StatusProvider>(builder:
-                            (BuildContext context,
-                                StatusProvider statusProvider, Widget? child) {
-                            if (statusProvider.allStatus.status ==
-                                    ApiStatus.LOADING ||
-                                Provider.of<StatusProvider>(context,
-                                            listen: false)
-                                        .selectedIndex <
-                                    0) // to avoid null when status filter is cleared
-                            {
-                              return const CustomContainer(
-                                  isInBox: true,
-                                  backgroundColor: Color(0xffFA3A57),
-                                  childContainer: Text(
-                                    "Inbox",
-                                    style: TextStyle(color: Colors.white),
-                                  ));
-                            } else if (statusProvider.allStatus.status ==
-                                ApiStatus.COMPLETED) {
-                              final status = statusProvider.allStatus.data![
-                                  Provider.of<StatusProvider>(context,
-                                          listen: false)
-                                      .selectedIndex];
-                              //indexSelected  like variable .....
-                              saveStatusColor =
-                                  Color(int.parse(status.color.toString()));
-                              saveStatusName = status.name.toString();
-                              saveStatusId = status.id.toString();
-                              print("hhhhhhhhhh $saveStatusColor");
+                      icon: Icons.tag_rounded,
+                      widget: Text(
+                        "Tags",
+                        style: buildAppBarTextStyle(
+                            color: const Color(0xff272727),
+                            letterSpacing: 0.15,
+                            fontSizeController: 16.sp),
+                      ),
+                    )
 
-                              return CustomContainer(
+                  /// Categories it will view categories screen
+                  : buildListTile(
+                      icon: Icons.forward_to_inbox,
+                      onTap: SharedPrefrencesController().roleName == 'user'
+                          ? () {}
+                          : () {
+                              showSheet(context, const StatusScreen());
+                            },
+                      widget: Row(
+                        children: [
+                          widget.isDetails
+                              ? CustomContainer(
                                   isInBox: true,
-                                  backgroundColor:
-                                      Color(int.parse(status.color.toString())),
+                                  backgroundColor: Color(int.parse(widget
+                                          .IsSender!
+                                      ? widget.mails!.status!.color.toString()
+                                      : widget.mail!.status!.color.toString())),
                                   childContainer: Text(
-                                    status.name.toString(),
+                                    widget.IsSender!
+                                        ? widget.mails!.status!.name ?? 'inbox'
+                                        : widget.mail!.status!.name ?? 'inbox',
                                     style: const TextStyle(color: Colors.white),
-                                  ));
-                            } else {
-                              return Text(
-                                  statusProvider.allStatus.message.toString());
-                            }
-                          }),
-                  ],
-                ),
-              ),
+                                  ))
+                              : Consumer<StatusProvider>(builder:
+                                  (BuildContext context,
+                                      StatusProvider statusProvider,
+                                      Widget? child) {
+                                  if (statusProvider.allStatus.status ==
+                                          ApiStatus.LOADING ||
+                                      Provider.of<StatusProvider>(context,
+                                                  listen: false)
+                                              .selectedIndex <
+                                          0) // to avoid null when status filter is cleared
+                                  {
+                                    return const CustomContainer(
+                                        isInBox: true,
+                                        backgroundColor: Color(0xffFA3A57),
+                                        childContainer: Text(
+                                          "Inbox",
+                                          style: TextStyle(color: Colors.white),
+                                        ));
+                                  } else if (statusProvider.allStatus.status ==
+                                      ApiStatus.COMPLETED) {
+                                    final status =
+                                        statusProvider.allStatus.data![
+                                            Provider.of<StatusProvider>(context,
+                                                    listen: false)
+                                                .selectedIndex];
+                                    //indexSelected  like variable .....
+                                    saveStatusColor = Color(
+                                        int.parse(status.color.toString()));
+                                    saveStatusName = status.name.toString();
+                                    saveStatusId = status.id.toString();
+                                    print("hhhhhhhhhh $saveStatusColor");
+
+                                    return CustomContainer(
+                                        isInBox: true,
+                                        backgroundColor: Color(
+                                            int.parse(status.color.toString())),
+                                        childContainer: Text(
+                                          status.name.toString(),
+                                          style: const TextStyle(
+                                              color: Colors.white),
+                                        ));
+                                  } else {
+                                    return Text(statusProvider.allStatus.message
+                                        .toString());
+                                  }
+                                }),
+                        ],
+                      ),
+                    ),
               SizedBox(
                 height: 12.h,
               ),
@@ -692,7 +692,6 @@ class _InboxScreenState extends State<InboxScreen>
                             child: Text(widget.IsSender!
                                 ? widget.mails!.decision ?? ""
                                 : widget.mail!.decision ?? ""))
-
                         : CustomTextField(
                             paddingHor: 0,
                             hintText: "Add Decision…",
@@ -754,20 +753,41 @@ class _InboxScreenState extends State<InboxScreen>
                               : SizedBox(
                                   height: 16.h,
                                 ),
-                          GridView.builder(
-                            padding: EdgeInsets.zero,
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            gridDelegate:
-                                const SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 4,
-                                    crossAxisSpacing: 8,
-                                    mainAxisSpacing: 12),
-                            itemBuilder: (BuildContext context, int index) {
-                              return viewImages(index);
-                            },
-                            itemCount: pickedMultiImage.length,
-                          ),
+                          widget.isDetails
+                              ? Padding(
+                                  padding:
+                                      EdgeInsetsDirectional.only(start: 24.0),
+                                  child: Row(children: [
+                                    //TODO: Add Gesture detoctor
+
+                                    for (int i = 0;
+                                        i < widget.mail!.attachments!.length;
+                                        i++) ...{
+                                      CustomPhotoContainer(
+                                        raduis: 48,
+                                        url:
+                                            '$imageUrl/${widget.mail!.attachments![i].image}',
+                                      ),
+                                      SizedBox(
+                                        width: 8,
+                                      ),
+                                    }
+                                  ]))
+                              : GridView.builder(
+                                  padding: EdgeInsets.zero,
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  gridDelegate:
+                                      const SliverGridDelegateWithFixedCrossAxisCount(
+                                          crossAxisCount: 4,
+                                          crossAxisSpacing: 8,
+                                          mainAxisSpacing: 12),
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    return viewImages(index);
+                                  },
+                                  itemCount: pickedMultiImage.length,
+                                ),
                         ],
                       )
                     ],
@@ -780,8 +800,13 @@ class _InboxScreenState extends State<InboxScreen>
               Padding(
                 padding: const EdgeInsetsDirectional.symmetric(horizontal: 8.0),
                 child: CustomExpansionTile(
-                    mailNumber:
-                        addActivity.isNotEmpty ? "${addActivity.length}" : "",
+                    mailNumber: widget.IsSender!
+                        ? widget.mails!.activities!.isNotEmpty
+                            ? "${widget.mail!.activities!.length}"
+                            : ""
+                        : widget.mail!.activities!.isNotEmpty
+                            ? "${widget.mail!.activities!.length}"
+                            : "",
                     widgetOfTile: Text(
                       "Activity",
                       style: buildAppBarTextStyle(
@@ -791,28 +816,6 @@ class _InboxScreenState extends State<InboxScreen>
                     ),
                     isIndexWidet: false,
                     children: [
-                      // Consumer<MailProvider>(
-                      //   builder: (_, mailProvider, __) {
-                      //     if (mailProvider.activityMail.status ==
-                      //         ApiStatus.LOADING) {
-                      //       return CircularProgressIndicator();
-                      //     }
-                      //     if (mailProvider.activityMail.status ==
-                      //         ApiStatus.ERROR) {
-                      //       return Text("${mailProvider.activityMail.message}");
-                      //     }
-                      //     return
-                      //   Provider.of<MailProvider>(context,
-                      //   listen: false)
-                      //   .fetchActivityMail("id")
-                      //   .then((value) {
-                      // var stauts = Provider.of<MailProvider>(
-                      //     context,
-                      //     listen: false)
-                      //     .activityMail;
-                      // },
-
-
                       ListView.builder(
                         padding: EdgeInsets.zero,
                         physics: NeverScrollableScrollPhysics(),
@@ -828,40 +831,6 @@ class _InboxScreenState extends State<InboxScreen>
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-//                                     Container(
-//                                       child: Column(children: [
-//                                         CircleAvatar(
-//                                           radius: 15,
-//                                         ),
-//                                         SizedBox(
-//                                           width: 8.w,
-//                                         ),
-//                                         Column(
-//                                           crossAxisAlignment:
-//                                               CrossAxisAlignment.start,
-//                                           mainAxisAlignment:
-//                                               MainAxisAlignment.start,
-//                                           children: [
-//                                             widget.isDetails
-//                                                 ? Text(
-//                                                     "${widget.mail!.activities![index].user!.name}")
-//                                                 : Text(""),
-//                                             const SizedBox(
-//                                               height: 12,
-//                                             ),
-//                                             widget.isDetails
-//                                                 ? Text(
-//                                                     "${widget.mail!.activities![index].body}")
-//                                                 : Text(""),
-//                                           ],
-//                                         ),
-//                                         Spacer(),
-//                                         Text(
-//                                             "${widget.mail!.activities![index].user!.createdAt}"
-//                                                 .split(" ")[0])
-//                                       ]),
-//                                     )
-
                                     Provider.of<AuthProvider>(context)
                                                 .currentUser
                                                 .data
@@ -895,14 +864,17 @@ class _InboxScreenState extends State<InboxScreen>
                                             const SizedBox(
                                               height: 12,
                                             ),
-                                            Text(addActivity[index]['body']),
+                                            Text(widget
+                                                .mail!.activities![index].body
+                                                .toString()),
                                           ],
                                         ),
                                       ),
                                     ),
                                     const Spacer(),
-                                    Text("${DateTime.now()}".split(" ")[0])
-
+                                    Text(
+                                        "${widget.mail!.activities![index].createdAt.toString()}"
+                                            .split(" ")[0])
                                   ],
                                 ),
                               ),
@@ -982,6 +954,7 @@ class _InboxScreenState extends State<InboxScreen>
                       isInBox: true,
                       backgroundColor: kLightGreyColor,
                       childContainer: CustomTextField(
+                          isAddActivity: true,
                           suffixIcon: Icons.send_outlined,
                           withoutPrefix: false,
                           suffixFunction: () {
@@ -989,70 +962,42 @@ class _InboxScreenState extends State<InboxScreen>
                             print("${addNewActivityController.text} rrr");
                             if (addNewActivityController.text.isNotEmpty) {
                               setState(() {
-                                addActivity.add(AddActivity(
-                                    activityName: addNewActivityController.text,
-                                    currentTime: DateTime.now()));
+                                Map<String, dynamic> newActivity =
+                                    <String, String>{
+                                  "body": addNewActivityController.text,
+                                  "user_id": Provider.of<AuthProvider>(context,
+                                          listen: false)
+                                      .currentUser
+                                      .data!
+                                      .user
+                                      .id
+                                      .toString()
+                                };
+                                setState(() {
+                                  addActivity.add(newActivity);
+                                });
                               });
                               addNewActivityController.clear();
                             }
                           },
                           withoutSuffix: false,
                           maxLine: null,
-                          icon: Icons.person,
+                          icon: Provider.of<AuthProvider>(context)
+                                      .currentUser
+                                      .data
+                                      ?.user
+                                      .image ==
+                                  null
+                              ? const Icon(Icons.account_circle_outlined)
+                              : CustomProfilePhotoContainer(
+                                  image:
+                                      '$imageUrl/${Provider.of<AuthProvider>(context).currentUser.data?.user.image}',
+                                  raduis: 5.r,
+                                ),
                           hintText: "Add new Activity ...",
                           customFontSize: 14.sp,
                           controller: addNewActivityController),
                     ),
-
-              CustomContainer(
-                isInBox: true,
-                backgroundColor: kLightGreyColor,
-                childContainer: CustomTextField(
-                    isAddActivity: true,
-                    suffixIcon: Icons.send_outlined,
-                    withoutPrefix: false,
-                    suffixFunction: () {
-                      print("sss");
-                      print("${addNewActivityController.text} rrr");
-                      if (addNewActivityController.text.isNotEmpty) {
-                        setState(() {
-
-                          Map<String, dynamic> newActivity = <String, String>{
-                            "body": addNewActivityController.text,
-                            "user_id": Provider.of<AuthProvider>(context,
-                                    listen: false)
-                                .currentUser
-                                .data!
-                                .user
-                                .id
-                                .toString()
-                          };
-                          setState(() {
-                            addActivity.add(newActivity);
-                          });
-                        });
-                        addNewActivityController.clear();
-                      }
-                    },
-                    withoutSuffix: false,
-                    maxLine: null,
-                    icon: Provider.of<AuthProvider>(context)
-                                .currentUser
-                                .data
-                                ?.user
-                                .image ==
-                            null
-                        ? const Icon(Icons.account_circle_outlined)
-                        : CustomProfilePhotoContainer(
-                            image:
-                                '$imageUrl/${Provider.of<AuthProvider>(context).currentUser.data?.user.image}',
-                            raduis: 5.r,
-                          ),
-                    hintText: "Add new Activity ...",
-                    customFontSize: 14.sp,
-                    controller: addNewActivityController),
-              ),
-
             ],
           ),
         ),

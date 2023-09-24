@@ -39,7 +39,7 @@ class _CustomAppBarWithIconState extends State<CustomAppBarWithIcon> {
         children: [
           InkWell(
               onTap: () {
-                Navigator.pop(context);
+                NavigationRoutes().pop(context);
               },
               child: Icon(widget.left_icon, color: kLightBlueColor))
           // Text("Cancel", style: buildAppBarTextStyle()),

@@ -1,6 +1,7 @@
 import 'package:consulting_app_pailmail/models/mails/mail.dart';
 import 'package:consulting_app_pailmail/models/senders/senderMails.dart';
 import 'package:consulting_app_pailmail/models/senders/sender_1.dart';
+import 'package:consulting_app_pailmail/models/senders/sender_response_model.dart';
 import 'package:consulting_app_pailmail/models/senders/sender_response_model_1.dart';
 
 import '../core/helpers/api_helpers/api_base_helper.dart';
@@ -10,7 +11,6 @@ import '../models/senders/sender.dart';
 import '../models/senders/senders_1.dart';
 
 import '../models/senders/senders.dart';
-
 
 class SenderRepository {
   final ApiBaseHelper _helper = ApiBaseHelper();
@@ -30,7 +30,7 @@ class SenderRepository {
     };
     final response = await _helper.post(sendersUrl, map);
     print("////////////////");
-    print("${SenderResponseModel.fromJson(response).sender}rrrrrrrrrrr");
+    // print("${SenderResponseModel.fromJson(response).sender}rrrrrrrrrrr");
 
     return SenderResponseModel.fromJson(response).sender;
   }

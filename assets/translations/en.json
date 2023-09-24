@@ -30,7 +30,7 @@
   "profile" : "profile",
   "senders" : "Senders",
   "user_management" : "user management",
-  "terms_of_service_privacy_policy" : "Terms of Service | Privacy Policy"
+  "terms_of_service_privacy_policy" : "Terms of Service | Privacy Policy",
 
   "edit_Profile":"Edit Profile",
   "update_profile":"Update Profile",
@@ -45,9 +45,9 @@
   "warning":"Warning",
   "Username updated": "Username updated",
   "Username has been successfully updated!": "Username has been successfully updated!",
-  "Password updated": "تحديث  كلمة السر",
-  "Password has been successfully updated!": "تم تحديث كلمة السر بنجاح",
-  "New Password": "كلمة سر جديدة",
-  "Confirm Password": "تأكيد كلمة سر جديدة"
+  "Password updated": "update change password",
+  "Password has been successfully updated!": "change password done successfully",
+  "New Password": "new password",
+  "Confirm Password": "Confirm new password"
 
 }
