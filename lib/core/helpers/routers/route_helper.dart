@@ -144,7 +144,7 @@ class PageTransition extends PageRouteBuilder {
 
   PageTransition({
     required this.child,
-    this.type = PageTransitionType.downToUp,
+    this.type = PageTransitionType.leftToRight,
     this.curve = Curves.linear,
     this.alignment = Alignment.center,
     this.duration = const Duration(milliseconds: 300),

@@ -188,7 +188,6 @@ class _AllCategoryMailsState extends State<AllCategoryMails> {
           return InboxScreen(
             isDetails: true,
             mail: mail,
-            IsSender: false,
           );
         },
       ),
