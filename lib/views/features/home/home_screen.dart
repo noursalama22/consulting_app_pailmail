@@ -786,7 +786,8 @@ class _HomeScreenState extends State<HomeScreen> with MyShowBottomSheet {
                                                               index: 3);
                                                     });
                                                     Provider.of<CategoriesProvider>(
-                                                            context)
+                                                            context,
+                                                            listen: false)
                                                         .mailsCategory;
                                                     setState(() {});
                                                   },
