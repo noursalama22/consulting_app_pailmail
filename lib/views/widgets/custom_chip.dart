@@ -31,13 +31,9 @@ class _CustomChipState extends State<CustomChip> {
       label: Text(
         widget.text,
       ),
-      backgroundColor: widget.isPressed && !widget.isHomeTag
-          ? kLightBlueColor
-          : kLightGreyColor,
+      backgroundColor: widget.isPressed ? kLightBlueColor : kLightGreyColor,
       labelStyle: tileTextNumberStyle.copyWith(
-        color: widget.isPressed && !widget.isHomeTag
-            ? Colors.white
-            : kDarkGreyColor,
+        color: widget.isPressed ? Colors.white : kDarkGreyColor,
       ),
     );
   }

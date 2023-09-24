@@ -35,7 +35,7 @@ class _TagsScreenState extends State<TagsScreen> {
     // TODO: implement initState
     super.initState();
     _tagTextEditingController = TextEditingController();
-    selectedTagsId.add(widget.selectedTag!);
+    widget.navFromHome ? selectedTagsId.add(widget.selectedTag!) : null;
     allTagPress = selectedTagsId.contains(-1);
     print("----------------------${selectedTagsId}");
     // Provider.of<TagProvider>(context).tagList;
@@ -61,137 +61,150 @@ class _TagsScreenState extends State<TagsScreen> {
       //     return SingleChildScrollView(
       child: Column(
         children: [
-          const CustomAppBar(
-            widgetName: 'Tags',
-          ),
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsetsDirectional.symmetric(
-                horizontal: 12, vertical: 12),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(
-                30,
-              ),
+          Padding(
+            padding: EdgeInsets.only(top: widget.navFromHome ? 0 : 26.0),
+            child: const CustomAppBar(
+              widgetName: 'Tags',
+              // onTap: () {},
             ),
-            child: Wrap(
-              //TODO:Hnadle move to tag screen
-              spacing: 6,
-              children: [
-                CustomChip(
-                  text: "allTags".tr(),
-                  onPressed: () {
-                    //  allTagPress = !allTagPress;
-                    //      setState(() {});
-                    if (!selectedTagsId.contains(-1)) {
-                      selectedTagsId.clear();
-                      selectedTagsId.add(-1);
-                      Provider.of<TagProvider>(context, listen: false)
-                          .getTagWithMailList("all");
-                    } else {}
+          ),
+          widget.navFromHome
+              ? Container(
+                  width: double.infinity,
+                  padding: const EdgeInsetsDirectional.symmetric(
+                      horizontal: 12, vertical: 12),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(
+                      30,
+                    ),
+                  ),
+                  child: Wrap(
+                    //TODO:Hnadle move to tag screen
+                    spacing: 6,
+                    children: [
+                      CustomChip(
+                        text: "allTags".tr(),
+                        onPressed: () {
+                          //  allTagPress = !allTagPress;
+                          //      setState(() {});
+                          if (!selectedTagsId.contains(-1)) {
+                            selectedTagsId.clear();
+                            selectedTagsId.add(-1);
+                            Provider.of<TagProvider>(context, listen: false)
+                                .getTagWithMailList("all");
+                          } else {}
 
-                    setState(() {});
+                          setState(() {});
+                        },
+                        isPressed: selectedTagsId.contains(-1),
+                      ),
+                      for (int i = 0; i < widget.tags!.length; i++) ...{
+                        CustomChip(
+                            text: "${widget.tags![i].name}",
+                            isPressed:
+                                selectedTagsId.contains(widget.tags![i].id),
+                            // isPressed: widget.selectedTag == widget.tags![i].id,
+                            onPressed: () {
+                              //  allTagPress = !allTagPress;
+                              // setState(() {});
+                              if (selectedTagsId.contains(widget.tags![i].id)) {
+                                selectedTagsId.remove(widget.tags![i].id);
+                                Provider.of<TagProvider>(context, listen: false)
+                                    .getTagWithMailList("$selectedTagsId");
+                              } else {
+                                selectedTagsId.remove(-1);
+                                selectedTagsId.add(widget.tags![i].id!);
+                                Provider.of<TagProvider>(context, listen: false)
+                                    .getTagWithMailList("$selectedTagsId");
+                                print(
+                                    "----------------------${selectedTagsId.length}");
+                                print(
+                                    "----------------------${selectedTagsId[0]}");
+                              }
+                              setState(() {});
+                            }),
+                      }
+                    ],
+                  ),
+                )
+              : Consumer<TagProvider>(
+                  builder: (context, value, child) {
+                    if (value.tagList.status == ApiStatus.LOADING ||
+                        value.tagList.status == ApiStatus.ERROR) {
+                      return spinkit;
+                    } else {
+                      if (value.tagList.data!.isEmpty) {
+                        return SizedBox.shrink();
+                      } else {
+                        var tags = value.tagList.data!;
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              width: double.infinity,
+                              padding: const EdgeInsetsDirectional.symmetric(
+                                  horizontal: 12, vertical: 12),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(
+                                  30,
+                                ),
+                              ),
+                              child: Wrap(
+                                //TODO:Hnadle move to tag screen
+                                spacing: 6,
+                                children: [
+                                  // CustomChip(
+                                  //   isHomeTag: true,
+                                  //   text: "allTags".tr(),
+                                  //   onPressed: () {
+                                  //     Provider.of<TagProvider>(context,
+                                  //             listen: false)
+                                  //         .getTagWithMailList("all");
+                                  //     // var tag =
+                                  //     //     Provider.of<TagProvider>(
+                                  //     //             context,
+                                  //     //             listen: true)
+                                  //     //         .tagWithMailList;
+                                  //     // print("${tag.status}");
+                                  //     Navigator.push(context, MaterialPageRoute(
+                                  //       builder: (context) {
+                                  //         return TagsScreen(
+                                  //           selectedTag: -1,
+                                  //           tags: tags,
+                                  //           navFromHome: true,
+                                  //         );
+                                  //       },
+                                  //     ));
+                                  //   },
+                                  // ),
+                                  for (int i = 0; i < tags.length; i++) ...{
+                                    CustomChip(
+                                        isPressed: selectedTagsId
+                                            .contains(tags![i].id),
+                                        text: "${tags[i].name}",
+                                        isHomeTag: true,
+                                        onPressed: () {
+                                          if (selectedTagsId
+                                              .contains(tags![i].id)) {
+                                            selectedTagsId.remove(tags![i].id);
+                                          } else {
+                                            selectedTagsId.add(tags![i].id!);
+                                          }
+                                          print(
+                                              "///////////${selectedTagsId.length}");
+                                        }),
+                                  }
+                                ],
+                              ),
+                            ),
+                          ],
+                        );
+                      }
+                    }
                   },
-                  isPressed: selectedTagsId.contains(-1),
                 ),
-                for (int i = 0; i < widget.tags!.length; i++) ...{
-                  CustomChip(
-                      text: "${widget.tags![i].name}",
-                      isPressed: selectedTagsId.contains(widget.tags![i].id),
-                      // isPressed: widget.selectedTag == widget.tags![i].id,
-                      onPressed: () {
-                        //  allTagPress = !allTagPress;
-                        // setState(() {});
-                        if (selectedTagsId.contains(widget.tags![i].id)) {
-                          selectedTagsId.remove(widget.tags![i].id);
-                          Provider.of<TagProvider>(context, listen: false)
-                              .getTagWithMailList("$selectedTagsId");
-                        } else {
-                          selectedTagsId.remove(-1);
-                          selectedTagsId.add(widget.tags![i].id!);
-                          Provider.of<TagProvider>(context, listen: false)
-                              .getTagWithMailList("$selectedTagsId");
-                          print(
-                              "----------------------${selectedTagsId.length}");
-                          print("----------------------${selectedTagsId[0]}");
-                        }
-                        setState(() {});
-                      }),
-                }
-              ],
-            ),
-          ),
-
-//                           Container(
-//                             width: double.infinity,
-//                             padding: const EdgeInsetsDirectional.symmetric(
-//                                 horizontal: 12, vertical: 12),
-//                             decoration: BoxDecoration(
-//                               color: Colors.white,
-//                               borderRadius: BorderRadius.circular(
-//                                 30,
-//                               ),
-//                             ),
-//
-//                             child: ListView.builder(
-//                               shrinkWrap: true,
-//                               physics: const NeverScrollableScrollPhysics(),
-//                               itemCount: tagProvider.tagList.data!.length,
-//                               itemBuilder: (context, index) {
-//                                 return Column(
-//                                   children: [
-//                                     Container(
-//                                       padding: const EdgeInsets.all(20),
-//                                       child: InkWell(
-//                                         onTap: () {
-//                                           tagProvider.changeSelectedTag(
-//                                               selectedIndex: index);
-//                                           print("sssssss $index");
-//                                         },
-//                                         child: Text(
-//                                             "${tagProvider.tagList.data![index].name}"),
-//                                       ),
-//                                     ),
-//                                   ],
-//                                 );
-//                               },
-//                             ),
-// //                         child: Wrap(
-//
-// //                 Wrap(
-//
-// // //    runSpacing: 8,
-// //
-// //                           spacing: 6,
-// //                           children: [
-// //                             for (int i = 0; i < tags.length; i++) ...{
-// //                               CustomChip(
-// //                                 isPressed: tags[i].isPressed,
-// //                                 onPressed: i == 0
-// //                                     ? () {
-// //                                         tags[0].isPressed = !tags[0].isPressed;
-// //                                         for (int i = 1; i < tags.length; i++) {
-// //                                           tags[i].isPressed = false;
-// //                                         }
-// //                                         setState(() {});
-// //                                       }
-// //                                     : () {
-// //                                         tags[0].isPressed = false;
-// //                                         tags[i].isPressed = !tags[i].isPressed;
-// //                                         setState(() {
-// //                                           print(
-// //                                               "#${tagProvider.tagList.data![i].name}");
-// //                                         });
-// //                                       },
-// //                                 text: i == 0
-// //                                     ? tags[i].name
-// //                                     : "${tagProvider.tagList.data![i].name}",
-// //                               ),
-// //                             }
-// //                           ],
-// //                         ),
-//                           ),
-
           const SizedBox(
             height: 12,
           ),
@@ -202,9 +215,17 @@ class _TagsScreenState extends State<TagsScreen> {
                   textInputAction: TextInputAction.next,
                   onSubmitted: (value) {
                     //TODO:ADD Tag
-                    TagRepository().createTag(_tagTextEditingController.text);
-                    Provider.of<TagProvider>(context, listen: false)
-                        .getTagList();
+                    TagRepository()
+                        .createTag(_tagTextEditingController.text)
+                        .then((value) {
+                      selectedTagsId.add(value.tags![0].id!); //TODO CLICK IT
+                      print("hhhhhhhhhhhhhhhhh");
+                      Provider.of<TagProvider>(context, listen: false)
+                          .getTagList();
+                      // setState(() {});
+                    });
+                    // Provider.of<TagProvider>(context, listen: false)
+                    //     .getTagList();
                     // widget.tags.add(
                     //     Tags(_tagTextEditingController.text, true));
 
@@ -271,6 +292,7 @@ class _TagsScreenState extends State<TagsScreen> {
                         var mails = value.tagWithMailList.data!;
                         // var mails = value.tagWithMailList.data!;
                         if (mails!.isEmpty) {
+                          print("eeeeeeeeeeeeeeee");
                           return const Text(
                             "No mails",
                             style: TextStyle(
@@ -280,7 +302,6 @@ class _TagsScreenState extends State<TagsScreen> {
                           );
                         } else {
                           //  print("----------${mails!.length}");
-
                           return ListView.builder(
                             shrinkWrap: true,
                             itemBuilder: (context, index) {
@@ -344,7 +365,15 @@ class _TagsScreenState extends State<TagsScreen> {
                                 //   );
                                 // }
                               } else {
-                                return SizedBox.shrink();
+                                return Center(
+                                  child: const Text(
+                                    "No mails",
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                );
                               }
                             },
                             itemCount: mails.length,

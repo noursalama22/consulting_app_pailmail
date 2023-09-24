@@ -4,6 +4,7 @@ import 'package:consulting_app_pailmail/core/helpers/api_helpers/api_response.da
 import 'package:consulting_app_pailmail/models/mails/mail.dart';
 import 'package:consulting_app_pailmail/providers/categories_provider.dart';
 import 'package:consulting_app_pailmail/providers/status_provider.dart';
+import 'package:consulting_app_pailmail/providers/tag_provider.dart';
 import 'package:consulting_app_pailmail/repositories/sender_repository.dart';
 import 'package:consulting_app_pailmail/views/features/status/status_screen.dart';
 import 'package:consulting_app_pailmail/views/features/tags/tags_screen.dart';
@@ -447,38 +448,13 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
               ///Tags it will open bottom Sheet
               buildListTile(
                 onTap: () {
-                  // print("err................");
-                  // TagRepository s = TagRepository();
-                  // Text("${s.getMailWithTags(["24", "27"])}");
+                  Provider.of<TagProvider>(context, listen: false).getTagList();
 
-                  // s.createTag("tagm");
-                  // // print(s.createTag("tag"));
-                  // print(s.createTag("tagm"));
-                  // print(s.getTags());
-                  // s.getTagsOfMail("30");
-                  // print(s.getTagsOfMail("30"));
-                  // s.getMailWithTags(["2", "3"]);
-                  //
-                  // print(s.getMailWithTags(["24", "27"]));
-                  // SenderRepository sn = SenderRepository();
-                  // sn.createSender(Sender(
-                  //     name: "ne",
-                  //     categoryId: "2",
-                  //     mobile: "059434343499",
-                  //     address: "f"));
-
-                  // print(sn.getSingleSender("21"));
-                  // sn.updateSender(
-                  //     Sender(
-                  //         name: "ne",
-                  //         categoryId: "2",
-                  //         mobile: "059434734343",
-                  //         address: "f"),
-                  //     "50");
-                  //
-                  // print(sn.deleteSender("51"));
-
-                  showSheet(context,  TagsScreen());
+                  showSheet(
+                      context,
+                      TagsScreen(
+                        navFromHome: false,
+                      ));
                 },
                 icon: Icons.tag_rounded,
                 widget: Text(
@@ -509,7 +485,6 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
                             childContainer: Text(
                               widget.mail!.status!.name ?? 'inbox',
                               style: const TextStyle(color: Colors.white),
-
                             ))
                         : Consumer<StatusProvider>(builder:
                             (BuildContext context,
@@ -520,7 +495,6 @@ class _InboxScreenState extends State<InboxScreen> with MyShowBottomSheet {
                                         .selectedIndex <
                                     0) // to avoid null when status filter is cleared
                             {
-
                               return const CustomContainer(
                                   isInBox: true,
                                   backgroundColor: Color(0xffFA3A57),

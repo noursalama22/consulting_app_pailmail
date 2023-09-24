@@ -14,6 +14,7 @@ class CustomPhotoContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      clipBehavior: Clip.antiAlias,
       width: raduis,
       height: raduis,
       decoration: BoxDecoration(
@@ -21,7 +22,7 @@ class CustomPhotoContainer extends StatelessWidget {
           width: 2,
           color: Colors.white.withOpacity(0.4),
         ),
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(16),
       ),
       child: ImageFade(
 // whenever the image changes, it will be loaded, and then faded in:
