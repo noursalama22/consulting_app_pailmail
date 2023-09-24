@@ -25,10 +25,10 @@ class CategoriesProvider extends ChangeNotifier {
     // fetchCategory3Mails(categoryId: "4");
     // fetchCategory4Mails(categoryId: "1");
     //
-    // fetchCategoryMails(categoryId: "2", index: 0);
-    // fetchCategoryMails(categoryId: "3", index: 1);
-    // fetchCategoryMails(categoryId: "4", index: 2);
-    // fetchCategoryMails(categoryId: "1", index: 3);
+    fetchCategoryMails(categoryId: "2", index: 0);
+    fetchCategoryMails(categoryId: "3", index: 1);
+    fetchCategoryMails(categoryId: "4", index: 2);
+    fetchCategoryMails(categoryId: "1", index: 3);
   }
 
   ApiResponse<List<CategoryElement>> get allCategories => _allCategories;

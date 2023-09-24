@@ -36,6 +36,16 @@ class _TagsScreenState extends State<TagsScreen> {
     super.initState();
     _tagTextEditingController = TextEditingController();
     widget.navFromHome ? selectedTagsId.add(widget.selectedTag!) : null;
+    List<int> list = [];
+
+    if (widget.tags != null && widget.tags!.isNotEmpty) {
+      if (widget.tags!.length != 0) {
+        for (int i = 0; i < widget.tags!.length;) {
+          list.add(widget.tags![i].id ?? 0);
+        }
+      }
+      selectedTagsId = list;
+    }
     allTagPress = selectedTagsId.contains(-1);
     print("----------------------${selectedTagsId}");
     // Provider.of<TagProvider>(context).tagList;
@@ -46,7 +56,6 @@ class _TagsScreenState extends State<TagsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
         body: SafeArea(
             child: Padding(
       padding:
@@ -64,9 +73,13 @@ class _TagsScreenState extends State<TagsScreen> {
         children: [
           Padding(
             padding: EdgeInsets.only(top: widget.navFromHome ? 0 : 26.0),
-            child: const CustomAppBar(
+            child: CustomAppBar(
               widgetName: 'Tags',
-              // onTap: () {},
+              onTap: () {
+                print("**************${selectedTagsId.length}");
+                Navigator.pop(context, selectedTagsId);
+              },
+              isEdit: true,
             ),
           ),
           widget.navFromHome
@@ -219,11 +232,15 @@ class _TagsScreenState extends State<TagsScreen> {
                     TagRepository()
                         .createTag(_tagTextEditingController.text)
                         .then((value) {
-                      selectedTagsId.add(value.tags![0].id!); //TODO CLICK IT
-                      print("hhhhhhhhhhhhhhhhh");
+                      // print("**********${}");
+                      // if(value){
+                      selectedTagsId.add(value); //TODO CLICK IT
+                      print("Hlllllllllllllllllllll");
                       Provider.of<TagProvider>(context, listen: false)
                           .getTagList();
-                      // setState(() {});
+                      // }
+
+                      //setState(() {});
                     });
                     // Provider.of<TagProvider>(context, listen: false)
                     //     .getTagList();
@@ -388,7 +405,6 @@ class _TagsScreenState extends State<TagsScreen> {
         ],
       ),
     )));
-
   }
 }
 
