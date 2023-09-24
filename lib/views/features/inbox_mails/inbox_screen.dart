@@ -7,6 +7,9 @@ import 'package:consulting_app_pailmail/providers/auth_provider.dart';
 import 'package:consulting_app_pailmail/providers/categories_provider.dart';
 import 'package:consulting_app_pailmail/providers/status_provider.dart';
 import 'package:consulting_app_pailmail/repositories/mails_reprository.dart';
+
+import 'package:consulting_app_pailmail/providers/tag_provider.dart';
+
 import 'package:consulting_app_pailmail/repositories/sender_repository.dart';
 import 'package:consulting_app_pailmail/views/features/status/status_screen.dart';
 import 'package:consulting_app_pailmail/views/features/tags/tags_screen.dart';
@@ -550,38 +553,13 @@ class _InboxScreenState extends State<InboxScreen>
               ///Tags it will open bottom Sheet
               buildListTile(
                 onTap: () {
-                  // print("err................");
-                  // TagRepository s = TagRepository();
-                  // Text("${s.getMailWithTags(["24", "27"])}");
+                  Provider.of<TagProvider>(context, listen: false).getTagList();
 
-                  // s.createTag("tagm");
-                  // // print(s.createTag("tag"));
-                  // print(s.createTag("tagm"));
-                  // print(s.getTags());
-                  // s.getTagsOfMail("30");
-                  // print(s.getTagsOfMail("30"));
-                  // s.getMailWithTags(["2", "3"]);
-                  //
-                  // print(s.getMailWithTags(["24", "27"]));
-                  // SenderRepository sn = SenderRepository();
-                  // sn.createSender(Sender(
-                  //     name: "ne",
-                  //     categoryId: "2",
-                  //     mobile: "059434343499",
-                  //     address: "f"));
-
-                  // print(sn.getSingleSender("21"));
-                  // sn.updateSender(
-                  //     Sender(
-                  //         name: "ne",
-                  //         categoryId: "2",
-                  //         mobile: "059434734343",
-                  //         address: "f"),
-                  //     "50");
-                  //
-                  // print(sn.deleteSender("51"));
-
-                  showSheet(context, const TagsScreen());
+                  showSheet(
+                      context,
+                      TagsScreen(
+                        navFromHome: false,
+                      ));
                 },
                 icon: Icons.tag_rounded,
                 widget: Text(
