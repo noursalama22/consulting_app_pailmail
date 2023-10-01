@@ -36,16 +36,16 @@ class _TagsScreenState extends State<TagsScreen> {
     super.initState();
     _tagTextEditingController = TextEditingController();
     widget.navFromHome ? selectedTagsId.add(widget.selectedTag!) : null;
-    List<int> list = [];
-
-    if (widget.tags != null && widget.tags!.isNotEmpty) {
-      if (widget.tags!.length != 0) {
-        for (int i = 0; i < widget.tags!.length;) {
-          list.add(widget.tags![i].id ?? 0);
-        }
-      }
-      selectedTagsId = list;
-    }
+    // List<int> list = [];
+    //
+    // if (widget.tags != null && widget.tags!.isNotEmpty) {
+    //   if (widget.tags!.length != 0) {
+    //     for (int i = 0; i < widget.tags!.length;) {
+    //       list.add(widget.tags![i].id ?? 0);
+    //     }
+    //   }
+    //   selectedTagsId = list;
+    // }
     allTagPress = selectedTagsId.contains(-1);
     print("----------------------${selectedTagsId}");
     // Provider.of<TagProvider>(context).tagList;

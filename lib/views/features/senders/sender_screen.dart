@@ -1,17 +1,11 @@
 import 'package:consulting_app_pailmail/core/helpers/api_helpers/api_response.dart';
-import 'package:consulting_app_pailmail/models/senders/sender_response_model.dart';
-import 'package:consulting_app_pailmail/models/senders/senders_1.dart';
 import 'package:consulting_app_pailmail/providers/categories_provider.dart';
-
 import 'package:consulting_app_pailmail/repositories/sender_repository.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/utils/constants.dart';
-import '../../../models/senders/sender.dart';
-import '../../../repositories/search_repository.dart';
 import '../../widgets/custom_app_bar.dart';
 import '../../widgets/custom_search_bar.dart';
 
@@ -48,53 +42,51 @@ class _SenderScreenState extends State<SenderScreen> {
       backgroundColor: kBackgroundColor,
 
       ///App Bar
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsetsDirectional.only(
-              top: 20.0.h, start: 20.w, bottom: 62.h),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              CustomAppBar(
-                onTap: () {
-                  if (index != -1) {
-                    isCheck = true;
-                  }
-                  Navigator.pop(context, isCheck);
+      body: Padding(
+        padding:
+            EdgeInsetsDirectional.only(top: 20.0.h, start: 20.w, bottom: 62.h),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            CustomAppBar(
+              onTap: () {
+                if (index != -1) {
+                  isCheck = true;
+                }
+                Navigator.pop(context, isCheck);
+              },
+              widgetName: 'Sender',
+              isEdit: true,
+              endPadding: 27.w,
+              bottomPadding: 15.h,
+            ),
+
+            ///Search Bar
+            Padding(
+              padding: EdgeInsetsDirectional.only(end: 12.w),
+              child: CustomSearchBar(
+                isSenderPage: true,
+                searchController: searchController,
+                onTap: (input) async {
+                  setState(() {});
                 },
-                widgetName: 'Sender',
-                isEdit: true,
-                endPadding: 27.w,
-                bottomPadding: 15.h,
               ),
+            ),
 
-              ///Search Bar
-              Padding(
-                padding: EdgeInsetsDirectional.only(end: 12.w),
-                child: CustomSearchBar(
-                  isSenderPage: true,
-                  searchController: searchController,
-                  onTap: (input) async {
-                    setState(() {});
-                  },
+            ///Text of Search
+
+            Container(
+                width: double.infinity,
+                margin: EdgeInsetsDirectional.only(top: 24.h),
+                padding: EdgeInsetsDirectional.symmetric(
+                  vertical: 20.h,
                 ),
-              ),
-
-              ///Text of Search
-
-              Container(
-                  width: double.infinity,
-                  margin: EdgeInsetsDirectional.only(top: 24.h),
-                  padding: EdgeInsetsDirectional.symmetric(
-                    vertical: 20.h,
-                  ),
-                  decoration: buildBoxDecoration(),
-                  child: Text("'Sport'",
-                      style: buildAppBarTextStyle(
-                          color: kBlackColor, fontSizeController: 14.sp))),
-              buildListViewOfSendersContainers()
-            ],
-          ),
+                decoration: buildBoxDecoration(),
+                child: Text("'Sport'",
+                    style: buildAppBarTextStyle(
+                        color: kBlackColor, fontSizeController: 14.sp))),
+            buildListViewOfSendersContainers()
+          ],
         ),
       ),
     );

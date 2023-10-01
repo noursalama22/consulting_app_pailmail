@@ -31,8 +31,8 @@ class _CustomContainerDetailsState extends State<CustomContainerDetails> {
   Widget build(BuildContext context) {
     //Todo:Modification  Container
     return Container(
-      width: 378.w,
-      height: 190.h,
+      // width: 378.w,
+      // height: 190.h,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(30.r),
@@ -42,76 +42,71 @@ class _CustomContainerDetailsState extends State<CustomContainerDetails> {
         borderRadius: BorderRadius.circular(30.r),
         child: Padding(
           padding:
-              EdgeInsetsDirectional.symmetric(horizontal: 20.w, vertical: 14.h),
+              EdgeInsetsDirectional.symmetric(horizontal: 12.w, vertical: 14.h),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ////icon
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Column(
-                    children: [
-                      Padding(
-                        padding:
-                            EdgeInsetsDirectional.only(start: 15.0, end: 8),
-                        child: Icon(
-                          Icons.person_outline_rounded,
-                          color: kGreyWhiteColor,
-                          size: 20,
+                  Expanded(
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: EdgeInsetsDirectional.only(
+                              start: 12.0, end: 5, top: 4),
+                          child: Icon(
+                            Icons.person_outline_rounded,
+                            color: kGreyWhiteColor,
+                            size: 20,
+                          ),
                         ),
-                      ),
-                    ],
+                        Flexible(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              FittedBox(
+                                fit: BoxFit.scaleDown,
+                                child: Text(
+                                  widget.organizationName,
+                                  style: tileTextTitleStyle.copyWith(
+                                      fontSize: 16.sp,
+                                      fontWeight: FontWeight.normal),
+                                ),
+                              ),
+                              Text(
+                                widget.organizationCategory,
+                                style: tileTextNumberStyle.copyWith(
+                                    fontWeight: FontWeight.normal),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    width: 6,
                   ),
                   Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      Row(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          //Name org....
-                          Text(
-                            widget.organizationName,
-                            style: tileTextTitleStyle.copyWith(
-                                fontSize: 16.sp, fontWeight: FontWeight.normal),
-                          ),
-                          SizedBox(
-                            width: 120.w,
-                          ),
-                          Text(
-                            widget.dateOrgName,
-                            style: tileTextNumberStyle.copyWith(
-                              fontSize: 12.sp,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          //date and icon
-                        ],
+                      Text(
+                        widget.dateOrgName,
+                        style: tileTextNumberStyle.copyWith(
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                      SizedBox(
-                        height: 8.h,
-                      ),
-                      Row(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            widget.organizationCategory,
-                            style: tileTextTitleStyle.copyWith(
-                                fontSize: 12.sp, fontWeight: FontWeight.normal),
-                          ),
-                          SizedBox(
-                            width: 75.w,
-                          ),
-                          Text(
-                            widget.dateOrgCategory,
-                            style: tileTextNumberStyle.copyWith(
-                              fontSize: 12.sp,
-                              fontWeight: FontWeight.normal,
-                            ),
-                          ),
-                        ],
+                      Text(
+                        "Arch ${widget.dateOrgCategory}",
+                        style: tileTextNumberStyle.copyWith(
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.normal,
+                        ),
                       ),
                     ],
                   ),
